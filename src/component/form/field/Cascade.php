@@ -4,7 +4,7 @@ namespace component\form\field;
 
 /**
  * 级联选择
- * Class Cascader
+ * Class Cascade
  * @link   https://next.antdv.com/components/cascader-cn 级联组件
  * @method $this allowClear(bool $clear = false) 是否支持清除															boolean
  * @method $this autofocus(bool $focus = false) 自动获取焦点																boolean
@@ -30,7 +30,7 @@ namespace component\form\field;
  * @method $this searchValue(mixed $value) 设置搜索的值，需要与 showSearch 配合使用										string
  * @package component\form\field
  */
-class Cascader
+class Cascade
 {
 	/**
 	 * 组件名称
