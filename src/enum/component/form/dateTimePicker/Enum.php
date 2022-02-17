@@ -25,7 +25,7 @@ class Enum
     const MODE_YEAR = 'year';
 
     /**
-     * 日期面板的状态 - TODO
+     * 日期面板的状态 - 十年
      */
     const MODE_DECADE = 'decade';
 
@@ -53,4 +53,19 @@ class Enum
      * 选择器类型 - 年
      */
     const PICKER_YEAR = 'year';
+
+    /**
+     * 大小 - 大
+     */
+    const SIZE_LARGE = 'large';
+
+    /**
+     * 大小 - 中
+     */
+    const SIZE_MIDDLE = 'middle';
+
+    /**
+     * 大小 - 小
+     */
+    const SIZE_SMALL = 'small';
 }

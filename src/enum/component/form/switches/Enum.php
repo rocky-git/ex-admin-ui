@@ -15,6 +15,16 @@ class Enum
     const UNCHECKED_VALUE = 'unCheckedValue';
 
     /**
+     * 大小 - 小
+     */
+    const SIZE_SMALL = 'small';
+
+    /**
+     * 大小 - 默认
+     */
+    const SIZE_DEFAULT = 'default';
+
+    /**
      * 是 - 数值
      */
     const TYPE_TRUE = 1;

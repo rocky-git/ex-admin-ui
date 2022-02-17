@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\button;
+namespace enum\component\common\button;
 
 class Enum
 {
@@ -43,4 +43,19 @@ class Enum
      * 类型 - 默认按钮
      */
     const TYPE_DEFAULT = 'default';
+
+    /**
+     * 大小 - 大
+     */
+    const SIZE_LARGE = 'large';
+
+    /**
+     * 大小 - 中
+     */
+    const SIZE_MIDDLE = 'middle';
+
+    /**
+     * 大小 - 小
+     */
+    const SIZE_SMALL = 'small';
 }

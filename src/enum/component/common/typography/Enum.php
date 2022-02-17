@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\typography;
+namespace enum\component\common\typography;
 
 class Enum
 {

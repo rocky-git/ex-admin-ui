@@ -15,7 +15,22 @@ class Enum
     const MODE_TAGS = 'tags';
 
     /**
-     * 模式 - TODO
+     * 模式 - 下拉
      */
     const MODE_COMBOBOX = 'combobox';
+
+    /**
+     * 大小 - 大
+     */
+    const SIZE_LARGE = 'large';
+
+    /**
+     * 大小 - 小
+     */
+    const SIZE_SMALL = 'small';
+
+    /**
+     * 大小 - 默认
+     */
+    const SIZE_DEFAULT = 'default';
 }
