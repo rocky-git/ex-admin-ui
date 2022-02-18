@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout\layout;
+namespace component\layout;
 
 /**
  * 间距
@@ -8,7 +8,7 @@ namespace component\layout\layout;
  * @link   https://next.antdv.com/components/layout-cn 间距组件
  * @method $this align(string $align) 对齐方式							                                                start | end |center |baseline
  * @method $this direction(string $direction = 'horizontal') 间距方向                                                    vertical | horizontal
- * @method $this size(string $size = 'small') 间距大小				                                                    small | middle | large | number
+ * @method $this size(mixed $size = 'small') 间距大小				                                                    small | middle | large | number
  * @package component\form\field
  */
 class Space

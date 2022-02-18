@@ -48,9 +48,4 @@ class Enum
      * 大小 - small
      */
     const SIZE_SMALL = 'small';
-
-    /**
-     * 大小 - number
-     */
-    const SIZE_NUMBER = 'number';
 }

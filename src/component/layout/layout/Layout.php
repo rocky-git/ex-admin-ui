@@ -17,7 +17,7 @@ class Layout
 	 * 组件名称
 	 * @var string
 	 */
-	protected $name = 'Layout';
+	protected $name = 'ALayout';
 
 	public static function create()
 	{

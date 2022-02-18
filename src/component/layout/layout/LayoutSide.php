@@ -4,7 +4,7 @@ namespace component\layout\layout;
 
 /**
  * 侧边栏
- * Class SideBar
+ * Class LayoutSide
  * @link   https://next.antdv.com/components/layout-cn 侧边栏组件
  * @method $this breakpoint(bool $class) 触发响应式布局的断点								                                Enum { 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' }
  * @method $this class(string $class) 容器 class                                                                         string
@@ -20,13 +20,13 @@ namespace component\layout\layout;
  * @method $this zeroWidthTriggerStyle(mixed $zeroWidthTriggerStyle) 指定当 collapsedWidth 为 0 时出现的特殊 trigger 的样式	object
  * @package component\form\field
  */
-class SideBar
+class LayoutSide
 {
 	/**
 	 * 组件名称
 	 * @var string
 	 */
-	protected $name = 'Sider';
+	protected $name = 'ALayoutSider';
 
 	public static function create()
 	{
