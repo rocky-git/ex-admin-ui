@@ -1,144 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab3757d6-36ef-41e0-b744-27821a955419" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/src/component/common/Button.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/common/Button.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/common/typography/TypographyParagraph.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/common/typography/TypographyParagraph.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/common/typography/TypographyText.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/common/typography/TypographyText.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/common/typography/TypographyTitle.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/common/typography/TypographyTitle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Alert.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Alert.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Drawer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Drawer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Modal.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Modal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/PopConfirm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/PopConfirm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Process.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Process.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Result.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Result.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Skeleton.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Skeleton.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/feedback/Spin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/feedback/Spin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/Form.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/Form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/FormItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/FormItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/AutoComplete.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/AutoComplete.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/Cascade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/Cascade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/InputNumber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/InputNumber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/Rate.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/Rate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/Slider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/Slider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/Switches.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/Switches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/Transfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/Transfer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/TreeSelect.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/TreeSelect.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/checkbox/Checkbox.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/checkbox/Checkbox.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/checkbox/CheckboxGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/checkbox/CheckboxGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/DatePicker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/DatePicker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/RangePicker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/RangePicker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/TimePicker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/TimePicker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/TimeRangePicker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/dateTimePicker/TimeRangePicker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/input/Input.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/input/Input.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/input/InputGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/input/InputGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/input/InputSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/input/InputSearch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/input/Password.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/input/Password.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/input/TextArea.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/input/TextArea.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/mentions/Mentions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/mentions/Mentions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/mentions/MentionsOption.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/mentions/MentionsOption.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/radio/Radio.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/radio/Radio.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/radio/RadioButton.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/radio/RadioButton.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/radio/RadioGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/radio/RadioGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/select/Select.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/select/Select.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/select/SelectGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/select/SelectGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/field/select/SelectOption.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/field/select/SelectOption.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Calendar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Calendar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Carousel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Carousel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Comment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/EmptyStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/EmptyStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Image.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Popover.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Popover.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/ToolTip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/ToolTip.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/Tree.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/Tree.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/avatar/Avatar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/avatar/Avatar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/avatar/AvatarGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/avatar/AvatarGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/badge/Badge.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/badge/Badge.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/badge/BadgeRibbon.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/badge/BadgeRibbon.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/card/Card.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/card/Card.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/card/CardGrid.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/card/CardGrid.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/card/CardMeta.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/card/CardMeta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/collapse/Collapse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/collapse/Collapse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/collapse/CollapsePanel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/collapse/CollapsePanel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/descriptions/Descriptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/descriptions/Descriptions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/descriptions/DescriptionsItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/descriptions/DescriptionsItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/grid/Grid.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/grid/Grid.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/grid/GridItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/grid/GridItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/grid/GridItemMeta.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/grid/GridItemMeta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/statistic/Statistic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/statistic/Statistic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/statistic/StatisticCountdown.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/statistic/StatisticCountdown.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/tabs/Tabs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/tabs/Tabs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/tabs/TabsPane.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/tabs/TabsPane.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/tag/CheckAbleTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/tag/CheckAbleTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/tag/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/tag/Tag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/timeline/TimeLine.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/timeline/TimeLine.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/grid/timeline/TimeLineItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/grid/timeline/TimeLineItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/Col.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/Col.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/Divider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/Divider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/Row.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/Row.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/Space.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/Space.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/layout/Layout.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/layout/Layout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/layout/LayoutHeader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/layout/LayoutHeader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/layout/layout/LayoutSide.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/layout/layout/LayoutSide.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/Affix.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/Affix.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/PageHeader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/PageHeader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/Pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/Pagination.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/breadcrumb/Breadcrumb.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/breadcrumb/Breadcrumb.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/breadcrumb/BreadcrumbItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/breadcrumb/BreadcrumbItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/breadcrumb/BreadcrumbSeparator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/breadcrumb/BreadcrumbSeparator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/dropdown/Dropdown.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/dropdown/Dropdown.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/dropdown/DropdownButton.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/dropdown/DropdownButton.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/menu/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/menu/Menu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/menu/MenuItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/menu/MenuItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/menu/MenuItemGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/menu/MenuItemGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/menu/SubMenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/menu/SubMenu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/step/Step.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/step/Step.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/navigation/step/Steps.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/navigation/step/Steps.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/other/BackTop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/other/BackTop.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/other/anchor/Anchor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/other/anchor/Anchor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/other/anchor/AnchorLink.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/other/anchor/AnchorLink.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/common/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/common/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/common/button/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/common/button/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/common/typography/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/common/typography/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/alert/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/alert/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/drawer/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/drawer/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/modal/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/modal/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/popConfirm/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/popConfirm/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/process/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/process/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/result/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/result/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/skeleton/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/skeleton/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/feedback/spin/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/feedback/spin/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/cascade/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/cascade/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/dateTimePicker/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/dateTimePicker/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/input/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/input/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/mentions/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/mentions/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/radio/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/radio/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/select/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/select/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/switches/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/switches/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/form/treeSelect/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/form/treeSelect/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/avatar/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/avatar/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/badge/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/badge/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/calendar/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/calendar/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/card/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/card/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/carousel/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/carousel/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/collapse/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/collapse/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/descriptions/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/descriptions/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/grid/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/grid/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/popover/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/popover/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/table/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/table/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/tabs/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/tabs/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/tag/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/tag/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/timeline/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/timeline/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/grid/tooltip/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/grid/tooltip/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/layout/divider/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/layout/divider/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/layout/row/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/layout/row/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/layout/sideBar/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/layout/sideBar/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/layout/space/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/layout/space/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/navigation/dropdown/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/navigation/dropdown/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/navigation/pagination/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/navigation/pagination/Enum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enum/component/navigation/step/Enum.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/enum/component/navigation/step/Enum.php" afterDir="false" />
+    <list default="true" id="ab3757d6-36ef-41e0-b744-27821a955419" name="默认更改列表" comment="命名空间">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -179,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="14" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="14" />
+            <state relative-caret-position="34">
+              <caret line="2" column="61" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -194,11 +58,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/enum/component/common/Enum.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
               <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="5" selection-start-column="5" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -239,6 +112,7 @@
         <option value="$PROJECT_DIR$/src/composer.json" />
         <option value="$PROJECT_DIR$/src/component/common/Button.php" />
         <option value="$PROJECT_DIR$/src/enum/component/common/Enum.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -269,12 +143,6 @@
               <item name="laravel-ex-admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="laravel-ex-admin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel-ex-admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel-ex-admin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="laravel-ex-admin" type="b2602c69:ProjectViewProjectNode" />
@@ -330,17 +198,17 @@
       <option name="presentableId" value="Default" />
       <updated>1645195235861</updated>
       <workItem from="1645195237111" duration="1483000" />
-      <workItem from="1645197500163" duration="1862000" />
+      <workItem from="1645197500163" duration="2114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3345000" />
+    <option name="totallyTimeSpent" value="3597000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25239617" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25239617" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -353,7 +221,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32970297" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32970297" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -393,20 +261,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="39" selection-start-column="33" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -421,6 +279,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="61" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
         </state>
       </provider>
     </entry>
