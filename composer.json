@@ -22,9 +22,6 @@
   "autoload": {
     "psr-4": {
       "ExAdmin\\ui\\": "src"
-    },
-    "files": [
-      "src/helpers.php"
-    ]
+    }
   }
 }
