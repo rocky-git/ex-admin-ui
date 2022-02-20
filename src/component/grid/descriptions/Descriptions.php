@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\descriptions;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 描述列表
  * Class Descriptions
@@ -15,7 +17,7 @@ namespace ExAdmin\ui\component\grid\descriptions;
  * @method $this title(mixed $title) 描述列表的标题，显示在最顶部                                        							string | VNode | slot
  * @package ExAdmin\ui\component\form\field
  */
-class Descriptions
+class Descriptions extends Component
 {
 	/**
 	 * 组件名称

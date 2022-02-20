@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 侧边栏
  * Class LayoutSide
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\layout\layout;
  * @method $this zeroWidthTriggerStyle(mixed $zeroWidthTriggerStyle) 指定当 collapsedWidth 为 0 时出现的特殊 trigger 的样式	object
  * @package ExAdmin\ui\component\form\field
  */
-class LayoutSide
+class LayoutSide extends Component
 {
 	/**
 	 * 组件名称

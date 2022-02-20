@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\mentions;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 提及
  * Class Mentions
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\form\field\mentions;
  * @method $this value(string $value) 设置值																				string
  * @package ExAdmin\ui\component\form\field
  */
-class Mentions
+class Mentions extends Component
 {
 	/**
 	 * 组件名称

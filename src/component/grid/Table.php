@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 表格
  * Class Table
@@ -38,7 +40,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this summary(mixed $summary) 总结栏                                       														v-slot:summary
  * @package ExAdmin\ui\component\form\field
  */
-class Table
+class Table extends Component
 {
 	/**
 	 * 组件名称

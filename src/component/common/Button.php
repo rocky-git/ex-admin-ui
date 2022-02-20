@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\common;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 按钮
  * Class Button
@@ -21,7 +23,7 @@ namespace ExAdmin\ui\component\common;
  * @method $this type(string $type = 'default') 设置按钮类型														        primary | ghost | dashed | link | text | default
  * @package ExAdmin\ui\component\form\field
  */
-class Button
+class Button extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 自动完成
  * Class AutoComplete
@@ -21,7 +23,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this open(bool $open) 是否展开下拉菜单																		boolean
  * @package ExAdmin\ui\component\form\field
  */
-class AutoComplete
+class AutoComplete extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 加载中
  * Class Spin
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this wrapperClassName(string $wrapperClassName) 包装器的类属性                                       			string
  * @package ExAdmin\ui\component\form\field
  */
-class Spin
+class Spin extends Component
 {
 	/**
 	 * 组件名称

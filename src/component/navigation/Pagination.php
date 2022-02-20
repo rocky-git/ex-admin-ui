@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 分页
  * Class Pagination
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\navigation;
  * @method $this total(int $total = 0) 数据总数                                                        					number
  * @package ExAdmin\ui\component\form\field
  */
-class Pagination
+class Pagination extends Component
 {
 	/**
 	 * 组件名称

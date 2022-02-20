@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 间距
  * Class Space
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\layout;
  * @method $this size(mixed $size = 'small') 间距大小				                                                    small | middle | large | number
  * @package ExAdmin\ui\component\form\field
  */
-class Space
+class Space extends Component
 {
 	/**
 	 * 组件名称

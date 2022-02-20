@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\mentions;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 提及选项
  * Class MentionsOption
@@ -9,7 +11,7 @@ namespace ExAdmin\ui\component\form\field\mentions;
  * @method $this value(string $value = '') 选择时填充的值																	string
  * @package ExAdmin\ui\component\form\field
  */
-class MentionsOption
+class MentionsOption extends Component
 {
 	/**
 	 * 组件名称

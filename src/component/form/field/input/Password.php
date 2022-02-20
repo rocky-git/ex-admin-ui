@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\input;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 密码框
  * Class Password
@@ -9,7 +11,7 @@ namespace ExAdmin\ui\component\form\field\input;
  * @method $this visibilityToggle(boolean $is_show = true) 是否显示切换按钮												boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Password
+class Password extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 警告提示
  * Class Drawer
@@ -28,7 +30,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this zIndex(string $zIndex = 1000) 设置 Drawer 的 z-index                            					 	Number
  * @package ExAdmin\ui\component\form\field
  */
-class Drawer
+class Drawer extends Component
 {
 	/**
 	 * 组件名称

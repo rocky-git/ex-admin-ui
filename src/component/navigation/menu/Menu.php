@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\menu;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 菜单
  * Class Menu
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\navigation\menu;
  * @method $this triggerSubMenuAction(string $triggerSubMenuAction = 'hover') 修改 Menu 子菜单的触发方式                    click | hover
  * @package ExAdmin\ui\component\form\field
  */
-class Menu
+class Menu extends Component
 {
 	/**
 	 * 组件名称

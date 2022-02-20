@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\other\anchor;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 锚点
  * Class AnchorLink
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\other\anchor;
  * @method $this target(string $target) 该属性指定在何处显示链接的资源。                            						string
  * @package ExAdmin\ui\component\form\field
  */
-class AnchorLink
+class AnchorLink extends Component
 {
 	/**
 	 * 组件名称

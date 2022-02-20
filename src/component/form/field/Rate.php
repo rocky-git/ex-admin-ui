@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 评分
  * Class Rate
@@ -16,7 +18,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this value(int $value) 当前数，受控值																			number
  * @package ExAdmin\ui\component\form\field
  */
-class Rate
+class Rate extends Component
 {
 	/**
 	 * 组件名称

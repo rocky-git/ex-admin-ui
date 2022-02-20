@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\tag;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 标签
  * Class Tag
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\tag;
  * @method $this visible(bool $visible = true) 是否显示标签                                 								boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Tag
+class Tag extends Component
 {
 	/**
 	 * 组件名称

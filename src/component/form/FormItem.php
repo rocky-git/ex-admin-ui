@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 表单
  * Class FormItem
@@ -27,7 +29,7 @@ namespace ExAdmin\ui\component\form;
  * @method $this validateTrigger(mixed $validateTrigger = 'change') 设置字段校验的时机				                        string | string[]
  * @package ExAdmin\ui\component\form
  */
-class FormItem
+class FormItem extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 布局容器
  * Class Layout
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\layout\layout;
  * @method $this hasSider(bool $hasSider) 表示子元素里有 Sider，一般不用指定。可用于服务端渲染时避免样式闪动				        boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Layout
+class Layout extends Component
 {
 	/**
 	 * 组件名称

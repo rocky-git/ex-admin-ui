@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 进度条
  * Class Process
@@ -27,7 +29,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this gapPosition(string $gapDegree = 'bottom') 仪表盘进度条缺口位置											top | bottom | left | right
  * @package ExAdmin\ui\component\form\field
  */
-class Process
+class Process extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\radio;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 单选框
  * Class Radio
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\form\field\radio;
  * @method $this value(mixed $value) 根据 value 进行比较，判断是否选中														any
  * @package ExAdmin\ui\component\form\field
  */
-class Radio
+class Radio extends Component
 {
 	/**
 	 * 组件名称

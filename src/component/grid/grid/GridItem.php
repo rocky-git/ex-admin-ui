@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 列表
  * Class GridItem
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\grid\grid;
  * @method $this extra(mixed $extra) 额外内容, 通常用在 itemLayout 为 vertical 的情况下, 展示右侧内容; horizontal 展示在列表元素最右侧   string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class GridItem
+class GridItem extends Component
 {
 	/**
 	 * 组件名称

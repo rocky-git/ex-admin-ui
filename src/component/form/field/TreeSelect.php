@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 树选择
  * Class TreeSelect
@@ -47,7 +49,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this title(mixed $title) 自定义标题														    				slot
  * @package ExAdmin\ui\component\form\field
  */
-class TreeSelect
+class TreeSelect extends Component
 {
 	/**
 	 * 组件名称

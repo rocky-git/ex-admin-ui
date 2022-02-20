@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\other;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 回到顶部
  * Class BackTop
@@ -9,7 +11,7 @@ namespace ExAdmin\ui\component\other;
  * @method $this visibilityHeight(int $visibilityHeight = 400) 滚动高度达到此参数值才出现 BackTop                          number
  * @package ExAdmin\ui\component\form\field
  */
-class BackTop
+class BackTop extends Component
 {
 	/**
 	 * 组件名称

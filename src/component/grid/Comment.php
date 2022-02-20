@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 评论
  * Class Comment
@@ -13,7 +15,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this datetime(mixed $datetime) 展示时间描述                                        							string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class Comment
+class Comment extends Component
 {
 	/**
 	 * 组件名称

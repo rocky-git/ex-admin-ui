@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\avatar;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 头像
  * Class Avatar
@@ -16,7 +18,7 @@ namespace ExAdmin\ui\component\grid\avatar;
  * @method $this draggable(mixed $draggable) 图片是否允许拖动                                                        		boolean | 'true' | 'false'
  * @package ExAdmin\ui\component\form\field
  */
-class Avatar
+class Avatar extends Component
 {
 	/**
 	 * 组件名称

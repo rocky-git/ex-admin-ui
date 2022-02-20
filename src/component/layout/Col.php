@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 列
  * Class Col
@@ -21,7 +23,7 @@ namespace ExAdmin\ui\component\layout;
  * @method $this xxxl(mixed $warp = false) ≥2000px 响应式栅格，可为栅格数或一个包含其他属性的对象								number|object
  * @package ExAdmin\ui\component\form\field
  */
-class Col
+class Col extends Component
 {
 	/**
 	 * 组件名称

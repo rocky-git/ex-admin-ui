@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 气泡卡片
  * Class Popover
@@ -24,7 +26,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this align(mixed $align) 该值将合并到 placement 的配置中，设置参考 dom-align                                    Object
  * @package ExAdmin\ui\component\form\field
  */
-class Popover
+class Popover extends Component
 {
 	/**
 	 * 组件名称

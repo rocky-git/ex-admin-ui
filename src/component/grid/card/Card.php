@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\card;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 卡片
  * Class Card
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\grid\card;
  * @method $this type(string $type) 卡片类型，可设置为 inner 或 不设置                                        				string
  * @package ExAdmin\ui\component\form\field
  */
-class Card
+class Card extends Component
 {
 	/**
 	 * 组件名称

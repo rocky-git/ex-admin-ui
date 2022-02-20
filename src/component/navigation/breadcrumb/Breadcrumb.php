@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\breadcrumb;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 面包屑
  * Class Breadcrumb
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\navigation\breadcrumb;
  * @method $this separator(mixed $separator = '/') 分隔符自定义                                                           string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class Breadcrumb
+class Breadcrumb extends Component
 {
 	/**
 	 * 组件名称

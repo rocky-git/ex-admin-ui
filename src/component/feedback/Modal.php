@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 对话框
  * Class Modal
@@ -30,7 +32,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this dialogClass(string $dialogClass) 可用于设置浮层的类名                            					 	string
  * @package ExAdmin\ui\component\form\field
  */
-class Modal
+class Modal extends Component
 {
 	/**
 	 * 组件名称

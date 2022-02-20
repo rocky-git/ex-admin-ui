@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\input;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 输入框
  * Class Input
@@ -21,7 +23,7 @@ namespace ExAdmin\ui\component\form\field\input;
  * @method $this allowClear(bool $is_allow) 可以点击清除图标删除内容 													 	boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Input
+class Input extends Component
 {
 	/**
 	 * 组件名称

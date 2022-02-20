@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\collapse;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 折叠面板
  * Class Collapse
@@ -16,7 +18,7 @@ namespace ExAdmin\ui\component\grid\collapse;
  * @method $this destroyInactivePanel(bool $destroyInactivePanel = false) 销毁折叠隐藏的面板                              boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Collapse
+class Collapse extends Component
 {
 	/**
 	 * 组件名称

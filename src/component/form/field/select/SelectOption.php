@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\select;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 选择器 - 选项
  * Class SelectOption
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\form\field\select;
  * @method $this class(string $class) Option 器类名																		string
  * @package ExAdmin\ui\component\form\field
  */
-class SelectOption
+class SelectOption extends Component
 {
 	/**
 	 * 组件名称

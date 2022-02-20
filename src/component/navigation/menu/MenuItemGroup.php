@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\menu;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 菜单
  * Class MenuItemGroup
@@ -9,7 +11,7 @@ namespace ExAdmin\ui\component\navigation\menu;
  * @method $this title(mixed $title) 分组标题                            	string|function|slot
  * @package ExAdmin\ui\component\form\field
  */
-class MenuItemGroup
+class MenuItemGroup extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\tag;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 可选中标签
  * Class CheckAbleTag
@@ -9,7 +11,7 @@ namespace ExAdmin\ui\component\grid\tag;
  * @method $this checked(bool $checked = false) 	设置标签的选中状态                                        			boolean
  * @package ExAdmin\ui\component\form\field
  */
-class CheckAbleTag
+class CheckAbleTag extends Component
 {
 	/**
 	 * 组件名称

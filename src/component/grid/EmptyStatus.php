@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 空状态
  * Class EmptyStatus
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this image(mixed $image = false) 设置显示图片，为 string 时表示自定义图片地址                                    string | v-slot
  * @package ExAdmin\ui\component\form\field
  */
-class EmptyStatus
+class EmptyStatus extends Component
 {
 	/**
 	 * 组件名称

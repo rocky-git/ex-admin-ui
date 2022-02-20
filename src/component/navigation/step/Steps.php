@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 步骤表单
  * Class Steps
@@ -18,7 +20,7 @@ namespace ExAdmin\ui\component\navigation;
  * @method $this initial(int $initial = 0) 起始序号，从 0 开始记数                                                        		number
  * @package ExAdmin\ui\component\form\field
  */
-class Steps
+class Steps extends Component
 {
 	/**
 	 * 组件名称

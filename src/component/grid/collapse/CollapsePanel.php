@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\collapse;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 折叠面板
  * Class CollapsePanel
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\grid\collapse;
  * @method $this extra(mixed $extra) 自定义渲染每个面板右上角的内容                                     					VNode | slot
  * @package ExAdmin\ui\component\form\field
  */
-class CollapsePanel
+class CollapsePanel extends Component
 {
 	/**
 	 * 组件名称

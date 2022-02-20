@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\checkbox;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 多选框
  * Class CheckboxGroup
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\form\field\checkbox;
  * @method $this value(mixed $value = []) 指定选中的选项																	string[]
  * @package ExAdmin\ui\component\form\field
  */
-class CheckboxGroup
+class CheckboxGroup extends Component
 {
 	/**
 	 * 组件名称

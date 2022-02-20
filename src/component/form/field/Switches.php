@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 开关
  * Class Switches
@@ -17,7 +19,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this unCheckedValue(mixed $value = false) 非选中时的值														boolean | string | number
  * @package ExAdmin\ui\component\form\field
  */
-class Switches
+class Switches extends Component
 {
 	/**
 	 * 组件名称

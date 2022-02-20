@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\radio;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 单选框 - 按钮组
  * Class RadioGroup
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\form\field\radio;
  * @method $this value(mixed $value) 用于设置当前选中的值																	any
  * @package ExAdmin\ui\component\form\field
  */
-class RadioGroup
+class RadioGroup extends Component
 {
 	/**
 	 * 组件名称

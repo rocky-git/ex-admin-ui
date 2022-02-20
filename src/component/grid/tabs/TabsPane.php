@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\tabs;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 标签页
  * Class TabsPane
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\tabs;
  * @method $this tab(mixed $tab) 选项卡头显示文字                                        									string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class TabsPane
+class TabsPane extends Component
 {
 	/**
 	 * 组件名称

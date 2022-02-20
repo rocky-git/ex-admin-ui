@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 表单
  * Class Form
@@ -23,7 +25,7 @@ namespace ExAdmin\ui\component\form;
  * @method $this noStyle(bool $style = false) 为 true 时不带样式，作为纯字段控件使用											boolean
  * @package ExAdmin\ui\component\form
  */
-class Form
+class Form extends Component
 {
 	/**
 	 * 组件名称

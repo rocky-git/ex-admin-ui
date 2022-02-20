@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 穿梭框
  * Class Transfer
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this titles(array $focus = ['', '']) 标题集合，顺序从左至右													string[]
  * @package ExAdmin\ui\component\form\field
  */
-class Transfer
+class Transfer extends Component
 {
 	/**
 	 * 组件名称

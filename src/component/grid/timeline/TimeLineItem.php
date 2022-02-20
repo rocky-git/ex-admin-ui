@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\timeline;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 时间轴
  * Class TimeLineItem
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\grid\timeline;
  * @method $this label(mixed $label) 设置标签                                 											string | slot
  * @package ExAdmin\ui\component\form\field
  */
-class TimeLineItem
+class TimeLineItem extends Component
 {
 	/**
 	 * 组件名称

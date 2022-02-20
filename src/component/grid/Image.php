@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 图片
  * Class Image
@@ -15,7 +17,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this width(mixed $width) 图像宽度                                        									string | number
  * @package ExAdmin\ui\component\form\field
  */
-class Image
+class Image extends Component
 {
 	/**
 	 * 组件名称

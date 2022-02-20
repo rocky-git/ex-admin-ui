@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\breadcrumb;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 面包屑
  * Class BreadcrumbItem
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\navigation\breadcrumb;
  * @method $this overlay(mixed $overlay) 下拉菜单的内容                                                                   Menu | () => Menu
  * @package ExAdmin\ui\component\form\field
  */
-class BreadcrumbItem
+class BreadcrumbItem extends Component
 {
 	/**
 	 * 组件名称

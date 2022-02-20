@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\tabs;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 标签页
  * Class Tabs
@@ -17,7 +19,7 @@ namespace ExAdmin\ui\component\grid\tabs;
  * @method $this tabBarGutter(int $tabBarGutter) tabs 之间的间隙                                        					number
  * @package ExAdmin\ui\component\form\field
  */
-class Tabs
+class Tabs extends Component
 {
 	/**
 	 * 组件名称

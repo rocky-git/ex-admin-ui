@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\dropdown;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 下拉菜单
  * Class Dropdown
@@ -15,7 +17,7 @@ namespace ExAdmin\ui\component\navigation\dropdown;
  * @method $this visible(bool $visible) 菜单是否显示								                                        boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Dropdown
+class Dropdown extends Component
 {
 	/**
 	 * 组件名称

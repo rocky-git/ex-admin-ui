@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\descriptions;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 描述列表 - 成员
  * Class DescriptionsItem
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\grid\descriptions;
  * @method $this span(int $span = 1) 包含列的数量                                        								number
  * @package ExAdmin\ui\component\form\field
  */
-class DescriptionsItem
+class DescriptionsItem extends Component
 {
 	/**
 	 * 组件名称

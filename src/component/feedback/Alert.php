@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 警告提示
  * Class Alert
@@ -16,7 +18,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this type(string $type) 指定警告提示的样式，有四种选择 success、info、warning、error                             string
  * @package ExAdmin\ui\component\form\field
  */
-class Alert
+class Alert extends Component
 {
 	/**
 	 * 组件名称

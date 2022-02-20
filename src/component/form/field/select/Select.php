@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\select;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 选择器
  * Class Select
@@ -39,7 +41,7 @@ namespace ExAdmin\ui\component\form\field\select;
  * @method $this open(bool $open) 是否展开下拉菜单																		boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Select
+class Select extends Component
 {
 	/**
 	 * 组件名称

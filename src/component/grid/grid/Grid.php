@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 列表
  * Class Grid
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\grid\grid;
  * @method $this dataSource(mixed $dataSource) 是否展示分割线                                        						any[]
  * @package ExAdmin\ui\component\form\field
  */
-class Grid
+class Grid extends Component
 {
 	/**
 	 * 组件名称

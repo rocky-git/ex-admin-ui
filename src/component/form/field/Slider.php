@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 滑动输入条
  * Class Slider
@@ -23,7 +25,7 @@ namespace ExAdmin\ui\component\form\field;
  * @method $this tooltipVisible(bool $visible) 值为true时，Tooltip 将会始终显示；否则始终不显示，哪怕在拖拽及移入时。			boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Slider
+class Slider extends Component
 {
 	/**
 	 * 组件名称

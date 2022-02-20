@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\badge;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 徽标数
  * Class Badge
@@ -18,7 +20,7 @@ namespace ExAdmin\ui\component\grid\badge;
  * @method $this title(string $title = 'count') 设置鼠标放在状态点上时显示的文字                                        	string
  * @package ExAdmin\ui\component\form\field
  */
-class Badge
+class Badge extends Component
 {
 	/**
 	 * 组件名称

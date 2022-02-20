@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 页头
  * Class PageHeader
@@ -20,7 +22,7 @@ namespace ExAdmin\ui\component\navigation;
  * @method $this footer(mixed $footer) PageHeader 的页脚，一般用于渲染 TabBar                             string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class PageHeader
+class PageHeader extends Component
 {
 	/**
 	 * 组件名称

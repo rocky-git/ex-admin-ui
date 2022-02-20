@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 结果
  * Class Result
@@ -13,7 +15,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this extra(mixed $extra = 'round') 操作区                                        							#extra
  * @package ExAdmin\ui\component\form\field
  */
-class Result
+class Result extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 步骤表单
  * Class Step
@@ -15,7 +17,7 @@ namespace ExAdmin\ui\component\navigation;
  * @method $this disabled(bool $disabled = false) 禁用点击                                  								boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Step
+class Step extends Component
 {
 	/**
 	 * 组件名称

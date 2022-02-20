@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\input;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 文本域
  * Class TextArea
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\form\field\input;
  * @method $this showCount(bool $is_show = false) 是否展示字数															boolean
  * @package ExAdmin\ui\component\form\field
  */
-class TextArea
+class TextArea extends Component
 {
 	/**
 	 * 组件名称

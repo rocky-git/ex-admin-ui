@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 行
  * Class Row
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\layout;
  * @method $this wrap(bool $warp = false) 是否自动换行														            boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Row
+class Row extends Component
 {
 	/**
 	 * 组件名称

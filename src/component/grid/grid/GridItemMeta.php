@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 列表
  * Class GridItemMeta
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\grid;
  * @method $this title(mixed $title) 列表元素的标题                                 										string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class GridItemMeta
+class GridItemMeta extends Component
 {
 	/**
 	 * 组件名称

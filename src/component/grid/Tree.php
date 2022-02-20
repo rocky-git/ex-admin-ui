@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 文字提醒
  * Class Tree
@@ -30,7 +32,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this title(mixed $title) 自定义标题                                    													slot
  * @package ExAdmin\ui\component\form\field
  */
-class Tree
+class Tree extends Component
 {
 	/**
 	 * 组件名称

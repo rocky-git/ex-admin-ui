@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\other\anchor;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 锚点
  * Class Anchor
@@ -16,7 +18,7 @@ namespace ExAdmin\ui\component\other\anchor;
  * @method $this targetOffset(int $targetOffset) 锚点滚动偏移量，默认与 offsetTop 相同                                     number
  * @package ExAdmin\ui\component\form\field
  */
-class Anchor
+class Anchor extends Component
 {
 	/**
 	 * 组件名称

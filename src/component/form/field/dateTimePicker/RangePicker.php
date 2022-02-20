@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 时间选择框
  * Class RangePicker
@@ -29,7 +31,7 @@ namespace ExAdmin\ui\component\form\field\dateTimePicker;
  * @method $this value(mixed $value) 日期
  * @package ExAdmin\ui\component\form\field
  */
-class RangePicker
+class RangePicker extends Component
 {
 	/**
 	 * 组件名称

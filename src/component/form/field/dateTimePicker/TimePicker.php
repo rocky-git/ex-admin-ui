@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 时间选择框
  * Class TimePicker
@@ -27,7 +29,7 @@ namespace ExAdmin\ui\component\form\field\dateTimePicker;
  * @method $this valueFormat(string $format) 可选，绑定值的格式，对 value、defaultValue 起作用。不指定则绑定值为 dayjs 对象	string
  * @package ExAdmin\ui\component\form\field
  */
-class TimePicker
+class TimePicker extends Component
 {
 	/**
 	 * 组件名称

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\card;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 卡片 - 描述卡片
  * Class CardMeta
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\card;
  * @method $this title(mixed $title) 标题内容                                        									string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class CardMeta
+class CardMeta extends Component
 {
 	/**
 	 * 组件名称

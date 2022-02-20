@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\timeline;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 时间轴
  * Class TimeLine
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\grid\timeline;
  * @method $this mode(string $mode) 通过设置 mode 可以改变时间轴和内容的相对位置                                 			left | alternate | right
  * @package ExAdmin\ui\component\form\field
  */
-class TimeLine
+class TimeLine extends Component
 {
 	/**
 	 * 组件名称

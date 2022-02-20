@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\layout;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 分割线
  * Class Divider
@@ -12,7 +14,7 @@ namespace ExAdmin\ui\component\layout;
  * @method $this plain(bool $plain = false) 文字是否显示为普通正文样式														boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Divider
+class Divider extends Component
 {
 	/**
 	 * 组件名称

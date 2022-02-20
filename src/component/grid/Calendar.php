@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 日历
  * Class Calendar
@@ -13,7 +15,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this valueFormat(string $valueFormat) 可选，绑定值的格式，对 value、defaultValue 起作用。不指定则绑定值为 dayjs 对象                                        							string
  * @package ExAdmin\ui\component\form\field
  */
-class Calendar
+class Calendar extends Component
 {
 	/**
 	 * 组件名称

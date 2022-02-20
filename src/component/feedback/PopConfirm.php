@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 气泡提醒框
  * Class PopConfirm
@@ -29,7 +31,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this align(mixed $align) 该值将合并到 placement 的配置中，设置参考 dom-align                                    Object
  * @package ExAdmin\ui\component\form\field
  */
-class PopConfirm
+class PopConfirm extends Component
 {
 	/**
 	 * 组件名称

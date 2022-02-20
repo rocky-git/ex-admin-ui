@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\checkbox;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 多选框
  * Class Checkbox
@@ -13,7 +15,7 @@ namespace ExAdmin\ui\component\form\field\checkbox;
  * @method $this value(mixed $value) 与 CheckboxGroup 组合使用时的值														boolean | string | number
  * @package ExAdmin\ui\component\form\field
  */
-class Checkbox
+class Checkbox extends Component
 {
 	/**
 	 * 组件名称

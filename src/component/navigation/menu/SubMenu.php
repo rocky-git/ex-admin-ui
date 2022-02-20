@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation\menu;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 菜单
  * Class SubMenu
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\navigation\menu;
  * @method $this icon(mixed $icon) 菜单图标                           						slot
  * @package ExAdmin\ui\component\form\field
  */
-class SubMenu
+class SubMenu extends Component
 {
 	/**
 	 * 组件名称

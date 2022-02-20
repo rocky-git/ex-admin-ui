@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\feedback;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 骨架屏
  * Class Skeleton
@@ -13,7 +15,7 @@ namespace ExAdmin\ui\component\feedback;
  * @method $this title(mixed $title = true) 是否显示标题占位图                                        					boolean | SkeletonTitleProps
  * @package ExAdmin\ui\component\form\field
  */
-class Skeleton
+class Skeleton extends Component
 {
 	/**
 	 * 组件名称

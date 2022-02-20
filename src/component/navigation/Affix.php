@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\navigation;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 固钉
  * Class Affix
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\navigation;
  * @method $this offsetTop(int $offsetTop) 距离窗口顶部达到指定偏移量后触发                                                  number
  * @package ExAdmin\ui\component\form\field
  */
-class Affix
+class Affix extends Component
 {
 	/**
 	 * 组件名称

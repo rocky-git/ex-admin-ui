@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\avatar;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 头像组
  * Class AvatarGroup
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\avatar;
  * @method $this size(mixed $size = 'default') 设置头像的大小                                                        		number | large | small | default | { xs: number, sm: number, ...}
  * @package ExAdmin\ui\component\form\field
  */
-class AvatarGroup
+class AvatarGroup extends Component
 {
 	/**
 	 * 组件名称

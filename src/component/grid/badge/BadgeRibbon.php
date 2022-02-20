@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid\badge;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 徽标数
  * Class BadgeRibbon
@@ -11,7 +13,7 @@ namespace ExAdmin\ui\component\grid\badge;
  * @method $this text(mixed $text) 缎带中填入的内容                                      									string | VNode | slot
  * @package ExAdmin\ui\component\form\field
  */
-class BadgeRibbon
+class BadgeRibbon extends Component
 {
 	/**
 	 * 组件名称

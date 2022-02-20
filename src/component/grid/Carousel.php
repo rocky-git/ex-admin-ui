@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 走马灯
  * Class Carousel
@@ -14,7 +16,7 @@ namespace ExAdmin\ui\component\grid;
  * @method $this effect(string $effect = 'scrollx') 动画效果函数，可取 scrollx, fade                                      string
  * @package ExAdmin\ui\component\form\field
  */
-class Carousel
+class Carousel extends Component
 {
 	/**
 	 * 组件名称

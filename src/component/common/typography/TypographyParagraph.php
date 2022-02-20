@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\common\typography;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 按钮
  * Class TypographyParagraph
@@ -21,7 +23,7 @@ namespace ExAdmin\ui\component\common\typography;
  * @method $this underline(bool $underline = false) 添加下划线样式													    boolean
  * @method $this content(string $value) 当使用 ellipsis 或 editable 时，使用 content 代替 children							string
  */
-class TypographyParagraph
+class TypographyParagraph extends Component
 {
 	/**
 	 * 组件名称

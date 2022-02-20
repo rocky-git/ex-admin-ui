@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\input;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 输入框组合
  * Class InputSearch
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\form\field\input;
  * @method $this loading(bool $loading) 搜索 loading																	boolean
  * @package ExAdmin\ui\component\form\field
  */
-class InputSearch
+class InputSearch extends Component
 {
 	/**
 	 * 组件名称

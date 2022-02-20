@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\component\form\field\select;
 
+use ExAdmin\ui\component\Component;
+
 /**
  * 选择器 - 选项分组
  * Class SelectGroup
@@ -10,7 +12,7 @@ namespace ExAdmin\ui\component\form\field\select;
  * @method $this label(mixed $label) 组名																				string||function(h)|slot
  * @package ExAdmin\ui\component\form\field
  */
-class SelectGroup
+class SelectGroup extends Component
 {
 	/**
 	 * 组件名称
