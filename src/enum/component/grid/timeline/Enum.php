@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\timeline;
+namespace ExAdmin\ui\enum\component\grid\timeline;
 
 
 class Enum

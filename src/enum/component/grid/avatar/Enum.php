@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\avatar;
+namespace ExAdmin\ui\enum\component\grid\avatar;
 
 
 class Enum

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 日历
@@ -11,7 +11,7 @@ namespace component\grid;
  * @method $this mode(string $mode = 'month') 初始模式，month/year                                        				string
  * @method $this value(mixed $value) 展示日期
  * @method $this valueFormat(string $valueFormat) 可选，绑定值的格式，对 value、defaultValue 起作用。不指定则绑定值为 dayjs 对象                                        							string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Calendar
 {

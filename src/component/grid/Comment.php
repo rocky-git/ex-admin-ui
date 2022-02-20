@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 评论
@@ -11,7 +11,7 @@ namespace component\grid;
  * @method $this avatar(mixed $avatar) 要显示为评论头像的元素 - 通常是 antd Avatar 或者 src                                 string|slot
  * @method $this content(mixed $content) 评论的主要内容                                        							string|slot
  * @method $this datetime(mixed $datetime) 展示时间描述                                        							string|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Comment
 {

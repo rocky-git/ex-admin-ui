@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\cascade;
+namespace ExAdmin\ui\enum\component\form\cascade;
 
 class Enum
 {

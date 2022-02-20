@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\grid;
+namespace ExAdmin\ui\component\grid\grid;
 
 /**
  * 列表
@@ -9,7 +9,7 @@ namespace component\grid\grid;
  * @method $this avatar(mixed $avatar) 列表元素的图标                                        								slot
  * @method $this description(mixed $description) 列表元素的描述内容                                        				string|slot
  * @method $this title(mixed $title) 列表元素的标题                                 										string|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class GridItemMeta
 {

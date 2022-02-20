@@ -1,6 +1,6 @@
 <?php
 
-namespace component\common\typography;
+namespace ExAdmin\ui\component\common\typography;
 
 /**
  * 排版 - 文本

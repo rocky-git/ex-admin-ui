@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\common\typography;
+namespace ExAdmin\ui\enum\component\common\typography;
 
 class Enum
 {

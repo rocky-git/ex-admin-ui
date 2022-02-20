@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 警告提示
@@ -26,7 +26,7 @@ namespace component\feedback;
  * @method $this visible(bool $visible) 	Drawer 是否可见                             									boolean
  * @method $this width(mixed $width = 378) 宽度                             											string | number
  * @method $this zIndex(string $zIndex = 1000) 设置 Drawer 的 z-index                            					 	Number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Drawer
 {

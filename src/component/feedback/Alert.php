@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 警告提示
@@ -14,7 +14,7 @@ namespace component\feedback;
  * @method $this message(mixed $message) 警告提示内容                                       								string|slot
  * @method $this showIcon(bool $showIcon) 是否显示辅助图标                                        						boolean
  * @method $this type(string $type) 指定警告提示的样式，有四种选择 success、info、warning、error                             string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Alert
 {

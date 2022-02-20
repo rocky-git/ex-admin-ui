@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\input;
+namespace ExAdmin\ui\enum\component\form\input;
 
 class Enum
 {

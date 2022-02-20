@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\calendar;
+namespace ExAdmin\ui\enum\component\grid\calendar;
 
 
 class Enum

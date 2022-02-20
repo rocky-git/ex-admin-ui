@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\common\button;
+namespace ExAdmin\ui\enum\component\common\button;
 
 class Enum
 {

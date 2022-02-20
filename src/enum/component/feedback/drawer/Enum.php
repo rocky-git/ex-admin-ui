@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\drawer;
+namespace ExAdmin\ui\enum\component\feedback\drawer;
 
 
 class Enum

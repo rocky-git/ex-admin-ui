@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\badge;
+namespace ExAdmin\ui\enum\component\grid\badge;
 
 
 class Enum

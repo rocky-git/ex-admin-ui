@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form;
+namespace ExAdmin\ui\component\form;
 
 /**
  * 表单
@@ -25,7 +25,7 @@ namespace component\form;
  * @method $this wrapperCol(mixed $wrapperCol) 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol				        object
  * @method $this validateFirst(bool $validateFirst = false) 当某一规则校验不通过时，是否停止剩下的规则的校验。				    boolean
  * @method $this validateTrigger(mixed $validateTrigger = 'change') 设置字段校验的时机				                        string | string[]
- * @package component\form
+ * @package ExAdmin\ui\component\form
  */
 class FormItem
 {

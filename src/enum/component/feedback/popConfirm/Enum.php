@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\popConfirm;
+namespace ExAdmin\ui\enum\component\feedback\popConfirm;
 
 
 class Enum

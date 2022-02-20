@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\process;
+namespace ExAdmin\ui\enum\component\feedback\process;
 
 
 class Enum

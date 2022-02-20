@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\tooltip;
+namespace ExAdmin\ui\enum\component\grid\tooltip;
 
 
 class Enum

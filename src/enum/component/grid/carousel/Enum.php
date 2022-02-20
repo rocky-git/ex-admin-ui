@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\carousel;
+namespace ExAdmin\ui\enum\component\grid\carousel;
 
 
 class Enum

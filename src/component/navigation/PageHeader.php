@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation;
+namespace ExAdmin\ui\component\navigation;
 
 /**
  * 页头
@@ -18,7 +18,7 @@ namespace component\navigation;
  * @method $this extra(mixed $extra) 操作区，位于 title 行的行尾                                          string|slot
  * @method $this breadcrumb(mixed $breadcrumb) 面包屑的配置                                              breadcrumb
  * @method $this footer(mixed $footer) PageHeader 的页脚，一般用于渲染 TabBar                             string|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class PageHeader
 {

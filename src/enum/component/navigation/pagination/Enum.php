@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\navigation\pagination;
+namespace ExAdmin\ui\enum\component\navigation\pagination;
 
 class Enum
 {

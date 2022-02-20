@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\select;
+namespace ExAdmin\ui\component\form\field\select;
 
 /**
  * 选择器
@@ -37,7 +37,7 @@ namespace component\form\field\select;
  * @method $this value(mixed $value) 指定当前选中的条目																	string|string[]|number|number[]
  * @method $this defaultOpen(bool $open) 是否默认展开下拉菜单																boolean
  * @method $this open(bool $open) 是否展开下拉菜单																		boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Select
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace component\navigation\breadcrumb;
+namespace ExAdmin\ui\component\navigation\breadcrumb;
 
 /**
  * 面包屑
  * Class BreadcrumbSeparator
  * @link   https://next.antdv.com/components/breadcrumb-cn 面包屑组件
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class BreadcrumbSeparator
 {

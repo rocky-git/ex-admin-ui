@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\radio;
+namespace ExAdmin\ui\component\form\field\radio;
 
 /**
  * 单选框 - 按钮
@@ -10,7 +10,7 @@ namespace component\form\field\radio;
  * @method $this checked(bool $checked = false) 指定当前是否选中															boolean
  * @method $this disabled(bool $disabled = false) 禁用 Radio															boolean
  * @method $this value(mixed $value) 根据 value 进行比较，判断是否选中														any
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class RadioButton
 {

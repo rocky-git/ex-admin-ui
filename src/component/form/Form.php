@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form;
+namespace ExAdmin\ui\component\form;
 
 /**
  * 表单
@@ -21,7 +21,7 @@ namespace component\form;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用												        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则											string | string[]
  * @method $this noStyle(bool $style = false) 为 true 时不带样式，作为纯字段控件使用											boolean
- * @package component\form
+ * @package ExAdmin\ui\component\form
  */
 class Form
 {

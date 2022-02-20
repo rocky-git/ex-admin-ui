@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 走马灯
@@ -12,7 +12,7 @@ namespace component\grid;
  * @method $this dotsClass(string $dotsClass = 'slick-dots') 面板指示点类名                                        		string
  * @method $this easing(string $easing = 'linear') 动画效果                                        						string
  * @method $this effect(string $effect = 'scrollx') 动画效果函数，可取 scrollx, fade                                      string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Carousel
 {

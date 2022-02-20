@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 滑动输入条
@@ -21,7 +21,7 @@ namespace component\form\field;
  * @method $this vertical(bool $vertical = false) 值为 true 时，Slider 为垂直方向											boolean
  * @method $this tooltipPlacement(string $placement) 设置 Tooltip 展示位置。参考 Tooltip。								string
  * @method $this tooltipVisible(bool $visible) 值为true时，Tooltip 将会始终显示；否则始终不显示，哪怕在拖拽及移入时。			boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Slider
 {

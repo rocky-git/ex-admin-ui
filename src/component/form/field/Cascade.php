@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 级联选择
@@ -28,7 +28,7 @@ namespace component\form\field;
  * @method $this placement(string $placement = 'bottomLeft') 浮层预设位置：bottomLeft bottomRight topLeft topRight		string
  * @method $this multiple(mixed $multiple) 支持多选节点																	boolean
  * @method $this searchValue(mixed $value) 设置搜索的值，需要与 showSearch 配合使用										string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Cascade
 {

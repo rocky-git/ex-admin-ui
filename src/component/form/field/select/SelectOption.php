@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\select;
+namespace ExAdmin\ui\component\form\field\select;
 
 /**
  * 选择器 - 选项
@@ -12,7 +12,7 @@ namespace component\form\field\select;
  * @method $this title(string $title) 选中该 Option 后，Select 的 title													string
  * @method $this value(mixed $value) 默认根据此属性值进行筛选																string|number
  * @method $this class(string $class) Option 器类名																		string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class SelectOption
 {

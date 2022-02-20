@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\input;
+namespace ExAdmin\ui\component\form\field\input;
 
 /**
  * 输入框组合
@@ -8,7 +8,7 @@ namespace component\form\field\input;
  * @link    https://next.antdv.com/components/input-cn 输入框组件
  * @method $this enterButton(mixed $set = false) 是否有确认按钮，可设为按钮文字。该属性会与 addon 冲突。						boolean|slot									boolean
  * @method $this loading(bool $loading) 搜索 loading																	boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class InputSearch
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form;
+namespace ExAdmin\ui\enum\component\form;
 
 class Enum
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\checkbox;
+namespace ExAdmin\ui\component\form\field\checkbox;
 
 /**
  * 多选框
@@ -10,7 +10,7 @@ namespace component\form\field\checkbox;
  * @method $this name(string $name) CheckboxGroup 下所有 input[type="checkbox"] 的 name 属性								string
  * @method $this options(mixed $options = []) 指定可选项，可以通过 slot="label" slot-scope="option" 定制label				string[] | Array<{ label: string value: string disabled?: boolean, indeterminate?: boolean, onChange?: function }>												boolean
  * @method $this value(mixed $value = []) 指定选中的选项																	string[]
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class CheckboxGroup
 {

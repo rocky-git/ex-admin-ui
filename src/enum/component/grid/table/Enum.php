@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\table;
+namespace ExAdmin\ui\enum\component\grid\table;
 
 
 class Enum

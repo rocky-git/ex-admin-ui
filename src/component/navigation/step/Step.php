@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation;
+namespace ExAdmin\ui\component\navigation;
 
 /**
  * 步骤表单
@@ -13,7 +13,7 @@ namespace component\navigation;
  * @method $this title(mixed $title) 标题                                  												string | slot
  * @method $this subTitle(mixed $subTitle) 子标题                                  										string | slot
  * @method $this disabled(bool $disabled = false) 禁用点击                                  								boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Step
 {

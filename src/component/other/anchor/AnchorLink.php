@@ -1,6 +1,6 @@
 <?php
 
-namespace component\other\anchor;
+namespace ExAdmin\ui\component\other\anchor;
 
 /**
  * 锚点
@@ -9,7 +9,7 @@ namespace component\other\anchor;
  * @method $this href(string $href) 锚点链接                                  											string
  * @method $this title(mixed $title) 文字内容                                        									string|slot
  * @method $this target(string $target) 该属性指定在何处显示链接的资源。                            						string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class AnchorLink
 {

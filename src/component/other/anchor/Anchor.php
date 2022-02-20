@@ -1,6 +1,6 @@
 <?php
 
-namespace component\other\anchor;
+namespace ExAdmin\ui\component\other\anchor;
 
 /**
  * 锚点
@@ -14,7 +14,7 @@ namespace component\other\anchor;
  * @method $this wrapperClass(string $wrapperClass) 容器的类名                                       					string
  * @method $this wrapperStyle(mixed $wrapperStyle) 容器样式                                       						object
  * @method $this targetOffset(int $targetOffset) 锚点滚动偏移量，默认与 offsetTop 相同                                     number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Anchor
 {

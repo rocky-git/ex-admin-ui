@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 开关
@@ -15,7 +15,7 @@ namespace component\form\field;
  * @method $this unCheckedChildren(mixed $content) 非选中时的内容															string|slot
  * @method $this checkedValue(mixed $value = true) 选中时的值															boolean | string | number
  * @method $this unCheckedValue(mixed $value = false) 非选中时的值														boolean | string | number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Switches
 {

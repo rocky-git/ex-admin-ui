@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\select;
+namespace ExAdmin\ui\enum\component\form\select;
 
 class Enum
 {

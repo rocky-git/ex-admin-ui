@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 骨架屏
@@ -11,7 +11,7 @@ namespace component\feedback;
  * @method $this loading(bool $loading) 为 true 时，显示占位图。反之则直接展示子组件                            				boolean
  * @method $this paragraph(mixed $paragraph = true) 是否显示段落占位图                                        			boolean | SkeletonParagraphProps
  * @method $this title(mixed $title = true) 是否显示标题占位图                                        					boolean | SkeletonTitleProps
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Skeleton
 {

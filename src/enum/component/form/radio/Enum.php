@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\radio;
+namespace ExAdmin\ui\enum\component\form\radio;
 
 class Enum
 {

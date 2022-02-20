@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout\layout;
+namespace ExAdmin\ui\component\layout\layout;
 
 /**
  * 侧边栏
@@ -18,7 +18,7 @@ namespace component\layout\layout;
  * @method $this trigger(mixed $trigger) 自定义 trigger，设置为 null 时隐藏 trigger				                        string|slot
  * @method $this width(mixed $width = 200) 宽度				                                                            number|string
  * @method $this zeroWidthTriggerStyle(mixed $zeroWidthTriggerStyle) 指定当 collapsedWidth 为 0 时出现的特殊 trigger 的样式	object
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class LayoutSide
 {

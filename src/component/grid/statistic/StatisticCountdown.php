@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\statistic;
+namespace ExAdmin\ui\component\grid\statistic;
 
 /**
  * 气泡卡片
@@ -12,7 +12,7 @@ namespace component\grid\statistic;
  * @method $this title(mixed $title) 数值的标题                                        									string | v-slot
  * @method $this value(mixed $value) 数值内容                                        									number | dayjs
  * @method $this valueStyle(mixed $valueStyle) 设置数值的样式                                        						style
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class StatisticCountdown
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\checkbox;
+namespace ExAdmin\ui\component\form\field\checkbox;
 
 /**
  * 多选框
@@ -11,7 +11,7 @@ namespace component\form\field\checkbox;
  * @method $this disabled(bool $disabled = false) 失效状态																boolean
  * @method $this indeterminate(bool $disabled = false) 设置 indeterminate 状态，只负责样式控制								boolean
  * @method $this value(mixed $value) 与 CheckboxGroup 组合使用时的值														boolean | string | number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Checkbox
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\badge;
+namespace ExAdmin\ui\component\grid\badge;
 
 /**
  * 徽标数
@@ -9,7 +9,7 @@ namespace component\grid\badge;
  * @method $this color(string $color) 自定义缎带的颜色                                        							string
  * @method $this placement(string $placement = 'end') 缎带的位置，start 和 end 随文字方向（RTL 或 LTR）变动                 string
  * @method $this text(mixed $text) 缎带中填入的内容                                      									string | VNode | slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class BadgeRibbon
 {

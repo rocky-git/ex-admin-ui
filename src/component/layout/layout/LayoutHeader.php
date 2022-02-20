@@ -1,12 +1,12 @@
 <?php
 
-namespace component\layout\layout;
+namespace ExAdmin\ui\component\layout\layout;
 
 /**
  * 布局 - 标题
  * Class LayoutHeader
  * @link   https://next.antdv.com/components/layout-cn 侧边栏组件
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class LayoutHeader
 {

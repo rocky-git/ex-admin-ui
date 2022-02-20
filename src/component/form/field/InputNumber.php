@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 数字输入框
@@ -22,7 +22,7 @@ namespace component\form\field;
  * @method $this controls(bool $controls = true) 是否显示增减按钮															boolean
  * @method $this keyboard(bool $keyboard = true) 是否启用键盘快捷行为														boolean
  * @method $this stringMode(bool $stringMode = false) 字符值模式，开启后支持高精度小数。同时 change 事件将返回 string 类型	boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class InputNumber
 {

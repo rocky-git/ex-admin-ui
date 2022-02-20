@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\collapse;
+namespace ExAdmin\ui\component\grid\collapse;
 
 /**
  * 折叠面板
@@ -14,7 +14,7 @@ namespace component\grid\collapse;
  * @method $this expandIconPosition(string $expandIconPosition = 'left') 设置图标位置： left, right                       left
  * @method $this ghost(bool $ghost = false) 使折叠面板透明且无边框                                      					boolean
  * @method $this destroyInactivePanel(bool $destroyInactivePanel = false) 销毁折叠隐藏的面板                              boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Collapse
 {

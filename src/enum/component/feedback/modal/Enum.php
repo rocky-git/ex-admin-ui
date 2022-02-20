@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\modal;
+namespace ExAdmin\ui\enum\component\feedback\modal;
 
 
 class Enum

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\skeleton;
+namespace ExAdmin\ui\enum\component\feedback\skeleton;
 
 
 class Enum

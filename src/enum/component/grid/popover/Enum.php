@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\popover;
+namespace ExAdmin\ui\enum\component\grid\popover;
 
 
 class Enum

@@ -1,0 +1,30 @@
+{
+  "name": "rocky-git/ex-admin-ui",
+  "description": "基于Ant Design of Vue 的PHP通用前端渲染框架Ex-admin UI",
+  "license": "MIT",
+  "keywords": [
+    "Ex-admin",
+    "ExAdmin",
+    "php",
+    "ui",
+    "admin",
+    "CURD"
+  ],
+  "authors": [
+    {
+      "name": "rocky",
+      "email": "631670747@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+  },
+  "autoload": {
+    "psr-4": {
+      "ExAdmin\\ui\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  }
+}

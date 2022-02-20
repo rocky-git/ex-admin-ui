@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\dateTimePicker;
+namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
 /**
  * 时间选择框
@@ -25,7 +25,7 @@ namespace component\form\field\dateTimePicker;
  * @method $this use12Hours(bool $used = false) 使用 12 小时制，为 true 时 format 默认为 h:mm:ss a							boolean
  * @method $this value(mixed $value) 当前时间
  * @method $this valueFormat(string $format) 可选，绑定值的格式，对 value、defaultValue 起作用。不指定则绑定值为 dayjs 对象	string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TimePicker
 {

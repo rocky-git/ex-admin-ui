@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\layout\space;
+namespace ExAdmin\ui\enum\component\layout\space;
 
 class Enum
 {

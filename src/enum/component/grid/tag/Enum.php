@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\tag;
+namespace ExAdmin\ui\enum\component\grid\tag;
 
 
 class Enum

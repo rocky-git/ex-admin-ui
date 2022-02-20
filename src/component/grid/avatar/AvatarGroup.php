@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\avatar;
+namespace ExAdmin\ui\component\grid\avatar;
 
 /**
  * 头像组
@@ -9,7 +9,7 @@ namespace component\grid\avatar;
  * @method $this maxCount(int $number) 设置头像的图标类型，可设为 Icon 的 type 或 VNode                                     number
  * @method $this maxPopoverPlacement(string $maxPopoverPlacement = 'top') 指定头像的形状                                  top | bottom
  * @method $this size(mixed $size = 'default') 设置头像的大小                                                        		number | large | small | default | { xs: number, sm: number, ...}
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class AvatarGroup
 {

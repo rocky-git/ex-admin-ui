@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\radio;
+namespace ExAdmin\ui\component\form\field\radio;
 
 /**
  * 单选框 - 按钮组
@@ -12,7 +12,7 @@ namespace component\form\field\radio;
  * @method $this optionType(string $type = 'default') 用于设置 Radio options 类型										default | button
  * @method $this size(string $size = 'default') 大小，只对按钮样式生效														large | default | small
  * @method $this value(mixed $value) 用于设置当前选中的值																	any
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class RadioGroup
 {

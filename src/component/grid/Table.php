@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 表格
@@ -36,7 +36,7 @@ namespace component\grid;
  * @method $this customFilterIcon(mixed $customFilterIcon) 自定义筛选图标                                        								v-slot:customFilterIcon="{filtered, column}"	-
  * @method $this emptyText(mixed $emptyText) 自定义空数据时的显示内容                                        									v-slot:emptyText
  * @method $this summary(mixed $summary) 总结栏                                       														v-slot:summary
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Table
 {

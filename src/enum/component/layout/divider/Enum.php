@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\layout\divider;
+namespace ExAdmin\ui\enum\component\layout\divider;
 
 class Enum
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 对话框
@@ -28,7 +28,7 @@ namespace component\feedback;
  * @method $this zIndex(int $zIndex = 1000) 设置 Modal 的 z-index                            					 		Number
  * @method $this dialogStyle(mixed $dialogStyle) 可用于设置浮层的样式，调整浮层位置等                            			object
  * @method $this dialogClass(string $dialogClass) 可用于设置浮层的类名                            					 	string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Modal
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\dateTimePicker;
+namespace ExAdmin\ui\enum\component\form\dateTimePicker;
 
 class Enum
 {

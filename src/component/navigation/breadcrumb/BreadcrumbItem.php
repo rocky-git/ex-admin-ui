@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation\breadcrumb;
+namespace ExAdmin\ui\component\navigation\breadcrumb;
 
 /**
  * 面包屑
@@ -8,7 +8,7 @@ namespace component\navigation\breadcrumb;
  * @link   https://next.antdv.com/components/breadcrumb-cn 面包屑组件
  * @method $this href(string $href) 链接的目的地                                                                          string
  * @method $this overlay(mixed $overlay) 下拉菜单的内容                                                                   Menu | () => Menu
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class BreadcrumbItem
 {

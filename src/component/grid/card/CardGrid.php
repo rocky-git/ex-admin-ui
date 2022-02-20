@@ -1,12 +1,12 @@
 <?php
 
-namespace component\grid\card;
+namespace ExAdmin\ui\component\grid\card;
 
 /**
  * 卡片 - 网格型内嵌卡片
  * Class CardGrid
  * @link    https://next.antdv.com/components/card-cn 卡片组件
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class CardGrid
 {

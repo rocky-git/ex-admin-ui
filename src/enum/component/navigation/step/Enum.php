@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\navigation\step;
+namespace ExAdmin\ui\enum\component\navigation\step;
 
 class Enum
 {

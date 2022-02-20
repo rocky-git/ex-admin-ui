@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\card;
+namespace ExAdmin\ui\enum\component\grid\card;
 
 
 class Enum

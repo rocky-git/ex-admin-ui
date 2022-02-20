@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\input;
+namespace ExAdmin\ui\component\form\field\input;
 
 /**
  * 文本域
@@ -12,7 +12,7 @@ namespace component\form\field\input;
  * @method $this value(string $content) 输入框内容																		string
  * @method $this allowClear(bool $is_allow = false) 可以点击清除图标删除内容												boolean
  * @method $this showCount(bool $is_show = false) 是否展示字数															boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TextArea
 {

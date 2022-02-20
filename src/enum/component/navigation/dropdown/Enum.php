@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\navigation\dropdown;
+namespace ExAdmin\ui\enum\component\navigation\dropdown;
 
 class Enum
 {

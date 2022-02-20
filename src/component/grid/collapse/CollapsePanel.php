@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\collapse;
+namespace ExAdmin\ui\component\grid\collapse;
 
 /**
  * 折叠面板
@@ -12,7 +12,7 @@ namespace component\grid\collapse;
  * @method $this key(mixed $key) 对应 activeKey                                        									string | number
  * @method $this showArrow(bool $showArrow = true) 是否展示当前面板上的箭头                                        		boolean
  * @method $this extra(mixed $extra) 自定义渲染每个面板右上角的内容                                     					VNode | slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class CollapsePanel
 {

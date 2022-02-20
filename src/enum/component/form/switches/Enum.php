@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\switches;
+namespace ExAdmin\ui\enum\component\form\switches;
 
 class Enum
 {

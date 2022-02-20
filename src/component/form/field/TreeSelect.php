@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 树选择
@@ -45,7 +45,7 @@ namespace component\form\field;
  * @method $this treeNodeLabelProp(string $prop = 'title') 作为显示的 prop 设置											string
  * @method $this value(mixed $value) 指定当前选中的条目														    		string|string[]
  * @method $this title(mixed $title) 自定义标题														    				slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TreeSelect
 {

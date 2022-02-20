@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\common;
+namespace ExAdmin\ui\enum\component\common;
 
 class Enum
 {

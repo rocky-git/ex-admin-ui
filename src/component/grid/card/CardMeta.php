@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\card;
+namespace ExAdmin\ui\component\grid\card;
 
 /**
  * 卡片 - 描述卡片
@@ -9,7 +9,7 @@ namespace component\grid\card;
  * @method $this avatar(mixed $avatar) 头像/图标                                      									slot
  * @method $this description(mixed $description) 描述内容                                       							string|slott
  * @method $this title(mixed $title) 标题内容                                        									string|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class CardMeta
 {

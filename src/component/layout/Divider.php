@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout;
+namespace ExAdmin\ui\component\layout;
 
 /**
  * 分割线
@@ -10,7 +10,7 @@ namespace component\layout;
  * @method $this orientation(string $orientation = 'center') 分割线标题的位置												string
  * @method $this type(string $type = 'horizontal') 水平还是垂直类型														string
  * @method $this plain(bool $plain = false) 文字是否显示为普通正文样式														boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Divider
 {

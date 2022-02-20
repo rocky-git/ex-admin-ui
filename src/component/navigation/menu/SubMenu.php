@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation\menu;
+namespace ExAdmin\ui\component\navigation\menu;
 
 /**
  * 菜单
@@ -12,7 +12,7 @@ namespace component\navigation\menu;
  * @method $this title(mixed $title) 子菜单项值                           					string|slot
  * @method $this expandIcon(mixed $expandIcon) 自定义 Menu 展开收起图标                       slot
  * @method $this icon(mixed $icon) 菜单图标                           						slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class SubMenu
 {

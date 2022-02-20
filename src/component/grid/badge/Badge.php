@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\badge;
+namespace ExAdmin\ui\component\grid\badge;
 
 /**
  * 徽标数
@@ -16,7 +16,7 @@ namespace component\grid\badge;
  * @method $this text(string $text = '') 在设置了 status 的前提下有效，设置状态点的文本                                      string
  * @method $this numberStyle(mixed $numberStyle) 设置状态点的样式                                        					object
  * @method $this title(string $title = 'count') 设置鼠标放在状态点上时显示的文字                                        	string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Badge
 {

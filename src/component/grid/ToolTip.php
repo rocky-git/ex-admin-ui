@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 文字提醒
@@ -21,7 +21,7 @@ namespace component\grid;
  * @method $this visible(bool $visible = false) 用于手动控制浮层显隐                                        				boolean
  * @method $this destroyTooltipOnHide(bool $destroyTooltipOnHide = false) 隐藏后是否销毁 tooltip                          boolean
  * @method $this align(mixed $align) 该值将合并到 placement 的配置中，设置参考 dom-align                                    Object
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class ToolTip
 {

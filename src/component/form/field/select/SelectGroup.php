@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\select;
+namespace ExAdmin\ui\component\form\field\select;
 
 /**
  * 选择器 - 选项分组
@@ -8,7 +8,7 @@ namespace component\form\field\select;
  * @link   https://next.antdv.com/components/select-cn 选择器组件
  * @method $this key(string $key)																						string
  * @method $this label(mixed $label) 组名																				string||function(h)|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class SelectGroup
 {

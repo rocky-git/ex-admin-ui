@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout;
+namespace ExAdmin\ui\component\layout;
 
 /**
  * 行
@@ -12,7 +12,7 @@ namespace component\layout;
  * @method $this justify(string $justify = 'start') flex 布局下的水平排列方式：
  *                                                      start end center space-around space-between	                    string
  * @method $this wrap(bool $warp = false) 是否自动换行														            boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Row
 {

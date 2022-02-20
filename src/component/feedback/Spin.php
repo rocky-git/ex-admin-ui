@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 加载中
@@ -12,7 +12,7 @@ namespace component\feedback;
  * @method $this spinning(bool $spinning = true) 是否为加载中状态                                        					boolean
  * @method $this tip(string $tip) 当作为包裹元素时，可以自定义描述文案                                        				string
  * @method $this wrapperClassName(string $wrapperClassName) 包装器的类属性                                       			string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Spin
 {

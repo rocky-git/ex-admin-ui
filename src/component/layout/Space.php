@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout;
+namespace ExAdmin\ui\component\layout;
 
 /**
  * 间距
@@ -9,7 +9,7 @@ namespace component\layout;
  * @method $this align(string $align) 对齐方式							                                                start | end |center |baseline
  * @method $this direction(string $direction = 'horizontal') 间距方向                                                    vertical | horizontal
  * @method $this size(mixed $size = 'small') 间距大小				                                                    small | middle | large | number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Space
 {

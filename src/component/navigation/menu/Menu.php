@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation\menu;
+namespace ExAdmin\ui\component\navigation\menu;
 
 /**
  * 菜单
@@ -18,7 +18,7 @@ namespace component\navigation\menu;
  * @method $this subMenuOpenDelay(int $forceSubMenuRender = 0) 用户鼠标进入子菜单后开启延时，单位：秒                            number
  * @method $this theme(string $theme = 'light') 主题颜色                                                                    string: light dark
  * @method $this triggerSubMenuAction(string $triggerSubMenuAction = 'hover') 修改 Menu 子菜单的触发方式                    click | hover
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Menu
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\mentions;
+namespace ExAdmin\ui\component\form\field\mentions;
 
 /**
  * 提及
@@ -12,7 +12,7 @@ namespace component\form\field\mentions;
  * @method $this prefix(mixed $prefix = '@') 设置触发关键字																string | string[]
  * @method $this split(string $split = ' ') 设置选中项前后分隔符															string
  * @method $this value(string $value) 设置值																				string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Mentions
 {

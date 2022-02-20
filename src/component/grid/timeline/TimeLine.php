@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\timeline;
+namespace ExAdmin\ui\component\grid\timeline;
 
 /**
  * 时间轴
@@ -10,7 +10,7 @@ namespace component\grid\timeline;
  * @method $this pendingDot(mixed $pendingDot) 	当最后一个幽灵节点存在時，指定其时间图点                                     string|slot
  * @method $this reverse(bool $reverse = false) 节点排序                                 								boolean
  * @method $this mode(string $mode) 通过设置 mode 可以改变时间轴和内容的相对位置                                 			left | alternate | right
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TimeLine
 {

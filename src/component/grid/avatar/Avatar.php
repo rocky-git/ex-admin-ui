@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\avatar;
+namespace ExAdmin\ui\component\grid\avatar;
 
 /**
  * 头像
@@ -14,7 +14,7 @@ namespace component\grid\avatar;
  * @method $this alt(string $alt) 图像无法显示时的替代文本                                                        			string
  * @method $this gap(int $gap = 4) 字符类型距离左右两侧边界单位像素                                                        	number
  * @method $this draggable(mixed $draggable) 图片是否允许拖动                                                        		boolean | 'true' | 'false'
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Avatar
 {

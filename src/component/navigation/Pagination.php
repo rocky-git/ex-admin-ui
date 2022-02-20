@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation;
+namespace ExAdmin\ui\component\navigation;
 
 /**
  * 分页
@@ -18,7 +18,7 @@ namespace component\navigation;
  * @method $this simple(bool $simple) 当添加该属性时，显示为简单分页                                                        boolean
  * @method $this size(string $size = '') 当为「small」时，是小尺寸分页                                                     string
  * @method $this total(int $total = 0) 数据总数                                                        					number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Pagination
 {

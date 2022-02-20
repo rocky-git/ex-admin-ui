@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\grid\collapse;
+namespace ExAdmin\ui\enum\component\grid\collapse;
 
 
 class Enum

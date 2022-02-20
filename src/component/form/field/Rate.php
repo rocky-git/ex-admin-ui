@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 评分
@@ -14,7 +14,7 @@ namespace component\form\field;
  * @method $this disabled(bool $disabled = false) 只读，无法进行交互														boolean
  * @method $this tooltips(array $tip = []) 自定义每项的提示信息															string[]
  * @method $this value(int $value) 当前数，受控值																			number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Rate
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 空状态
@@ -8,7 +8,7 @@ namespace component\grid;
  * @link    https://next.antdv.com/components/empty-cn 空状态组件
  * @method $this description(mixed $description) 自定义描述内容                                        					string | v-slot
  * @method $this image(mixed $image = false) 设置显示图片，为 string 时表示自定义图片地址                                    string | v-slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class EmptyStatus
 {

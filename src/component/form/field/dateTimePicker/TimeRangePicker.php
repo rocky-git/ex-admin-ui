@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\dateTimePicker;
+namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
 /**
  * 时间范围选择框
@@ -28,7 +28,7 @@ namespace component\form\field\dateTimePicker;
  * @method $this showTime(mixed $format) 增加时间选择功能																	Object|boolean
  * @method $this value(mixed $value) 日期
  * @method $this order(bool $order = true) 始末时间是否自动排序															boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TimeRangePicker
 {

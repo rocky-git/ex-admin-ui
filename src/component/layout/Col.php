@@ -1,6 +1,6 @@
 <?php
 
-namespace component\layout;
+namespace ExAdmin\ui\component\layout;
 
 /**
  * 列
@@ -19,7 +19,7 @@ namespace component\layout;
  * @method $this xl(mixed $warp = false) ≥1200px 响应式栅格，可为栅格数或一个包含其他属性的对象									number|object
  * @method $this xxl(mixed $warp = false) ≥1600px 响应式栅格，可为栅格数或一个包含其他属性的对象								number|object
  * @method $this xxxl(mixed $warp = false) ≥2000px 响应式栅格，可为栅格数或一个包含其他属性的对象								number|object
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Col
 {

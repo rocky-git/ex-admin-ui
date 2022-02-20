@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation;
+namespace ExAdmin\ui\component\navigation;
 
 /**
  * 步骤表单
@@ -16,7 +16,7 @@ namespace component\navigation;
  * @method $this size(string $size = 'default') 指定大小，目前支持普通（default）和迷你（small）                                    string
  * @method $this status(string $status = 'process') 指定当前步骤的状态，可选 wait process finish error                             string
  * @method $this initial(int $initial = 0) 起始序号，从 0 开始记数                                                        		number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Steps
 {

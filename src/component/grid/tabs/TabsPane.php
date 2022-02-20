@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\tabs;
+namespace ExAdmin\ui\component\grid\tabs;
 
 /**
  * 标签页
@@ -9,7 +9,7 @@ namespace component\grid\tabs;
  * @method $this forceRender(bool $forceRender = false) 被隐藏时是否渲染 DOM 结构                                        	boolean
  * @method $this key(string $key) 对应 activeKey                                        								string
  * @method $this tab(mixed $tab) 选项卡头显示文字                                        									string|slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class TabsPane
 {

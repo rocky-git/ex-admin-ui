@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\grid;
+namespace ExAdmin\ui\component\grid\grid;
 
 /**
  * 列表
@@ -18,7 +18,7 @@ namespace component\grid\grid;
  * @method $this size(string $size = 'default') list 的尺寸                                        						default | middle | small
  * @method $this split(bool $split) 是否展示分割线                                        								boolean
  * @method $this dataSource(mixed $dataSource) 是否展示分割线                                        						any[]
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Grid
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 气泡提醒框
@@ -27,7 +27,7 @@ namespace component\feedback;
  * @method $this trigger(string $trigger = 'hover') 触发行为，可选 hover/focus/click/contextmenu                          string
  * @method $this destroyTooltipOnHide(bool $destroyTooltipOnHide = false) 隐藏后是否销毁 tooltip                          boolean
  * @method $this align(mixed $align) 该值将合并到 placement 的配置中，设置参考 dom-align                                    Object
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class PopConfirm
 {

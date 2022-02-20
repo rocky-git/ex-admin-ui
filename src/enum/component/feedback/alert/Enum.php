@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\alert;
+namespace ExAdmin\ui\enum\component\feedback\alert;
 
 
 class Enum

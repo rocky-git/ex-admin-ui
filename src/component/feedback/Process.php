@@ -1,6 +1,6 @@
 <?php
 
-namespace component\feedback;
+namespace ExAdmin\ui\component\feedback;
 
 /**
  * 进度条
@@ -25,7 +25,7 @@ namespace component\feedback;
  * type="dashboard"
  * @method $this gapDegree(int $gapDegree = 75) 仪表盘进度条缺口角度，可取值 0 ~ 295										number
  * @method $this gapPosition(string $gapDegree = 'bottom') 仪表盘进度条缺口位置											top | bottom | left | right
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Process
 {

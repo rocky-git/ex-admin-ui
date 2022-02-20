@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\tag;
+namespace ExAdmin\ui\component\grid\tag;
 
 /**
  * 标签
@@ -9,7 +9,7 @@ namespace component\grid\tag;
  * @method $this closable(bool $closable = false) 标签是否可以关闭                                        				boolean
  * @method $this color(string $color) 标签色                                        										string
  * @method $this visible(bool $visible = true) 是否显示标签                                 								boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Tag
 {

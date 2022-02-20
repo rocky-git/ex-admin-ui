@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\layout\row;
+namespace ExAdmin\ui\enum\component\layout\row;
 
 class Enum
 {

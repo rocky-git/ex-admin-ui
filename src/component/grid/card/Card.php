@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\card;
+namespace ExAdmin\ui\component\grid\card;
 
 /**
  * 卡片
@@ -18,7 +18,7 @@ namespace component\grid\card;
  * @method $this size(string $size = 'default') card 的尺寸                                        						default | small
  * @method $this title(mixed $title) 卡片标题                                        									string|slot
  * @method $this type(string $type) 卡片类型，可设置为 inner 或 不设置                                        				string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Card
 {

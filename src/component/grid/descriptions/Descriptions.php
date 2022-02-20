@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\descriptions;
+namespace ExAdmin\ui\component\grid\descriptions;
 
 /**
  * 描述列表
@@ -13,7 +13,7 @@ namespace component\grid\descriptions;
  * @method $this layout(string $layout = 'horizontal') 描述布局                                        							horizontal | vertical
  * @method $this size(string $size = 'default') 设置列表的大小。可以设置为 middle 、small, 或不填（只有设置 bordered={true} 生效）    default | middle | small
  * @method $this title(mixed $title) 描述列表的标题，显示在最顶部                                        							string | VNode | slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Descriptions
 {

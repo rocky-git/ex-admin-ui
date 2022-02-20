@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\layout\sideBar;
+namespace ExAdmin\ui\enum\component\layout\sideBar;
 
 class Enum
 {

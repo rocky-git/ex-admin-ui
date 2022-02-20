@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation\dropdown;
+namespace ExAdmin\ui\component\navigation\dropdown;
 
 /**
  * 下拉菜单
@@ -13,7 +13,7 @@ namespace component\navigation\dropdown;
  *                                              bottomLeft bottomCenter bottomRight topLeft topCenter topRight          string
  * @method $this trigger(mixed $trigger = ['hover']) 触发下拉的行为, 移动端不支持 hover		                                Array<click|hover|contextmenu>
  * @method $this visible(bool $visible) 菜单是否显示								                                        boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Dropdown
 {

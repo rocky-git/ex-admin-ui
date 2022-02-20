@@ -1,7 +1,7 @@
 <?php
 
 
-namespace enum\component\feedback\spin;
+namespace ExAdmin\ui\enum\component\feedback\spin;
 
 
 class Enum

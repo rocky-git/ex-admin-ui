@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 图片
@@ -13,7 +13,7 @@ namespace component\grid;
  * @method $this preview(mixed $preview = true) 预览参数，为 false 时禁用                                        			boolean | previewType
  * @method $this src(string $src) 图片地址                                        										string
  * @method $this width(mixed $width) 图像宽度                                        									string | number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Image
 {

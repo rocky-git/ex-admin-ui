@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\input;
+namespace ExAdmin\ui\component\form\field\input;
 
 /**
  * 输入框
@@ -19,7 +19,7 @@ namespace component\form\field\input;
  * @method $this type(string $type = 'text') 声明 input 类型，同原生 input 标签的 type 属性。 								string
  * @method $this value(string $content) 输入框内容    																 	string
  * @method $this allowClear(bool $is_allow) 可以点击清除图标删除内容 													 	boolean
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Input
 {

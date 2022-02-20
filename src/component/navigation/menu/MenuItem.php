@@ -1,6 +1,6 @@
 <?php
 
-namespace component\navigation\menu;
+namespace ExAdmin\ui\component\navigation\menu;
 
 /**
  * 菜单
@@ -10,7 +10,7 @@ namespace component\navigation\menu;
  * @method $this key(string $key) item 的唯一标志                            			string
  * @method $this title(mixed $title) 设置收缩时展示的悬浮标题                            	string | slot
  * @method $this icon(mixed $icon) 菜单图标                           					slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class MenuItem
 {

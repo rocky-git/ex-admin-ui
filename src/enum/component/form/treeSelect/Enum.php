@@ -1,6 +1,6 @@
 <?php
 
-namespace enum\component\form\treeSelect;
+namespace ExAdmin\ui\enum\component\form\treeSelect;
 
 class Enum
 {

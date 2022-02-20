@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field\input;
+namespace ExAdmin\ui\component\form\field\input;
 
 /**
  * 输入框组合
@@ -8,7 +8,7 @@ namespace component\form\field\input;
  * @link    https://next.antdv.com/components/input-cn 输入框组件
  * @method $this compact(boolean $compact = false) 是否用紧凑模式															boolean
  * @method $this size(string $size = 'default') Input.Group 中所有的 Input 的大小，可选 large default small				string
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class InputGroup
 {

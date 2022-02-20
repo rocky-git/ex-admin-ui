@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid;
+namespace ExAdmin\ui\component\grid;
 
 /**
  * 文字提醒
@@ -28,7 +28,7 @@ namespace component\grid;
  * @method $this switcherIcon(mixed $switcherIcon) 自定义树节点的展开/折叠图标                                   						slot
  * @method $this showLine(mixed $showLine = false) 是否展示连接线                                   									boolean | {showLeafIcon: boolean}(3.0+)
  * @method $this title(mixed $title) 自定义标题                                    													slot
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Tree
 {

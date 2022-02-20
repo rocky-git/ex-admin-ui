@@ -1,6 +1,6 @@
 <?php
 
-namespace component\grid\tabs;
+namespace ExAdmin\ui\component\grid\tabs;
 
 /**
  * 标签页
@@ -15,7 +15,7 @@ namespace component\grid\tabs;
  * @method $this tabPosition(string $tabPosition = 'top') 页签位置，可选值有 top right bottom left                        string
  * @method $this type(string $type = 'line') 页签的基本样式，可选 line、card editable-card 类型                            string
  * @method $this tabBarGutter(int $tabBarGutter) tabs 之间的间隙                                        					number
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Tabs
 {

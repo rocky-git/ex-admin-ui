@@ -1,6 +1,6 @@
 <?php
 
-namespace component\form\field;
+namespace ExAdmin\ui\component\form\field;
 
 /**
  * 穿梭框
@@ -18,7 +18,7 @@ namespace component\form\field;
  * @method $this showSelectAll(bool $show = true) 是否展示全选勾选框														boolean
  * @method $this targetKeys(array $focus = []) 显示在右侧框数据的 key 集合													string[]
  * @method $this titles(array $focus = ['', '']) 标题集合，顺序从左至右													string[]
- * @package component\form\field
+ * @package ExAdmin\ui\component\form\field
  */
 class Transfer
 {
