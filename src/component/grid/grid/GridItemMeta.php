@@ -21,8 +21,5 @@ class GridItemMeta extends Component
 	 */
 	protected $name = 'AListItemMeta';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

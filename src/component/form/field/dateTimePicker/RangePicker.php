@@ -39,8 +39,5 @@ class RangePicker extends Component
 	 */
 	protected $name = 'ARangePicker';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

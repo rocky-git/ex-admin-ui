@@ -33,8 +33,5 @@ class Slider extends Component
 	 */
 	protected $name = 'ASlider';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -23,8 +23,5 @@ class Result extends Component
 	 */
 	protected $name = 'AResult';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

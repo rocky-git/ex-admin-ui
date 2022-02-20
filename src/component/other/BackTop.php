@@ -19,8 +19,5 @@ class BackTop extends Component
 	 */
 	protected $name = 'ABackTop';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -37,8 +37,5 @@ class FormItem extends Component
 	 */
 	protected $name = 'AFormItem';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

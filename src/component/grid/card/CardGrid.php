@@ -18,8 +18,5 @@ class CardGrid extends Component
 	 */
 	protected $name = 'ACardGrid';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

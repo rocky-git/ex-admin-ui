@@ -28,8 +28,5 @@ class Badge extends Component
 	 */
 	protected $name = 'ABadge';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

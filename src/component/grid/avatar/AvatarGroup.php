@@ -21,8 +21,5 @@ class AvatarGroup extends Component
 	 */
 	protected $name = 'AAvatarGroup';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

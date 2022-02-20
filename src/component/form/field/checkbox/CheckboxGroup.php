@@ -22,8 +22,5 @@ class CheckboxGroup extends Component
 	 */
 	protected $name = 'ACheckboxGroup';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

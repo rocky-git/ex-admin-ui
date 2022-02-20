@@ -23,8 +23,5 @@ class Comment extends Component
 	 */
 	protected $name = 'AComment';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -31,8 +31,5 @@ class AutoComplete extends Component
 	 */
 	protected $name = 'AAutoComplete';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -38,8 +38,5 @@ class Drawer extends Component
 	 */
 	protected $name = 'ADrawer';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

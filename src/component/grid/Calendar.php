@@ -23,8 +23,5 @@ class Calendar extends Component
 	 */
 	protected $name = 'ACalendar';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -20,8 +20,5 @@ class InputGroup extends Component
 	 */
 	protected $name = 'AInputGroup';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

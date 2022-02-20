@@ -20,8 +20,5 @@ class Affix extends Component
 	 */
 	protected $name = 'AAffix';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

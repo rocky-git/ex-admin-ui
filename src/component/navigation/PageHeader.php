@@ -30,8 +30,5 @@ class PageHeader extends Component
 	 */
 	protected $name = 'APageHeader';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

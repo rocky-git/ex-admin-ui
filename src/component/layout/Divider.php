@@ -22,8 +22,5 @@ class Divider extends Component
 	 */
 	protected $name = 'ADivider';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

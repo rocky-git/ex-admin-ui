@@ -33,8 +33,5 @@ class Form extends Component
 	 */
 	protected $name = 'AForm';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

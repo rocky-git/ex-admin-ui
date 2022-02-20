@@ -40,8 +40,5 @@ class DatePicker extends Component
 	 */
 	protected $name = 'ADatePicker';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

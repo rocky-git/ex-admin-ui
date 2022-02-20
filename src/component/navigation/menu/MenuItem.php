@@ -22,8 +22,5 @@ class MenuItem extends Component
 	 */
 	protected $name = 'AMenuItem';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

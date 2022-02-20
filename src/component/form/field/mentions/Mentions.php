@@ -24,8 +24,5 @@ class Mentions extends Component
 	 */
 	protected $name = 'AMentions';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

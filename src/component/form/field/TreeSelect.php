@@ -57,8 +57,5 @@ class TreeSelect extends Component
 	 */
 	protected $name = 'ATransfer';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

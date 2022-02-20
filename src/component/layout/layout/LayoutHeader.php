@@ -18,8 +18,5 @@ class LayoutHeader extends Component
 	 */
 	protected $name = 'ALayoutHeader';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

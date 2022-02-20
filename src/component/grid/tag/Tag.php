@@ -21,8 +21,5 @@ class Tag extends Component
 	 */
 	protected $name = 'ATag';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

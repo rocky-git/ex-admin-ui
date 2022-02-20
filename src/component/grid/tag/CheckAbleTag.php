@@ -19,8 +19,5 @@ class CheckAbleTag extends Component
 	 */
 	protected $name = 'ACheckableTag';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

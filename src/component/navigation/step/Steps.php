@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\navigation;
+namespace ExAdmin\ui\component\navigation\step;
 
 use ExAdmin\ui\component\Component;
 
@@ -28,8 +28,5 @@ class Steps extends Component
 	 */
 	protected $name = 'ASteps';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

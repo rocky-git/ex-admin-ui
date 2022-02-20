@@ -49,8 +49,5 @@ class Select extends Component
 	 */
 	protected $name = 'ASelect';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

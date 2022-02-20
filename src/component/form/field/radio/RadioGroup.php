@@ -24,8 +24,5 @@ class RadioGroup extends Component
 	 */
 	protected $name = 'ARadioGroup';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

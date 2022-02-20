@@ -37,8 +37,5 @@ class TimePicker extends Component
 	 */
 	protected $name = 'ATimePicker';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -26,8 +26,5 @@ class Anchor extends Component
 	 */
 	protected $name = 'AAnchor';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

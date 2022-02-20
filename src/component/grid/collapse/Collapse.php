@@ -26,8 +26,5 @@ class Collapse extends Component
 	 */
 	protected $name = 'ACollapse';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

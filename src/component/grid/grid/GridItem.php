@@ -20,8 +20,5 @@ class GridItem extends Component
 	 */
 	protected $name = 'AListItem';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

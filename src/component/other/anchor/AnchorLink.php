@@ -21,8 +21,5 @@ class AnchorLink extends Component
 	 */
 	protected $name = 'AAnchorLink';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -33,8 +33,5 @@ class ToolTip extends Component
 	 */
 	protected $name = 'ATooltip';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -19,8 +19,5 @@ class MentionsOption extends Component
 	 */
 	protected $name = 'AMentionsOption';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

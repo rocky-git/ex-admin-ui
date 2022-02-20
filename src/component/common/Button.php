@@ -31,8 +31,5 @@ class Button extends Component
 	 */
 	protected $name = 'AButton';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

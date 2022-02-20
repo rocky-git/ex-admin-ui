@@ -26,8 +26,5 @@ class Avatar extends Component
 	 */
 	protected $name = 'AAvatar';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

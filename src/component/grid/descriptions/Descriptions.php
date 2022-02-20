@@ -25,8 +25,5 @@ class Descriptions extends Component
 	 */
 	protected $name = 'ADescriptions';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

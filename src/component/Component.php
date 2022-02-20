@@ -18,6 +18,7 @@ use think\app\Url;
  * Class Component
  * @package Eadmin\component
  * @method $this style(array $value) 样式
+ * @method static $this create() 创建
  */
 abstract class Component implements \JsonSerializable
 {
@@ -168,7 +169,17 @@ abstract class Component implements \JsonSerializable
         }
 
     }
+    public static function __callStatic($name, $arguments)
+    {
+        if($name == 'create'){
+            $static = new static();
+            return $static->instance($arguments);
+        }
+    }
+    protected function instance($arguments = null){
 
+        return new static(...$arguments);
+    }
     /**
      * @param string $name 指令名称
      * @param string|array $value 值

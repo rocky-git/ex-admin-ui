@@ -19,8 +19,5 @@ class MenuItemGroup extends Component
 	 */
 	protected $name = 'ASubMenu';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

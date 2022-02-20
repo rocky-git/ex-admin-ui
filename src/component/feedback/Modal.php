@@ -40,8 +40,5 @@ class Modal extends Component
 	 */
 	protected $name = 'AModal';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

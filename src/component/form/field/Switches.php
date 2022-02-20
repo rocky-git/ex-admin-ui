@@ -27,8 +27,5 @@ class Switches extends Component
 	 */
 	protected $name = 'ASwitch';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

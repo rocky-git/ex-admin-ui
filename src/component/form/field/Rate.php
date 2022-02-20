@@ -26,8 +26,5 @@ class Rate extends Component
 	 */
 	protected $name = 'ARate';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

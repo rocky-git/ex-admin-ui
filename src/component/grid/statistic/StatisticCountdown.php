@@ -24,8 +24,5 @@ class StatisticCountdown extends Component
 	 */
 	protected $name = 'AStatisticCountdown';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

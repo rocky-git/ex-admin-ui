@@ -20,8 +20,5 @@ class SelectGroup extends Component
 	 */
 	protected $name = 'ASelectOptGroup';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

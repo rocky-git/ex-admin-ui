@@ -24,8 +24,5 @@ class CollapsePanel extends Component
 	 */
 	protected $name = 'ACollapsePanel';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

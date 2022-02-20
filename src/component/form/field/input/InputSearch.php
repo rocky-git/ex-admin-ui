@@ -20,8 +20,5 @@ class InputSearch extends Component
 	 */
 	protected $name = 'AInputSearch';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

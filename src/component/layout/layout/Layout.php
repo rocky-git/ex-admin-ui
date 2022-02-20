@@ -21,8 +21,5 @@ class Layout extends Component
 	 */
 	protected $name = 'ALayout';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

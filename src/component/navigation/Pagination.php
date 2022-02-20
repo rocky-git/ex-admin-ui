@@ -30,8 +30,5 @@ class Pagination extends Component
 	 */
 	protected $name = 'APagination';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

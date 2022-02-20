@@ -19,8 +19,5 @@ class Password extends Component
 	 */
 	protected $name = 'AInputPassword';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

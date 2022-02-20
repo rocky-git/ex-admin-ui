@@ -30,8 +30,5 @@ class Card extends Component
 	 */
 	protected $name = 'ACard';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

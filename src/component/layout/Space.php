@@ -21,8 +21,5 @@ class Space extends Component
 	 */
 	protected $name = 'ASpace';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

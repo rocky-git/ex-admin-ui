@@ -21,8 +21,5 @@ class CardMeta extends Component
 	 */
 	protected $name = 'ACardMeta';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

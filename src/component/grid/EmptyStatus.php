@@ -20,8 +20,5 @@ class EmptyStatus extends Component
 	 */
 	protected $name = 'AEmpty';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

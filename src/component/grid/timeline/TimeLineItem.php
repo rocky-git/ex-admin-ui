@@ -22,8 +22,5 @@ class TimeLineItem extends Component
 	 */
 	protected $name = 'ATimeLineItem';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

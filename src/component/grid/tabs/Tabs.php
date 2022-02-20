@@ -27,8 +27,5 @@ class Tabs extends Component
 	 */
 	protected $name = 'ATabs';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

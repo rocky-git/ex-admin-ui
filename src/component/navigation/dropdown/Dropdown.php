@@ -25,8 +25,5 @@ class Dropdown extends Component
 	 */
 	protected $name = 'ADropdown';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

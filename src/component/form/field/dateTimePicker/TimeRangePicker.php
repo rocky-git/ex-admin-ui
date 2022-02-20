@@ -40,8 +40,5 @@ class TimeRangePicker extends Component
 	 */
 	protected $name = 'ATimeRangePicker';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

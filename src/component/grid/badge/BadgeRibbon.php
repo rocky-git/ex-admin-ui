@@ -21,8 +21,5 @@ class BadgeRibbon extends Component
 	 */
 	protected $name = 'ABadgeRibbon';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

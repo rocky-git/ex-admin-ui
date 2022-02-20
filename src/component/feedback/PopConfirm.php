@@ -39,8 +39,5 @@ class PopConfirm extends Component
 	 */
 	protected $name = 'APopconfirm';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

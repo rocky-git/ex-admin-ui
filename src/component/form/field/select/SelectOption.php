@@ -24,8 +24,5 @@ class SelectOption extends Component
 	 */
 	protected $name = 'ASelectOption';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -31,8 +31,5 @@ class Col extends Component
 	 */
 	protected $name = 'ACol';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

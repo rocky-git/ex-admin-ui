@@ -21,8 +21,5 @@ class TabsPane extends Component
 	 */
 	protected $name = 'ATabsPane';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

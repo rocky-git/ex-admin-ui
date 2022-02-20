@@ -27,8 +27,5 @@ class Statistic extends Component
 	 */
 	protected $name = 'AStatistic';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

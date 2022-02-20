@@ -40,8 +40,5 @@ class Tree extends Component
 	 */
 	protected $name = 'ATree';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

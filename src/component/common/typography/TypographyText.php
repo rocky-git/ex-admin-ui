@@ -31,8 +31,5 @@ class TypographyText extends Component
 	 */
 	protected $name = 'ATypographyText';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

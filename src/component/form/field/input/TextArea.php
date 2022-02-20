@@ -24,8 +24,5 @@ class TextArea extends Component
 	 */
 	protected $name = 'ATextArea';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

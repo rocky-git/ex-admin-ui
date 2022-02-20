@@ -34,8 +34,5 @@ class Popover extends Component
 	 */
 	protected $name = 'APopover';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -24,8 +24,5 @@ class Row extends Component
 	 */
 	protected $name = 'ARow';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

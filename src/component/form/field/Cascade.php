@@ -40,8 +40,5 @@ class Cascade extends Component
 	 */
 	protected $name = 'ACascader';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

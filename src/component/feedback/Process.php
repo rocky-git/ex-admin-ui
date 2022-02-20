@@ -37,8 +37,5 @@ class Process extends Component
 	 */
 	protected $name = 'AProcess';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

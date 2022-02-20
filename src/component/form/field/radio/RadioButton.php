@@ -22,8 +22,5 @@ class RadioButton extends Component
 	 */
 	protected $name = 'ARadioButton';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

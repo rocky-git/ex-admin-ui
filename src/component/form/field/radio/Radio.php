@@ -22,8 +22,5 @@ class Radio extends Component
 	 */
 	protected $name = 'ARadio';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

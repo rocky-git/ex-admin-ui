@@ -31,8 +31,5 @@ class TypographyTitle extends Component
 	 */
 	protected $name = 'ATypographyTitle';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

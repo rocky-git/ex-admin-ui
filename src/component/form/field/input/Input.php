@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\input;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 输入框
@@ -23,7 +24,7 @@ use ExAdmin\ui\component\Component;
  * @method $this allowClear(bool $is_allow) 可以点击清除图标删除内容 													 	boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Input extends Component
+class Input extends Field
 {
 	/**
 	 * 组件名称
@@ -31,8 +32,5 @@ class Input extends Component
 	 */
 	protected $name = 'AInput';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

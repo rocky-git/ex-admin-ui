@@ -24,8 +24,5 @@ class Spin extends Component
 	 */
 	protected $name = 'ASpin';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

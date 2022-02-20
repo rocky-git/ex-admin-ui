@@ -25,8 +25,5 @@ class Image extends Component
 	 */
 	protected $name = 'AImage';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

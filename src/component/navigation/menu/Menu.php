@@ -30,8 +30,5 @@ class Menu extends Component
 	 */
 	protected $name = 'AMenu';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

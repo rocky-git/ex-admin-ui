@@ -48,8 +48,5 @@ class Table extends Component
 	 */
 	protected $name = 'ATable';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -24,8 +24,5 @@ class Carousel extends Component
 	 */
 	protected $name = 'ACarousel';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

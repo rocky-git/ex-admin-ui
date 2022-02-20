@@ -20,8 +20,5 @@ class BreadcrumbItem extends Component
 	 */
 	protected $name = 'ABreadcrumbItem';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

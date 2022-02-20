@@ -23,8 +23,5 @@ class Skeleton extends Component
 	 */
 	protected $name = 'ASkeleton';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

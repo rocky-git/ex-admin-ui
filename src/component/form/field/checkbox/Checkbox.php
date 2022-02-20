@@ -23,8 +23,5 @@ class Checkbox extends Component
 	 */
 	protected $name = 'ACheckbox';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

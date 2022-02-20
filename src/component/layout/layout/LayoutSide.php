@@ -30,8 +30,5 @@ class LayoutSide extends Component
 	 */
 	protected $name = 'ALayoutSider';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

@@ -18,8 +18,5 @@ class BreadcrumbSeparator extends Component
 	 */
 	protected $name = 'ABreadcrumbSeparator';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

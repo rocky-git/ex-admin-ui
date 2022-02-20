@@ -26,8 +26,5 @@ class Alert extends Component
 	 */
 	protected $name = 'AAlert';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

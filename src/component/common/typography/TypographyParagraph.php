@@ -31,8 +31,5 @@ class TypographyParagraph extends Component
 	 */
 	protected $name = 'ATypographyParagraph';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }

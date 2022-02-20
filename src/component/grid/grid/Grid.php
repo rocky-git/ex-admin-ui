@@ -30,8 +30,5 @@ class Grid extends Component
 	 */
 	protected $name = 'AList';
 
-	public static function create()
-	{
-		return new self();
-	}
+	
 }
