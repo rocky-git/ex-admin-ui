@@ -8,5 +8,4 @@
 return [
     // 默认语言
     'lang' => 'zh-cn',
-    
 ];

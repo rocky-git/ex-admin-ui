@@ -32,16 +32,16 @@ class Config
      */
     public function __construct(string $path = null, string $ext = '.php')
     {
+
         $this->path = $path ?: '';
         $this->ext  = $ext;
-    }
+        if (is_dir($this->path)) {
+            $files = glob($this->path . '*' . $this->ext );
+        }
 
-    public static function create()
-    {
-        $path = $app->getConfigPath();
-        $ext  = $app->getConfigExt();
-
-        return new static($path, $ext);
+        foreach ($files as $file) {
+            $this->load($file, pathinfo($file, PATHINFO_FILENAME));
+        }
     }
 
     /**

@@ -27,9 +27,10 @@ class Container
         return static::$instance;
     }
     public function make($name,array $arguments = [], bool $newInstance = false){
-        if(!$newInstance && isset($this->instances[$name])){
-            return $this->instances[$name];
+        if($newInstance || !isset($this->instances[$name])){
+            $this->instances[$name] = new $name(...$arguments);
+
         }
-        $this->instances[$name] = new $name(...$arguments);
+        return $this->instances[$name];
     }
 }

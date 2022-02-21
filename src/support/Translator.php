@@ -10,7 +10,6 @@ class Translator extends \Symfony\Component\Translation\Translator
     {
         parent::__construct($locale);
         $this->addLoader('array', new ArrayLoader());
-        $lang = [];
         foreach (glob(__DIR__.'/../lang/*') as $item){
             if(is_dir($item)){
                 $locale =  basename($item);

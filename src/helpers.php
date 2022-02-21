@@ -9,7 +9,7 @@ if (!function_exists('ui_config')) {
     function ui_config($name = '', $value = null)
     {
         $config = \ExAdmin\ui\support\Container::getInstance()
-            ->make(ExAdmin\ui\support\Config::class,[__DIR__.'/config']);
+            ->make(ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
         if (is_array($name)) {
             return $config->set($name, $value);
         }
@@ -28,7 +28,7 @@ if (!function_exists('ui_trans')) {
     function ui_trans($id, $domain = null, array $parameters = [], $locale = null)
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\support\Translator::class,[ui_config('lang')])
+            ->make(\ExAdmin\ui\support\Translator::class,[ui_config('config.lang')])
             ->trans($id,$parameters,$domain,$locale);
        
     }
