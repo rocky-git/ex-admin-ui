@@ -79,12 +79,12 @@ class TreeSelect extends Field
     /**
      * 设置选项
      * @param mixed $data 数据源
-     * @param string $id 主键
      * @param string $label 名称
+     * @param string $id 主键
      * @param string $pid 上级id
      * @param string $children 下级成员
      */
-    public function options($data, string $id = 'id', string $label = 'name', string $pid = 'pid', string $children = 'children')
+    public function options($data, string $label = 'name', string $id = 'id', string $pid = 'pid', string $children = 'children')
     {
         $treeData = Arr::tree($data, $id, $pid, $children);
         $this->fieldNames([
