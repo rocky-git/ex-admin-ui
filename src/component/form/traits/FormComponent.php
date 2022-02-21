@@ -16,8 +16,8 @@ use ExAdmin\ui\component\form\field\input\TextArea;
 trait FormComponent
 {
     protected $formComponent = [
-        'text' => Input::class,
-        'number' => InputNumber::class,
+        'text'     => Input::class,
+        'number'   => InputNumber::class,
         'password' => Password::class,
         'textarea' => TextArea::class,
     ];

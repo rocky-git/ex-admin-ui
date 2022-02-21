@@ -21,7 +21,7 @@ use ExAdmin\ui\component\Component;
  * @method $this mark(bool $mark = false) 添加标记样式													                boolean
  * @method $this type(string $type) 文本类型													                            secondary | success | warning | danger
  * @method $this underline(bool $underline = false) 添加下划线样式													    boolean
- * @method $this content(string $value) 当使用 ellipsis 或 editable 时，使用 content 代替 children							string
+ * @method $this content(string $content) 当使用 ellipsis 或 editable 时，使用 content 代替 children							string
  */
 class TypographyTitle extends Component
 {
