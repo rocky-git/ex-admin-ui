@@ -9,11 +9,12 @@
 namespace ExAdmin\ui\component\form;
 
 
+
 use ExAdmin\ui\component\Component;
 
 /**
  * @property FormItem $formItem
- * @method static $this create($value = '', $bindField = null) 创建
+ * @method static $this create($value='',$bindField=null) 创建
  */
 class Field extends Component
 {
@@ -22,30 +23,25 @@ class Field extends Component
     public function __construct($value = '', $field = null)
     {
         parent::__construct();
-        $this->vModel('value', $field, $value);
+        $this->vModel('value',$field,$value);
     }
-
-    /**
-     * 列占位（等于前端的md）
-     * @param int $span
-     * @return $this
-     */
-    public function span(int $span): Field
-    {
-        $this->formItem->attr('span', $span);
+    
+    
+    public function span($span){
+        $this->formItem->attr('span',$span);
         return $this;
     }
-
+    
     /**
      * 是否必填
      * @return $this
      */
-    public function required(): Field
+    public function required()
     {
-        $this->formItem->attr('rules', [
+        $this->formItem->attr('rules',[
             'required' => true,
-            'trigger'  => ['change', 'blur'],
-            'message'  => ui_trans('please_enter', 'form').$this->formItem->attr('label'),
+            'trigger'  => ['change','blur'],
+            'message'  => $this->formItem->attr('label'),
         ]);
         return $this;
     }
@@ -57,14 +53,5 @@ class Field extends Component
     public function setFormItem(FormItem $formItem)
     {
         $this->formItem = $formItem;
-    }
-
-    /**
-     * 获取设置的表单成员
-     * @return FormItem
-     */
-    public function getFormItem(): FormItem
-    {
-        return $this->formItem;
     }
 }

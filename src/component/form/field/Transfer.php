@@ -3,12 +3,12 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 穿梭框
  * Class Transfer
  * @link   https://next.antdv.com/components/transfer-cn 穿梭框组件
- * @method $this dataSource(mixed $data = []) 组件自动获取焦点															[{key: string.isRequired,title: string.isRequired,description: string,disabled: bool}][]
  * @method $this disabled(bool $disabled = false) 是否禁用																boolean
  * @method $this listStyle(mixed $style) 两个穿梭框的自定义样式															object
  * @method $this locale(mixed $locale) 各种语言																			{ itemUnit: '项', itemsUnit: '项', notFoundContent: '列表为空', searchPlaceholder: '请输入搜索内容' }
@@ -22,7 +22,7 @@ use ExAdmin\ui\component\Component;
  * @method $this titles(array $focus = ['', '']) 标题集合，顺序从左至右													string[]
  * @package ExAdmin\ui\component\form\field
  */
-class Transfer extends Component
+class Transfer extends Field
 {
     /**
      * 组件名称
@@ -30,5 +30,11 @@ class Transfer extends Component
      */
 	protected $name = 'ATransfer';
 
-	
+    /**
+     * 数据源，其中的数据将会被渲染到左边一栏中，targetKeys 中指定的除外。#TODO
+     */
+    public function dataSource()
+    {
+
+    }
 }

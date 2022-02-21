@@ -42,6 +42,16 @@ class Drawer extends Component
         'footer',
         'title',
     ];
+    
+	/**
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'closeText',
+        'description',
+        'message',
+    ];
 
     /**
      * 组件名称

@@ -30,7 +30,6 @@ class Html extends Component
             $this->content($content);
         }
     }
-
     /**
      * 自定义元素标签
      * @param string $tag 元素标签

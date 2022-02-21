@@ -6,12 +6,20 @@ use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;
 use ExAdmin\ui\component\form\field\input\TextArea;
+use ExAdmin\ui\component\form\field\Rate;
+use ExAdmin\ui\component\form\field\Slider;
+use ExAdmin\ui\component\form\field\Transfer;
+use ExAdmin\ui\component\form\field\TreeSelect;
 
 /**
- * @method Input text($field, $label = '') 文本输入框
- * @method InputNumber number($field, $label = '') 数字输入框
- * @method Password password($field, $label = '') 密码输入框
- * @method TextArea textarea($field, $label = '') 文本域输入框
+ * @method Input text(string $field, string $label = '') 文本输入框
+ * @method InputNumber number(string $field, string $label = '') 数字输入框
+ * @method Password password(string $field, string $label = '') 密码输入框
+ * @method TextArea textarea(string $field, string $label = '') 文本域输入框
+ * @method Rate rate(string $field, string $label = '') 评分
+ * @method Slider slider(string $field, string $label = '') 滑动输入条
+ * @method Transfer transfer(string $field, string $label = '') 穿梭框
+ * @method TreeSelect tree(string $field, string $label = '') 树选择
  */
 trait FormComponent
 {
@@ -20,5 +28,9 @@ trait FormComponent
         'number'   => InputNumber::class,
         'password' => Password::class,
         'textarea' => TextArea::class,
+        'rate'     => Rate::class,
+        'slider'   => Slider::class,
+        'transfer' => Transfer::class,
+        'tree'     => TreeSelect::class,
     ];
 }

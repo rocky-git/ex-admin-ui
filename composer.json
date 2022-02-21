@@ -17,15 +17,11 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
-    "symfony/translation": "v4.3.11",
+    "php": ">=7.1.0"
   },
   "autoload": {
     "psr-4": {
       "ExAdmin\\ui\\": "src"
-    },
-    "files": [
-      "src/helpers.php"
-    ]
+    }
   }
 }

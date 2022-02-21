@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 评分
@@ -18,7 +19,7 @@ use ExAdmin\ui\component\Component;
  * @method $this value(int $value) 当前数，受控值																			number
  * @package ExAdmin\ui\component\form\field
  */
-class Rate extends Component
+class Rate extends Field
 {
 	/**
      * 插槽
@@ -33,6 +34,4 @@ class Rate extends Component
      * @var string
      */
 	protected $name = 'ARate';
-
-	
 }
