@@ -19,9 +19,19 @@ use ExAdmin\ui\component\Component;
 class StatisticCountdown extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'prefix',
+        'suffix',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AStatisticCountdown';
 
 	

@@ -15,10 +15,19 @@ use ExAdmin\ui\component\Component;
 class GridItem extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'actions',
+        'extra',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AListItem';
 
-	
+
 }

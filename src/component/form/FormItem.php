@@ -28,21 +28,21 @@ use ExAdmin\ui\component\Component;
  */
 class FormItem extends Component
 {
-
 	/**
-	 * 组件名称
-	 * @var string
-	 */
-	protected $name = 'AFormItem';
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'help',
+        'extra',
+    ];
 
     /**
-     * 额外的提示信息，和 help 类似，当需要错误信息和提示文案同时出现时，可以使用这个。
-     * @param string|Component $content
-     * @return FormItem
+     * 组件名称
+     * @var string
      */
-	public function extra($content){
-        return $this->content($content,'extra');
-    }
+	protected $name = 'AFormItem';
+    
     /**
      * label 标签的文本
      * @param string|Component $content
@@ -51,13 +51,5 @@ class FormItem extends Component
     public function label($content){
         $this->attr('label',$content);  
         return $this->content($content,'label');
-    }
-    /**
-     * 提示信息，如不设置，则会根据校验规则自动生成
-     * @param string|Component $content
-     * @return FormItem
-     */
-    public function help($content){
-        return $this->content($content,'help');
     }
 }

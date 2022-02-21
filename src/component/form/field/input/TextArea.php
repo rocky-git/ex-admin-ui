@@ -19,10 +19,10 @@ use ExAdmin\ui\component\form\Field;
  */
 class TextArea extends Input
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ATextarea';
 
 

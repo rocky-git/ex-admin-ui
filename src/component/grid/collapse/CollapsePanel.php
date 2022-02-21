@@ -19,9 +19,18 @@ use ExAdmin\ui\component\Component;
 class CollapsePanel extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'header',
+        'extra',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ACollapsePanel';
 
 	

@@ -22,9 +22,18 @@ use ExAdmin\ui\component\Component;
 class Switches extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'checkedChildren',
+        'unCheckedChildren',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ASwitch';
 
 	

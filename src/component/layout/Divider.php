@@ -16,10 +16,10 @@ use ExAdmin\ui\component\Component;
  */
 class Divider extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ADivider';
 
 	

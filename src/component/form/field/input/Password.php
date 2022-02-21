@@ -15,9 +15,19 @@ use ExAdmin\ui\component\Component;
 class Password extends Input
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'closeText',
+        'description',
+        'message',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AInputPassword';
 
 

@@ -19,9 +19,19 @@ use ExAdmin\ui\component\Component;
 class SubMenu extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'title',
+        'expandIcon',
+        'icon',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ASubMenu';
 
 	

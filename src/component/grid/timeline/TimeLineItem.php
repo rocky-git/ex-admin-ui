@@ -17,9 +17,18 @@ use ExAdmin\ui\component\Component;
 class TimeLineItem extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'dot',
+        'label',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ATimeLineItem';
 
 	

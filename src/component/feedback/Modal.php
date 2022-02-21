@@ -34,10 +34,22 @@ use ExAdmin\ui\component\Component;
  */
 class Modal extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'cancelText',
+        'closeIcon',
+        'footer',
+        'okText',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AModal';
 
 	

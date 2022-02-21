@@ -15,9 +15,18 @@ use ExAdmin\ui\component\Component;
 class EmptyStatus extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'description',
+        'image',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AEmpty';
 
 	

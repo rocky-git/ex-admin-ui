@@ -15,9 +15,17 @@ use ExAdmin\ui\component\Component;
 class InputSearch extends Input
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'enterButton',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AInputSearch';
 
 	

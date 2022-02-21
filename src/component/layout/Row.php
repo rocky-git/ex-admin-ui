@@ -18,11 +18,12 @@ use ExAdmin\ui\component\Component;
  */
 class Row extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ARow';
+    
     /**
      * 添加列
      * @param mixed $content 内容
@@ -39,7 +40,6 @@ class Row extends Component
         }
         $this->content($column);
         return $column;
-
     }
 	
 }

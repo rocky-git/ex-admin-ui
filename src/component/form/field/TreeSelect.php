@@ -52,10 +52,20 @@ use ExAdmin\ui\component\Component;
 class TreeSelect extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'placeholder',
+        'searchPlaceholder',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ATransfer';
 
-	
+
 }

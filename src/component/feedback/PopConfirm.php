@@ -33,10 +33,22 @@ use ExAdmin\ui\component\Component;
  */
 class PopConfirm extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 插槽
+     * @var string[] 
+     */
+    protected $slot = [
+        'cancelText',
+        'cancelButton',
+        'okText',
+        'okButton',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'APopconfirm';
 
 	

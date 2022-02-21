@@ -32,10 +32,21 @@ use ExAdmin\ui\component\Component;
  */
 class Drawer extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'closeIcon',
+        'extra',
+        'footer',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ADrawer';
 
 	

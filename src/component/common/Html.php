@@ -16,6 +16,10 @@ use ExAdmin\ui\component\Component;
  */
 class Html extends Component
 {
+    /**
+     * 组件名称
+     * @var string
+     */
     protected $name = 'html';
 
     public function __construct($content = '')
@@ -26,6 +30,7 @@ class Html extends Component
             $this->content($content);
         }
     }
+
     /**
      * 自定义元素标签
      * @param string $tag 元素标签

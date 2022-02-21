@@ -35,9 +35,17 @@ use ExAdmin\ui\component\Component;
 class TimeRangePicker extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'separator',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ATimeRangePicker';
 
 	

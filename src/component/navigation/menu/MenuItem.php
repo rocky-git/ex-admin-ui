@@ -17,9 +17,18 @@ use ExAdmin\ui\component\Component;
 class MenuItem extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'title',
+        'icon',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AMenuItem';
 
 	

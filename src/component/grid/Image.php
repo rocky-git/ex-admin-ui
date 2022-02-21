@@ -20,9 +20,17 @@ use ExAdmin\ui\component\Component;
 class Image extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'placeholder',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AImage';
 
 	

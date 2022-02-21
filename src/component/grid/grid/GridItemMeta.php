@@ -16,9 +16,19 @@ use ExAdmin\ui\component\Component;
 class GridItemMeta extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'avatar',
+        'description',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AListItemMeta';
 
 	

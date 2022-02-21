@@ -9,16 +9,26 @@ use ExAdmin\ui\component\Component;
  * Class CardMeta
  * @link    https://next.antdv.com/components/card-cn 卡片组件
  * @method $this avatar(mixed $avatar) 头像/图标                                      									slot
- * @method $this description(mixed $description) 描述内容                                       							string|slott
+ * @method $this description(mixed $description) 描述内容                                       							string|slot
  * @method $this title(mixed $title) 标题内容                                        									string|slot
  * @package ExAdmin\ui\component\form\field
  */
 class CardMeta extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'avatar',
+        'description',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ACardMeta';
 
 	

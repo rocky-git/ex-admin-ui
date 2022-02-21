@@ -43,9 +43,21 @@ use ExAdmin\ui\component\Component;
 class Table extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'headerCell',
+        'bodyCell',
+        'customFilterDropdown',
+        'emptyText',
+        'summary',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ATable';
 
 	

@@ -42,7 +42,10 @@ abstract class Component implements \JsonSerializable
     protected $modelBind = [];
     //初始化
     protected static $init = [];
-
+    
+    // 插槽
+    protected $slot = [];
+    
     public function __construct()
     {
         foreach (self::$init as $class => $init) {
@@ -150,6 +153,9 @@ abstract class Component implements \JsonSerializable
 
     public function __call($name, $arguments)
     {
+        if(in_array($name, $this->slot)){
+            return $this->content($arguments[0], $name);
+        }
         if (empty($arguments)) {
             return $this->attr($name, true);
         } else {

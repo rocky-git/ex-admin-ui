@@ -30,8 +30,17 @@ use ExAdmin\ui\component\form\Field;
 class InputNumber extends Field
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'addonAfter',
+        'addonBefore',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'AInputNumber';
 }

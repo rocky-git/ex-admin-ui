@@ -20,9 +20,18 @@ use ExAdmin\ui\component\Component;
 class Descriptions extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'extra',
+        'title',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ADescriptions';
 
 	

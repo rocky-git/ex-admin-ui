@@ -25,9 +25,21 @@ use ExAdmin\ui\component\Component;
 class PageHeader extends Component
 {
 	/**
-	 * 组件名称
-	 * @var string
-	 */
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'title',
+        'subTitle',
+        'backIcon',
+        'extra',
+        'footer',
+    ];
+
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'APageHeader';
 
 	

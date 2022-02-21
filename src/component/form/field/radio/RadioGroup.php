@@ -13,15 +13,14 @@ use ExAdmin\ui\component\Component;
  * @method $this name(string $name) RadioGroup 下所有 input[type="radio"] 的 name 属性									string
  * @method $this optionType(string $type = 'default') 用于设置 Radio options 类型										default | button
  * @method $this size(string $size = 'default') 大小，只对按钮样式生效														large | default | small
- * @method $this value(mixed $value) 用于设置当前选中的值																	any
  * @package ExAdmin\ui\component\form\field
  */
 class RadioGroup extends Component
 {
-	/**
-	 * 组件名称
-	 * @var string
-	 */
+    /**
+     * 组件名称
+     * @var string
+     */
 	protected $name = 'ARadioGroup';
 
 	
