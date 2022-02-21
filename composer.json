@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "symfony/translation": "v4.3.11",
+    "symfony/translation": "v4.3.11"
   },
   "autoload": {
     "psr-4": {
