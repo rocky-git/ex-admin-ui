@@ -12,7 +12,7 @@ use ExAdmin\ui\component\Component;
  * @method $this loading(bool $loading) 搜索 loading																	boolean
  * @package ExAdmin\ui\component\form\field
  */
-class InputSearch extends Component
+class InputSearch extends Input
 {
 	/**
 	 * 组件名称

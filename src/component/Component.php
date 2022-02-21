@@ -62,7 +62,6 @@ abstract class Component implements \JsonSerializable
     }
 
 
-
     /**
      * 设置属性
      * @param string $name 属性名
@@ -71,7 +70,7 @@ abstract class Component implements \JsonSerializable
      */
     public function attr(string $name, $value = null)
     {
-        if (is_null($value)) {
+        if (func_num_args() == 1) {
             return $this->attribute[$name] ?? null;
         } else {
             $this->attribute[$name] = $value;
@@ -84,7 +83,6 @@ abstract class Component implements \JsonSerializable
         $this->attribute = array_merge($this->attribute, $attrs);
         return $this;
     }
-
 
 
     public function removeAttr($name)
@@ -138,27 +136,17 @@ abstract class Component implements \JsonSerializable
             return $this;
         }
     }
-    protected function random(){
+
+    protected function random()
+    {
         $str = '';
-        for ($i=0;$i<30;$i++){
-            $str.= chr(rand(97,122));
+        for ($i = 0; $i < 30; $i++) {
+            $str .= chr(rand(97, 122));
         }
         return $str;
     }
-    /**
-     * 绑定属性值
-     * @param string $name
-     * @param string $value
-     * @param bool $model 是否双向绑定
-     * @return string
-     */
-    public function bindAttValue($name, $value, $model = false)
-    {
-        $field = $this->random();
-        $this->bind($field, $value);
-        $this->bindAttr($name, $field, $model);
-        return $field;
-    }
+
+
 
     public function __call($name, $arguments)
     {
@@ -169,17 +157,14 @@ abstract class Component implements \JsonSerializable
         }
 
     }
+
     public static function __callStatic($name, $arguments)
     {
-        if($name == 'create'){
-            $static = new static();
-            return $static->instance($arguments);
+        if ($name == 'create') {
+            return new static(...$arguments);
         }
     }
-    protected function instance($arguments = null){
 
-        return new static(...$arguments);
-    }
     /**
      * @param string $name 指令名称
      * @param string|array $value 值
@@ -204,7 +189,6 @@ abstract class Component implements \JsonSerializable
     }
 
 
-
     public function event($name, array $value = [])
     {
         $name = ucfirst($name);
@@ -215,7 +199,6 @@ abstract class Component implements \JsonSerializable
         }
         return $this;
     }
-
 
 
     /**
@@ -286,6 +269,21 @@ abstract class Component implements \JsonSerializable
         }
     }
 
+    /**
+     * 双向绑定
+     * @param string $name 双向绑定属性名称
+     * @param null $field 双向绑定js字段
+     * @param string $value js默认字段值
+     * @return $this
+     */
+    public function vModel($name = 'value', $field = null, $value = '')
+    {
+        empty($field) ? $field = $this->random() : $field;
+        $this->bind($field, $value);
+        $this->bindAttr($name, $field, true);
+        return $this;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -298,6 +296,9 @@ abstract class Component implements \JsonSerializable
 
     public function jsonSerialize()
     {
+        if(!$this->attr('key')){
+            $this->attr('key',$this->random());
+        }
         if ($this->componentVisible) {
             return [
                 'name' => $this->name,

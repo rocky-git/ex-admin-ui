@@ -13,11 +13,8 @@ use ExAdmin\ui\component\Component;
  * @method $this autoLink(bool $link = true) 是否自动关联表单域，对于大部分情况都可以使用自动关联，如果不满足自动关联的条件
  *                                      ，可以手动关联，参见下方注意事项				                                        boolean
  * @method $this colon(string $colon = true) 配合 label 属性使用，表示是否显示 label 后面的冒号				                boolean
- * @method $this extra(mixed $extra) 额外的提示信息，和 help 类似，当需要错误信息和提示文案同时出现时，可以使用这个。				string|slot
  * @method $this hasFeedback(bool $feedback = false) 配合 validateStatus 属性使用，展示校验状态图标，建议只配合 Input 组件使用	boolean
- * @method $this help(mixed $help) 提示信息，如不设置，则会根据校验规则自动生成				                                string|slot
  * @method $this htmlFor(string $htmlFor) 设置子元素 label htmlFor 属性				                                    string
- * @method $this label(mixed $label) label 标签的文本				                                                        string|slot
  * @method $this labelCol(mixed $labelCol) label 标签布局，同 <Col> 组件，设置 span offset 值，如 {span: 3, offset: 12} 或
  *                                          sm: {span: 3, offset: 12}	                                                object
  * @method $this labelAlign(string $align = 'right') 标签文本对齐方式				                                        'left' | 'right'
@@ -31,11 +28,36 @@ use ExAdmin\ui\component\Component;
  */
 class FormItem extends Component
 {
+
 	/**
 	 * 组件名称
 	 * @var string
 	 */
 	protected $name = 'AFormItem';
 
-	
+    /**
+     * 额外的提示信息，和 help 类似，当需要错误信息和提示文案同时出现时，可以使用这个。
+     * @param string|Component $content
+     * @return FormItem
+     */
+	public function extra($content){
+        return $this->content($content,'extra');
+    }
+    /**
+     * label 标签的文本
+     * @param string|Component $content
+     * @return FormItem
+     */
+    public function label($content){
+        $this->attr('label',$content);  
+        return $this->content($content,'label');
+    }
+    /**
+     * 提示信息，如不设置，则会根据校验规则自动生成
+     * @param string|Component $content
+     * @return FormItem
+     */
+    public function help($content){
+        return $this->content($content,'help');
+    }
 }

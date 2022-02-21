@@ -31,5 +31,20 @@ class Col extends Component
 	 */
 	protected $name = 'ACol';
 
-	
+    /**
+     * 添加一行
+     * @param mixed $content
+     * @return Row
+     */
+    public function row($content)
+    {
+        $row = Row::create();
+        if ($content instanceof \Closure) {
+            call_user_func($content, $row);
+        } else {
+            $row->column($content);
+        }
+        $this->content($row);
+        return $row;
+    }
 }

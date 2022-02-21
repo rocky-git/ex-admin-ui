@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\input;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 文本域
@@ -16,13 +17,13 @@ use ExAdmin\ui\component\Component;
  * @method $this showCount(bool $is_show = false) 是否展示字数															boolean
  * @package ExAdmin\ui\component\form\field
  */
-class TextArea extends Component
+class TextArea extends Input
 {
 	/**
 	 * 组件名称
 	 * @var string
 	 */
-	protected $name = 'ATextArea';
+	protected $name = 'ATextarea';
 
-	
+
 }

@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 数字输入框
@@ -26,16 +27,11 @@ use ExAdmin\ui\component\Component;
  * @method $this stringMode(bool $stringMode = false) 字符值模式，开启后支持高精度小数。同时 change 事件将返回 string 类型	boolean
  * @package ExAdmin\ui\component\form\field
  */
-class InputNumber extends Component
+class InputNumber extends Field
 {
 	/**
 	 * 组件名称
 	 * @var string
 	 */
 	protected $name = 'AInputNumber';
-
-	public static function create()
-	{
-		return new self();
-	}
 }

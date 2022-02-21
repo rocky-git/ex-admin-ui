@@ -23,6 +23,4 @@ class Mentions extends Component
 	 * @var string
 	 */
 	protected $name = 'AMentions';
-
-	
 }

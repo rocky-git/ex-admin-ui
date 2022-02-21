@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\layout\layout;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\layout\Row;
 
 /**
  * 布局容器
@@ -21,5 +22,21 @@ class Layout extends Component
 	 */
 	protected $name = 'ALayout';
 
-	
+    /**
+     * 添加一行
+     * @param mixed $content 内容
+     * @param int $span 栅格占据的列数,默认24
+     * @return Row
+     */
+    public function row($content, $span = 24)
+    {
+        $row = Row::create();
+        if ($content instanceof \Closure) {
+            call_user_func($content, $row);
+        } else {
+            $row->column($content, $span);
+        }
+        $this->content($row);
+        return $row;
+    }
 }

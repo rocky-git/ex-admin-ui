@@ -23,6 +23,23 @@ class Row extends Component
 	 * @var string
 	 */
 	protected $name = 'ARow';
+    /**
+     * 添加列
+     * @param mixed $content 内容
+     * @param int $span 栅格占据的列数,占满一行24,默认24
+     * @return Column
+     */
+    public function column($content,int $span = 24){
+        $column = Col::create();
+        $column->span($span);
+        if($content instanceof \Closure){
+            call_user_func($content,$column);
+        }else{
+            $column->content($content);
+        }
+        $this->content($column);
+        return $column;
 
+    }
 	
 }

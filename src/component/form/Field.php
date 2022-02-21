@@ -9,15 +9,44 @@
 namespace ExAdmin\ui\component\form;
 
 
+
 use ExAdmin\ui\component\Component;
 
+/**
+ * @property FormItem $formItem
+ * @method static $this create($value='',$bindField=null) 创建
+ */
 class Field extends Component
 {
+    protected $formItem;
+    public function span($span){
+        $this->formItem->attr('span',$span);
+        return $this;
+    }
+    /**
+     * 是否必填
+     * @return $this
+     */
+    public function required()
+    {
+        $this->formItem->attr('rules',[
+            'required' => true,
+            'trigger'  => ['change','blur'],
+            'message'  => $this->formItem->attr('label'),
+        ]);
+        return $this;
+    }
+
+    /**
+     * @param FormItem $formItem
+     */
+    public function setFormItem(FormItem $formItem)
+    {
+        $this->formItem = $formItem;
+    }
     public function __construct($value = '', $field = null)
     {
         parent::__construct();
-        empty($field) ? $field = $this->random() : $field;
-        $this->bind($field, $value);
-        $this->bindAttr('value', $field, true);
+        $this->vModel('value',$field,$value);
     }
 }

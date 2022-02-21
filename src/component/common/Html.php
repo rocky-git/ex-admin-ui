@@ -11,6 +11,9 @@ namespace ExAdmin\ui\component\common;
 
 use ExAdmin\ui\component\Component;
 
+/**
+ * @method static $this create($content = '') 创建
+ */
 class Html extends Component
 {
     protected $name = 'html';
