@@ -45,7 +45,7 @@ class Field extends Component
         $this->formItem->attr('rules', [
             'required' => true,
             'trigger'  => ['change', 'blur'],
-            'message'  => $this->formItem->attr('label'),
+            'message'  => ui_trans('please_enter', 'form').$this->formItem->attr('label'),
         ]);
         return $this;
     }
