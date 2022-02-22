@@ -35,8 +35,8 @@ use ExAdmin\ui\support\Arr;
  * @method $this treeCheckStrictly(bool $strict = false) checkable 状态下节点选择完全受控（父子节点选中状态不再关联）
  *                                            ，会使得 labelInValue 强制为 true                                             boolean
  * @method $this treeData(mixed $data = []) treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（value 在整个树范围内唯一）    array<{
-value, label, children, [disabled, disableCheckbox, selectable]
-}>
+ * value, label, children, [disabled, disableCheckbox, selectable]
+ * }>
  * @method $this replaceFields(mixed $field = "{children:'children', label:'title', key:'key', value: 'value' }")
  *                                                替换 treeNode 中 title,value,key,children 字段为 treeData 中对应的字段      object
  * @method $this fieldNames(mixed $names = "{children:'children', label:'title', key:'key', value: 'value' }")
@@ -71,9 +71,10 @@ class TreeSelect extends Field
      */
     protected $name = 'ATreeSelect';
 
-    public function __construct($value = '', $field = null)
+    public function __construct($field = null, $value = '')
     {
         $this->treeDefaultExpandAll(true);
+        parent::__construct($field, $value);
     }
 
     /**
@@ -89,9 +90,9 @@ class TreeSelect extends Field
         $treeData = Arr::tree($data, $id, $pid, $children);
         $this->fieldNames([
             'children' => $children,
-            'label'    => $label,
-            'key'      => $id,
-            'value'    => $id
+            'label' => $label,
+            'key' => $id,
+            'value' => $id
         ]);
         $this->treeData($treeData);
     }

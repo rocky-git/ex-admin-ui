@@ -30,6 +30,6 @@ if (!function_exists('ui_trans')) {
         return \ExAdmin\ui\support\Container::getInstance()
             ->make(\ExAdmin\ui\support\Translator::class,[ui_config('config.lang')])
             ->trans($id,$parameters,$domain,$locale);
-       
+
     }
 }

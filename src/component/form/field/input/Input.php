@@ -13,6 +13,7 @@ use ExAdmin\ui\component\form\Field;
  * @method $this addonBefore(mixed $content) 带标签的 input，设置前置标签    											 	string|slot
  * @method $this bordered(bool $bordered = true) 是否有边框    														 	boolean
  * @method $this defaultValue(string $value) 输入框默认内容 															 	string
+ * @method $this placeholder(string $text) 输入框占位文本
  * @method $this disabled(bool $disabled = false) 是否禁用状态，默认为 false 											 	boolean
  * @method $this id(string $id) 输入框的 id 																			 	string
  * @method $this maxlength(int $num) 最大长度 																		 	number
@@ -39,9 +40,9 @@ class Input extends Field
      */
 	protected $name = 'AInput';
 
-    public function __construct($value = '', $field = null)
+    public function __construct($field = null,$value = '')
     {
-        parent::__construct($value, $field);
+        parent::__construct($field, $value);
         $this->allowClear();
     }
 }

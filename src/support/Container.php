@@ -11,7 +11,7 @@ namespace ExAdmin\ui\support;
 
 class Container
 {
-    protected static $instance;
+    protected static $instance=null;
 
     protected $instances = [];
     /**
@@ -29,7 +29,6 @@ class Container
     public function make($name,array $arguments = [], bool $newInstance = false){
         if($newInstance || !isset($this->instances[$name])){
             $this->instances[$name] = new $name(...$arguments);
-
         }
         return $this->instances[$name];
     }

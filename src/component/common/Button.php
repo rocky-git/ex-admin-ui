@@ -21,6 +21,7 @@ use ExAdmin\ui\component\Component;
  * @method $this size(string $size = 'middle') 设置按钮大小														        large | middle | small
  * @method $this target(string $target = '') 相当于 a 链接的 target 属性，href 存在时生效									boolean
  * @method $this type(string $type = 'default') 设置按钮类型														        primary | ghost | dashed | link | text | default
+ * @method static $this create($text) 创建
  * @package ExAdmin\ui\component\form\field
  */
 class Button extends Component
@@ -39,5 +40,9 @@ class Button extends Component
      */
 	protected $name = 'AButton';
 
-	
+    public function __construct($content)
+    {
+        $this->content($content);
+        parent::__construct();
+    }
 }

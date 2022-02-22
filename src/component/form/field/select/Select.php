@@ -2,7 +2,9 @@
 
 namespace ExAdmin\ui\component\form\field\select;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 选择器
@@ -41,7 +43,7 @@ use ExAdmin\ui\component\Component;
  * @method $this open(bool $open) 是否展开下拉菜单																		boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Select extends Component
+class Select extends Field
 {
 	/**
      * 插槽
@@ -56,6 +58,54 @@ class Select extends Component
      * @var string
      */
 	protected $name = 'ASelect';
+    public function __construct($field = null, $value = '')
+    {
+        $this->allowClear();
+        $this->filterOption();
 
-	
+        parent::__construct($field, $value);
+    }
+
+    /**
+     * 多选
+     * @return $this
+     */
+    public function multiple(){
+        $value = $this->getbindAttrValue('value');
+        if(!is_array($value)){
+            $field = $this->bindAttr('value');
+            $this->bind($field,[]);
+        }
+        return $this->mode('multiple');
+    }
+    /**
+     * 设置选项数据
+     * @param array $data 选项数据
+     * @param array $disable 禁用选项数据
+     * @return Select
+     */
+	public function options(array $data, array $disable = []){
+        $options = [];
+        foreach ($data as $id => $title) {
+            $disabled = false;
+            if (in_array($id, $disable)) {
+                $disabled = true;
+            }
+            $options[] = [
+                'value' => $id,
+                'title' => $title,
+                'disabled' => $disabled,
+                'slotDefault' => $title,
+            ];
+        }
+
+        $selectOption = SelectOption::create()
+            ->map($options)
+            ->mapAttr('value','value')
+            ->mapAttr('title','title')
+            ->mapAttr('disabled','disabled')
+            ->mapAttr('slotDefault','slotDefault');
+        $this->content($selectOption);
+        return $this;
+    }
 }

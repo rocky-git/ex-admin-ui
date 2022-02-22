@@ -9,39 +9,46 @@
 namespace ExAdmin\ui\component\form;
 
 
-
 use ExAdmin\ui\component\Component;
 
 /**
  * @property FormItem $formItem
- * @method static $this create($value='',$bindField=null) 创建
+ * @method static $this create($bindField = null,$value = '') 创建
  */
 class Field extends Component
 {
     protected $formItem;
-
-    public function __construct($value = '', $field = null)
+    
+    protected $vModel = 'value';
+    
+    public function __construct($field = null,$value = '')
     {
+       
+        $this->vModel($this->vModel, $field, $value);
         parent::__construct();
-        $this->vModel('value',$field,$value);
     }
-    
-    
-    public function span($span){
-        $this->formItem->attr('span',$span);
+
+    /**
+     * 栅格占位格数
+     * @param int $span
+     * @return $this
+     */
+    public function span(int $span)
+    {
+        $this->formItem->attr('span', $span);
         return $this;
     }
-    
+
     /**
      * 是否必填
      * @return $this
      */
     public function required()
     {
-        $this->formItem->attr('rules',[
+        $this->formItem->attr('rules', [
             'required' => true,
-            'trigger'  => ['change','blur'],
-            'message'  => $this->formItem->attr('label'),
+            'trigger' => ['change', 'blur'],
+            'message' => ui_trans('please_enter', 'form') . $this->formItem->attr('label'),
         ]);
         return $this;
     }

@@ -22,7 +22,7 @@ use think\app\Url;
  */
 abstract class Component implements \JsonSerializable
 {
-    use Where, ForMap;
+    use Where, ForMap, Event;
 
     //组件名称
     protected $name;
@@ -34,18 +34,16 @@ abstract class Component implements \JsonSerializable
     protected $bind = [];
     //属性绑定
     protected $bindAttribute = [];
-    //事件
-    protected $event = [];
     //自定义指令
     protected $directive = [];
     //双向绑定
     protected $modelBind = [];
     //初始化
     protected static $init = [];
-    
+
     // 插槽
     protected $slot = [];
-    
+
     public function __construct()
     {
         foreach (self::$init as $class => $init) {
@@ -125,6 +123,17 @@ abstract class Component implements \JsonSerializable
     }
 
     /**
+     * 获取绑定属性字段值
+     * @param $attr
+     * @return $this|null
+     */
+    public function getbindAttrValue($attr)
+    {
+        $field = $this->bindAttr($attr);
+        return empty($field) ? null : $this->bind($field);
+    }
+
+    /**
      * 绑定值
      * @param string $name 字段名称
      * @param mixed $value 值
@@ -150,10 +159,9 @@ abstract class Component implements \JsonSerializable
     }
 
 
-
     public function __call($name, $arguments)
     {
-        if(in_array($name, $this->slot)){
+        if (in_array($name, $this->slot)) {
             return $this->content($arguments[0], $name);
         }
         if (empty($arguments)) {
@@ -182,30 +190,6 @@ abstract class Component implements \JsonSerializable
         $this->directive[] = ['name' => $name, 'argument' => $argument, 'value' => $value];
         return $this;
     }
-
-    /**
-     * 移除事件
-     * @param $name
-     */
-    public function removeEvent($name)
-    {
-        $name = ucfirst($name);
-        unset($this->event[$name]);
-        return $this;
-    }
-
-
-    public function event($name, array $value = [])
-    {
-        $name = ucfirst($name);
-        if (isset($this->event[$name])) {
-            $this->event[$name] = array_merge($this->event[$name], $value);
-        } else {
-            $this->event[$name] = $value;
-        }
-        return $this;
-    }
-
 
     /**
      * 跳转路径
@@ -280,13 +264,16 @@ abstract class Component implements \JsonSerializable
      * @param string $name 双向绑定属性名称
      * @param null $field 双向绑定js字段
      * @param string $value js默认字段值
+     * @param bool $model 是否双向绑定
      * @return $this
      */
-    public function vModel($name = 'value', $field = null, $value = '')
+    public function vModel($name = 'value', $field = null,$value='', $model = true)
     {
-        empty($field) ? $field = $this->random() : $field;
+        if (empty($field)) {
+            $field = $this->random();
+        }
         $this->bind($field, $value);
-        $this->bindAttr($name, $field, true);
+        $this->bindAttr($name, $field, $model);
         return $this;
     }
 
@@ -302,8 +289,8 @@ abstract class Component implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        if(!$this->attr('key')){
-            $this->attr('key',$this->random());
+        if (!$this->attr('key')) {
+            $this->attr('key', $this->random());
         }
         if ($this->componentVisible) {
             return [

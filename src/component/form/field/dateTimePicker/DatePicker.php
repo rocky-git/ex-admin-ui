@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 时间选择框
@@ -29,10 +30,9 @@ use ExAdmin\ui\component\Component;
  * @method $this showNow(bool $show) 当设定了 showTime 的时候，面板是否显示“此刻”按钮										boolean
  * @method $this showTime(mixed $show) 增加时间选择功能																	Object | boolean
  * @method $this showToday(bool $show = true) 是否展示“今天”按钮															boolean
- * @method $this value(mixed $value) 日期
  * @package ExAdmin\ui\component\form\field
  */
-class DatePicker extends Component
+class DatePicker extends Field
 {
     /**
      * 组件名称
@@ -40,5 +40,5 @@ class DatePicker extends Component
      */
 	protected $name = 'ADatePicker';
 
-	
+
 }
