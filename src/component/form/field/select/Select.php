@@ -58,6 +58,7 @@ class Select extends Field
      * @var string
      */
 	protected $name = 'ASelect';
+    
     public function __construct($field = null, $value = '')
     {
         $this->allowClear();
@@ -78,6 +79,7 @@ class Select extends Field
         }
         return $this->mode('multiple');
     }
+
     /**
      * 设置选项数据
      * @param array $data 选项数据
@@ -101,10 +103,10 @@ class Select extends Field
 
         $selectOption = SelectOption::create()
             ->map($options)
-            ->mapAttr('value','value')
-            ->mapAttr('title','title')
-            ->mapAttr('disabled','disabled')
-            ->mapAttr('slotDefault','slotDefault');
+            ->mapAttr('value')
+            ->mapAttr('title')
+            ->mapAttr('disabled')
+            ->mapAttr('slotDefault');
         $this->content($selectOption);
         return $this;
     }

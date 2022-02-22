@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 开关
@@ -19,7 +20,7 @@ use ExAdmin\ui\component\Component;
  * @method $this unCheckedValue(mixed $value = false) 非选中时的值														boolean | string | number
  * @package ExAdmin\ui\component\form\field
  */
-class Switches extends Component
+class Switches extends Field
 {
 	/**
      * 插槽

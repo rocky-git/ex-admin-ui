@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 级联选择
@@ -32,7 +33,7 @@ use ExAdmin\ui\component\Component;
  * @method $this searchValue(mixed $value) 设置搜索的值，需要与 showSearch 配合使用										string
  * @package ExAdmin\ui\component\form\field
  */
-class Cascade extends Component
+class Cascade extends Field
 {
 	/**
      * 插槽

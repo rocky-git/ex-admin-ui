@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\dateTimePicker;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 时间范围选择框
@@ -32,7 +33,7 @@ use ExAdmin\ui\component\Component;
  * @method $this order(bool $order = true) 始末时间是否自动排序															boolean
  * @package ExAdmin\ui\component\form\field
  */
-class TimeRangePicker extends Component
+class TimeRangePicker extends Field
 {
 	/**
      * 插槽

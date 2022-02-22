@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\radio;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 单选框
@@ -21,5 +22,5 @@ class Radio extends Component
      */
 	protected $name = 'ARadio';
 
-	
+    
 }

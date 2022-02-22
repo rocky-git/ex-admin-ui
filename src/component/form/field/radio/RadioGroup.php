@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field\radio;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 单选框 - 按钮组
@@ -15,7 +16,7 @@ use ExAdmin\ui\component\Component;
  * @method $this size(string $size = 'default') 大小，只对按钮样式生效														large | default | small
  * @package ExAdmin\ui\component\form\field
  */
-class RadioGroup extends Component
+class RadioGroup extends Field
 {
     /**
      * 组件名称
@@ -23,5 +24,33 @@ class RadioGroup extends Component
      */
 	protected $name = 'ARadioGroup';
 
-	
+    /**
+     * 设置选项
+     * @param array $data
+     * @param array $disabledArr
+     * @return $this
+     */
+    public function options(array $data, $disabledArr = [])
+    {
+        $options = [];
+        foreach($data as $id => $value) {
+            $disabled = false;
+            if (in_array($id, $disabledArr)) {
+                $disabled = true;
+            }
+            $options[] = [
+                'value' => $id,
+                'disabled' => $disabled,
+                'slotDefault' => $value,
+            ];
+        }
+
+        $radioOption = Radio::create()
+            ->map($options)
+            ->mapAttr('value')
+            ->mapAttr('disabled')
+            ->mapAttr('slotDefault');
+        $this->content($radioOption);
+        return $this;
+    }
 }

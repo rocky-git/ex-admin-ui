@@ -23,8 +23,9 @@ trait ForMap
      * @param string $field 遍历元素中的字段
      * @return $this
      */
-    public function mapAttr($attrName, $field)
+    public function mapAttr($attrName, $field = null)
     {
+        $field = $field ?: $attrName;
         $this->map['attribute'][$attrName] = $field;
         return $this;
     }

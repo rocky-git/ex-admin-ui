@@ -89,7 +89,7 @@ class Form extends Component
             $label = array_pop($arguments);
         }
         $label = $label ?? '';
-        $component = $this->formComponent[$name]::create($field);
+        $component = $this->formComponent[$name]::create($this->bindAttr('model').'.'.$field);
         if ($component instanceof Input) {
             $component->placeholder(ui_trans('please_enter', 'form') . $label);
         } elseif ($component instanceof Select) {
