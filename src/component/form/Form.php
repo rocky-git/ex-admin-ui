@@ -126,14 +126,13 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        $this->manyField = $field;
-        $formItems = $this->collectFields($closure);
         $bindField = $field;
         if(empty($this->manyField)){
             $bindField = $this->bindAttr('model').'.'.$field;
         }
+        $this->manyField = $field;
+        $formItems = $this->collectFields($closure);
         $this->manyField = '';
-
         $formMany = FormMany::create($bindField)
             ->content($formItems)
             ->attr('title',$title)
