@@ -42,6 +42,10 @@ class Form extends Component
     protected $formItem = [];
     //表单操作区组件
     protected $actions;
+    //数据源
+    protected $data = [];
+
+    protected $manyField = '';
     /**
      * 组件名称
      * @var string
@@ -54,6 +58,7 @@ class Form extends Component
      */
     public function __construct($data = [], $bindField = null)
     {
+        $this->data = $data;
         $this->vModel('model', $bindField, $data);
         $this->labelWidth(100);
         $this->scrollToFirstError();
@@ -89,7 +94,11 @@ class Form extends Component
             $label = array_pop($arguments);
         }
         $label = $label ?? '';
-        $component = $this->formComponent[$name]::create($this->bindAttr('model').'.'.$field);
+        $bindField = $field;
+        if(empty($this->manyField)){
+            $bindField = $this->bindAttr('model').'.'.$field;
+        }
+        $component = $this->formComponent[$name]::create($bindField);
         if ($component instanceof Input) {
             $component->placeholder(ui_trans('please_enter', 'form') . $label);
         } elseif ($component instanceof Select) {
@@ -117,12 +126,20 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        $divider = Divider::create();
-        if (!empty($title)) {
-            $divider->orientation('left')->content($title);
-        }
-        $this->push($divider);
+        $this->manyField = $field;
         $formItems = $this->collectFields($closure);
+        $bindField = $field;
+        if(empty($this->manyField)){
+            $bindField = $this->bindAttr('model').'.'.$field;
+        }
+        $this->manyField = '';
+
+        $formMany = FormMany::create($bindField)
+            ->content($formItems)
+            ->attr('title',$title)
+            ->attr('itemData',[]);
+        $this->push($formMany);
+        return $formMany;
     }
 
     /**

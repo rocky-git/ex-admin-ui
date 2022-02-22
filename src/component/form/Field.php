@@ -21,13 +21,34 @@ class Field extends Component
     
     protected $vModel = 'value';
     
+    protected $default = null;
+    
+    protected $value = null;
+    
     public function __construct($field = null,$value = '')
     {
        
         $this->vModel($this->vModel, $field, $value);
         parent::__construct();
     }
-
+    /**
+     * 设置缺省默认值
+     * @param mixed $value
+     */
+    public function default($value)
+    {
+        $this->default = $value;
+        return $this;
+    }
+    /**
+     * 设置值
+     * @param mixed $value
+     */
+    public function value($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
     /**
      * 栅格占位格数
      * @param int $span
