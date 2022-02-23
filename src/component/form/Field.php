@@ -13,42 +13,58 @@ use ExAdmin\ui\component\Component;
 
 /**
  * @property FormItem $formItem
- * @method static $this create($bindField = null,$value = '') 创建
+ * @method static $this create($bindField = null, $value = '') 创建
  */
 class Field extends Component
 {
     protected $formItem;
-    
+
     protected $vModel = 'value';
-    
+
     protected $default = null;
-    
+
     protected $value = null;
-    
-    public function __construct($field = null,$value = '')
+
+    protected $field = null;
+    public function __construct($field = null, $value = '')
     {
-       
+
         $this->vModel($this->vModel, $field, $value);
+        $this->field = $this->bindAttr($this->vModel);
         parent::__construct();
     }
+    public function modelValue(){
+        $this->formItem->form()->setData($this->field);
+        $this->removeBind($this->field);
+        $field = $this->formItem->form()->getBindField($this->field);
+        $this->bindAttr($this->vModel,$field,true);
+    }
+
+    public function getVmodel()
+    {
+        return $this->bindAttr($this->vModel);
+    }
+
     /**
      * 设置缺省默认值
      * @param mixed $value
      */
     public function default($value)
     {
-        $this->default = $value;
+        $this->formItem->form()->setData($this->field,$value);
         return $this;
     }
+
     /**
      * 设置值
      * @param mixed $value
      */
     public function value($value)
     {
-        $this->value = $value;
+        $this->formItem->form()->setData($this->field,$value,true);
         return $this;
     }
+
     /**
      * 栅格占位格数
      * @param int $span
@@ -66,10 +82,11 @@ class Field extends Component
      */
     public function required()
     {
+
         $this->formItem->attr('rules', [
             'required' => true,
             'trigger' => ['change', 'blur'],
-            'message' => ui_trans('please_enter', 'form') . $this->formItem->attr('label'),
+            'message' => $this->formItem->attr('label') . ui_trans('required', 'form'),
         ]);
         return $this;
     }
@@ -82,4 +99,6 @@ class Field extends Component
     {
         $this->formItem = $formItem;
     }
+
+
 }

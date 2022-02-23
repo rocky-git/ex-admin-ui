@@ -32,7 +32,6 @@ class Config
      */
     public function __construct(string $path = null, string $ext = '.php')
     {
-
         $this->path = $path ?: '';
         $this->ext  = $ext;
         if (is_dir($this->path)) {

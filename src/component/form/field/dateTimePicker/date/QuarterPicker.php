@@ -19,8 +19,9 @@ class QuarterPicker extends DatePicker
 {
     public function __construct($field = null, $value = '')
     {
-        $this->picker('quarter');
         parent::__construct($field, $value);
+        $this->picker('quarter');
+       
     }
 
 

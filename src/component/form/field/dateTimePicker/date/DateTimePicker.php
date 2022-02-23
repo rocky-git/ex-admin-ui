@@ -19,7 +19,8 @@ class DateTimePicker extends DatePicker
 {
     public function __construct($field = null, $value = '')
     {
-        $this->showTime();
         parent::__construct($field, $value);
+        $this->showTime();
+        $this->valueFormat('YYYY-MM-DD HH:mm:ss');
     }
 }

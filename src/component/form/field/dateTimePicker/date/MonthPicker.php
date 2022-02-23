@@ -19,7 +19,8 @@ class MonthPicker extends DatePicker
 {
     public function __construct($field = null, $value = '')
     {
-        $this->picker('month');
         parent::__construct($field, $value);
+        $this->picker('month');
+       
     }
 }

@@ -17,11 +17,9 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
  */
 class MonthRangePicker extends RangePicker
 {
-    public function __construct($field = null, $value = '')
+    public function __construct($startField, $endField, $value = [])
     {
+        parent::__construct($startField, $endField, $value);
         $this->picker('month');
-        parent::__construct($field, $value);
     }
-
-
 }

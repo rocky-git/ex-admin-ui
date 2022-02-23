@@ -19,7 +19,8 @@ class WeekPicker extends DatePicker
 {
     public function __construct($field = null, $value = '')
     {
-        $this->picker('week');
         parent::__construct($field, $value);
+        $this->picker('week');
+       
     }
 }

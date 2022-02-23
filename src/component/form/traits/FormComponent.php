@@ -51,14 +51,14 @@ use ExAdmin\ui\component\form\field\TreeSelect;
  * @method MonthPicker month(string $field, string $label = '') 月份选择框
  * @method WeekPicker week(string $field, string $label = '') 星期选择框
  * @method QuarterPicker quarter(string $field, string $label = '') 季度选择框
- * @method RangePicker dateRange(string $field, string $label = '') 日期范围选择框
- * @method DateTimeRangePicker dateTimeRange(string $field, string $label = '') 日期时间范围选择框
- * @method YearRangePicker yearRange(string $field, string $label = '') 年份范围选择框
- * @method MonthRangePicker monthRange(string $field, string $label = '') 月份范围选择框
- * @method WeekRangePicker weekRange(string $field, string $label = '') 星期范围选择框
- * @method QuarterRangePicker quarterRange(string $field, string $label = '') 季度范围选择框
+ * @method RangePicker dateRange(string $startFiled, string $endField, string $label = '') 日期范围选择框
+ * @method DateTimeRangePicker dateTimeRange(string $startFiled, string $endField, string $label = '') 日期时间范围选择框
+ * @method YearRangePicker yearRange(string $startFiled, string $endField, string $label = '') 年份范围选择框
+ * @method MonthRangePicker monthRange(string $startFiled, string $endField, string $label = '') 月份范围选择框
+ * @method WeekRangePicker weekRange(string $startFiled, string $endField, string $label = '') 星期范围选择框
+ * @method QuarterRangePicker quarterRange(string $startFiled, string $endField, string $label = '') 季度范围选择框
  * @method TimePicker time(string $field, string $label = '') 时间选择框
- * @method TimeRangePicker timeRange(string $field, string $label = '') 时间范围选择框
+ * @method TimeRangePicker timeRange(string $startFiled, string $endField, string $label = '') 时间范围选择框
  */
 trait FormComponent
 {

@@ -39,6 +39,9 @@ class DatePicker extends Field
      * @var string
      */
 	protected $name = 'ADatePicker';
-
-
+    public function __construct($field = null, $value = '')
+    {
+        $this->valueFormat('YYYY-MM-DD');
+        parent::__construct($field, $value);
+    }
 }

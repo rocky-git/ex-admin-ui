@@ -33,7 +33,7 @@ use ExAdmin\ui\component\form\Field;
  * @method $this order(bool $order = true) 始末时间是否自动排序															boolean
  * @package ExAdmin\ui\component\form\field
  */
-class TimeRangePicker extends Field
+class TimeRangePicker extends RangeField
 {
 	/**
      * 插槽
@@ -49,5 +49,9 @@ class TimeRangePicker extends Field
      */
 	protected $name = 'ATimeRangePicker';
 
-	
+    public function __construct($startField, $endField, $value = [])
+    {
+        $this->valueFormat('HH:mm:ss');
+        parent::__construct($startField, $endField,$value);
+    }
 }

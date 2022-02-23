@@ -17,10 +17,11 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
  */
 class DateTimeRangePicker extends RangePicker
 {
-    public function __construct($field = null, $value = '')
+    public function __construct($startField,$endField, $value = [])
     {
+        parent::__construct($startField,$endField, $value);
         $this->showTime();
-        parent::__construct($field, $value);
+        $this->valueFormat('YYYY-MM-DD HH:mm:ss');
     }
 
 

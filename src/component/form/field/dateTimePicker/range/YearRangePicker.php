@@ -17,11 +17,9 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
  */
 class YearRangePicker extends RangePicker
 {
-    public function __construct($field = null, $value = '')
+    public function __construct($startField, $endField, $value = [])
     {
+        parent::__construct($startField, $endField, $value);
         $this->picker('year');
-        parent::__construct($field, $value);
     }
-
-
 }

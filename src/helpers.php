@@ -13,6 +13,11 @@ if (!function_exists('ui_config')) {
         if (is_array($name)) {
             return $config->set($name, $value);
         }
+        if($name == '*'){
+            $sysmteConfig = $config->get('config');
+            $sysmteConfig['locale'] = ui_trans('','antd');
+            return $sysmteConfig;
+        }
         return 0 === strpos($name, '?') ? $config->has(substr($name, 1)) : $config->get($name, $value);
     }
 }

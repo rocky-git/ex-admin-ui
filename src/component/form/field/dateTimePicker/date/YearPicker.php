@@ -19,8 +19,9 @@ class YearPicker extends DatePicker
 {
     public function __construct($field = null, $value = '')
     {
-        $this->picker('year');
         parent::__construct($field, $value);
+        $this->picker('year');
+       
     }
 
 
