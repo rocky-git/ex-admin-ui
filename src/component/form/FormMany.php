@@ -24,7 +24,7 @@ class FormMany extends Component
     public function __construct($field = null,$value = [])
     {
 
-        $this->vModel($this->vModel, $field, $value);
+        $this->bindAttr($this->vModel,$field,true);
         parent::__construct();
     }
     

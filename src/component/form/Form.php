@@ -13,7 +13,6 @@ use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\support\Arr;
 
 
-
 /**
  * 表单
  * Class Form
@@ -98,38 +97,55 @@ class Form extends Component
         $label = $label ?? '';
 
         $component = $this->formComponent[$name]::create(...$arguments);
-        $this->setPlaceholder($component,$label);
-        $name = explode('.',$component->getVmodel());
+        $this->setPlaceholder($component, $label);
+        $name = explode('.', $component->getVmodel());
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
         return $component;
     }
-//    private function getField($component){
-//        $field = $component->getVmodel();
-//        $search = $this->bindAttr('model').'.';
-//        $position = strpos($field, $search);
-//        if ($position !== false) {
-//            $field = substr_replace($field, '', $position, strlen($search));
-//        }
-//        return $field;
-//    }
-    public function setData(string $field,$value=null,$force=false){
-        if(is_null(Arr::get($this->data,$field)) || $force){
-            Arr::set($this->data,$field,$value);
+
+    /**
+     * 获取数据
+     * @param string|null $field 字段
+     * @return array|mixed
+     */
+    public function getData(string $field = null)
+    {
+        if (is_null($field)) {
+            return $this->data;
+        }
+        return Arr::get($this->data, $field);
+    }
+
+    /**
+     * 设置数据
+     * @param string $field 字段
+     * @param null $value 值
+     * @param bool $force 覆盖
+     */
+    public function setData(string $field, $value = null, $force = false)
+    {
+
+        $data = Arr::get($this->data, $field);
+        if ((empty($data) && $data !== '0' && $data !== 0) || $force) {
+            Arr::set($this->data, $field, $value);
         }
     }
-    protected function setPlaceholder(Component $component,$label){
+
+    protected function setPlaceholder(Component $component, $label)
+    {
         $placeholder = '';
         if ($component instanceof Input) {
             $placeholder = 'please_enter';
         } elseif ($component instanceof Select) {
             $placeholder = 'please_enter';
         }
-        if(!empty($placeholder)){
+        if (!empty($placeholder)) {
             $component->placeholder(ui_trans($placeholder, 'form') . $label);
         }
     }
+
     public function collectFields(\Closure $closure)
     {
         $offset = count($this->formItem);
@@ -138,13 +154,16 @@ class Form extends Component
         $this->formItem = array_slice($this->formItem, 0, $offset);
         return $formItems;
     }
-    public function getBindField($field){
+
+    public function getBindField($field)
+    {
         $bindField = $field;
-        if(empty($this->manyField)){
-            $bindField = $this->bindAttr('model').'.'.$field;
+        if (empty($this->manyField)) {
+            $bindField = $this->bindAttr('model') . '.' . $field;
         }
         return $bindField;
     }
+
     /**
      * 一对多添加
      * @param string $field
@@ -154,13 +173,25 @@ class Form extends Component
     public function hasMany(string $field, $title, \Closure $closure)
     {
         $bindField = $this->getBindField($field);
+        $manyData = $this->getData($field) ?? [];
+        $data = $this->data;
+        $this->data = [];
         $this->manyField = $field;
         $formItems = $this->collectFields($closure);
+        $itemData = $this->data;
+        foreach ($manyData as &$row) {
+            $this->data = $row;
+            $formItems = $this->collectFields($closure);
+            $row = $this->data;
+        }
         $this->manyField = '';
         $formMany = FormMany::create($bindField)
             ->content($formItems)
-            ->attr('title',$title)
-            ->attr('itemData',[]);
+            ->attr('field',$field)
+            ->attr('title', $title)
+            ->attr('itemData', $itemData);
+        $this->data = $data;
+        $this->setData($field, $manyData, true);
         $this->push($formMany);
         return $formMany;
     }
@@ -223,7 +254,18 @@ class Form extends Component
         $this->push($item);
         return $item;
     }
-
+    /**
+     * 表单操作定义
+     * @param \Closure $closure
+     * @return FormAction
+     */
+    public function actions(\Closure $closure = null)
+    {
+        if ($closure) {
+            call_user_func_array($closure, [$this->actions]);
+        }
+        return $this->actions;
+    }
     /**
      * 添加一个组件到表单
      * @param Component $item
