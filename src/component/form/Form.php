@@ -181,17 +181,17 @@ class Form extends Component
         $itemData = $this->data;
         foreach ($manyData as &$row) {
             $this->data = $row;
-            $formItems = $this->collectFields($closure);
+            $this->collectFields($closure);
             $row = $this->data;
         }
         $this->manyField = '';
+        $this->data = $data;
+        $this->setData($field, $manyData, true);
         $formMany = FormMany::create($bindField)
             ->content($formItems)
             ->attr('field',$field)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
-        $this->data = $data;
-        $this->setData($field, $manyData, true);
         $this->push($formMany);
         return $formMany;
     }

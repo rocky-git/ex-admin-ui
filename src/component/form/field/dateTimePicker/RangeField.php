@@ -23,7 +23,7 @@ class RangeField extends Field
     public function modelValue()
     {
         $field = $this->bindAttr($this->vModel);
-        $this->formItem->form()->setData($field, []);
+        $this->formItem->form()->setData($field, $this->value);
         $this->removeBind($field);
         $bindField = $this->formItem->form()->getBindField($field);
         $this->bindAttr($this->vModel, $bindField, true);

@@ -271,4 +271,7 @@ return [
         'closeRight'=>'Close right',
         'back' => 'Back',
     ],
+    'Uploader'=>[
+        'upload'=> 'Upload',
+    ]
 ];

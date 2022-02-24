@@ -265,4 +265,7 @@ return [
         'closeRight' => '关闭右侧',
         'back' => '返回上一页',
     ],
+    'Uploader'=>[
+        'upload' => '上传',
+    ]
 ];

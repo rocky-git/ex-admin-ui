@@ -67,10 +67,9 @@ class Select extends Field
 
     public function __construct($field = null, $value = '')
     {
+        parent::__construct($field, $value);
         $this->allowClear();
         $this->filterOption();
-
-        parent::__construct($field, $value);
     }
 
     /**
@@ -79,11 +78,13 @@ class Select extends Field
      */
     public function multiple()
     {
+        $this->value = [];
         $value = $this->getbindAttrValue('value');
         if (!is_array($value)) {
             $field = $this->bindAttr('value');
-            $this->bind($field, []);
+            $this->bind($field,$this->value);
         }
+        $this->modelValue();
         return $this->mode('multiple');
     }
 
@@ -96,7 +97,7 @@ class Select extends Field
     public function options(array $data, array $disable = [])
     {
         $options = [];
-        $this->disabledData = $disabled;
+        $this->disabledData = $disable;
         foreach ($data as $id => $title) {
             $disabled = false;
             if (in_array($id, $this->disabledData)) {

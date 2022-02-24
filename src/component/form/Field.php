@@ -21,25 +21,34 @@ class Field extends Component
 
     protected $vModel = 'value';
 
-    protected $default = null;
+    protected $value;
 
-    protected $value = null;
+    protected $field;
 
-    protected $field = null;
     public function __construct($field = null, $value = '')
     {
-
         $this->vModel($this->vModel, $field, $value);
         $this->field = $this->bindAttr($this->vModel);
+        $this->value = $value;
         parent::__construct();
     }
+
+    /**
+     * form表单中绑定组件
+     */
     public function modelValue(){
-        $this->formItem->form()->setData($this->field);
-        $this->removeBind($this->field);
-        $field = $this->formItem->form()->getBindField($this->field);
-        $this->bindAttr($this->vModel,$field,true);
+        if($this->formItem){
+            $this->formItem->form()->setData($this->field,$this->value);
+            $this->removeBind($this->field);
+            $field = $this->formItem->form()->getBindField($this->field);
+            $this->bindAttr($this->vModel,$field,true);
+        }
     }
 
+    /**
+     * 获取当前绑定字段
+     * @return Field|mixed|null
+     */
     public function getVmodel()
     {
         return $this->bindAttr($this->vModel);
@@ -48,6 +57,7 @@ class Field extends Component
     /**
      * 设置缺省默认值
      * @param mixed $value
+     * @return $this
      */
     public function default($value)
     {
@@ -58,6 +68,7 @@ class Field extends Component
     /**
      * 设置值
      * @param mixed $value
+     * @return $this
      */
     public function value($value)
     {
@@ -92,13 +103,25 @@ class Field extends Component
     }
 
     /**
-     * 设置一个表单成员
+     * 提示信息
+     * @param string|Component $content
+     */
+    public function help($content){
+        $this->formItem->help($content);
+    }
+//    /**
+//     * 提示信息
+//     * @param string|Component $content
+//     */
+//    public function tip($content){
+//        $this->formItem->help($content);
+//    }
+    /**
+     * 设置FormItem
      * @param FormItem $formItem
      */
     public function setFormItem(FormItem $formItem)
     {
         $this->formItem = $formItem;
     }
-
-
 }

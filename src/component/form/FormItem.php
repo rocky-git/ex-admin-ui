@@ -45,11 +45,11 @@ class FormItem extends Component
 	protected $name = 'AFormItem';
 
     protected $form;
-    
+
     public function __construct(Form $form = null)
     {
-        $this->form = $form;
         parent::__construct();
+        $this->form = $form;
     }
     /**
      * @return Form
@@ -64,7 +64,7 @@ class FormItem extends Component
      * @return FormItem
      */
     public function label($content){
-        $this->attr('label',$content);  
+        $this->attr('label',$content);
         return $this->content($content,'label');
     }
 }

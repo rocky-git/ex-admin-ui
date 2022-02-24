@@ -30,6 +30,8 @@ use ExAdmin\ui\component\form\field\Slider;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\field\Transfer;
 use ExAdmin\ui\component\form\field\TreeSelect;
+use ExAdmin\ui\component\form\field\upload\File;
+use ExAdmin\ui\component\form\field\upload\Image;
 
 /**
  * @method Input text(string $field, string $label = '') 文本输入框
@@ -59,6 +61,8 @@ use ExAdmin\ui\component\form\field\TreeSelect;
  * @method QuarterRangePicker quarterRange(string $startFiled, string $endField, string $label = '') 季度范围选择框
  * @method TimePicker time(string $field, string $label = '') 时间选择框
  * @method TimeRangePicker timeRange(string $startFiled, string $endField, string $label = '') 时间范围选择框
+ * @method File file(string $field, string $label = '') 文件上传
+ * @method Image image(string $field, string $label = '') 图片上传
  */
 trait FormComponent
 {
@@ -90,5 +94,7 @@ trait FormComponent
         'dateTimeRange' => DateTimeRangePicker::class,
         'time'          => TimePicker::class,
         'timeRange'     => TimeRangePicker::class,
+        'file'     => File::class,
+        'image'     => Image::class,
     ];
 }
