@@ -18,6 +18,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\date\YearPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimeRangePicker;
+use ExAdmin\ui\component\form\field\Editor;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;
@@ -63,6 +64,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method TimeRangePicker timeRange(string $startFiled, string $endField, string $label = '') 时间范围选择框
  * @method File file(string $field, string $label = '') 文件上传
  * @method Image image(string $field, string $label = '') 图片上传
+ * @method Editor editor(string $field, string $label = '') 富文本
  */
 trait FormComponent
 {
@@ -96,5 +98,6 @@ trait FormComponent
         'timeRange'     => TimeRangePicker::class,
         'file'     => File::class,
         'image'     => Image::class,
+        'editor'     => Editor::class,
     ];
 }
