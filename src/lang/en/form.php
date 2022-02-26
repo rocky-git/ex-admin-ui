@@ -5,5 +5,5 @@ return [
     'cancel' => 'Cancel',
     'save' => 'Save',
     'reset' => 'Reset',
-    'required' => 'is required',
+   
 ];

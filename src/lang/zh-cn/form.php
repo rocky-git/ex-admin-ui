@@ -5,5 +5,5 @@ return [
     'cancel' => '取消',
     'save' => '保存',
     'reset' => '重置',
-    'required' => '不能为空',
+   
 ];

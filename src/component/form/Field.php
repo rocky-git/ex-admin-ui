@@ -10,6 +10,7 @@ namespace ExAdmin\ui\component\form;
 
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\traits\Validator;
 
 /**
  * @property FormItem $formItem
@@ -17,6 +18,7 @@ use ExAdmin\ui\component\Component;
  */
 class Field extends Component
 {
+    use Validator;
     protected $formItem;
 
     protected $vModel = 'value';
@@ -87,20 +89,7 @@ class Field extends Component
         return $this;
     }
 
-    /**
-     * 是否必填
-     * @return $this
-     */
-    public function required()
-    {
-
-        $this->formItem->attr('rules', [
-            'required' => true,
-            'trigger' => ['change', 'blur'],
-            'message' => $this->formItem->attr('label') . ui_trans('required', 'form'),
-        ]);
-        return $this;
-    }
+    
 
     /**
      * 提示信息

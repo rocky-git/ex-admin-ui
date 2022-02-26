@@ -7,6 +7,7 @@ use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\traits\FormComponent;
+use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
@@ -48,6 +49,7 @@ class Form extends Component
     protected $data = [];
 
     protected $manyField = '';
+  
     /**
      * 组件名称
      * @var string
@@ -195,7 +197,17 @@ class Form extends Component
         $this->push($formMany);
         return $formMany;
     }
-
+    /**
+     * 选项卡布局
+     * @return Tabs
+     */
+    public function tab()
+    {
+        $tab = Tabs::create();
+        $tab->setForm($this);
+        $this->push($tab);
+        return $tab;
+    }
     /**
      * 添加一行布局
      * @param \Closure $closure

@@ -15,19 +15,15 @@ use ExAdmin\ui\component\Component;
  */
 class TabsPane extends Component
 {
-	/**
-     * 插槽
-     * @var string[]
-     */
-    protected $slot = [
-        'tab',
-    ];
 
+    protected $slot = [
+        'tab'
+    ];
     /**
      * 组件名称
      * @var string
      */
-	protected $name = 'ATabsPane';
+	protected $name = 'ATabPane';
 
 	
 }
