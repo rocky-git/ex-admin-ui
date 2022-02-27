@@ -14,4 +14,12 @@ return [
     'integer' => ' must be integer',
     'float' => ' must be float',
     'mobile' => ' not a valid mobile',
+    'leng' => ' leng must be ',
+    'alpha' => ' must be alpha',
+    'alphaNum' => ' must be alpha-numeric',
+    'alphaDash' => ' must be alpha-numeric, dash, underscore',
+    'chs' => ' must be chinese',
+    'chsAlpha' => ' must be chinese or alpha',
+    'chsAlphaNum' => ' must be chinese,alpha-numeric',
+    'chsDash' => ' must be chinese,alpha-numeric,underscore, dash',
 ];

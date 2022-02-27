@@ -11,6 +11,7 @@ namespace ExAdmin\ui\component\form;
 
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\traits\Validator;
+use ExAdmin\ui\support\Str;
 
 /**
  * @property FormItem $formItem
@@ -89,7 +90,21 @@ class Field extends Component
         return $this;
     }
 
-    
+    public function __call($name, $arguments)
+    {
+        if (strrpos($name, 'rule') === 0) {
+            $name = substr($name, 4);
+            $name = Str::camel($name);
+            if (isset(static::$regex[$name])) {
+                $trans = $name;
+                if(isset(static::$regexMsg[$name])){
+                    $trans = static::$regexMsg[$name];     
+                }
+                return $this->rulePattern(static::$regex[$name], $trans);
+            }
+        }
+        return parent::__call($name, $arguments);
+    }
 
     /**
      * 提示信息
