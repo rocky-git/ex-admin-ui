@@ -8,7 +8,7 @@ class RangeField extends Field
 {
 
     protected $startField;
-    
+
     protected $endField;
 
     public function __construct($startField, $endField, $value = [])
@@ -19,13 +19,15 @@ class RangeField extends Field
         $this->attr('endField', $endField);
         parent::__construct(null, $value);
     }
-    
+
     public function modelValue()
     {
         $field = $this->bindAttr($this->vModel);
         $this->formItem->form()->setData($field, $this->value);
         $this->removeBind($field);
-        $bindField = $this->formItem->form()->getBindField($field);
+        $form = $this->formItem->form();
+        $form->except($field);
+        $bindField = $form->getBindField($field);
         $this->bindAttr($this->vModel, $bindField, true);
         $bindFields = [
             'startField',
@@ -34,7 +36,7 @@ class RangeField extends Field
         foreach ($bindFields as $field) {
             $bindField = $this->attr($field);
             $this->formItem->form()->setData($bindField);
-            $bindField = $this->formItem->form()->getBindField($bindField);
+            $bindField = $form->getBindField($bindField);
             $this->attr($field, $bindField);
         }
     }
@@ -46,16 +48,16 @@ class RangeField extends Field
      */
     public function default($value)
     {
-        if(count($value) ==0){
-            $value = [null,null];
+        if (count($value) == 0) {
+            $value = [null, null];
         }
-        if(count($value) != 2){
+        if (count($value) != 2) {
             throw new \Exception('传递数组参数至少2个元素');
         }
-        [$startValue,$endValue] = $value;
-        $this->formItem->form()->setData($this->field,$value,$value);
-        $this->formItem->form()->setData($this->startField ,$startValue);
-        $this->formItem->form()->setData($this->endField ,$endValue);
+        [$startValue, $endValue] = $value;
+        $this->formItem->form()->setData($this->field, $value, $value);
+        $this->formItem->form()->setData($this->startField, $startValue);
+        $this->formItem->form()->setData($this->endField, $endValue);
         return $this;
 
     }
@@ -67,16 +69,16 @@ class RangeField extends Field
      */
     public function value($value)
     {
-        if(count($value) ==0){
-            $value = [null,null];
+        if (count($value) == 0) {
+            $value = [null, null];
         }
-        if(count($value) != 2){
+        if (count($value) != 2) {
             throw new \Exception('传递数组参数至少2个元素');
         }
-        [$startValue,$endValue] = $value;
-        $this->formItem->form()->setData($this->field,$value,true);
-        $this->formItem->form()->setData($this->startField ,$startValue,true);
-        $this->formItem->form()->setData($this->endField ,$endValue,true);
+        [$startValue, $endValue] = $value;
+        $this->formItem->form()->setData($this->field, $value, true);
+        $this->formItem->form()->setData($this->startField, $startValue, true);
+        $this->formItem->form()->setData($this->endField, $endValue, true);
         return $this;
     }
 }

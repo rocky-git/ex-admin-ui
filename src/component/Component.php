@@ -11,6 +11,7 @@ use Eadmin\component\layout\Content;
 use Eadmin\detail\Detail;
 use Eadmin\form\Form;
 use Eadmin\grid\Grid;
+use ExAdmin\ui\component\feedback\Modal;
 use think\helper\Str;
 use think\app\Url;
 
@@ -38,6 +39,8 @@ abstract class Component implements \JsonSerializable
     protected $directive = [];
     //双向绑定
     protected $modelBind = [];
+    //expose绑定
+    protected $bindExpose = [];
     //初始化
     protected static $init = [];
 
@@ -120,6 +123,40 @@ abstract class Component implements \JsonSerializable
             $this->bindAttribute[$name] = $field;
             return $this;
         }
+    }
+
+    /**
+     * 绑定组件暴露属性
+     * @param string $expose 组件暴露出来的属性
+     * @param string|null $attr 绑定属性
+     * @param Component|null $component 暴露属性的组件
+     * @return $this
+     */
+    public function bindExpose(string $expose, string $attr = null, Component $component = null)
+    {
+        if (is_null($component)) {
+            $component = $this;
+        }
+        if (is_null($attr)) {
+            $attr = $expose;
+        }
+        $field = $component->ref();
+        $this->bindExpose[] = ['ref' => $field, 'expose' => $expose, 'attr' => $attr];
+        return $this;
+    }
+
+    /**
+     * 绑定ref
+     * @return string
+     */
+    public function ref()
+    {
+        $field = $this->bindAttr('ref');
+        if (is_null($field)) {
+            $field = $this->random();
+            $this->vModel('ref', $field, '', false);
+        }
+        return $field;
     }
 
     /**
@@ -267,7 +304,7 @@ abstract class Component implements \JsonSerializable
      * @param bool $model 是否双向绑定
      * @return $this
      */
-    public function vModel($name = 'value', $field = null,$value='', $model = true)
+    public function vModel($name = 'value', $field = null, $value = '', $model = true)
     {
         if (empty($field)) {
             $field = $this->random();
@@ -275,6 +312,20 @@ abstract class Component implements \JsonSerializable
         $this->bind($field, $value);
         $this->bindAttr($name, $field, $model);
         return $this;
+    }
+
+    /**
+     * Modal 对话框
+     * @param string $url
+     * @param array $params
+     * @param string $method
+     * @return Modal
+     */
+    public function modal($url = '', $params = [], $method = 'GET')
+    {
+        $model = Modal::create($this);
+        $this->directive('modal', $model, ['url' => $url, 'data' => $params, 'method' => $method]);
+        return $model;
     }
 
     public function getName()
@@ -297,6 +348,7 @@ abstract class Component implements \JsonSerializable
                 'name' => $this->name,
                 'where' => $this->where,
                 'map' => $this->map,
+                'bindExpose' => $this->bindExpose,
                 'bind' => $this->bind,
                 'attribute' => $this->attribute,
                 'modelBind' => $this->modelBind,

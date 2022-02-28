@@ -20,6 +20,7 @@ use ExAdmin\ui\support\Arr;
  * @link   https://next.antdv.com/components/form-cn 表单
  * @link   https://github.com/stipsan/scroll-into-view-if-needed/#options options
  * @method $this model(mixed $model) 表单数据对象                                                                            object
+ * @method $this action(string $url) 提交地址
  * @method $this rules(mixed $rules) 表单验证规则                                                                            object
  * @method $this hideRequiredMark(bool $hide = false) 隐藏所有表单项的必选标记                                                boolean
  * @method $this labelAlign(string $align = 'right') label 标签的文本对齐方式                                                'left' | 'right'
@@ -49,7 +50,7 @@ class Form extends Component
     protected $data = [];
 
     protected $manyField = '';
-  
+
     /**
      * 组件名称
      * @var string
@@ -191,12 +192,13 @@ class Form extends Component
         $this->setData($field, $manyData, true);
         $formMany = FormMany::create($bindField)
             ->content($formItems)
-            ->attr('field',$field)
+            ->attr('field', $field)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
         $this->push($formMany);
         return $formMany;
     }
+
     /**
      * 选项卡布局
      * @return Tabs
@@ -208,6 +210,7 @@ class Form extends Component
         $this->push($tab);
         return $tab;
     }
+
     /**
      * 添加一行布局
      * @param \Closure $closure
@@ -266,6 +269,26 @@ class Form extends Component
         $this->push($item);
         return $item;
     }
+
+    /**
+     * 排除字段数据
+     * @param array|string $field
+     */
+    public function except($field)
+    {
+        if (is_string($field)) {
+            $field = [$field];
+        }
+        $exceptField = $this->attr('exceptField');
+
+        if (is_array($exceptField)) {
+            $field = array_merge($exceptField, $field);
+        }
+       
+        //排除字段
+        $this->attr('exceptField', $field);
+    }
+
     /**
      * 表单操作定义
      * @param \Closure $closure
@@ -278,6 +301,7 @@ class Form extends Component
         }
         return $this->actions;
     }
+
     /**
      * 添加一个组件到表单
      * @param Component $item

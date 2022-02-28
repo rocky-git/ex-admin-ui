@@ -38,3 +38,137 @@ if (!function_exists('ui_trans')) {
 
     }
 }
+
+if (!function_exists('message_success')) {
+    /**
+     * 响应成功提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function message_success($message,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->success($message);
+    }
+}
+if (!function_exists('message_error')) {
+    /**
+     * 响应失败提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function message_error($message,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->error($message);
+    }
+}
+if (!function_exists('message_info')) {
+    /**
+     * 响应信息提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function message_info($message,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->info($message);
+    }
+}
+if (!function_exists('message_warning')) {
+    /**
+     * 响应警告提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function message_warning($message,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->warning($message);
+    }
+}
+if (!function_exists('message_loading')) {
+    /**
+     * 响应加载提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function message_loading($message,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->warning($message);
+    }
+}
+
+
+
+if (!function_exists('notification_success')) {
+    /**
+     * 响应成功提示
+     * @param string $message 标题
+     * @param string $description 内容
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function notification_success($message,$description,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Notification::class,$config)
+            ->success($message,$description);
+    }
+}
+if (!function_exists('notification_error')) {
+    /**
+     * 响应失败提示
+     * @param string $message 标题
+     * @param string $description 内容
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function notification_error($message,$description,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Notification::class,$config)
+            ->error($message,$description);
+    }
+}
+if (!function_exists('notification_info')) {
+    /**
+     * 响应信息提示
+     * @param string $message 标题
+     * @param string $description 内容
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function notification_info($message,$description,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Notification::class,$config)
+            ->info($message,$description);
+    }
+}
+if (!function_exists('notification_warning')) {
+    /**
+     * 响应警告提示
+     * @param string $message 标题
+     * @param string $description 内容
+     * @param array $config 配置
+     * @return \ExAdmin\ui\response\Message
+     */
+    function notification_warning($message,$description,$config=[])
+    {
+        return \ExAdmin\ui\support\Container::getInstance()
+            ->make(\ExAdmin\ui\response\Notification::class,$config)
+            ->warning($message,$description);
+    }
+}

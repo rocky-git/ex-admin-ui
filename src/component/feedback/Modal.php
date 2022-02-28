@@ -41,16 +41,35 @@ class Modal extends Component
     protected $slot = [
         'cancelText',
         'closeIcon',
-        'footer',
+
         'okText',
         'title',
     ];
-
+    protected $component;
     /**
      * 组件名称
      * @var string
      */
 	protected $name = 'AModal';
 
-	
+	public function __construct(Component $component)
+    {
+        $this->component = $component;
+
+        $this->vModel('visible',null,false);
+        $this->footer(false);
+        parent::__construct();
+    }
+    public function jsonSerialize()
+    {
+        $component = $this->component;
+        if($component){
+
+            $this->component = null;
+            $component->content($this);
+            return $component;
+        }else{
+            return parent::jsonSerialize();
+        }
+    }
 }

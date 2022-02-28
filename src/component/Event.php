@@ -27,11 +27,10 @@ trait Event
      */
     public function eventFunction(string $name,string $function,array $params = [],Component $component=null)
     {
-        $field = $this->random();
         if(is_null($component)){
             $component = $this;
         }
-        $component->vModel('ref',$field,'',false);
+        $field = $component->ref();
         return $this->event($name, ['function' => $function, 'params' => $params,'ref'=>$field,'name'=>$component->getName()], 'function');
     }
 
