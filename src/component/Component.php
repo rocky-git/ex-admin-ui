@@ -44,6 +44,7 @@ abstract class Component implements \JsonSerializable
     //初始化
     protected static $init = [];
 
+    protected $vModel = 'value';
     // 插槽
     protected $slot = [];
 
@@ -302,7 +303,7 @@ abstract class Component implements \JsonSerializable
      * @param null $field 双向绑定js字段
      * @param string $value js默认字段值
      * @param bool $model 是否双向绑定
-     * @return $this
+     * @return string
      */
     public function vModel($name = 'value', $field = null, $value = '', $model = true)
     {
@@ -311,9 +312,11 @@ abstract class Component implements \JsonSerializable
         }
         $this->bind($field, $value);
         $this->bindAttr($name, $field, $model);
-        return $this;
+        return $field;
     }
-
+    public function getModel(){
+        return $this->bindAttr($this->vModel);
+    }
     /**
      * Modal 对话框
      * @param string $url
@@ -323,9 +326,9 @@ abstract class Component implements \JsonSerializable
      */
     public function modal($url = '', $params = [], $method = 'GET')
     {
-        $model = Modal::create($this);
-        $this->directive('modal', $model, ['url' => $url, 'data' => $params, 'method' => $method]);
-        return $model;
+        $modal = Modal::create($this);
+        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method,'modal'=>$modal->getModel()],'custom');
+        return $modal;
     }
 
     public function getName()
