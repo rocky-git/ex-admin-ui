@@ -4,7 +4,6 @@ namespace ExAdmin\ui\component\form\traits;
 
 use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascade;
-use ExAdmin\ui\component\form\field\checkbox\Checkbox;
 use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\DateTimeRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\MonthRangePicker;
@@ -26,18 +25,15 @@ use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;
 use ExAdmin\ui\component\form\field\input\TextArea;
 use ExAdmin\ui\component\form\field\mentions\Mentions;
-use ExAdmin\ui\component\form\field\radio\Radio;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\select\Select;
-use ExAdmin\ui\component\form\field\slider\Slider;
-use ExAdmin\ui\component\form\field\slider\InputSlider;
+use ExAdmin\ui\component\form\field\Slider;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\field\Transfer;
 use ExAdmin\ui\component\form\field\TreeSelect;
 use ExAdmin\ui\component\form\field\upload\File;
 use ExAdmin\ui\component\form\field\upload\Image;
-use ExAdmin\ui\component\grid\Tree;
 
 /**
  * @method Input text(string $field, string $label = '') 文本输入框
