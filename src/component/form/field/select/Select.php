@@ -90,7 +90,7 @@ class Select extends Field
 
     /**
      * 设置选项数据
-     * @param array $data 选项数据 $data = [1 =>'111', 2=>'2312312'];
+     * @param array $data 选项数据 $data = [1 => '第一个选项', 2 => '第二个选项'];
      * @param array $disable 禁用选项数据
      * @return Select
      */
@@ -181,6 +181,21 @@ class Select extends Field
             }
             $this->content($selectGroup);
         }
+        return $this;
+    }
+
+    /**
+     * 下拉框选项（标签模式-可创建选项）
+     * @param array $data
+     * @param array $disabled
+     * @param string[] $tokenSeparators
+     * @return $this
+     */
+    public function tagOptions(array $data, array $disabled = [], array $tokenSeparators = [',', '，'])
+    {
+        $this->options($data, $disabled);
+        $this->tokenSeparators($tokenSeparators);
+        $this->mode('tags');
         return $this;
     }
 }

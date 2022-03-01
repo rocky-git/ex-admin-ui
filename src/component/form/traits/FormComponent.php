@@ -30,7 +30,8 @@ use ExAdmin\ui\component\form\field\radio\Radio;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\select\Select;
-use ExAdmin\ui\component\form\field\Slider;
+use ExAdmin\ui\component\form\field\slider\Slider;
+use ExAdmin\ui\component\form\field\slider\InputSlider;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\field\Transfer;
 use ExAdmin\ui\component\form\field\TreeSelect;
@@ -44,12 +45,12 @@ use ExAdmin\ui\component\grid\Tree;
  * @method Password password(string $field, string $label = '') 密码输入框
  * @method TextArea textarea(string $field, string $label = '') 文本域输入框
  * @method Rate rate(string $field, string $label = '') 评分
- * @method Slider slider(string $field, string $label = '') 滑动输入条
+ * @method Slider slider(string $field, string $label = '') 滑动输入条 #TODO range模式不展示，带输入框的未封装
  * @method Transfer transfer(string $field, string $label = '') 穿梭框
  * @method Select select(string $field, string $label = '') 下拉选择框
  * @method TreeSelect tree(string $field, string $label = '') 树形选择框
  * @method Switches switch (string $field, string $label = '') 开关
- * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框
+ * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框 # TODO 全选未封装
  * @method Cascade cascader(string $field, string $label = '') 级联选择 #todo
  * @method RadioGroup radio(string $field, string $label = '') 单选框
  * @method DatePicker date(string $field, string $label = '') 日期选择框
@@ -71,6 +72,12 @@ use ExAdmin\ui\component\grid\Tree;
  * @method Editor editor(string $field, string $label = '') 富文本
  * @method Mentions mentions(string $field, string $label = '') 提及(@某人)
  * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
+ * #TODO 地图组件
+ * #TODO 规格组件
+ * #TODO 多选日期组件
+ * #TODO 表格选择器
+ * #TODO 图标选择器
+ * #TODO 颜色选择器
  */
 trait FormComponent
 {

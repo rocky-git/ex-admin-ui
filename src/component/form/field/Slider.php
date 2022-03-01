@@ -28,21 +28,11 @@ use ExAdmin\ui\component\form\Field;
  */
 class Slider extends Field
 {
-	/**
-     * 插槽
-     * @var string[]
-     */
-    protected $slot = [
-        'closeText',
-        'description',
-        'message',
-    ];
-
     /**
      * 组件名称
      * @var string
      */
 	protected $name = 'ASlider';
 
-
+    #TODO 带输入框的滑块
 }

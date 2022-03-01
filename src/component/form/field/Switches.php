@@ -48,7 +48,7 @@ class Switches extends Field
 
     /**
      * 设置选项
-     * @param string[] $data
+     * @param string[] $data 数据源 $data = [[1 => '显示'], [0 => '隐藏']];
      * @return $this
      */
     public function options($data = [[1 => ''], [0 => '']])
