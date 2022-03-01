@@ -227,7 +227,7 @@ abstract class Component implements \JsonSerializable
      * @param array $params
      * @return $this
      */
-    public function redirect($url, array $params = [])
+    public function redirect($url, $params = [])
     {
         $url = $url . '?' . http_build_query($params);
         $style = $this->attr('style') ?? [];

@@ -1,12 +1,15 @@
 <?php
 
-namespace ExAdmin\ui\component\grid;
+namespace ExAdmin\ui\component\grid\grid;
+use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 
 /**
  * @method static $this create($data = []) 创建
+ * @method $this quickSearch(bool $bool = true) 快捷搜索
+ * @method $this quickSearchText(string $string) 快捷提示文本内容
  */
 class Grid extends Table
 {
@@ -96,6 +99,22 @@ class Grid extends Table
             $tableData[] = $rowData;
         }
         return $tableData;
+    }
+    /**
+     * 隐藏添加按钮
+     * @param bool $bool
+     */
+    public function hideAddButton(bool $bool = true)
+    {
+        $this->hideAddButton = $bool;
+    }
+
+    /**
+     * 添加按钮
+     * @return Button
+     */
+    public function addButton(){
+        return new AddButton($this);
     }
     public function jsonSerialize()
     {

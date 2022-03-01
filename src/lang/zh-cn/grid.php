@@ -1,2 +1,4 @@
 <?php
-return [];
+return [
+    'add'=>'添加'
+];

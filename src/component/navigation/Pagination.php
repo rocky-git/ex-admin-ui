@@ -36,7 +36,6 @@ class Pagination extends Component
         $this->showLessItems();
         $this->showSizeChanger();
         $this->defaultPageSize(20);
-       
         parent::__construct();
     }
 }

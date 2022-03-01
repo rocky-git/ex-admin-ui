@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component\form;
 
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
+use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
@@ -98,7 +99,7 @@ class Form extends Component
         $field = $arguments[0];
         $reflectionClass = new \ReflectionClass($this->formComponent[$name]);
         $fieldType = $reflectionClass->getParentClass()->name;
-        if ($fieldType == RangeField::class) {
+        if ($fieldType == RangeField::class || $fieldType == RangePicker::class) {
             if(count($arguments) > 2){
                 $label = array_pop($arguments);
             }

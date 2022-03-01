@@ -4,7 +4,6 @@ namespace ExAdmin\ui\component\grid\grid;
 
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
-use ExAdmin\ui\component\grid\Grid;
 use ExAdmin\ui\support\Arr;
 
 /**
@@ -19,7 +18,7 @@ class Column extends Component
 
     protected $grid;
 
-    public function __construct($field, $label, Grid $grid){
+    public function __construct($field, $label='', Grid $grid){
         $this->grid = $grid;
         $this->dataIndex($field);
         if (!empty($label)) {
