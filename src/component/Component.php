@@ -2,15 +2,8 @@
 
 namespace ExAdmin\ui\component;
 
-use Eadmin\Admin;
-use Eadmin\component\basic\Button;
-use Eadmin\component\basic\Dialog;
-use Eadmin\component\basic\Drawer;
-use Eadmin\component\layout\Column;
-use Eadmin\component\layout\Content;
-use Eadmin\detail\Detail;
-use Eadmin\form\Form;
-use Eadmin\grid\Grid;
+
+use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
 use think\helper\Str;
 use think\app\Url;
@@ -88,8 +81,7 @@ abstract class Component implements \JsonSerializable
         $this->attribute = array_merge($this->attribute, $attrs);
         return $this;
     }
-
-
+    
     public function removeAttr($name)
     {
         unset($this->attribute[$name]);
@@ -314,9 +306,12 @@ abstract class Component implements \JsonSerializable
         $this->bindAttr($name, $field, $model);
         return $field;
     }
-    public function getModel(){
+
+    public function getModel()
+    {
         return $this->bindAttr($this->vModel);
     }
+
     /**
      * Modal 对话框
      * @param string $url
@@ -327,7 +322,21 @@ abstract class Component implements \JsonSerializable
     public function modal($url = '', $params = [], $method = 'GET')
     {
         $modal = Modal::create($this);
-        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method,'modal'=>$modal->getModel()],'custom');
+        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()], 'custom');
+        return $modal;
+    }
+
+    /**
+     * Modal 对话框
+     * @param string $url
+     * @param array $params
+     * @param string $method
+     * @return Modal
+     */
+    public function drawer($url = '', $params = [], $method = 'GET')
+    {
+        $modal = Drawer::create($this);
+        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()], 'custom');
         return $modal;
     }
 

@@ -273,5 +273,9 @@ return [
     ],
     'Uploader'=>[
         'upload'=> 'Upload',
+    ],
+    'Grid'=>[
+        'search'=>'search',
+        'quickSearchText'=>'Please enter keyword',
     ]
 ];

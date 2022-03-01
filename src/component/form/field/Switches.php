@@ -37,5 +37,10 @@ class Switches extends Field
      */
 	protected $name = 'ASwitch';
 
-	
+    protected $vModel = 'checked';
+	public function __construct($field = null, $value = false)
+    {
+        $this->vModel($this->vModel,null,$value);
+        parent::__construct($field, $value);
+    }
 }

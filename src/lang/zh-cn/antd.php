@@ -267,5 +267,9 @@ return [
     ],
     'Uploader'=>[
         'upload' => '上传',
+    ],
+    'Grid'=>[
+        'search'=>'搜索',
+        'quickSearchText'=>'请输入关键字',
     ]
 ];

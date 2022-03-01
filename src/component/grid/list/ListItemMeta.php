@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid\grid;
+namespace ExAdmin\ui\component\grid\list;
 
 use ExAdmin\ui\component\Component;
 
@@ -13,7 +13,7 @@ use ExAdmin\ui\component\Component;
  * @method $this title(mixed $title) 列表元素的标题                                 										string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class GridItemMeta extends Component
+class ListItemMeta extends Component
 {
 	/**
      * 插槽

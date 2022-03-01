@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid\grid;
+namespace ExAdmin\ui\component\grid\list;
 
 use ExAdmin\ui\component\Component;
 
@@ -12,7 +12,7 @@ use ExAdmin\ui\component\Component;
  * @method $this extra(mixed $extra) 额外内容, 通常用在 itemLayout 为 vertical 的情况下, 展示右侧内容; horizontal 展示在列表元素最右侧   string|slot
  * @package ExAdmin\ui\component\form\field
  */
-class GridItem extends Component
+class ListItem extends Component
 {
 	/**
      * 插槽

@@ -30,5 +30,13 @@ class Pagination extends Component
      */
 	protected $name = 'APagination';
 
-	
+	public function __construct()
+    {
+        $this->showQuickJumper();
+        $this->showLessItems();
+        $this->showSizeChanger();
+        $this->defaultPageSize(20);
+       
+        parent::__construct();
+    }
 }

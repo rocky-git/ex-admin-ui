@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid\grid;
+namespace ExAdmin\ui\component\grid\list;
 
 use ExAdmin\ui\component\Component;
 
@@ -22,7 +22,7 @@ use ExAdmin\ui\component\Component;
  * @method $this dataSource(mixed $dataSource) 是否展示分割线                                        						any[]
  * @package ExAdmin\ui\component\form\field
  */
-class Grid extends Component
+class Lists extends Component
 {
 	/**
      * 插槽
@@ -40,5 +40,5 @@ class Grid extends Component
      */
 	protected $name = 'AList';
 
-	
+
 }
