@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
 
 /**
  * 自动完成
@@ -23,7 +24,7 @@ use ExAdmin\ui\component\Component;
  * @method $this open(bool $open) 是否展开下拉菜单																		boolean
  * @package ExAdmin\ui\component\form\field
  */
-class AutoComplete extends Component
+class AutoComplete extends Field
 {
 	/**
      * 插槽
@@ -39,5 +40,21 @@ class AutoComplete extends Component
      */
 	protected $name = 'AAutoComplete';
 
-	
+    /**
+     * 选项
+     * @param array $data
+     * @return $this
+     */
+	public function options(array $data)
+    {
+        $options = [];
+        foreach ($data as $key => $value) {
+            $options[] = [
+                'value' => $key,
+                'label' => $value,
+            ];
+        }
+        $this->attr('options', $options);
+        return $this;
+    }
 }

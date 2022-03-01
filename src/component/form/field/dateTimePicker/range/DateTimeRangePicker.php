@@ -19,7 +19,7 @@ class DateTimeRangePicker extends RangePicker
 {
     public function __construct($startField,$endField, $value = [])
     {
-        parent::__construct($startField,$endField, $value);
+        parent::__construct($startField, $endField, $value);
         $this->showTime();
         $this->valueFormat('YYYY-MM-DD HH:mm:ss');
     }

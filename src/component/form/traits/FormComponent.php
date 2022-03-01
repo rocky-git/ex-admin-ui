@@ -2,8 +2,10 @@
 
 namespace ExAdmin\ui\component\form\traits;
 
+use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascade;
 use ExAdmin\ui\component\form\field\checkbox\Checkbox;
+use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\DateTimeRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\MonthRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\QuarterRangePicker;
@@ -23,6 +25,7 @@ use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;
 use ExAdmin\ui\component\form\field\input\TextArea;
+use ExAdmin\ui\component\form\field\mentions\Mentions;
 use ExAdmin\ui\component\form\field\radio\Radio;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
 use ExAdmin\ui\component\form\field\Rate;
@@ -33,6 +36,7 @@ use ExAdmin\ui\component\form\field\Transfer;
 use ExAdmin\ui\component\form\field\TreeSelect;
 use ExAdmin\ui\component\form\field\upload\File;
 use ExAdmin\ui\component\form\field\upload\Image;
+use ExAdmin\ui\component\grid\Tree;
 
 /**
  * @method Input text(string $field, string $label = '') 文本输入框
@@ -45,8 +49,8 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Select select(string $field, string $label = '') 下拉选择框
  * @method TreeSelect tree(string $field, string $label = '') 树形选择框
  * @method Switches switch (string $field, string $label = '') 开关
- * @method Checkbox checkbox(string $field, string $label = '') 多选框
- * @method Cascade cascader(string $field, string $label = '') 级联选择
+ * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框
+ * @method Cascade cascader(string $field, string $label = '') 级联选择 #todo
  * @method RadioGroup radio(string $field, string $label = '') 单选框
  * @method DatePicker date(string $field, string $label = '') 日期选择框
  * @method DateTimePicker dateTime(string $field, string $label = '') 日期时间选择框
@@ -65,6 +69,8 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method File file(string $field, string $label = '') 文件上传
  * @method Image image(string $field, string $label = '') 图片上传
  * @method Editor editor(string $field, string $label = '') 富文本
+ * @method Mentions mentions(string $field, string $label = '') 提及(@某人)
+ * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
  */
 trait FormComponent
 {
@@ -79,7 +85,7 @@ trait FormComponent
         'tree'          => TreeSelect::class,
         'select'        => Select::class,
         'switch'        => Switches::class,
-        'checkbox'      => Checkbox::class,
+        'checkbox'      => CheckboxGroup::class,
         'cascader'      => Cascade::class,
         'radio'         => RadioGroup::class,
         'date'          => DatePicker::class,
@@ -96,8 +102,10 @@ trait FormComponent
         'dateTimeRange' => DateTimeRangePicker::class,
         'time'          => TimePicker::class,
         'timeRange'     => TimeRangePicker::class,
-        'file'     => File::class,
-        'image'     => Image::class,
-        'editor'     => Editor::class,
+        'file'          => File::class,
+        'image'         => Image::class,
+        'editor'        => Editor::class,
+        'mentions'      => Mentions::class,
+        'autoComplete'  => AutoComplete::class,
     ];
 }

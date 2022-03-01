@@ -90,7 +90,7 @@ class Select extends Field
 
     /**
      * 设置选项数据
-     * @param array $data 选项数据
+     * @param array $data 选项数据 $data = [1 =>'111', 2=>'2312312'];
      * @param array $disable 禁用选项数据
      * @return Select
      */

@@ -21,6 +21,6 @@ class MonthPicker extends DatePicker
     {
         parent::__construct($field, $value);
         $this->picker('month');
-       
+        $this->valueFormat('YYYY-MM');
     }
 }

@@ -52,6 +52,6 @@ class TimeRangePicker extends RangeField
     public function __construct($startField, $endField, $value = [])
     {
         $this->valueFormat('HH:mm:ss');
-        parent::__construct($startField, $endField,$value);
+        parent::__construct($startField, $endField, $value);
     }
 }

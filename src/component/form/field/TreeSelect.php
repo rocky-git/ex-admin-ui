@@ -90,9 +90,9 @@ class TreeSelect extends Field
         $treeData = Arr::tree($data, $id, $pid, $children);
         $this->fieldNames([
             'children' => $children,
-            'label' => $label,
-            'key' => $id,
-            'value' => $id
+            'label'    => $label,
+            'key'      => $id,
+            'value'    => $id
         ]);
         $this->treeData($treeData);
     }

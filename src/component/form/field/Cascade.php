@@ -49,5 +49,11 @@ class Cascade extends Field
      */
 	protected $name = 'ACascader';
 
+    public function __construct($field = null, $value = [])
+    {
+        parent::__construct($field, $value);
+    }
+
+    
 
 }

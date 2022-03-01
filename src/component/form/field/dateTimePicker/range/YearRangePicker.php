@@ -21,5 +21,6 @@ class YearRangePicker extends RangePicker
     {
         parent::__construct($startField, $endField, $value);
         $this->picker('year');
+        $this->valueFormat('YYYY');
     }
 }

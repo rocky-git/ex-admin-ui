@@ -21,5 +21,6 @@ class MonthRangePicker extends RangePicker
     {
         parent::__construct($startField, $endField, $value);
         $this->picker('month');
+        $this->valueFormat('YYYY-MM');
     }
 }

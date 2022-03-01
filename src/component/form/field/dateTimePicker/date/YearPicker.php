@@ -21,7 +21,7 @@ class YearPicker extends DatePicker
     {
         parent::__construct($field, $value);
         $this->picker('year');
-       
+        $this->valueFormat('YYYY');
     }
 
 
