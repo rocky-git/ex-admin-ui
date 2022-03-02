@@ -6,6 +6,9 @@
  * Time: 21:12
  */
 return [
+    'request_interface'=>[
+      'grid'=>\App\Grid::class,
+    ],
     // 默认语言
     'lang' => 'zh-cn',
     //主题 light 暗黑dark

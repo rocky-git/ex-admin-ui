@@ -1,4 +1,7 @@
 <?php
 return [
-    'add'=>'Add'
+    'add'=>'Add',
+    'pagination'=>[
+        'total' => 'Total {total}',
+    ]
 ];

@@ -28,6 +28,8 @@ abstract class Component implements \JsonSerializable
     protected $bind = [];
     //属性绑定
     protected $bindAttribute = [];
+    //属性绑定自定义函数
+    protected $bindFunction = [];
     //自定义指令
     protected $directive = [];
     //双向绑定
@@ -81,7 +83,7 @@ abstract class Component implements \JsonSerializable
         $this->attribute = array_merge($this->attribute, $attrs);
         return $this;
     }
-    
+
     public function removeAttr($name)
     {
         unset($this->attribute[$name]);
@@ -136,6 +138,18 @@ abstract class Component implements \JsonSerializable
         $field = $component->ref();
         $this->bindExpose[] = ['ref' => $field, 'expose' => $expose, 'attr' => $attr];
         return $this;
+    }
+
+    /**
+     * 绑定属性函数
+     * @param string $attr 属性
+     * @param string $function 函数体js
+     * @param array $params 函数参数定义
+     */
+    public function bindFunction(string $attr, string $function, array $params = [])
+    {
+        array_push($params,$function);
+        $this->bindFunction[$attr] = $params;
     }
 
     /**
@@ -362,6 +376,7 @@ abstract class Component implements \JsonSerializable
                 'map' => $this->map,
                 'bindExpose' => $this->bindExpose,
                 'bind' => $this->bind,
+                'bindFunction' => $this->bindFunction,
                 'attribute' => $this->attribute,
                 'modelBind' => $this->modelBind,
                 'bindAttribute' => $this->bindAttribute,

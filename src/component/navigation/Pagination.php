@@ -36,6 +36,9 @@ class Pagination extends Component
         $this->showLessItems();
         $this->showSizeChanger();
         $this->defaultPageSize(20);
+        $this->size('small');
+        $totalLang = ui_trans('pagination.total','grid',['{total}'=>"'+total+'"]);
+        $this->bindFunction('showTotal',"return '".$totalLang."';",['total']);
         parent::__construct();
     }
 }

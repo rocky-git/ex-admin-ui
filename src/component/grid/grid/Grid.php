@@ -7,7 +7,10 @@ use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 
 /**
+ * Class Grid
  * @method static $this create($data = []) 创建
+ * @method $this hideDeleteButton(bool $bool = true) 隐藏删除按钮
+ * @method $this hideSelection(bool $bool = true) 隐藏选择框
  * @method $this quickSearch(bool $bool = true) 快捷搜索
  * @method $this quickSearchText(string $string) 快捷提示文本内容
  */
@@ -26,15 +29,19 @@ class Grid extends Table
      * @var Pagination
      */
     protected $pagination;
-
-
+    /**
+     * @var AddButton
+     */
+    protected $addButton;
 
     protected $data = [];
 
     public function __construct($data = [])
     {
         $this->pagination = Pagination::create();
+        $this->addButton = new AddButton();
         $this->data = $data;
+        $this->rowKey('ex_admin_id');
         parent::__construct();
     }
     /**
@@ -106,18 +113,19 @@ class Grid extends Table
      */
     public function hideAddButton(bool $bool = true)
     {
-        $this->hideAddButton = $bool;
+        $this->addButton->hideAddButton($bool);
     }
 
     /**
      * 添加按钮
-     * @return Button
+     * @return AddButton
      */
     public function addButton(){
-        return new AddButton($this);
+        return $this->addButton;
     }
     public function jsonSerialize()
     {
+        $this->attr('addButton', $this->addButton->button());
         $this->attr('pagination', $this->pagination);
         $data = $this->parseColumn($this->data);
         $this->attr('dataSource',$data);

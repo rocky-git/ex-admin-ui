@@ -32,7 +32,7 @@ class FormAction extends FormItem
         $this->form = $form;
         $this->submitButton = Button::create(ui_trans('save', 'form'))
             ->eventFunction('click', 'submit', [], $this->form)
-            ->bindExpose('loading',null,$form)
+            ->bindExpose('loading','loading',$form)
             ->type('primary');
         $this->resetButton = Button::create(ui_trans('reset', 'form'))
             ->eventFunction('click', 'form.resetFields', [], $this->form);
