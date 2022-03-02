@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\grid;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 
 /**
@@ -41,5 +42,11 @@ class ToolTip extends Component
      */
 	protected $name = 'ATooltip';
 
-	
+    public function __construct($content)
+    {
+        parent::__construct();
+        $this->content(Html::create($content));
+    }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\grid\tag;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 
 /**
@@ -16,10 +17,22 @@ use ExAdmin\ui\component\Component;
 class Tag extends Component
 {
     /**
+     * 插槽
+     * @var string[]
+     */
+    protected $slot = [
+        'icon',
+    ];
+
+    /**
      * 组件名称
      * @var string
      */
 	protected $name = 'ATag';
 
-	
+	public function __construct($content)
+    {
+        parent::__construct();
+        $this->content(Html::create($content));
+    }
 }

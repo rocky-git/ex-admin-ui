@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid;
+namespace ExAdmin\ui\component\grid\image;
 
 use ExAdmin\ui\component\Component;
 
