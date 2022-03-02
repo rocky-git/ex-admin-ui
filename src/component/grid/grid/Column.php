@@ -18,6 +18,8 @@ class Column extends Component
 
     protected $grid;
 
+    protected $closure = null;
+    
     public function __construct($field, $label='', Grid $grid){
         $this->grid = $grid;
         $this->dataIndex($field);
@@ -43,11 +45,28 @@ class Column extends Component
         } else {
             $value = $originValue;
         }
+        //自定义内容显示处理
+        if (!is_null($this->closure)) {
+            $value = call_user_func_array($this->closure, [$originValue, $data]);
+        }
         $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $field);
         $fontSize = $this->grid->attr('fontSize');
         if ($fontSize) {
             $html->style(['fontSize' => $fontSize . 'px']);
         }
         return $html;
+    }
+    
+    
+    
+    /**
+     * 自定义显示
+     * @param \Closure $closure
+     * @return $this
+     */
+    public function display(\Closure $closure)
+    {
+        $this->closure = $closure;
+        return $this;
     }
 }
