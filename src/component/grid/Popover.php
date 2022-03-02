@@ -43,5 +43,9 @@ class Popover extends Component
      */
 	protected $name = 'APopover';
 
-	
+	public function __construct($content)
+    {
+        parent::__construct();
+        $this->content($content);
+    }
 }

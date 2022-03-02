@@ -2,11 +2,14 @@
 
 namespace ExAdmin\ui\component\grid\grid;
 
+use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\Rate;
+use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
+use ExAdmin\ui\component\grid\Popover;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
@@ -25,6 +28,8 @@ class Column extends Component
 
     protected $closure = null;
 
+    protected $hide = false;
+    
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
@@ -63,6 +68,36 @@ class Column extends Component
             $html->style(['fontSize' => $fontSize . 'px']);
         }
         return $html;
+    }
+
+    /**
+     * 隐藏
+     * @return \Eadmin\grid\Column|$this
+     */
+    public function hide()
+    {
+        $this->hide = true;
+        $this->attr('hide', true);
+        return $this;
+    }
+
+    /**
+     * 获取当前列是否隐藏
+     * @return bool
+     */
+    public function isHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * 开启排序 #TODO 没有排序效果
+     * @return $this
+     */
+    public function sortable()
+    {
+        $this->attr('sorter', true);
+        return $this;
     }
 
     /**
@@ -113,30 +148,68 @@ class Column extends Component
         })->width($width);
         return $this;
     }
-
-    /**
-     * 开启排序 #TODO 没有排序效果
-     * @return $this
-     */
-    public function sortable()
-    {
-        $this->attr('sorter', true);
-        return $this;
-    }
-
+    
     /**
      * 标签显示
      * @param string $color 标签颜色
      * @param mixed $icon 图标
      */
-    public function tag($color = '#87d068', $icon = '')
+    public function tag($color = '#2db7f5', $icon = '')
     {
         $this->display(function ($value) use ($color, $icon) {
-            return Tag::create($value)
-                      ->color($color)
-                      ->icon($icon);
+            return $this->getTag($value, $color, $icon);
         });
         return $this;
+    }
+
+
+    /**
+     * 多个标签
+     * @param string $field 指定字段
+     * @param string $color 颜色
+     * @param string $icon 图标
+     * @return $this
+     */
+    public function tags($field = '', $color = '#2db7f5', $icon = '')
+    {
+        $this->display(function ($value, $data) use ($field, $color, $icon) {
+            $valueData = $this->getAssignValue($value, $data, $field);
+            if (empty($valueData)) return '';
+            $valueData = $this->getArrayValue($valueData);
+            return $this->getTags($valueData, $color, $icon);
+        });
+        return $this;
+    }
+
+    /**
+     * 标签组组装
+     * @param array $value 数据
+     * @param string $color 标签颜色
+     * @param mixed $icon 图标
+     * @param array $style 样式
+     * @return Html
+     */
+    public function getTags(array $dataSource = [], string $color = '#2db7f5', string $icon = '')
+    {
+        $html = [];
+        foreach ($dataSource as $data) {
+            $html[] = $this->getTag($data, $color, $icon);
+        }
+        return Html::create($html)
+                   ->tag('div')
+                   ->style(['display' => 'flex', 'flexWrap' => 'wrap']);
+    }
+
+    /**
+     * 获取标签
+     * @param string $color 标签颜色
+     * @param mixed $icon 图标
+     */
+    protected function getTag($value, string $color, string $icon = '')
+    {
+        return Tag::create($value)
+                  ->color($color)
+                  ->icon($icon);
     }
 
     /**
@@ -187,7 +260,7 @@ class Column extends Component
     {
         $this->display(function ($value) use ($height, $width, $alt, $style) {
             if (empty($value)) return '';
-            if (is_string($value)) $value = explode(',', $value);
+            $value = $this->getArrayValue($value);
             $html = [];
             foreach ($value as $image) {
                 $html[] =
@@ -210,9 +283,192 @@ class Column extends Component
     {
         $this->display(function ($value) {
             return Html::create()
-                ->attr('src', $val)
-                ->content('您的浏览器不支持 audio 标签。')
-                ->tag('audio');
+                       ->attr('src', $val)
+                       ->content('您的浏览器不支持 audio 标签。')
+                       ->tag('audio');
+        });
+        return $this;
+    }
+
+    /**
+     * 视频 #TODO
+     * @return $this
+     */
+    public function video()
+    {
+        $this->display(function ($value) {
+
+        });
+        return $this;
+    }
+
+    /**
+     * 跳转链接
+     * @param string $field 字段，不指定则显示当前value
+     * @param string $target 打开方式 _blank(在新窗口中打开) / _self(在相同的窗口打开) / _parent(在父窗口打开) / _top(在整个窗口中)
+     * @return $this
+     */
+    public function link($field = '', $target = '_blank')
+    {
+        $this->display(function ($value, $data) use ($field, $target) {
+            $href = $this->getAssignValue($value, $data, $field);
+            return Html::create($href)
+                       ->attr('href', $href)
+                       ->attr('target', $target)
+                       ->tag('a');
+        });
+        return $this;
+    }
+
+    /**
+     * 弹出框 #TODO
+     * @param string $field 指定字段
+     * @param string $label 按钮名称
+     * @param string $width 宽度
+     * @param string $tigger 触发方式  click/focus/hover/manual
+     * @param string $placement 出现位置 top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end
+     * @return $this
+     */
+    public function popover($field = '', $label = '查看', $width = '500px', $tigger = 'hover', $placement = 'top')
+    {
+        $this->display(function ($value, $data) use ($field, $label, $width, $tigger, $placement) {
+            $valueData = $this->getAssignValue($value, $data, $field);
+            if (empty($value)) return '';
+            $value = $this->getArrayValue($value);
+            return Popover::create(Button::create($label))
+                          ->attr('content', $this->getTags($value))
+                          ->width($width)
+                          ->trigger($tigger)
+                          ->placement($placement);
+        });
+        return $this;
+    }
+
+    /**
+     * 开关 #todo
+     * @return $this
+     */
+    public function switch($swithArr)
+    {
+        $this->display(function ($value) use ($swithArr) {
+            return $this->getSwitch($value, $data, $this->prop, $swithArr);
+        });
+        return $this;
+    }
+
+    /**
+     * 开关组 #TODO
+     * @param array $fields
+     * @return $this
+     */
+    public function switchGroup($fields)
+    {
+        $this->display(function ($value, $data) use ($fields) {
+            $content = [];
+            foreach ($fields as $field => $label) {
+                $content[] = Html::create([
+                    Html::create($label . ': '),
+                    $this->getSwitch($data[$field], $data, $field),
+                ])->style(['display' => 'flex', 'justifyContent' => 'space-between'])->tag('p');
+            }
+            return $content;
+        });
+        return $this;
+    }
+
+    /**
+     * switch开关Html::create中直接使用 #TODO
+     * @param string $text 开关名称
+     * @param string $field 开关的字段
+     * @param array $data 当前行的数据
+     * @param array $switchArr 二维数组 开启的在下标0 关闭的在下标1
+     *                              $arr = [
+     *                              [1 => '开启'],
+     *                              [0 => '关闭'],
+     *                              ];
+     * @return Html
+     */
+    public function switchHtml($text, $field, $data, $switchArr = [[1 => '开启'], [0 => '关闭']])
+    {
+        if (!empty($text)) $text .= "：";
+        return Html::create([
+            $text,
+            $this->getSwitch($data[$field], $data, $field, $switchArr)
+        ])->tag('p');
+    }
+
+    /**
+     * 获取开关
+     * @param string $value 当前值
+     * @param array $data 行数据
+     * @param string $field 字段
+     * @param array $switchArr 开关选项
+     * @return mixed
+     */
+    protected function getSwitch($value, $data, $field, $switchArr = [])
+    {
+        $params = $this->grid->getCallMethod();
+        $params['eadmin_ids'] = [$data[$this->grid->drive()->getPk()]];
+        return Switches::create(null, $value)
+                       ->options($switchArr ?? admin_trans('admin.switch'))
+                       ->url('/eadmin/batch.rest')
+                       ->field($field)
+                       ->params($params);
+    }
+
+    /**
+     * 文件显示 #TODO
+     * @return $this
+     */
+    public function file()
+    {
+        $this->display(function ($value) {
+            $html = [];
+            foreach ($vals as $val) {
+                $file = new DownloadFile();
+                $file->url($val);
+                $html[] = $file;
+            }
+            return Html::create()->content($html)->tag('div');
+        });
+        return $this;
+    }
+
+    /**
+     * 追加前面
+     * @param mixed $prepend
+     * @return $this
+     */
+    public function prepend($prepend)
+    {
+        $this->display(function ($val) use ($prepend) {
+            return $prepend . $val;
+        });
+        return $this;
+    }
+
+    /**
+     * 追加末尾
+     * @param mixed $append
+     * @return $this
+     */
+    public function append($append)
+    {
+        $this->display(function ($val) use ($append) {
+            return $val . $append;
+        });
+        return $this;
+    }
+
+    /**
+     * 内容映射
+     * @param array $usings 映射内容
+     * @param array $color 标签颜色
+     */
+    public function using(array $usings, array $color = [])
+    {
+        $this->display(function ($value) use ($usings, $color) {
+            return $this->getTag($usings[$value], $color[$value] ?? '');
         });
         return $this;
     }
@@ -228,4 +484,25 @@ class Column extends Component
         return $this;
     }
 
+    /**
+     * 获取指定值
+     * @param mixed $value 值
+     * @param array $data 行数据
+     * @param string $field 指定字段
+     * @return array|\ArrayAccess|mixed|null
+     */
+    public function getAssignValue($value, $data, $field = '')
+    {
+        return $field ? Arr::get($data, $field) : $value;
+    }
+
+    /**
+     * 字符串转数组
+     * @param $value
+     * @return false|string[]
+     */
+    public function getArrayValue($value)
+    {
+        return is_string($value) ? explode(',', $value) : $value;
+    }
 }
