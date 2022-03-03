@@ -215,13 +215,13 @@ class Column extends Component
     /**
      * 图片
      * @param string $value 值
-     * @param int $height 高度
      * @param int $width 宽度
+     * @param int $height 高度
      * @param string $alt 图像描述
      * @param bool $preview 预览参数
      * @return $this
      */
-    protected function commonImage(string $value, int $height = 80, int $width = 80, string $alt = '', bool $preview = true)
+    protected function commonImage(int $height = 80, string $value, int $width = 80, string $alt = '', bool $preview = true)
     {
         $image = Image::create()
                       ->src($value)
@@ -234,38 +234,38 @@ class Column extends Component
 
     /**
      * 单图片
-     * @param int $height 高度
      * @param int $width 宽度
+     * @param int $height 高度
      * @param string $alt 图像描述
      * @param bool $preview 预览参数
      * @return $this
      */
-    public function image(int $height = 80, int $width = 80, string $alt = '', bool $preview = true)
+    public function image(int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
-        $this->display(function ($value) use ($height, $width, $alt, $preview) {
-            return $this->commonImage($value, $height, $width, $alt, $preview);
+        $this->display(function ($value) use ($width, $height, $alt, $preview) {
+            return $this->commonImage($value, $width, $height, $alt, $preview);
         });
         return $this;
     }
 
     /**
      * 多图片
-     * @param int $height 高度
      * @param int $width 宽度
+     * @param int $height 高度
      * @param string $alt 图像描述
      * @param string[] $style 样式，margin-right这种采用小驼峰命名
      * @return $this
      */
-    public function images(int $height = 80, int $width = 80, string $alt = '', $style = ['marginRight' => '5px', 'marginBottom' => '5px'])
+    public function images(int $width = 80, int $height = 80, string $alt = '', $style = ['marginRight' => '5px', 'marginBottom' => '5px'])
     {
-        $this->display(function ($value) use ($height, $width, $alt, $style) {
+        $this->display(function ($value) use ($width, $height, $alt, $style) {
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             $html = [];
             foreach ($value as $image) {
                 $html[] =
                     Html::create(
-                        $this->commonImage($image, $height, $width, $alt, false)
+                        $this->commonImage($image, $width, $height, $alt, false)
                     )
                         ->tag('div')
                         ->style($style);
@@ -276,16 +276,17 @@ class Column extends Component
     }
 
     /**
-     * 音频显示 #TODO
+     * 音频显示
      * @return $this
      */
-    public function audio()
+    public function audio($width = 300, $height = 54)
     {
-        $this->display(function ($value) {
-            return Html::create()
-                       ->attr('src', $val)
-                       ->content('您的浏览器不支持 audio 标签。')
-                       ->tag('audio');
+        $this->display(function ($value) use ($width, $height) {
+            return Html::create('您的浏览器不支持 audio 标签。')
+                       ->attr('src', $value)
+                       ->attr('controls', true)
+                       ->tag('audio')
+                        ->style(["width" => "{$width}px", 'height' => "{$height}px"]);
         });
         return $this;
     }
@@ -336,7 +337,7 @@ class Column extends Component
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             return Popover::create(Button::create($label))
-                          ->attr('content', $this->getTags($value))
+                          ->content($this->getTags($value), 'content')
                           ->width($width)
                           ->trigger($tigger)
                           ->placement($placement);
