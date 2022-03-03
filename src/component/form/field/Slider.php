@@ -2,8 +2,10 @@
 
 namespace ExAdmin\ui\component\form\field;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\component\layout\Row;
 
 /**
  * 滑动输入条
@@ -34,5 +36,27 @@ class Slider extends Field
      */
 	protected $name = 'ASlider';
 
-    #TODO 带输入框的滑块
+	public function __construct($field = null, string $value = '')
+    {
+
+        parent::__construct($field, $value);
+    }
+
+    /**
+     * 显示输入框
+     * @return $this
+     */
+    public function showInput(){
+        $number = InputNumber::create($this->field,$this->value);
+        $number->setFormItem($this->formItem);
+        $number->modelValue();
+        $slider = array_pop($this->formItem->content['default']);
+        $html = Html::create();
+        $html->content([
+            Html::create($slider)->style(['flex'=>1,'marginRight'=>'10px']),
+            $number,
+        ])->style(['display'=>'flex']);
+        $this->formItem->content($html);
+        return $this;
+    }
 }

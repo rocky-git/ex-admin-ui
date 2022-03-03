@@ -49,13 +49,21 @@ class Grid extends Table
      * @var GridInterface
      */
     protected $drive;
-
+    /**
+     * @var Actions 
+     */
+    protected $actionColumn;
+    
+    protected $hideAction = false;
+    
     public function __construct($data)
     {
         $drive = ui_config('config.request_interface.grid');
         $this->drive = new $drive($data);
         $this->pagination = Pagination::create();
         $this->addButton = new AddButton();
+        //操作列
+        $this->actionColumn = new Actions($this);
         $this->rowKey('ex_admin_id');
         $call = $this->parseCallMethod();
         $this->url("ex-admin/{$call['class']}/{$call['function']}");
@@ -124,7 +132,18 @@ class Grid extends Table
             ->width(100)
             ->align('center');
     }
-
+    /**
+     * 操作列定义
+     * @param \Closure|null $closure
+     * @return Column
+     */
+    public function actions(\Closure $closure = null)
+    {
+        if (!is_null($closure)) {
+            $this->actionColumn->setClosure($closure);
+        }
+        return $this->actionColumn->column();
+    }
     /**
      * 添加表格列
      * @param string|\Closure $field 字段
@@ -184,11 +203,22 @@ class Grid extends Table
                 $field = $column->attr('dataIndex');
                 $rowData[$field] = $column->row($row);
             }
+            if (!$this->hideAction) {
+                $actionColumn = clone $this->actionColumn;
+                $rowData['ExadminAction'] = $actionColumn->row($data);
+            }
             $tableData[] = $rowData;
         }
         return $tableData;
     }
-
+    /**
+     * 隐藏操作列
+     * @param bool $bool
+     */
+    public function hideAction(bool $bool = true)
+    {
+        $this->hideAction = $bool;
+    }
     /**
      * 隐藏添加按钮
      * @param bool $bool
@@ -209,6 +239,10 @@ class Grid extends Table
 
     public function jsonSerialize()
     {
+        //添加操作列
+        if (!$this->hideAction) {
+            $this->column[] = $this->actionColumn->column();
+        }
         $this->pagination->total($this->drive->total());
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));

@@ -297,5 +297,8 @@ return [
         'clearData' => '清空数据',
         'restoreSelected' => '恢复选中',
         'deleteSelected' => '删除选中',
+    ],
+    'Confirm'=>[
+        'title'=>'提示'
     ]
 ];

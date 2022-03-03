@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component;
 
 
+use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
 use think\helper\Str;
@@ -249,7 +250,22 @@ abstract class Component implements \JsonSerializable
         $this->attr('style', $style);
         return $this->directive('redirect', $url);
     }
-
+    /**
+     * 确认消息框
+     * @param string $message 确认内容
+     * @param string $url 请求url 空不请求
+     * @param array $params 请求参数
+     * @return Confirm
+     */
+    public function confirm(string $message, string $url = '', array $params = []){
+        return Confirm::create($this)
+            ->method('post')
+            ->title(ui_trans('Confirm.title','antd'))
+            ->content($message)
+            ->url($url)
+            ->params($params);
+        
+    }
     /**
      * 插槽内容
      * @param mixed $content 内容
