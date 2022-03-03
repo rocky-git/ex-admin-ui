@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 interface GridInterface
 {
+    public function __construct($data);
+
     /**
      * 删除选中
      * @param array $ids 删除选中id
@@ -35,4 +37,24 @@ interface GridInterface
      * @return Message
      */
     public function inputSort(int $id, int $sort): Message;
+
+    /**
+     * 快捷搜索
+     * @param string $keyword 关键词
+     * @return mixed
+     */
+    public function quickSearch(string $keyword);
+    /**
+     * 数据源
+     * @param int $page 第几页
+     * @param int $size 分页大小
+     * @return array
+     */
+    public function data(int $page, int $size): array;
+
+    /**
+     * 返回总条数
+     * @return int
+     */
+    public function total(): int;
 }

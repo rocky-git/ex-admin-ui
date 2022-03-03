@@ -4,6 +4,7 @@ namespace ExAdmin\ui;
 
 use ExAdmin\ui\contract\GridInterface;
 use ExAdmin\ui\exception\HttpException;
+use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Str;
 
 /**
@@ -16,25 +17,26 @@ class Route
     ];
     public static function __callStatic($name, $arguments)
     {
-        $self = new self;
-        return $self->invokeArgs(...$arguments);
+        return Container::getInstance()->make(self::class)->invokeArgs(...$arguments);
     }
     public function invokeArgs($class, $function, $vars = [])
     {
-
-        if (array_key_exists($class, $this->contract) && $_SERVER['REQUEST_METHOD'] !='OPTIONS') {
-            $classInterface = ui_config('config.request_interface.' . $class);
-            if (empty($classInterface)) {
-                throw new \Exception('请正确配置: request_interface.' . $class);
-            }
-            $reflect = new \ReflectionClass($classInterface);
-            if (in_array($this->contract[$class], $reflect->getInterfaceNames())) {
-                $object = $reflect->newInstanceArgs();
-                $method = $reflect->getMethod($function);
-                $args = $this->bindParams($method, $vars);
-                return $method->invokeArgs($object, $args);
-            } else {
-                throw new \Exception('必须实现接口: ' . $this->contract[$class]);
+        if($_SERVER['REQUEST_METHOD'] !='OPTIONS'){
+            $classDecode = base64_decode(urldecode($class));
+            if (array_key_exists($class, $this->contract)) {
+                $classInterface = ui_config('config.request_interface.' . $class);
+                if (empty($classInterface)) {
+                    throw new \Exception('请正确配置: request_interface.' . $class);
+                }
+                $reflect = new \ReflectionClass($classInterface);
+                if (in_array($this->contract[$class], $reflect->getInterfaceNames())) {
+                    return $this->invokerArgs($reflect, $function, $vars);
+                } else {
+                    throw new \Exception('必须实现接口: ' . $this->contract[$class]);
+                }
+            }elseif (class_exists($classDecode)){
+                $reflect = new \ReflectionClass($classDecode);
+                return $this->invokerArgs($reflect, $function, $vars);
             }
         }
     }
@@ -77,6 +79,21 @@ class Route
             }
         }
         return $args;
+    }
+
+    /**
+     * @param \ReflectionClass $reflect
+     * @param $function
+     * @param $vars
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    protected function invokerArgs(\ReflectionClass $reflect, $function, $vars)
+    {
+        $object = $reflect->newInstanceArgs();
+        $method = $reflect->getMethod($function);
+        $args = $this->bindParams($method, $vars);
+        return $method->invokeArgs($object, $args);
     }
 
 }

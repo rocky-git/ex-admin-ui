@@ -29,7 +29,7 @@ class Column extends Component
     protected $closure = null;
 
     protected $hide = false;
-    
+
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
@@ -148,7 +148,7 @@ class Column extends Component
         })->width($width);
         return $this;
     }
-    
+
     /**
      * 标签显示
      * @param string $color 标签颜色
@@ -332,7 +332,7 @@ class Column extends Component
     public function popover($field = '', $label = '查看', $width = '500px', $tigger = 'hover', $placement = 'top')
     {
         $this->display(function ($value, $data) use ($field, $label, $width, $tigger, $placement) {
-            $valueData = $this->getAssignValue($value, $data, $field);
+            $value = $this->getAssignValue($value, $data, $field);
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             return Popover::create(Button::create($label))

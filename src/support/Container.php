@@ -11,9 +11,10 @@ namespace ExAdmin\ui\support;
 
 class Container
 {
-    protected static $instance=null;
+    protected static $instance = null;
 
     protected $instances = [];
+
     /**
      * 获取当前容器的实例（单例）
      * @access public
@@ -26,8 +27,10 @@ class Container
         }
         return static::$instance;
     }
-    public function make($name,array $arguments = [], bool $newInstance = false){
-        if($newInstance || !isset($this->instances[$name])){
+
+    public function make($name, array $arguments = [], bool $newInstance = false)
+    {
+        if ($newInstance || !isset($this->instances[$name])) {
             $this->instances[$name] = new $name(...$arguments);
         }
         return $this->instances[$name];

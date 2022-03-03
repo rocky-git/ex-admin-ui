@@ -22,7 +22,7 @@ use ExAdmin\ui\support\Arr;
  * @link   https://next.antdv.com/components/form-cn 表单
  * @link   https://github.com/stipsan/scroll-into-view-if-needed/#options options
  * @method $this model(mixed $model) 表单数据对象                                                                            object
- * @method $this action(string $url) 提交地址
+ * @method $this url(string $url) 提交地址
  * @method $this rules(mixed $rules) 表单验证规则                                                                            object
  * @method $this hideRequiredMark(bool $hide = false) 隐藏所有表单项的必选标记                                                boolean
  * @method $this labelAlign(string $align = 'right') label 标签的文本对齐方式                                                'left' | 'right'
