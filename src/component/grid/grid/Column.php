@@ -5,11 +5,13 @@ namespace ExAdmin\ui\component\grid\grid;
 use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
 use ExAdmin\ui\component\grid\Popover;
+use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
@@ -19,6 +21,7 @@ use ExAdmin\ui\support\Arr;
  * Class Column
  * @method $this dataIndex(string $value) 对应列内容的字段名
  * @method $this header(string $value)    自定义内容
+ * @method $this width(int $width) 宽度
  */
 class Column extends Component
 {
@@ -221,7 +224,7 @@ class Column extends Component
      * @param bool $preview 预览参数
      * @return $this
      */
-    protected function commonImage(int $height = 80, string $value, int $width = 80, string $alt = '', bool $preview = true)
+    protected function commonImage(string $value, int $width = 80, int $height = 80 , string $alt = '', bool $preview = true)
     {
         $image = Image::create()
                       ->src($value)
@@ -299,6 +302,52 @@ class Column extends Component
     {
         $this->display(function ($value) {
 
+        });
+        return $this;
+    }
+
+    /**
+     * 进度条
+     * @param string $type  line(线形) circle(圆形) dashboard(仪表盘)
+     * @param int $width 宽度
+     * @param string $status success exception normal active(仅限 line)
+     * @param string[]|string $strokeColor 进度条的色彩，渐变设置 ['0%' => '#108ee9', '100%' => '#87d068']
+     * @param string $trailColor 未完成的分段的颜色
+     * @return $this
+     */
+    public function process(string $type = 'line', int $width = 80, string $status = 'normal', $strokeColor = '', string $trailColor = '')
+    {
+        $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
+            $process = Process::create()
+                ->percent($value)
+                ->type($type)
+                ->width($width)
+                ->status($status);
+            if (!empty($strokeColor)) $process->strokeColor($strokeColor);
+            if (!empty($trailColor) && !is_array($strokeColor)) $process->trailColor($trailColor);
+            return $process;
+        });
+        return $this;
+    }
+
+    /**
+     * 统计数值
+     * @param int $precision 数值精度(保留小数位)
+     * @param mixed $prefix 设置数值的前缀
+     * @param mixed $suffix 设置数值的后缀
+     * @param string $groupSeparator 设置千分位标识符
+     * @return $this
+     */
+    public function statistic(int $precision = 0, $prefix = '', $suffix = '', string $groupSeparator = ',')
+    {
+        $this->display(function ($value) use ($precision, $prefix, $suffix, $groupSeparator) {
+            $statistic = Statistic::create()
+                ->value($value)
+                ->precision($precision)
+                ->groupSeparator($groupSeparator);
+            if (!empty($prefix)) $statistic->prefix($prefix);
+            if (!empty($suffix)) $statistic->suffix($suffix);
+            return $statistic;
         });
         return $this;
     }

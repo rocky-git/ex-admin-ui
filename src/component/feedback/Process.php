@@ -35,7 +35,5 @@ class Process extends Component
      * 组件名称
      * @var string
      */
-	protected $name = 'AProcess';
-
-	
+	protected $name = 'AProgress';
 }
