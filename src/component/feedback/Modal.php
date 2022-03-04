@@ -42,7 +42,6 @@ class Modal extends Component
     protected $slot = [
         'cancelText',
         'closeIcon',
-
         'okText',
         'title',
     ];

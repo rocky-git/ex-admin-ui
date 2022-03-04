@@ -16,18 +16,16 @@ use ExAdmin\ui\component\Component;
  * @mixin Button
  * @package ExAdmin\ui\component\grid\grid
  */
-class AddButton
+class ActionButton
 {
     protected $button;
-    
+
     //是否隐藏添加按钮
-    protected $hideAddButton = false;
-    
+    protected $hide = false;
+
     public function __construct()
     {
-        $this->button = Button::create(ui_trans('add', 'grid'));
-        $this->type('primary')
-            ->icon('<plus-outlined />');
+        $this->button = Button::create();
     }
 
     public function __call($name, $arguments)
@@ -42,12 +40,12 @@ class AddButton
      * 隐藏添加按钮
      * @param bool $bool
      */
-    public function hideAddButton(bool $bool = true)
+    public function hide(bool $bool = true)
     {
-        $this->hideAddButton = $bool;
+        $this->hide = $bool;
     }
     public function button(){
-        if($this->hideAddButton){
+        if($this->hide){
             return null;
         }else{
             return $this->button;

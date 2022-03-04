@@ -29,7 +29,12 @@ class Actions
     protected $hideEditButton = false;
     //隐藏删除按钮
     protected $hideDelButton = false;
-
+    //详情按钮
+    protected $detailButton;
+    //编辑按钮
+    protected $editButton ;
+    //删除按钮
+    protected $delButton;
     protected $prependArr = [];
 
     protected $appendArr = [];
@@ -61,6 +66,27 @@ class Actions
     }
 
     /**
+     * 详情按钮
+     * @return ActionButton
+     */
+    public function detailButton(){
+        return $this->detailButton;
+    }
+    /**
+     * 编辑按钮
+     * @return ActionButton
+     */
+    public function editButton(){
+        return $this->editButton;
+    }
+    /**
+     * 删除按钮
+     * @return ActionButton
+     */
+    public function delButton(){
+        return $this->delButton;
+    }
+    /**
      * 前面追加
      * @param mixed $val
      */
@@ -81,6 +107,7 @@ class Actions
     }
 
     /**
+     * 操作列
      * @return Column
      */
     public function column()
@@ -95,6 +122,22 @@ class Actions
 
     public function row($data)
     {
+        $id = $data[$this->grid->drive()->getPk()];
+        $this->detailButton = new ActionButton;
+        $this->detailButton->content(ui_trans('detail', 'grid'))
+            ->icon('<InfoCircleFilled />');
+        $this->editButton = new ActionButton;
+        $this->editButton->content(ui_trans('edit', 'grid'))
+            ->type('primary')
+            ->icon('<EditFilled />')
+            ->modal('http://laravel.com/admin/system/startPage1',['id'=>$id]);
+        $this->delButton = new ActionButton;
+        $this->delButton->content(ui_trans('delete', 'grid'))
+            ->type('primary')
+            ->danger()
+            ->icon('<DeleteFilled />')
+            ->confirm(ui_trans('confim_delete', 'grid'), 'ex-admin/grid/delete', ['id' => $id])
+            ->method('delete');
         $html = Html::create();
         //自定义内容显示处理
         if (!is_null($this->closure)) {
@@ -104,27 +147,13 @@ class Actions
         $html->content($this->prependArr);
 
         if (!$this->hideDetailButton) {
-            $html->content(
-                Button::create(ui_trans('detail', 'grid'))
-                    ->icon('<InfoCircleFilled />')
-            );
+            $html->content($this->detailButton->button());
         }
         if (!$this->hideEditButton) {
-            $html->content(
-                Button::create(ui_trans('edit', 'grid'))
-                    ->type('primary')
-                    ->icon('<EditFilled />')
-            );
-
+            $html->content($this->editButton->button());
         }
         if (!$this->hideDelButton) {
-            $html->content(
-                Button::create(ui_trans('delete', 'grid'))
-                    ->type('primary')
-                    ->danger()
-                    ->icon('<DeleteFilled />')
-                    ->confirm(ui_trans('confim_delete', 'grid'), '1', ['a' => 1])
-            );
+            $html->content($this->delButton->button());
         }
         //追加尾部
         $html->content($this->appendArr);

@@ -8,19 +8,16 @@ trait CallProvide
 
     public function parseCallMethod($reset = false)
     {
-        if (empty($this->call) || $reset = true) {
+        if (count($this->call) == 0 || $reset = true) {
             $backtraces = debug_backtrace(1, 4);
-
             $backtraces = array_slice($backtraces, 3);
             $backtrace = $backtraces[0];
-
             $class = new \ReflectionClass($backtrace['class']);
             $this->call = [
-                'class' => urlencode(base64_encode($backtrace['class'])),
+                'class' => str_replace('\\', '-', $backtrace['class']),
                 'function' => $backtrace['function'],
                 'params' => [],
             ];
-
             try {
                 $params = $class->getMethod($this->call['function'])->getParameters();
                 foreach ($params as $key => $param) {
@@ -32,5 +29,18 @@ trait CallProvide
             }
         }
         return $this->call;
+    }
+
+    protected function dispatch()
+    {
+        $path = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $path = trim($path, '/');
+        $paths = explode('/', $path);
+        array_shift($paths);
+        list($class, $function) = $paths;
+        return [
+            'class' => $class,
+            'function' => $function
+        ];
     }
 }

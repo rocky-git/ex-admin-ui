@@ -23,11 +23,11 @@ use ExAdmin\ui\component\Component;
  */
 class Confirm extends Component
 {
-    protected $name = 'html';
     protected $component;
     public function __construct($component)
     {
         $this->component = $component;
+        $this->component->eventCustom('success','gridRefresh');
         parent::__construct();
     }
 

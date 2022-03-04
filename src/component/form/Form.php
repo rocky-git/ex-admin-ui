@@ -13,7 +13,9 @@ use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
+use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\Request;
 
 
 /**
@@ -23,6 +25,7 @@ use ExAdmin\ui\support\Arr;
  * @link   https://github.com/stipsan/scroll-into-view-if-needed/#options options
  * @method $this model(mixed $model) 表单数据对象                                                                            object
  * @method $this url(string $url) 提交地址
+ * @method $this method(string $value) ajax请求method get / post /put / delete
  * @method $this rules(mixed $rules) 表单验证规则                                                                            object
  * @method $this hideRequiredMark(bool $hide = false) 隐藏所有表单项的必选标记                                                boolean
  * @method $this labelAlign(string $align = 'right') label 标签的文本对齐方式                                                'left' | 'right'
@@ -38,7 +41,7 @@ use ExAdmin\ui\support\Arr;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用                                                        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = false) 为 true 时不带样式，作为纯字段控件使用                                            boolean
- * @method static $this create($data = [], $bindField = null) 创建
+ * @method static $this create($data, $bindField = null) 创建
  * @package ExAdmin\ui\component\form
  */
 class Form extends Component
@@ -52,7 +55,10 @@ class Form extends Component
     protected $data = [];
 
     protected $manyField = '';
-
+    /**
+     * @var FormInterface
+     */
+    protected $drive;
     /**
      * 组件名称
      * @var string
@@ -63,14 +69,26 @@ class Form extends Component
      * @param array $data 初始数据
      * @param null $bindField 绑定字段
      */
-    public function __construct($data = [], $bindField = null)
+    public function __construct($data, $bindField = null)
     {
-        $this->data = $data;
+        $drive = ui_config('config.request_interface.form');
+        $this->drive = new $drive($data);
+        $this->data = $this->drive->getData();
         $this->vModel('model', $bindField, $data);
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
         //保存成功关闭弹窗
-        $this->event('formModalClose',[],'custom');
+        $this->eventCustom('success','CloseModal');
+        //保存成功刷新grid列表
+        $this->eventCustom('success','GridRefresh');
+        $pk = $this->drive->getPk();
+        if(Request::has($pk)){
+            $this->attr('editId',Request::input($pk));
+            $this->url('ex-admin/form/update');
+            $this->method('PUT');
+        }else{
+            $this->url('ex-admin/form/save');
+        }
         parent::__construct();
     }
 

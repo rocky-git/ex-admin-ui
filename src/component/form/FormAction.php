@@ -58,9 +58,7 @@ class FormAction extends FormItem
     {
         return $this->resetButton;
     }
-
     
-
     /**
      * 隐藏操作
      * @param bool $bool

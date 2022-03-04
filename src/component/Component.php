@@ -250,22 +250,7 @@ abstract class Component implements \JsonSerializable
         $this->attr('style', $style);
         return $this->directive('redirect', $url);
     }
-    /**
-     * 确认消息框
-     * @param string $message 确认内容
-     * @param string $url 请求url 空不请求
-     * @param array $params 请求参数
-     * @return Confirm
-     */
-    public function confirm(string $message, string $url = '', array $params = []){
-        return Confirm::create($this)
-            ->method('post')
-            ->title(ui_trans('Confirm.title','antd'))
-            ->content($message)
-            ->url($url)
-            ->params($params);
-        
-    }
+
     /**
      * 插槽内容
      * @param mixed $content 内容
@@ -352,7 +337,8 @@ abstract class Component implements \JsonSerializable
     public function modal($url = '', $params = [], $method = 'GET')
     {
         $modal = Modal::create($this);
-        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()], 'custom');
+        $modal->title($this->content['default'][0]);
+        $this->eventCustom('click','Modal',['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
 
@@ -366,10 +352,26 @@ abstract class Component implements \JsonSerializable
     public function drawer($url = '', $params = [], $method = 'GET')
     {
         $modal = Drawer::create($this);
-        $this->event('modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()], 'custom');
+        $modal->title($this->content['default'][0]);
+        $this->eventCustom('click','Modal',['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
+    /**
+     * 确认消息框
+     * @param string $message 确认内容
+     * @param string $url 请求url 空不请求
+     * @param array $params 请求参数
+     * @return Confirm
+     */
+    public function confirm(string $message, string $url = '', array $params = []){
+        return Confirm::create($this)
+            ->method('post')
+            ->title(ui_trans('Confirm.title','antd'))
+            ->content($message)
+            ->url($url)
+            ->params($params);
 
+    }
     public function getName()
     {
         return $this->name;

@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui;
 
+use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\GridInterface;
 use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
@@ -14,6 +15,7 @@ class Route
 {
     protected $contract = [
         'grid' => GridInterface::class,
+        'form' => FormInterface::class,
     ];
     public static function __callStatic($name, $arguments)
     {
@@ -21,8 +23,9 @@ class Route
     }
     public function invokeArgs($class, $function, $vars = [])
     {
+
         if($_SERVER['REQUEST_METHOD'] !='OPTIONS'){
-            $classDecode = base64_decode(urldecode($class));
+            $class = str_replace('-','\\',$class);
             if (array_key_exists($class, $this->contract)) {
                 $classInterface = ui_config('config.request_interface.' . $class);
                 if (empty($classInterface)) {
@@ -34,8 +37,8 @@ class Route
                 } else {
                     throw new \Exception('必须实现接口: ' . $this->contract[$class]);
                 }
-            }elseif (class_exists($classDecode)){
-                $reflect = new \ReflectionClass($classDecode);
+            }elseif (class_exists($class)){
+                $reflect = new \ReflectionClass($class);
                 return $this->invokerArgs($reflect, $function, $vars);
             }
         }

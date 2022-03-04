@@ -6,9 +6,10 @@
  * Time: 21:12
  */
 return [
-    
+
     'request_interface'=>[
       'grid'=>\App\Grid::class,
+      'form'=>\App\Form::class,
     ],
     // 默认语言
     'lang' => 'zh-cn',

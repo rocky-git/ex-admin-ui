@@ -11,6 +11,8 @@ use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridInterface;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Class Grid
@@ -50,27 +52,33 @@ class Grid extends Table
      */
     protected $drive;
     /**
-     * @var Actions 
+     * @var Actions
      */
     protected $actionColumn;
-    
+
     protected $hideAction = false;
-    
+
     public function __construct($data)
     {
         $drive = ui_config('config.request_interface.grid');
         $this->drive = new $drive($data);
         $this->pagination = Pagination::create();
-        $this->addButton = new AddButton();
+        $this->addButton = new ActionButton();
+        $this->addButton->content(ui_trans('add', 'grid'))
+            ->type('primary')
+            ->icon('<plus-outlined />');
         //操作列
         $this->actionColumn = new Actions($this);
         $this->rowKey('ex_admin_id');
-        $call = $this->parseCallMethod();
-        $this->url("ex-admin/{$call['class']}/{$call['function']}");
-        $this->params($call['params']);
+        $this->parseCallMethod();
+        $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
+        $this->params($this->call['params']);
         parent::__construct();
     }
-
+    public function drive()
+    {
+        return $this->drive;
+    }
     /**
      * 头部
      * @param mixed $content
@@ -205,7 +213,7 @@ class Grid extends Table
             }
             if (!$this->hideAction) {
                 $actionColumn = clone $this->actionColumn;
-                $rowData['ExadminAction'] = $actionColumn->row($data);
+                $rowData['ExadminAction'] = $actionColumn->row($row);
             }
             $tableData[] = $rowData;
         }
@@ -225,12 +233,12 @@ class Grid extends Table
      */
     public function hideAddButton(bool $bool = true)
     {
-        $this->addButton->hideAddButton($bool);
+        $this->addButton->hide($bool);
     }
 
     /**
      * 添加按钮
-     * @return AddButton
+     * @return ActionButton
      */
     public function addButton()
     {
@@ -249,8 +257,8 @@ class Grid extends Table
         $this->drive->quickSearch(Request::input('quickSearch',''));
         $data = $this->drive->data($page, $size);
         $data = $this->parseColumn($data);
-
-        if (Request::input('grid_request_data')) {
+        $dispatch = $this->dispatch();
+        if (Request::input('grid_request_data') && $dispatch['class'] == $this->call['class'] && $dispatch['function'] == $this->call['function']) {
             return [
                 'data' => $data,
                 'header' => $this->attr('header'),

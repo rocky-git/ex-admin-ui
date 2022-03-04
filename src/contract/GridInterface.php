@@ -7,7 +7,19 @@ use Illuminate\Http\Request;
 
 interface GridInterface
 {
-    public function __construct($data);
+    public function __construct($data = null);
+
+    /**
+     * 返回唯一标识字段，一般数据库主键自增字段
+     * @return string
+     */
+    public function getPk():string;
+    /**
+     * 删除
+     * @param int $id
+     * @return Message
+     */
+    public function delete($id): Message;
 
     /**
      * 删除选中
@@ -28,7 +40,7 @@ interface GridInterface
      * @param int $sort 排序位置
      * @return Message
      */
-    public function dragSort(int $id, int $sort): Message;
+    public function dragSort($id, int $sort): Message;
 
     /**
      * 输入框排序
@@ -36,7 +48,7 @@ interface GridInterface
      * @param int $sort 排序位置
      * @return Message
      */
-    public function inputSort(int $id, int $sort): Message;
+    public function inputSort($id, int $sort): Message;
 
     /**
      * 快捷搜索
@@ -44,6 +56,7 @@ interface GridInterface
      * @return mixed
      */
     public function quickSearch(string $keyword);
+
     /**
      * 数据源
      * @param int $page 第几页
