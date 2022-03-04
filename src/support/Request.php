@@ -2,7 +2,7 @@
 
 namespace ExAdmin\ui\support;
 /**
- * @method static input($name, $default = null)
+ * @method static input($name = null, $default = null)
  * @method static has($name)
  */
 class Request
@@ -32,7 +32,7 @@ class Request
         }
     }
 
-    protected function param($name, $default = null)
+    protected function param($name = null, $default = null)
     {
         return Arr::get($this->getInputData(), $name, $default);
     }

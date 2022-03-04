@@ -130,14 +130,15 @@ class Actions
         $this->editButton->content(ui_trans('edit', 'grid'))
             ->type('primary')
             ->icon('<EditFilled />')
-            ->modal('http://laravel.com/admin/system/startPage1',['id'=>$id]);
+            ->modal('http://test.test/admin/system/startPage1',['id'=>$id]);
         $this->delButton = new ActionButton;
         $this->delButton->content(ui_trans('delete', 'grid'))
             ->type('primary')
             ->danger()
             ->icon('<DeleteFilled />')
             ->confirm(ui_trans('confim_delete', 'grid'), 'ex-admin/grid/delete', ['id' => $id])
-            ->method('delete');
+            ->method('delete')
+            ->gridRefresh();
         $html = Html::create();
         //自定义内容显示处理
         if (!is_null($this->closure)) {

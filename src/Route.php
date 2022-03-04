@@ -6,6 +6,7 @@ use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\GridInterface;
 use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
+use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
 
 /**
@@ -21,9 +22,9 @@ class Route
     {
         return Container::getInstance()->make(self::class)->invokeArgs(...$arguments);
     }
-    public function invokeArgs($class, $function, $vars = [])
+    public function invokeArgs($class, $function)
     {
-
+        $vars = Request::input();
         if($_SERVER['REQUEST_METHOD'] !='OPTIONS'){
             $class = str_replace('-','\\',$class);
             if (array_key_exists($class, $this->contract)) {

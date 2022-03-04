@@ -19,6 +19,7 @@ use ExAdmin\ui\component\Component;
  * @method $this url(string $value) ajax请求url
  * @method $this method(string $value) ajax请求method get / post /put / delete
  * @method $this params(array $value) 提交ajax参数
+ * @method $this gridRefresh(bool $value = true) 成功刷新grid表格 
  * @package ExAdmin\ui\component\feedback
  */
 class Confirm extends Component
@@ -27,7 +28,6 @@ class Confirm extends Component
     public function __construct($component)
     {
         $this->component = $component;
-        $this->component->eventCustom('success','gridRefresh');
         parent::__construct();
     }
 
