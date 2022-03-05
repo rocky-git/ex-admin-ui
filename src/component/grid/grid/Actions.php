@@ -44,7 +44,7 @@ class Actions
     public function __construct(Grid $grid)
     {
         $this->grid = $grid;
-        $this->column = new Column('ExadminAction', '', $grid);
+        $this->column = new Column('ExAdminAction', '', $grid);
     }
 
     //隐藏详情按钮
@@ -139,7 +139,7 @@ class Actions
             ->confirm(ui_trans('confim_delete', 'grid'), 'ex-admin/grid/delete', ['id' => $id])
             ->method('delete')
             ->gridRefresh();
-        $html = Html::create();
+        $html = Html::create()->attr('class',$this->column->attr('dataIndex'));;
         //自定义内容显示处理
         if (!is_null($this->closure)) {
             call_user_func_array($this->closure, [$this, $data]);

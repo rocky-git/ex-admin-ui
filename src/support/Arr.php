@@ -2,6 +2,9 @@
 
 namespace ExAdmin\ui\support;
 
+use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
+use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
+
 class Arr
 {
     /**
@@ -622,5 +625,18 @@ class Arr
             }
         }
         return $tree;
+    }
+    public static function formItem($class,$arguments){
+        $reflectionClass = new \ReflectionClass($class);
+        $fieldType = $reflectionClass->getParentClass()->name;
+        $label = '';
+        if ($fieldType == RangeField::class || $fieldType == RangePicker::class) {
+            if(count($arguments) > 2){
+                $label = array_pop($arguments);
+            }
+        }else{
+            $label = array_pop($arguments);
+        }
+        return [$arguments,$label];
     }
 }

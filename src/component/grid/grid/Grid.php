@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Log;
  * @method $this hideDeleteButton(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
  * @method $this hideSelection(bool $bool = true) 隐藏选择框
+ * @method $this expandFilter(bool $bool = true) 展开筛选
  * @method $this hideTools(bool $bool = true) 隐藏工具栏
+ * @method $this hideExport(bool $bool = true) 隐藏导出
  * @method $this quickSearch(bool $bool = true) 快捷搜索
  * @method $this quickSearchText(string $string) 快捷提示文本内容
  * @method $this url(string $url) 加载数据地址
@@ -56,6 +58,7 @@ class Grid extends Table
      */
     protected $actionColumn;
 
+
     protected $hideAction = false;
 
     public function __construct($data)
@@ -73,6 +76,7 @@ class Grid extends Table
         $this->parseCallMethod();
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params($this->call['params']);
+        $this->scroll(['x' => 'max-content']);
         parent::__construct();
     }
     public function drive()
@@ -113,6 +117,18 @@ class Grid extends Table
             }
         }
         $this->attr($name, $content);
+    }
+    /**
+     * 筛选表单
+     * @param \Closure $callback
+     */
+    public function filter(\Closure $callback)
+    {
+        $filter = new Filter();
+        call_user_func($callback,$filter);
+        $this->drive->filter($filter->getRule());
+        $this->attr('filter',$filter->form());
+        return $filter;
     }
     /**
      * 拖拽排序
@@ -213,7 +229,7 @@ class Grid extends Table
             }
             if (!$this->hideAction) {
                 $actionColumn = clone $this->actionColumn;
-                $rowData['ExadminAction'] = $actionColumn->row($row);
+                $rowData[$actionColumn->column()->attr('dataIndex')] = $actionColumn->row($row);
             }
             $tableData[] = $rowData;
         }
@@ -255,6 +271,9 @@ class Grid extends Table
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
         $this->drive->quickSearch(Request::input('quickSearch',''));
+        if(Request::has('ex_admin_sort_field')){
+            $this->drive->tableSort(Request::input('ex_admin_sort_field'),Request::input('ex_admin_sort_by'));
+        }
         $data = $this->drive->data($page, $size);
         $data = $this->parseColumn($data);
         $dispatch = $this->dispatch();

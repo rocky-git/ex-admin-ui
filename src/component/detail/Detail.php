@@ -8,6 +8,7 @@ use ExAdmin\ui\component\grid\descriptions\DescriptionsItem;
 use ExAdmin\ui\support\Arr;
 
 /**
+ * Class Detail
  * @method static $this create($data) 创建
  */
 class Detail extends Descriptions
@@ -41,7 +42,7 @@ class Detail extends Descriptions
         $this->item[] = $item;
         return $item;
     }
-    
+
     /**
      * 获取数据
      * @param string|null $field 字段

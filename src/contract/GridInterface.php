@@ -51,6 +51,13 @@ interface GridInterface
     public function inputSort($id, int $sort): Message;
 
     /**
+     * 表格列触发排序
+     * @param string $field 字段
+     * @param string $sort 排序 asc desc
+     * @return mixed
+     */
+    public function tableSort($field,$sort);
+    /**
      * 快捷搜索
      * @param string $keyword 关键词
      * @return mixed
@@ -70,4 +77,20 @@ interface GridInterface
      * @return int
      */
     public function total(): int;
+
+    /**
+     * 导出数据
+     * @param array $selectIds 导出选中id
+     * @param array $columns 导出列
+     * @param bool $all 是否导出全部
+     * @return mixed
+     */
+    public function export(array $selectIds,array $columns,bool $all):Message;
+
+    /**
+     * 筛选
+     * @param array $rules
+     * @return mixed
+     */
+    public function filter(array $rules);
 }
