@@ -89,8 +89,8 @@ interface GridInterface
 
     /**
      * 筛选
-     * @param array $rules
+     * @param array $rule
      * @return mixed
      */
-    public function filter(array $rules);
+    public function filter(array $rule);
 }

@@ -634,7 +634,7 @@ class Arr
             if(count($arguments) > 2){
                 $label = array_pop($arguments);
             }
-        }else{
+        }elseif(count($arguments) > 1){
             $label = array_pop($arguments);
         }
         return [$arguments,$label];

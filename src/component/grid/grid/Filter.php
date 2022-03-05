@@ -64,7 +64,6 @@ class Filter
             ->icon(' <search-outlined />')
             ->content('搜索');
     }
-
     public function __call($name, $arguments)
     {
         if (in_array($name, $this->filterType)) {
@@ -90,6 +89,10 @@ class Filter
     public function getRule(){
         return $this->rules;
     }
+
+    /**
+     * @return Form
+     */
     public function form()
     {
         return $this->form;

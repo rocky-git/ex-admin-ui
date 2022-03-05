@@ -139,7 +139,15 @@ class Form extends Component
         }
         return Arr::get($this->data, $field);
     }
-
+    public function getFormItem()
+    {
+        return $this->formItem;
+    }
+    public function popItem()
+    {
+        $item = array_pop($this->formItem);
+        return $item;
+    }
     /**
      * 设置数据
      * @param string $field 字段

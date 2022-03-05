@@ -128,4 +128,7 @@ class Field extends Component
     {
         $this->formItem = $formItem;
     }
+    public function getFormItem(){
+        return $this->formItem;
+    }
 }

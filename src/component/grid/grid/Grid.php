@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
  * @method $this hideSelection(bool $bool = true) 隐藏选择框
  * @method $this expandFilter(bool $bool = true) 展开筛选
  * @method $this hideTools(bool $bool = true) 隐藏工具栏
+ * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideExport(bool $bool = true) 隐藏导出
  * @method $this quickSearch(bool $bool = true) 快捷搜索
  * @method $this quickSearchText(string $string) 快捷提示文本内容
@@ -57,7 +58,10 @@ class Grid extends Table
      * @var Actions
      */
     protected $actionColumn;
-
+    /**
+     * @var Filter 
+     */
+    protected $filter = null;
 
     protected $hideAction = false;
 
@@ -118,17 +122,26 @@ class Grid extends Table
         }
         $this->attr($name, $content);
     }
+
+    /**
+     * @return Filter
+     */
+    public function getFilter(){
+        if (is_null($this->filter)) {
+            $this->filter = new Filter();
+        }
+        return $this->filter;
+    }
     /**
      * 筛选表单
      * @param \Closure $callback
      */
     public function filter(\Closure $callback)
     {
-        $filter = new Filter();
-        call_user_func($callback,$filter);
-        $this->drive->filter($filter->getRule());
-        $this->attr('filter',$filter->form());
-        return $filter;
+        $this->getFilter();
+        call_user_func($callback,$this->filter);
+        $this->drive->filter($this->filter->getRule());
+        return $this->filter;
     }
     /**
      * 拖拽排序
@@ -263,6 +276,14 @@ class Grid extends Table
 
     public function jsonSerialize()
     {
+        if($this->filter){
+            if(empty($this->filter->form()->getFormItem())){
+                $this->hideFilter();
+             
+            }
+
+            $this->attr('filter',$this->filter->form());
+        }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();

@@ -15,6 +15,7 @@ use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\traits\ColumnFilter;
 use ExAdmin\ui\traits\Display;
 
 /**
@@ -196,4 +197,22 @@ class Column extends Component
         $this->closure = $closure;
         return $this;
     }
+    
+    public function filter(FilterColumn $filterColumn){
+        $filter = $this->grid->getFilter();
+        $form = $filter->form();
+        $form->actions()->hide();
+        foreach ($filterColumn->getCall() as $key=>$item){
+            $arguments = $item['arguments'];
+            if($key == 1 && count($arguments) == 0){
+                $arguments = [$this->attr('dataIndex')];
+            }
+            $filter = call_user_func_array([$filter,$item['name']],$arguments);
+        }
+        $filter->getFormItem()->style(['display' => 'none']);
+        $form->popItem();
+        $this->attr('customFilterDropdown',true);
+        $this->attr('customFilterForm',$filter);
+    }
+   
 }
