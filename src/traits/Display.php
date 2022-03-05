@@ -7,6 +7,7 @@ use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
+use ExAdmin\ui\component\grid\badge\Badge;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
@@ -308,7 +309,7 @@ trait Display
         });
         return $this;
     }
-    
+
     /**
      * 文件显示 #TODO
      * @return $this

@@ -35,6 +35,4 @@ class Badge extends Component
      * @var string
      */
 	protected $name = 'ABadge';
-
-	
 }
