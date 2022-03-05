@@ -13,15 +13,22 @@ class Item extends DescriptionsItem
 
     protected $closure = null;
 
+    protected $default = '--';
     public function __construct($field, $label, $data)
     {
         $this->data = $data;
         $this->field = $field;
         $this->label($label);
-
         parent::__construct();
     }
 
+    /**
+     * 设置缺失值
+     * @param $value
+     */
+    public function default($value){
+        $this->default = $value;
+    }
     /**
      * 自定义显示
      * @param \Closure $closure
@@ -41,8 +48,7 @@ class Item extends DescriptionsItem
             $originValue = Arr::get($this->data, $this->field);
         }
         if (is_null($originValue)) {
-            //空默认占位符
-            $value = '--';
+            $value = $this->default;
         } else {
             $value = $originValue;
         }

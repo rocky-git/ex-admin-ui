@@ -32,7 +32,9 @@ class Column extends Component
     protected $closure = null;
 
     protected $hide = false;
-
+    
+    protected $default = '--';
+    
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
@@ -44,7 +46,13 @@ class Column extends Component
             );
         }
     }
-
+    /**
+     * 设置缺失值
+     * @param $value
+     */
+    public function default($value){
+        $this->default = $value;
+    }
     /**
      * 解析每行数据
      * @param array $data 数据
@@ -56,8 +64,7 @@ class Column extends Component
         $field = $this->attr('dataIndex');
         $originValue = Arr::get($data, $field);
         if (is_null($originValue)) {
-            //空默认占位符
-            $value = '--';
+            $value = $this->default;
         } else {
             $value = $originValue;
         }

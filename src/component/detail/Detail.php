@@ -38,15 +38,10 @@ class Detail extends Descriptions
     public function item($field = null, $label = null)
     {
         $item = new Item($field,$label,$this->data);
-        $this->push($item);
+        $this->item[] = $item;
         return $item;
     }
-
-    public function push($item)
-    {
-        $this->item[] = $item;
-    }
-
+    
     /**
      * 获取数据
      * @param string|null $field 字段
