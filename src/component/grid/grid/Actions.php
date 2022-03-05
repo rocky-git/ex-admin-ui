@@ -130,7 +130,7 @@ class Actions
         $this->editButton->content(ui_trans('edit', 'grid'))
             ->type('primary')
             ->icon('<EditFilled />')
-            ->modal('http://test.test/admin/system/startPage1',['id'=>$id]);
+            ->modal('http://laravel.com/admin/system/startPage1',['id'=>$id]);
         $this->delButton = new ActionButton;
         $this->delButton->content(ui_trans('delete', 'grid'))
             ->type('primary')

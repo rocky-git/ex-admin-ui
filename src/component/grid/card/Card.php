@@ -20,6 +20,7 @@ use ExAdmin\ui\component\Component;
  * @method $this size(string $size = 'default') card 的尺寸                                        						default | small
  * @method $this title(mixed $title) 卡片标题                                        									string|slot
  * @method $this type(string $type) 卡片类型，可设置为 inner 或 不设置                                        				string
+ * @method static $this create($content=null) 创建
  * @package ExAdmin\ui\component\form\field
  */
 class Card extends Component
@@ -39,5 +40,10 @@ class Card extends Component
      */
 	protected $name = 'ACard';
 
-	
+    public function __construct($content)
+    {
+        if (!empty($content)) {
+            $this->content($content);
+        }
+    }
 }
