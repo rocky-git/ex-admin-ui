@@ -29,7 +29,5 @@ class TimeLineItem extends Component
      * 组件名称
      * @var string
      */
-	protected $name = 'ATimeLineItem';
-
-	
+	protected $name = 'ATimelineItem';
 }

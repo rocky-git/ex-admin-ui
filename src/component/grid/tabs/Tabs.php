@@ -54,6 +54,7 @@ class Tabs extends Component
         $field = $this->bindAttr($this->vModel);
         $this->bind($field,$value);
     }
+    
     /**
      * 添加选项卡
      * @param string $title 标题
@@ -77,6 +78,7 @@ class Tabs extends Component
         $this->content($pane);
         return $this;
     }
+    
     public function setForm(Form $form){
         $this->form = $form;
     }

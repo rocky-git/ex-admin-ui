@@ -29,7 +29,41 @@ class TimeLine extends Component
      * 组件名称
      * @var string
      */
-	protected $name = 'ATimeLine';
+	protected $name = 'ATimeline';
 
-	
+    /**
+     * 添加一个子项
+     * @param string $value 值
+     * @param string $color 颜色
+     * @param string $position 位置仅在mode=alternate生效  left | right
+     * @return $this
+     */
+	public function item(string $value, string $color = 'blue', string $position = 'left')
+    {
+        $item = new TimeLineItem();
+        $item->content($value)
+            ->position($position)
+            ->color($color);
+        $this->content($item);
+        return $this;
+    }
+
+    /**
+     * 设置选项(数组)
+     * @param array $dataSource 数据源 $dataSource = ['时间轴1', '时间轴2, '时间轴3];
+     */
+    public function options($dataSource)
+    {
+        $options = [];
+        foreach ($dataSource as $value) {
+            $options[] = [
+                'slotDefault' => $value
+            ];
+        }
+        $item = TimeLineItem::create()
+            ->map($options)
+            ->mapAttr('slotDefault');
+        $this->content($item);
+        return $this;
+    }
 }
