@@ -4,9 +4,12 @@ namespace ExAdmin\ui\component\detail;
 
 use ExAdmin\ui\component\grid\descriptions\DescriptionsItem;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\traits\Display;
 
 class Item extends DescriptionsItem
 {
+    use Display;
+    
     protected $data = [];
 
     protected $field;
