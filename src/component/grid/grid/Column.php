@@ -8,6 +8,8 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
+use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\form\FormAction;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
 use ExAdmin\ui\component\grid\Popover;
@@ -50,13 +52,16 @@ class Column extends Component
             );
         }
     }
+
     /**
      * 设置缺失值
      * @param $value
      */
-    public function default($value){
+    public function default($value)
+    {
         $this->default = $value;
     }
+
     /**
      * 解析每行数据
      * @param array $data 数据
@@ -180,10 +185,10 @@ class Column extends Component
         $params = $this->grid->getCallMethod();
         $params['eadmin_ids'] = [$data[$this->grid->drive()->getPk()]];
         return Switches::create(null, $value)
-                       ->options($switchArr ?? admin_trans('admin.switch'))
-                       ->url('/eadmin/batch.rest')
-                       ->field($field)
-                       ->params($params);
+            ->options($switchArr ?? admin_trans('admin.switch'))
+            ->url('/eadmin/batch.rest')
+            ->field($field)
+            ->params($params);
     }
 
 
@@ -197,22 +202,57 @@ class Column extends Component
         $this->closure = $closure;
         return $this;
     }
-    
-    public function filter(FilterColumn $filterColumn){
+
+    public function filter($filterColumn)
+    {
+
+        if (!is_array($filterColumn)) {
+            $filterColumn = [$filterColumn];
+        }
         $filter = $this->grid->getFilter();
-        $form = $filter->form();
+        $form = Form::create([], $filter->form()->getModel());
         $form->actions()->hide();
-        foreach ($filterColumn->getCall() as $key=>$item){
+        $form->removeAttr('labelCol')
+            ->layout('horizontal')
+            ->removeAttr('url');
+        foreach ($filterColumn as $item) {
+            $this->filterForm($item,$form);
+        }
+        $this->attr('customFilterDropdown', true);
+        $this->attr('customFilterForm', Html::create([
+            $form,
+            Html::create([
+                Button::create(ui_trans('Grid.search', 'antd'))
+                    ->eventFunction('click', 'submit', [], $form)
+                    ->size('small')
+                    ->type('primary'),
+                Button::create(ui_trans('reset', 'form'))
+                    ->size('small')
+                    ->eventFunction('click', 'form.resetFields', [], $form)
+            ])
+                ->style(['borderTop' => '1px solid #DCDFE6', 'paddingTop' => '10px'])
+                ->tag('div')
+        ])->style(['padding'=>'8px'])->tag('div'));
+    }
+
+    /**
+     * @param $filterColumn
+     */
+    protected function filterForm($filterColumn,$form)
+    {
+        $filter = $this->grid->getFilter();
+        foreach ($filterColumn->getCall() as $key => $item) {
             $arguments = $item['arguments'];
-            if($key == 1 && count($arguments) == 0){
+            if ($key == 1 && count($arguments) == 0) {
                 $arguments = [$this->attr('dataIndex')];
             }
-            $filter = call_user_func_array([$filter,$item['name']],$arguments);
+            if ($key < 2) {
+
+                $filter = $filter->setRule($item['name'], $arguments, $form);
+            } else {
+                $filter = call_user_func_array([$filter, $item['name']], $arguments);
+            }
         }
-        $filter->getFormItem()->style(['display' => 'none']);
-        $form->popItem();
-        $this->attr('customFilterDropdown',true);
-        $this->attr('customFilterForm',$filter);
     }
-   
+
 }

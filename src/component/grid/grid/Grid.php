@@ -135,6 +135,7 @@ class Grid extends Table
     /**
      * 筛选表单
      * @param \Closure $callback
+     * @return Filter
      */
     public function filter(\Closure $callback)
     {
@@ -281,7 +282,6 @@ class Grid extends Table
                 $this->hideFilter();
              
             }
-
             $this->attr('filter',$this->filter->form());
         }
         //添加操作列

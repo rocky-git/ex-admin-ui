@@ -63,16 +63,23 @@ class Filter
             ->submitButton()
             ->icon(' <search-outlined />')
             ->content('搜索');
+       
     }
     public function __call($name, $arguments)
     {
+        return $this->setRule($name,$arguments);
+    }
+    public function setRule($name, $arguments,$form=null){
         if (in_array($name, $this->filterType)) {
             $this->rule = $name;
             if(isset($arguments[0]) && $arguments[0] instanceof \Closure){
                 call_user_func($arguments[0],$this);
             }
         }elseif (isset($this->formComponent[$name])){
-            $formComponent = call_user_func_array([$this->form,$name],$arguments);
+            if(is_null($form)){
+                $form = $this->form;
+            }
+            $formComponent = call_user_func_array([$form,$name],$arguments);
             list($fields) = Arr::formItem($formComponent,$arguments);
             $params = [];
             foreach ($fields as $field){
