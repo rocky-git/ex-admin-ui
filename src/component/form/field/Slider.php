@@ -5,6 +5,7 @@ namespace ExAdmin\ui\component\form\field;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\component\form\FormItemRest;
 use ExAdmin\ui\component\layout\Row;
 
 /**
@@ -36,7 +37,7 @@ class Slider extends Field
      */
 	protected $name = 'ASlider';
 
-	public function __construct($field = null, string $value = '')
+	public function __construct($field = null,$value = 0)
     {
 
         parent::__construct($field, $value);
@@ -54,7 +55,7 @@ class Slider extends Field
         $html = Html::create();
         $html->content([
             Html::create($slider)->style(['flex'=>1,'marginRight'=>'10px']),
-            $number,
+            FormItemRest::create()->content($number),
         ])->style(['display'=>'flex']);
         $this->formItem->content($html);
         return $this;
