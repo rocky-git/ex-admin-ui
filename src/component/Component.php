@@ -17,7 +17,7 @@ use think\app\Url;
  */
 abstract class Component implements \JsonSerializable
 {
-    use Where, ForMap, Event;
+    use Where, ForMap, Event,Directive;
 
     //组件名称
     protected $name;
@@ -31,8 +31,6 @@ abstract class Component implements \JsonSerializable
     protected $bindAttribute = [];
     //属性绑定自定义函数
     protected $bindFunction = [];
-    //自定义指令
-    protected $directive = [];
     //双向绑定
     protected $modelBind = [];
     //expose绑定
@@ -149,7 +147,7 @@ abstract class Component implements \JsonSerializable
      */
     public function bindFunction(string $attr, string $function, array $params = [])
     {
-        array_push($params,$function);
+        array_push($params, $function);
         $this->bindFunction[$attr] = $params;
     }
 
@@ -223,33 +221,7 @@ abstract class Component implements \JsonSerializable
             return new static(...$arguments);
         }
     }
-
-    /**
-     * @param string $name 指令名称
-     * @param string|array $value 值
-     * @param string|array $argument 参数(可选)
-     * @return $this
-     */
-    public function directive($name, $value = '', $argument = '')
-    {
-        $this->directive[] = ['name' => $name, 'argument' => $argument, 'value' => $value];
-        return $this;
-    }
-
-    /**
-     * 跳转路径
-     * @param string $url
-     * @param array $params
-     * @return $this
-     */
-    public function redirect($url, $params = [])
-    {
-        $url = $url . '?' . http_build_query($params);
-        $style = $this->attr('style') ?? [];
-        $style = array_merge($style, ['cursor' => 'pointer']);
-        $this->attr('style', $style);
-        return $this->directive('redirect', $url);
-    }
+    
 
     /**
      * 插槽内容
@@ -338,24 +310,25 @@ abstract class Component implements \JsonSerializable
     {
         $modal = Modal::create($this);
         $modal->title($this->content['default'][0]);
-        $this->eventCustom('click','Modal',['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
+        $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
 
     /**
      * Modal 对话框
-     * @param string $url
-     * @param array $params
-     * @param string $method
+     * @param string $url 请求url 空不请求
+     * @param array $params 请求参数
+     * @param string $method 请求方式
      * @return Modal
      */
     public function drawer($url = '', $params = [], $method = 'GET')
     {
         $modal = Drawer::create($this);
         $modal->title($this->content['default'][0]);
-        $this->eventCustom('click','Modal',['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
+        $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
+
     /**
      * 确认消息框
      * @param string $message 确认内容
@@ -363,14 +336,14 @@ abstract class Component implements \JsonSerializable
      * @param array $params 请求参数
      * @return Confirm
      */
-    public function confirm(string $message, string $url = '', array $params = []){
+    public function confirm(string $message, string $url = '', array $params = [], $method = 'POST')
+    {
         return Confirm::create($this)
-            ->method('post')
-            ->title(ui_trans('Confirm.title','antd'))
+            ->method($method)
+            ->title(ui_trans('Confirm.title', 'antd'))
             ->content($message)
             ->url($url)
             ->params($params);
-
     }
     public function getName()
     {

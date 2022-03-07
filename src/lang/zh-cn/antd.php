@@ -300,5 +300,9 @@ return [
     ],
     'Confirm'=>[
         'title'=>'提示'
+    ],
+    'Copy'=>[
+        'success'=>'复制成功',
+        'error'=>'复制失败',
     ]
 ];

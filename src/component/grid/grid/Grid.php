@@ -9,6 +9,7 @@ use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridInterface;
+use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
 use Illuminate\Support\Facades\Log;
@@ -59,12 +60,19 @@ class Grid extends Table
      */
     protected $actionColumn;
     /**
-     * @var Filter 
+     * @var Filter
      */
     protected $filter = null;
+    //展开行
+    protected $expandRow = null;
 
     protected $hideAction = false;
-
+    //是否开启树形表格
+    protected $isTree = false;
+    //树形上级id
+    protected $treePid;
+    //树形id
+    protected $treeId;
     public function __construct($data)
     {
         $drive = ui_config('config.request_interface.grid');
@@ -143,6 +151,31 @@ class Grid extends Table
         call_user_func($callback,$this->filter);
         $this->drive->filter($this->filter->getRule());
         return $this->filter;
+    }
+    /**
+     * 开启树形表格
+     * @param string $pidField 父级字段
+     * @param string $idField 下级字段
+     * @param bool $expand 是否展开
+     */
+    public function tree($pidField = 'pid', $idField = 'id', $expand = true)
+    {
+        $this->treePid = $pidField;
+        $this->treeId = $idField;
+        $this->isTree = true;
+        $this->hidePage();
+        $this->defaultExpandAllRows($expand);
+    }
+    /**
+     * 展开行
+     * @param \Closure $closure
+     * @param bool $defaultExpandAllRow 默认是否展开
+     */
+    public function expandRow(\Closure $closure, bool $defaultExpandAllRow = false)
+    {
+        $this->expandRow = $closure;
+        $this->attr('expandedRow', true);
+        $this->defaultExpandAllRows($defaultExpandAllRow);
     }
     /**
      * 拖拽排序
@@ -236,10 +269,20 @@ class Grid extends Table
         $columns = array_merge($this->column, $this->childrenColumn);
         $tableData = [];
         foreach ($data as $key => $row) {
-            $rowData = ['ex_admin_id' => $key];
+            
+            $rowData = ['ex_admin_id' => $row[$this->drive->getPk()] ?? $key];
+            //树形父级pid
+            if ($this->isTree) {
+                $rowData['ex_admin_tree_id'] = $row[$this->treeId];
+                $rowData['ex_admin_tree_parent'] = $row[$this->treePid];
+            }
             foreach ($columns as $column) {
                 $field = $column->attr('dataIndex');
                 $rowData[$field] = $column->row($row);
+            }
+            if (!is_null($this->expandRow)) {
+                $expandRow = call_user_func($this->expandRow, $row);
+                $rowData['ExAdminExpandRow'] = Html::create($expandRow);
             }
             if (!$this->hideAction) {
                 $actionColumn = clone $this->actionColumn;
@@ -280,7 +323,7 @@ class Grid extends Table
         if($this->filter){
             if(empty($this->filter->form()->getFormItem())){
                 $this->hideFilter();
-             
+
             }
             $this->attr('filter',$this->filter->form());
         }
@@ -297,6 +340,9 @@ class Grid extends Table
         }
         $data = $this->drive->data($page, $size);
         $data = $this->parseColumn($data);
+        if($this->isTree){
+            $data = Arr::tree($data,'ex_admin_tree_id','ex_admin_tree_parent',$this->attr('childrenColumnName')??'children');
+        }
         $dispatch = $this->dispatch();
         if (Request::input('grid_request_data') && $dispatch['class'] == $this->call['class'] && $dispatch['function'] == $this->call['function']) {
             return [

@@ -306,5 +306,9 @@ return [
     ],
     'Confirm'=>[
         'title'=>'Confirm'
+    ],
+    'Copy'=>[
+        'success'=>'Copy successful',
+        'error'=>'Copy failed',
     ]
 ];

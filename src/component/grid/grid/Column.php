@@ -213,14 +213,12 @@ class Column extends Component
         $form = Form::create([], $filter->form()->getModel());
         $form->actions()->hide();
         $form->removeAttr('labelCol')
-            ->layout('horizontal')
+            ->layout('vertical')
             ->removeAttr('url');
         foreach ($filterColumn as $item) {
-            $this->filterForm($item,$form);
+            $this->filterForm($item, $form);
         }
-        $this->attr('customFilterDropdown', true);
-        $this->attr('customFilterForm', Html::create([
-            $form,
+        $form->content(
             Html::create([
                 Button::create(ui_trans('Grid.search', 'antd'))
                     ->eventFunction('click', 'submit', [], $form)
@@ -232,13 +230,15 @@ class Column extends Component
             ])
                 ->style(['borderTop' => '1px solid #DCDFE6', 'paddingTop' => '10px'])
                 ->tag('div')
-        ])->style(['padding'=>'8px'])->tag('div'));
+            , 'footer');
+        $this->attr('customFilterDropdown', true);
+        $this->attr('customFilterForm', $form->style(['padding' => '8px']));
     }
 
     /**
      * @param $filterColumn
      */
-    protected function filterForm($filterColumn,$form)
+    protected function filterForm($filterColumn, $form)
     {
         $filter = $this->grid->getFilter();
         foreach ($filterColumn->getCall() as $key => $item) {

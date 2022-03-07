@@ -63,7 +63,7 @@ class Filter
             ->submitButton()
             ->icon(' <search-outlined />')
             ->content('搜索');
-       
+
     }
     public function __call($name, $arguments)
     {
@@ -78,6 +78,11 @@ class Filter
         }elseif (isset($this->formComponent[$name])){
             if(is_null($form)){
                 $form = $this->form;
+            }
+
+            if(!is_null($form)){
+                $formComponent = call_user_func_array([$this->form,$name],$arguments);
+                $formComponent->getFormItem()->style(['display'=>'none']);
             }
             $formComponent = call_user_func_array([$form,$name],$arguments);
             list($fields) = Arr::formItem($formComponent,$arguments);
