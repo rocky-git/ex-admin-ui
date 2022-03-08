@@ -22,16 +22,18 @@ class Route
         'grid' => GridInterface::class,
         'form' => FormInterface::class,
     ];
+
     public static function __callStatic($name, $arguments)
     {
         return Container::getInstance()->make(self::class)->invokeArgs(...$arguments);
     }
+
     public function invokeArgs($class, $function)
     {
         $vars = Request::input();
-        if($_SERVER['REQUEST_METHOD'] !='OPTIONS'){
+        if ($_SERVER['REQUEST_METHOD'] != 'OPTIONS') {
 
-            $class = str_replace('-','\\',$class);
+            $class = str_replace('-', '\\', $class);
             if (array_key_exists($class, $this->contract)) {
 
                 $classInterface = ui_config('config.request_interface.' . $class);
@@ -41,14 +43,12 @@ class Route
                 $reflect = new \ReflectionClass($classInterface);
 
                 if (in_array($this->contract[$class], $reflect->getInterfaceNames())) {
-                    return $this->invokerArgs($reflect, $function, $vars);
+                    return $this->invokeMethod($classInterface, $function, $vars);
                 } else {
                     throw new \Exception('必须实现接口: ' . $this->contract[$class]);
                 }
-            }elseif (class_exists($class)){
-
-                $reflect = new \ReflectionClass($class);
-                return $this->invokerArgs($reflect, $function, $vars);
+            } elseif (class_exists($class)) {
+                return $this->invokeMethod($class, $function, $vars);
             }
         }
     }
@@ -60,7 +60,7 @@ class Route
      * @param array $vars 参数
      * @return array
      */
-    protected function bindParams(\ReflectionFunctionAbstract $reflect, array $vars = []): array
+    public static function bindParams(\ReflectionFunctionAbstract $reflect, array $vars = []): array
     {
         if ($reflect->getNumberOfParameters() == 0) {
             return [];
@@ -93,16 +93,15 @@ class Route
         return $args;
     }
 
-    /**
-     * @param \ReflectionClass $reflect
-     * @param $function
-     * @param $vars
-     * @return mixed
-     * @throws \ReflectionException
-     */
-    protected function invokerArgs(\ReflectionClass $reflect, $function, $vars)
+
+    public function invokeMethod($class, $function, $vars = [])
     {
-        $object = $reflect->newInstanceArgs();
+        $reflect = new \ReflectionClass($class);
+        if (is_object($class)) {
+            $object = $class;
+        } else {
+            $object = $reflect->newInstanceArgs();
+        }
         $method = $reflect->getMethod($function);
         $args = $this->bindParams($method, $vars);
         return $method->invokeArgs($object, $args);

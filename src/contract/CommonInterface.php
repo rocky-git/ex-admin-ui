@@ -2,7 +2,9 @@
 
 namespace ExAdmin\ui\contract;
 
+use ExAdmin\ui\response\Response;
+
 interface CommonInterface
 {
-    public function config():string;
+    public function config():Response;
 }

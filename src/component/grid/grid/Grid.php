@@ -9,7 +9,9 @@ use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridInterface;
+use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
 use Illuminate\Support\Facades\Log;
@@ -76,7 +78,8 @@ class Grid extends Table
     public function __construct($data)
     {
         $drive = ui_config('config.request_interface.grid');
-        $this->drive = new $drive($data);
+        $this->drive = new $drive();
+        $this->drive->source($data);
         $this->pagination = Pagination::create();
         $this->addButton = new ActionButton();
         $this->addButton->content(ui_trans('add', 'grid'))
@@ -317,9 +320,16 @@ class Grid extends Table
     {
         return $this->addButton;
     }
-
+    protected function dispatch($method){
+        return Container::getInstance()
+            ->make(Route::class)
+            ->invokeMethod($this->drive,$method,Request::input());
+}
     public function jsonSerialize()
     {
+        if(Request::has('ex_admin_action')){
+            return $this->dispatch(Request::input('ex_admin_action'));
+        }
         if($this->filter){
             if(empty($this->filter->form()->getFormItem())){
                 $this->hideFilter();
@@ -333,6 +343,7 @@ class Grid extends Table
         $this->pagination->total($this->drive->total());
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
+        $this->drive->filter($this->getFilter()->getRule());
         $this->drive->quickSearch(Request::input('quickSearch',''));
         if(Request::has('ex_admin_sort_field')){
             $this->drive->tableSort(Request::input('ex_admin_sort_field'),Request::input('ex_admin_sort_by'));
@@ -342,7 +353,10 @@ class Grid extends Table
         if($this->isTree){
             $data = Arr::tree($data,'ex_admin_tree_id','ex_admin_tree_parent',$this->attr('childrenColumnName')??'children');
         }
-        $dispatch = $this->dispatch();
+        if(Request::has('ex_admin_export')){
+            return $this->dispatch('export');
+        }
+        $dispatch = $this->getDispatch();
         if (Request::input('grid_request_data') && $dispatch['class'] == $this->call['class'] && $dispatch['function'] == $this->call['function']) {
             return [
                 'data' => $data,

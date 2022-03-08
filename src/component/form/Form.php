@@ -16,6 +16,7 @@ use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Request;
+use ExAdmin\ui\traits\CallProvide;
 
 
 /**
@@ -46,7 +47,7 @@ use ExAdmin\ui\support\Request;
  */
 class Form extends Component
 {
-    use FormComponent;
+    use FormComponent,CallProvide;
 
     protected $formItem = [];
     //表单操作区组件
@@ -74,7 +75,8 @@ class Form extends Component
     public function __construct($data, $bindField = null)
     {
         $drive = ui_config('config.request_interface.form');
-        $this->drive = new $drive($data);
+        $this->drive = new $drive();
+        $this->drive->source($data);
         $this->data = $this->drive->getData();
         $this->vModel($this->vModel, $bindField, $data);
         $this->labelWidth(100);
@@ -83,14 +85,14 @@ class Form extends Component
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
         $this->eventCustom('success', 'GridRefresh');
+        $this->parseCallMethod();
         $pk = $this->drive->getPk();
         if (Request::has($pk)) {
             $this->attr('editId', Request::input($pk));
-            $this->url('ex-admin/form/update');
             $this->method('PUT');
-        } else {
-            $this->url('ex-admin/form/save');
+        }else{
         }
+        $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         parent::__construct();
     }
 

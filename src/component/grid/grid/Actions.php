@@ -136,7 +136,7 @@ class Actions
             ->type('primary')
             ->danger()
             ->icon('<DeleteFilled />')
-            ->confirm(ui_trans('confim_delete', 'grid'), 'ex-admin/grid/delete', ['id' => $id])
+            ->confirm(ui_trans('confim_delete', 'grid'), $this->grid->attr('url'), ['ex_admin_action'=>'delete','ids' => [$id]])
             ->method('delete')
             ->gridRefresh();
         $html = Html::create()->attr('class',$this->column->attr('dataIndex'));;

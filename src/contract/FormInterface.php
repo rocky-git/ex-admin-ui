@@ -6,7 +6,12 @@ use ExAdmin\ui\response\Message;
 
 interface FormInterface
 {
-    public function __construct($data = null);
+    /**
+     * 设置数据源
+     * @param mixed $data
+     * @return mixed
+     */
+    public function source($data);
     /**
      * 新增保存
      * @param array $data

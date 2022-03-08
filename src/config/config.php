@@ -11,7 +11,7 @@ return [
       'grid'=>\App\Grid::class,
       'form'=>\App\Form::class,
       'login'=>\App\Login::class,
-      'common'=>\App\Common::class,
+      'common'=>\ExAdmin\ui\Common::class,
     ],
     // 默认语言
     'lang' => 'zh-cn',

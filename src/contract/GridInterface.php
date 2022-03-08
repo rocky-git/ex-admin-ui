@@ -7,26 +7,26 @@ use Illuminate\Http\Request;
 
 interface GridInterface
 {
-    public function __construct($data = null);
+    /**
+     * 设置数据源
+     * @param mixed $data
+     * @return mixed
+     */
+    public function source($data);
 
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
      * @return string
      */
     public function getPk():string;
-    /**
-     * 删除
-     * @param int $id
-     * @return Message
-     */
-    public function delete($id): Message;
+   
 
     /**
-     * 删除选中
-     * @param array $ids 删除选中id
+     * 删除
+     * @param array $ids 删除id
      * @return mixed
      */
-    public function deleteSelect(array $ids): Message;
+    public function delete(array $ids): Message;
 
     /**
      * 删除全部
