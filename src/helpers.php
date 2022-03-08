@@ -1,4 +1,7 @@
 <?php
+
+use ExAdmin\ui\component\common\Html;
+
 if (!function_exists('ui_config')) {
     /**
      * 获取和设置配置参数
@@ -170,6 +173,17 @@ if (!function_exists('notification_warning')) {
         return \ExAdmin\ui\support\Container::getInstance()
             ->make(\ExAdmin\ui\response\Notification::class,$config)
             ->warning($message,$description);
+    }
+}
+if (!function_exists('ui_view')) {
+    /**
+     * 渲染组件
+     * @param string $content 内容
+     * @return Html
+     */
+    function ui_view($content)
+    {
+        return Html::create($content)->tag('component');
     }
 }
 

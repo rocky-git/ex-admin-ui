@@ -304,5 +304,9 @@ return [
     'Copy'=>[
         'success'=>'复制成功',
         'error'=>'复制失败',
+    ],
+    'Logout'=>[
+        'title'=>'退出登录',
+        'content'=>'是否确认退出系统?',
     ]
 ];

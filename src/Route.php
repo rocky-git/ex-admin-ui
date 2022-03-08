@@ -2,8 +2,10 @@
 
 namespace ExAdmin\ui;
 
+use ExAdmin\ui\contract\CommonInterface;
 use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\GridInterface;
+use ExAdmin\ui\contract\LoginInterface;
 use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
@@ -15,6 +17,8 @@ use ExAdmin\ui\support\Str;
 class Route
 {
     protected $contract = [
+        'common' => CommonInterface::class,
+        'login' => LoginInterface::class,
         'grid' => GridInterface::class,
         'form' => FormInterface::class,
     ];
@@ -26,19 +30,23 @@ class Route
     {
         $vars = Request::input();
         if($_SERVER['REQUEST_METHOD'] !='OPTIONS'){
+
             $class = str_replace('-','\\',$class);
             if (array_key_exists($class, $this->contract)) {
+
                 $classInterface = ui_config('config.request_interface.' . $class);
                 if (empty($classInterface)) {
                     throw new \Exception('请正确配置: request_interface.' . $class);
                 }
                 $reflect = new \ReflectionClass($classInterface);
+
                 if (in_array($this->contract[$class], $reflect->getInterfaceNames())) {
                     return $this->invokerArgs($reflect, $function, $vars);
                 } else {
                     throw new \Exception('必须实现接口: ' . $this->contract[$class]);
                 }
             }elseif (class_exists($class)){
+
                 $reflect = new \ReflectionClass($class);
                 return $this->invokerArgs($reflect, $function, $vars);
             }

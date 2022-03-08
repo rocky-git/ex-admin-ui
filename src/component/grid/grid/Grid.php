@@ -269,7 +269,7 @@ class Grid extends Table
         $columns = array_merge($this->column, $this->childrenColumn);
         $tableData = [];
         foreach ($data as $key => $row) {
-            
+
             $rowData = ['ex_admin_id' => $row[$this->drive->getPk()] ?? $key];
             //树形父级pid
             if ($this->isTree) {
@@ -323,7 +323,6 @@ class Grid extends Table
         if($this->filter){
             if(empty($this->filter->form()->getFormItem())){
                 $this->hideFilter();
-
             }
             $this->attr('filter',$this->filter->form());
         }

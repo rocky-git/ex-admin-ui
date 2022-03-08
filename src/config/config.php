@@ -10,6 +10,8 @@ return [
     'request_interface'=>[
       'grid'=>\App\Grid::class,
       'form'=>\App\Form::class,
+      'login'=>\App\Login::class,
+      'common'=>\App\Common::class,
     ],
     // 默认语言
     'lang' => 'zh-cn',
@@ -29,7 +31,7 @@ return [
     //多页标签
     'tabs' => true,
     //登录路由
-    'loginRoute' => '/common/login',
+    'loginRoute' => '/ex-admin/login/index',
     //公用渲染路由前缀
     'commonRoutePrefix' => 'common/',
     //后台渲染路由前缀

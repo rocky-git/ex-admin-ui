@@ -310,5 +310,9 @@ return [
     'Copy'=>[
         'success'=>'Copy successful',
         'error'=>'Copy failed',
+    ],
+    'Logout'=>[
+        'title'=>'Log out',
+        'content'=>'Are you sure to exit the system?',
     ]
 ];
