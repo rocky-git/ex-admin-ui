@@ -330,7 +330,7 @@ class Grid extends Table
             return $this->dispatch(Request::input('ex_admin_action'));
         }
         if($this->filter){
-            if(empty($this->filter->form()->getFormItem())){
+            if($this->filter->isHide()){
                 $this->hideFilter();
             }
             $this->attr('filter',$this->filter->form());

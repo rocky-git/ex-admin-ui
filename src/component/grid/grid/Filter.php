@@ -101,7 +101,15 @@ class Filter
     public function getRule(){
         return $this->rules;
     }
-
+    public function isHide(){
+        foreach ($this->form->getFormItem() as $item){
+            $style = $item->attr('style');
+            if(!$style || !isset($style['display'])){
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * @return Form
      */

@@ -11,7 +11,7 @@ return [
       'grid'=>\ExAdmin\ui\test\Grid::class,
       'form'=>\ExAdmin\ui\test\Form::class,
       'login'=>\ExAdmin\ui\test\Login::class,
-      'common'=>\ExAdmin\ui\test\Common::class,
+      'system'=>\ExAdmin\ui\test\System::class,
     ],
     // 默认语言
     'lang' => 'zh-cn',

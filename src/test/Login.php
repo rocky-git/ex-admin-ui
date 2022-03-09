@@ -19,13 +19,9 @@ class Login implements LoginInterface
     {
         return Response::success([
             'token' => '234234234',
-            'user_info' => [
-                'id'=>1,
-                'nickname' => 'admin123',
-                'avatar' => 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-            ]
         ]);
     }
+    
 
     public function logout(): Response
     {

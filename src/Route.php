@@ -6,6 +6,7 @@ use ExAdmin\ui\contract\CommonInterface;
 use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\GridInterface;
 use ExAdmin\ui\contract\LoginInterface;
+use ExAdmin\ui\contract\SystemAbstract;
 use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
@@ -17,7 +18,7 @@ use ExAdmin\ui\support\Str;
 class Route
 {
     protected $contract = [
-        'common' => CommonInterface::class,
+        'system' => SystemAbstract::class,
         'login' => LoginInterface::class,
         'grid' => GridInterface::class,
         'form' => FormInterface::class,
@@ -42,7 +43,7 @@ class Route
                 }
                 $reflect = new \ReflectionClass($classInterface);
 
-                if (in_array($this->contract[$class], $reflect->getInterfaceNames())) {
+                if (in_array($this->contract[$class], $reflect->getInterfaceNames()) || $this->isAbstract($reflect)) {
                     return $this->invokeMethod($classInterface, $function, $vars);
                 } else {
                     throw new \Exception('必须实现接口: ' . $this->contract[$class]);
@@ -52,7 +53,16 @@ class Route
             }
         }
     }
+    protected function isAbstract($reflect){
+        $instance = $reflect->newInstance();
+        foreach ($this->contract as $contract){
+            if($instance instanceof $contract){
+                return true;
+            }
+        }
+        return false;
 
+    }
     /**
      * 绑定参数
      * @access protected
