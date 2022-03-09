@@ -314,5 +314,10 @@ return [
     'Logout'=>[
         'title'=>'Log out',
         'content'=>'Are you sure to exit the system?',
-    ]
+    ],
+    'Header'=>[
+        'refresh'=>'Refresh',
+        'light'=>'light',
+        'dark'=>'dark',
+    ],
 ];

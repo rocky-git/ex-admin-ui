@@ -75,8 +75,7 @@ class Form extends Component
     public function __construct($data, $bindField = null)
     {
         $drive = ui_config('config.request_interface.form');
-        $this->drive = new $drive();
-        $this->drive->source($data);
+        $this->drive = new $drive($data);
         $this->data = $this->drive->getData();
         $this->vModel($this->vModel, $bindField, $data);
         $this->labelWidth(100);
@@ -90,7 +89,6 @@ class Form extends Component
         if (Request::has($pk)) {
             $this->attr('editId', Request::input($pk));
             $this->method('PUT');
-        }else{
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         parent::__construct();

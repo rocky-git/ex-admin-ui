@@ -8,10 +8,10 @@
 return [
 
     'request_interface'=>[
-      'grid'=>\App\Grid::class,
-      'form'=>\App\Form::class,
-      'login'=>\App\Login::class,
-      'common'=>\ExAdmin\ui\Common::class,
+      'grid'=>\ExAdmin\ui\test\Grid::class,
+      'form'=>\ExAdmin\ui\test\Form::class,
+      'login'=>\ExAdmin\ui\test\Login::class,
+      'common'=>\ExAdmin\ui\test\Common::class,
     ],
     // 默认语言
     'lang' => 'zh-cn',

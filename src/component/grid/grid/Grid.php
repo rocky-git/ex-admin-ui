@@ -78,8 +78,7 @@ class Grid extends Table
     public function __construct($data)
     {
         $drive = ui_config('config.request_interface.grid');
-        $this->drive = new $drive();
-        $this->drive->source($data);
+        $this->drive = new $drive($data);
         $this->pagination = Pagination::create();
         $this->addButton = new ActionButton();
         $this->addButton->content(ui_trans('add', 'grid'))

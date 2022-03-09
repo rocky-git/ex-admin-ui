@@ -9,9 +9,8 @@ interface FormInterface
     /**
      * 设置数据源
      * @param mixed $data
-     * @return mixed
      */
-    public function source($data);
+    public function __construct($data);
     /**
      * 新增保存
      * @param array $data

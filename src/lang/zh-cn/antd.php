@@ -308,5 +308,10 @@ return [
     'Logout'=>[
         'title'=>'退出登录',
         'content'=>'是否确认退出系统?',
-    ]
+    ],
+    'Header'=>[
+        'refresh'=>'刷新',
+        'light'=>'深色',
+        'dark'=>'亮色',
+    ],
 ];

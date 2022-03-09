@@ -10,9 +10,8 @@ interface GridInterface
     /**
      * 设置数据源
      * @param mixed $data
-     * @return mixed
      */
-    public function source($data);
+    public function __construct($data);
 
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
