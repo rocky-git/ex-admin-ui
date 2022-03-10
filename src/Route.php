@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui;
 
+use ExAdmin\ui\auth\Node;
 use ExAdmin\ui\contract\CommonInterface;
 use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\GridInterface;
@@ -26,6 +27,8 @@ class Route
 
     public static function __callStatic($name, $arguments)
     {
+        $node = new Node;
+        dd($node->all());
         return Container::getInstance()->make(self::class)->invokeArgs(...$arguments);
     }
 
