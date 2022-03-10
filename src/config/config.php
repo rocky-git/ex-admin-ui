@@ -13,6 +13,9 @@ return [
       'login'=>\ExAdmin\ui\test\Login::class,
       'system'=>\ExAdmin\ui\test\System::class,
     ],
+    'auth_scan'=>[
+        app()->basePath().'/app/Http/Controllers'
+    ],
     // 默认语言
     'lang' => 'zh-cn',
     //主题 light 暗黑dark
