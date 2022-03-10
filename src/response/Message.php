@@ -52,6 +52,11 @@ class Message implements \JsonSerializable
         $this->data['refresh'] = true;
         return $this;
     }
+    public function data(array $data)
+    {
+        $this->data = array_merge($this->data, ['data' => $data]);
+        return $this;
+    }
     public function jsonSerialize()
     {
         $this->response['data'] = $this->data;

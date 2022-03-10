@@ -13,10 +13,10 @@ class Response implements \JsonSerializable
     public static function __callStatic($name, $arguments)
     {
         $self = new self();
-        return $self->json(...$arguments);
+        return $self->send(...$arguments);
     }
 
-    public function json(array $data = [], $message = '', $code = 200)
+    public function send(array $data = [], $message = '', $code = 200)
     {
         $this->code = $code;
         $this->data = $data;
