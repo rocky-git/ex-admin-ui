@@ -4,6 +4,7 @@ namespace ExAdmin\ui\auth;
 
 use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Finder\Finder;
 use function Composer\Autoload\includeFile;
 
@@ -12,6 +13,7 @@ class Node
     protected $node = [];
     public function __construct()
     {
+       
         $calss = $this->scan();
         $this->parse($calss);
     }
