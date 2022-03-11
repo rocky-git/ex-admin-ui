@@ -12,7 +12,7 @@ class Login implements LoginInterface
 
     public function index(): Component
     {
-        return ui_view(file_get_contents(__DIR__ . '/login.vue'));
+        return admin_view(file_get_contents(__DIR__ . '/login.vue'));
     }
 
     public function check(array $data): Response

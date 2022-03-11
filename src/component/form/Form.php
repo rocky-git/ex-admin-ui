@@ -47,7 +47,7 @@ use ExAdmin\ui\traits\CallProvide;
  */
 class Form extends Component
 {
-    use FormComponent,CallProvide;
+    use FormComponent;
 
     protected $formItem = [];
     //表单操作区组件
@@ -74,9 +74,9 @@ class Form extends Component
      */
     public function __construct($data, $bindField = null)
     {
-        $drive = ui_config('config.request_interface.form');
-        $this->drive = new $drive($data);
-        $this->data = $this->drive->getData();
+        parent::__construct();
+        $drive = admin_config('admin.request_interface.form');
+        $this->drive = (new $drive($data))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
@@ -84,14 +84,12 @@ class Form extends Component
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
         $this->eventCustom('success', 'GridRefresh');
-        $this->parseCallMethod();
         $pk = $this->drive->getPk();
         if (Request::has($pk)) {
             $this->attr('editId', Request::input($pk));
             $this->method('PUT');
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
-        parent::__construct();
     }
 
     /**
@@ -187,7 +185,7 @@ class Form extends Component
             $placeholder = 'please_enter';
         }
         if (!empty($placeholder)) {
-            $component->placeholder(ui_trans($placeholder, 'form') . $label);
+            $component->placeholder(admin_trans('form.'.$placeholder) . $label);
         }
     }
 

@@ -25,7 +25,9 @@ class ActionButton
 
     public function __construct()
     {
-        $this->button = Button::create();
+        $this->button = Button::create(admin_trans('grid.add'))
+            ->type('primary')
+            ->icon('<plus-outlined />');
     }
 
     public function __call($name, $arguments)
@@ -36,19 +38,8 @@ class ActionButton
         }
         return $this;
     }
-    /**
-     * 隐藏添加按钮
-     * @param bool $bool
-     */
-    public function hide(bool $bool = true)
-    {
-        $this->hide = $bool;
-    }
+   
     public function button(){
-        if($this->hide){
-            return null;
-        }else{
-            return $this->button;
-        }
+        return $this->button;
     }
 }

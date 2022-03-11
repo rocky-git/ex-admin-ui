@@ -2,42 +2,39 @@
 
 use ExAdmin\ui\component\common\Html;
 
-if (!function_exists('ui_config')) {
+if (!function_exists('admin_config')) {
     /**
      * 获取和设置配置参数
      * @param string|array $name  参数名
      * @param mixed        $value 参数值
      * @return mixed
      */
-    function ui_config($name = '', $value = null)
+    function admin_config($name = '', $value = null)
     {
-        $config = \ExAdmin\ui\support\Container::getInstance()
-            ->make(ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
+        $config = \ExAdmin\ui\support\Container::getInstance()->config;
         if (is_array($name)) {
             return $config->set($name, $value);
         }
         if($name == '*'){
             $sysmteConfig = $config->get('config');
-            $sysmteConfig['locale'] = ui_trans('','antd');
+            $sysmteConfig['locale'] = admin_trans('antd');
             return $sysmteConfig;
         }
         return 0 === strpos($name, '?') ? $config->has(substr($name, 1)) : $config->get($name, $value);
     }
 }
-if (!function_exists('ui_trans')) {
+if (!function_exists('admin_trans')) {
     /**
      * 翻译
-     * @param $id 名称
-     * @param null $domain 作用域
+     * @param string $name 语言变量名
+     * @param mixed $default 默认值
      * @param array $parameters 替换参数
      * @param null $locale 语言
      * @return string
      */
-    function ui_trans($id, $domain = null, array $parameters = [], $locale = null)
+    function admin_trans($name,$default = null, array $parameters = [], $locale = null)
     {
-        return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\support\Translator::class,[ui_config('config.lang')])
-            ->trans($id,$parameters,$domain,$locale);
+        return \ExAdmin\ui\support\Container::getInstance()->translator->tran($name,$default,$parameters,$locale);
 
     }
 }
@@ -175,13 +172,13 @@ if (!function_exists('notification_warning')) {
             ->warning($message,$description);
     }
 }
-if (!function_exists('ui_view')) {
+if (!function_exists('admin_view')) {
     /**
      * 渲染组件
      * @param string $content 内容
      * @return Html
      */
-    function ui_view($content)
+    function admin_view($content)
     {
         return Html::create($content)->tag('component');
     }

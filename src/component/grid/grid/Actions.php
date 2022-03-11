@@ -124,19 +124,19 @@ class Actions
     {
         $id = $data[$this->grid->drive()->getPk()];
         $this->detailButton = new ActionButton;
-        $this->detailButton->content(ui_trans('detail', 'grid'))
+        $this->detailButton->content(admin_trans('grid.detail'))
             ->icon('<InfoCircleFilled />');
         $this->editButton = new ActionButton;
-        $this->editButton->content(ui_trans('edit', 'grid'))
+        $this->editButton->content(admin_trans('grid.edit'))
             ->type('primary')
             ->icon('<EditFilled />')
             ->modal('http://laravel.com/admin/system/startPage1',['id'=>$id]);
         $this->delButton = new ActionButton;
-        $this->delButton->content(ui_trans('delete', 'grid'))
+        $this->delButton->content(admin_trans('grid.delete'))
             ->type('primary')
             ->danger()
             ->icon('<DeleteFilled />')
-            ->confirm(ui_trans('confim_delete', 'grid'), $this->grid->attr('url'), ['ex_admin_action'=>'delete','ids' => [$id]])
+            ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), ['ex_admin_action'=>'delete','ids' => [$id]])
             ->method('delete')
             ->gridRefresh();
         $html = Html::create()->attr('class',$this->column->attr('dataIndex'));;

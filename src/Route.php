@@ -22,8 +22,6 @@ class Route
     protected $contract = [
         'system' => SystemAbstract::class,
         'login' => LoginInterface::class,
-        'grid' => GridInterface::class,
-        'form' => FormInterface::class,
     ];
 
     public static function __callStatic($name, $arguments)
@@ -40,7 +38,7 @@ class Route
             $class = str_replace('-', '\\', $class);
             if (array_key_exists($class, $this->contract)) {
 
-                $classInterface = ui_config('config.request_interface.' . $class);
+                $classInterface = admin_config('admin.request_interface.' . $class);
                 if (empty($classInterface)) {
                     throw new \Exception('请正确配置: request_interface.' . $class);
                 }

@@ -4,7 +4,7 @@ namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\response\Message;
 
-interface FormInterface
+interface FormInterface 
 {
     /**
      * 设置数据源

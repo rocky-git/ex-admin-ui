@@ -41,9 +41,11 @@ class Column extends Component
 
     protected $default = '--';
 
+    protected $field;
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
+        $this->field = $field;
         $this->dataIndex($field);
         if (!empty($label)) {
             $this->attr('title', $label);
@@ -69,9 +71,7 @@ class Column extends Component
      */
     public function row($data)
     {
-
-        $field = $this->attr('dataIndex');
-        $originValue = Arr::get($data, $field);
+        $originValue = Arr::get($data, $this->field);
         if (is_null($originValue)) {
             $value = $this->default;
         } else {
@@ -81,7 +81,7 @@ class Column extends Component
         if (!is_null($this->closure)) {
             $value = call_user_func_array($this->closure, [$originValue, $data]);
         }
-        $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $field);
+        $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
         $fontSize = $this->grid->attr('fontSize');
         if ($fontSize) {
             $html->style(['fontSize' => $fontSize . 'px']);
@@ -110,7 +110,7 @@ class Column extends Component
     }
 
     /**
-     * 开启排序 #TODO 没有排序效果
+     * 开启排序
      * @return $this
      */
     public function sortable()
@@ -123,10 +123,10 @@ class Column extends Component
      * 开关 #todo
      * @return $this
      */
-    public function switch($swithArr)
+    public function switch($switchArr = [[1 => '开启'], [0 => '关闭']])
     {
-        $this->display(function ($value) use ($swithArr) {
-            return $this->getSwitch($value, $data, $this->prop, $swithArr);
+        $this->display(function ($value,$data) use ($switchArr) {
+            return $this->getSwitch($value, $data, $this->field, $switchArr);
         });
         return $this;
     }
@@ -182,13 +182,13 @@ class Column extends Component
      */
     protected function getSwitch($value, $data, $field, $switchArr = [])
     {
-        $params = $this->grid->getCallMethod();
-        $params['eadmin_ids'] = [$data[$this->grid->drive()->getPk()]];
-        return Switches::create(null, $value)
-            ->options($switchArr ?? admin_trans('admin.switch'))
-            ->url('/eadmin/batch.rest')
-            ->field($field)
-            ->params($params);
+//        $params = $this->grid->getCallMethod();
+//        $params['eadmin_ids'] = [$data[$this->grid->drive()->getPk()]];
+        return Switches::create(null, $value);
+//            ->options($switchArr ?? admin_trans('admin.switch'))
+//            ->url('/eadmin/batch.rest')
+//            ->field($field)
+//            ->params($params);
     }
 
 
@@ -220,11 +220,11 @@ class Column extends Component
         }
         $form->content(
             Html::create([
-                Button::create(ui_trans('Grid.search', 'antd'))
+                Button::create(admin_trans('antd.Grid.search'))
                     ->eventFunction('click', 'submit', [], $form)
                     ->size('small')
                     ->type('primary'),
-                Button::create(ui_trans('reset', 'form'))
+                Button::create(admin_trans('form.reset'))
                     ->size('small')
                     ->eventFunction('click', 'form.resetFields', [], $form)
             ])

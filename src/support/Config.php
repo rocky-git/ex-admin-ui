@@ -52,6 +52,7 @@ class Config
      */
     public function load(string $file, string $name = ''): array
     {
+
         if (is_file($file)) {
             $filename = $file;
         } elseif (is_file($this->path . $file . $this->ext)) {
@@ -93,7 +94,7 @@ class Config
                 $config = json_decode(file_get_contents($file), true);
                 break;
         }
-
+       
         return is_array($config) ? $this->set($config, strtolower($name)) : [];
     }
 

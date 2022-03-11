@@ -30,11 +30,11 @@ class FormAction extends FormItem
     public function __construct(Form $form)
     {
         $this->form = $form;
-        $this->submitButton = Button::create(ui_trans('save', 'form'))
+        $this->submitButton = Button::create(admin_trans('form.save'))
             ->eventFunction('click', 'submit', [], $this->form)
             ->bindExpose('loading','loading',$form)
             ->type('primary');
-        $this->resetButton = Button::create(ui_trans('reset', 'form'))
+        $this->resetButton = Button::create(admin_trans('form.reset'))
             ->eventFunction('click', 'form.resetFields', [], $this->form);
         $this->label(' ');
         $this->colon(false);

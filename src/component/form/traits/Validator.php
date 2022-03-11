@@ -62,7 +62,7 @@ trait Validator
         $this->setRule([
             'required' => true,
             'trigger' => ['change', 'blur'],
-            'message' => $this->formItem->attr('label') . ui_trans('required', 'validator'),
+            'message' => $this->formItem->attr('label') . admin_trans('validator.required'),
         ]);
         return $this;
     }
@@ -80,14 +80,14 @@ trait Validator
             $this->setRule([
                 'len' => $min,
                 'trigger' => ['change', 'blur'],
-                'message' => $this->formItem->attr('label') . ui_trans('leng', 'validator') . $min,
+                'message' => $this->formItem->attr('label') . admin_trans('validator.leng') . $min,
             ]);
         } else {
             $this->setRule([
                 'min' => $min,
                 'max' => $max,
                 'trigger' => ['change', 'blur'],
-                'message' => $this->formItem->attr('label') . ui_trans('leng', 'validator') . $min . ' - ' . $max,
+                'message' => $this->formItem->attr('label') . admin_trans('validator.leng') . $min . ' - ' . $max,
             ]);
         }
         return $this;
@@ -108,7 +108,7 @@ trait Validator
         $rule = [
             'pattern' => $pattern,
             'trigger' => $trigger,
-            'message' => $this->formItem->attr('label') . ui_trans($trans, 'validator'),
+            'message' => $this->formItem->attr('label') . admin_trans('validator.'.$trans),
         ];
         $this->setRule($rule);
         return $this;

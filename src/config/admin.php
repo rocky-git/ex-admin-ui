@@ -6,18 +6,16 @@
  * Time: 21:12
  */
 return [
-
     'request_interface'=>[
       'grid'=>\ExAdmin\ui\test\Grid::class,
       'form'=>\ExAdmin\ui\test\Form::class,
       'login'=>\ExAdmin\laravel\Login::class,
       'system'=>\ExAdmin\ui\test\System::class,
     ],
-    'auth_scan'=>[
-        app()->basePath().'/app/Http/Controllers'
-    ],
+    //扫描权限目录
+    'auth_scan'=>[],
     // 默认语言
-    'lang' => 'zh-cn',
+    'lang' => 'zh-CN',
     //主题 light 暗黑dark
     'theme' => 'light',
     //菜单主题 dark light

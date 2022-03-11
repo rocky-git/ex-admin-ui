@@ -11,12 +11,6 @@ use function Composer\Autoload\includeFile;
 class Node
 {
     protected $node = [];
-    public function __construct()
-    {
-       
-        $calss = $this->scan();
-        $this->parse($calss);
-    }
 
     /**
      * 获取权限节点
@@ -25,7 +19,10 @@ class Node
      */
     public function all(bool $tree=false)
     {
+        $calss = $this->scan();
+        $this->parse($calss);
         if($tree){
+
             return Arr::tree($this->node);
         }
         return $this->node;
@@ -37,7 +34,8 @@ class Node
      */
     public function scan()
     {
-        $scan = ui_config('config.auth_scan', []);
+        $scan = admin_config('admin.auth_scan');
+
         $class = [];
         foreach ($scan as $dir) {
             foreach (Finder::create()->files()->in($dir)->name('*.php') as $file) {
@@ -69,6 +67,7 @@ class Node
             }
             $node[] = [
                 'id' => $class,
+                'pid' => 0,
                 'title' => $title,
                 'children' => [],
             ];
@@ -91,9 +90,10 @@ class Node
                 }
             }
             if (count($node) > 1) {
-                $this->node[] = $node;
+                $this->node = array_merge($this->node,$node);
             }
         }
+      
         return $this->node;
     }
 }

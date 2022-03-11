@@ -9,8 +9,8 @@ trait CallProvide
     public function parseCallMethod($reset = false)
     {
         if (count($this->call) == 0 || $reset = true) {
-            $backtraces = debug_backtrace(1, 4);
-            $backtraces = array_slice($backtraces, 3);
+            $backtraces = debug_backtrace(1, 5);
+            $backtraces = array_slice($backtraces, 4);
             $backtrace = $backtraces[0];
             $class = new \ReflectionClass($backtrace['class']);
             $this->call = [
@@ -30,7 +30,9 @@ trait CallProvide
         }
         return $this->call;
     }
-
+    public function getCall(){
+        return $this->call;
+    }
     protected function getDispatch()
     {
         $path = parse_url($_SERVER['REQUEST_URI'])['path'];

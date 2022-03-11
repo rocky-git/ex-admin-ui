@@ -18,7 +18,7 @@ interface GridInterface
      * @return string
      */
     public function getPk():string;
-   
+
 
     /**
      * 删除
@@ -67,9 +67,9 @@ interface GridInterface
      * 数据源
      * @param int $page 第几页
      * @param int $size 分页大小
-     * @return array
+     * @return mixed
      */
-    public function data(int $page, int $size): array;
+    public function data(int $page, int $size);
 
     /**
      * 返回总条数

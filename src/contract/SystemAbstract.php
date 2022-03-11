@@ -47,6 +47,6 @@ abstract class SystemAbstract
      */
     public function config(): Response
     {
-        return Response::success(ui_config('*'));
+        return Response::success(admin_config('*'));
     }
 }

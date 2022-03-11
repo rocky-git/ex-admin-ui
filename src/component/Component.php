@@ -6,6 +6,7 @@ namespace ExAdmin\ui\component;
 use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
+use ExAdmin\ui\traits\CallProvide;
 use think\helper\Str;
 use think\app\Url;
 
@@ -17,7 +18,7 @@ use think\app\Url;
  */
 abstract class Component implements \JsonSerializable
 {
-    use Where, ForMap, Event,Directive;
+    use Where, ForMap, Event,Directive,CallProvide;
 
     //组件名称
     protected $name;
@@ -44,6 +45,7 @@ abstract class Component implements \JsonSerializable
 
     public function __construct()
     {
+        $this->parseCallMethod();
         foreach (self::$init as $class => $init) {
             if (static::class == $class) {
                 call_user_func($init, $this);
@@ -221,7 +223,7 @@ abstract class Component implements \JsonSerializable
             return new static(...$arguments);
         }
     }
-    
+
 
     /**
      * 插槽内容
@@ -298,16 +300,30 @@ abstract class Component implements \JsonSerializable
     {
         return $this->bindAttr($this->vModel);
     }
-
+    /**
+     * @param $url
+     * @param $params
+     * @return array
+     */
+    protected function parseComponentCall($component, $params): array
+    {
+        if ($component instanceof Component) {
+            $call = $component->getCall();
+            $component = "ex-admin/{$call['class']}/{$call['function']}";
+            $params = $call['params'];
+        }
+        return array($component, $params);
+    }
     /**
      * Modal 对话框
-     * @param string $url
+     * @param string|Component $url
      * @param array $params
      * @param string $method
      * @return Modal
      */
     public function modal($url = '', $params = [], $method = 'GET')
     {
+        list($url, $params) = $this->parseComponentCall($url, $params);
         $modal = Modal::create($this);
         $modal->title($this->content['default'][0]);
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
@@ -316,13 +332,14 @@ abstract class Component implements \JsonSerializable
 
     /**
      * Modal 对话框
-     * @param string $url 请求url 空不请求
+     * @param string|Component $url 请求url 空不请求
      * @param array $params 请求参数
      * @param string $method 请求方式
      * @return Modal
      */
     public function drawer($url = '', $params = [], $method = 'GET')
     {
+        list($url, $params) = $this->parseComponentCall($url, $params);
         $modal = Drawer::create($this);
         $modal->title($this->content['default'][0]);
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
@@ -340,7 +357,7 @@ abstract class Component implements \JsonSerializable
     {
         return Confirm::create($this)
             ->method($method)
-            ->title(ui_trans('Confirm.title', 'antd'))
+            ->title(admin_trans('antd.Confirm.title'))
             ->content($message)
             ->url($url)
             ->params($params);
@@ -378,4 +395,6 @@ abstract class Component implements \JsonSerializable
         }
         return null;
     }
+
+
 }

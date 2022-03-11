@@ -77,21 +77,17 @@ class Grid extends Table
     protected $treeId;
     public function __construct($data)
     {
-        $drive = ui_config('config.request_interface.grid');
-        $this->drive = new $drive($data);
+        parent::__construct();
+        $drive = admin_config('admin.request_interface.grid');
+        $this->drive = (new $drive($data))->getDriver();
         $this->pagination = Pagination::create();
-        $this->addButton = new ActionButton();
-        $this->addButton->content(ui_trans('add', 'grid'))
-            ->type('primary')
-            ->icon('<plus-outlined />');
         //操作列
         $this->actionColumn = new Actions($this);
         $this->rowKey('ex_admin_id');
-        $this->parseCallMethod();
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params($this->call['params']);
         $this->scroll(['x' => 'max-content']);
-        parent::__construct();
+      
     }
     public function drive()
     {
@@ -186,7 +182,7 @@ class Grid extends Table
      */
     public function sortDrag($field = 'sort', $label = null)
     {
-        return $this->column($field, $label ?? ui_trans('sort', 'grid'))
+        return $this->column($field, $label ?? admin_trans('grid.sort'))
             ->attr('type', 'sortDrag')
             ->width(50)
             ->align('center');
@@ -200,7 +196,7 @@ class Grid extends Table
      */
     public function sortInput($field = 'sort', $label = null)
     {
-        return $this->column($field, $label ?? ui_trans('sort', 'grid'))
+        return $this->column($field, $label ?? admin_trans('grid.sort'))
             ->attr('type', 'sortInput')
             ->width(100)
             ->align('center');
@@ -302,14 +298,7 @@ class Grid extends Table
     {
         $this->hideAction = $bool;
     }
-    /**
-     * 隐藏添加按钮
-     * @param bool $bool
-     */
-    public function hideAddButton(bool $bool = true)
-    {
-        $this->addButton->hide($bool);
-    }
+
 
     /**
      * 添加按钮
@@ -317,6 +306,7 @@ class Grid extends Table
      */
     public function addButton()
     {
+        $this->addButton = new ActionButton();
         return $this->addButton;
     }
     protected function dispatch($method){
@@ -348,6 +338,7 @@ class Grid extends Table
             $this->drive->tableSort(Request::input('ex_admin_sort_field'),Request::input('ex_admin_sort_by'));
         }
         $data = $this->drive->data($page, $size);
+
         $data = $this->parseColumn($data);
         if($this->isTree){
             $data = Arr::tree($data,'ex_admin_tree_id','ex_admin_tree_parent',$this->attr('childrenColumnName')??'children');
@@ -366,7 +357,9 @@ class Grid extends Table
                 'code' => 200,
             ];
         } else {
-            $this->attr('addButton', $this->addButton->button());
+            if($this->addButton){
+                $this->attr('addButton', $this->addButton->button());
+            }
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

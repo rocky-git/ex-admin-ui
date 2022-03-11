@@ -15,7 +15,7 @@ class Arr
      */
     public static function accessible($value)
     {
-        return is_array($value) || $value instanceof ArrayAccess;
+        return is_array($value) || $value instanceof \ArrayAccess;
     }
 
     /**
@@ -272,6 +272,7 @@ class Arr
      */
     public static function get($array, $key, $default = null)
     {
+
         if (! static::accessible($array)) {
             return value($default);
         }
@@ -281,6 +282,7 @@ class Arr
         }
 
         if (static::exists($array, $key)) {
+
             return $array[$key];
         }
 

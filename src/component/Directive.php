@@ -41,6 +41,7 @@ trait Directive
      */
     public function redirect($url, $params = [])
     {
+        list($url, $params) = $this->parseComponentCall($url, $params);
         $url = $url . '?' . http_build_query($params);
         $style = $this->attr('style') ?? [];
         $style = array_merge($style, ['cursor' => 'pointer']);
