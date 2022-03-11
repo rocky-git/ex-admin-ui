@@ -12,6 +12,7 @@ use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @method static dispatch($class, $function, $vars = [])
@@ -27,8 +28,7 @@ class Route
 
     public static function __callStatic($name, $arguments)
     {
-        $node = new Node;
-        dd($node->all());
+
         return Container::getInstance()->make(self::class)->invokeArgs(...$arguments);
     }
 

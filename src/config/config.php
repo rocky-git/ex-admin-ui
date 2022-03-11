@@ -10,7 +10,7 @@ return [
     'request_interface'=>[
       'grid'=>\ExAdmin\ui\test\Grid::class,
       'form'=>\ExAdmin\ui\test\Form::class,
-      'login'=>\ExAdmin\ui\test\Login::class,
+      'login'=>\ExAdmin\laravel\Login::class,
       'system'=>\ExAdmin\ui\test\System::class,
     ],
     'auth_scan'=>[
