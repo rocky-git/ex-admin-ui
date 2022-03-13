@@ -17,11 +17,11 @@ class Node
      * @param bool $tree 是否树形
      * @return array
      */
-    public function all(bool $tree=false)
+    public function all(bool $tree = false)
     {
         $calss = $this->scan();
         $this->parse($calss);
-        if($tree){
+        if ($tree) {
 
             return Arr::tree($this->node);
         }
@@ -68,6 +68,7 @@ class Node
             $node[] = [
                 'id' => $class,
                 'pid' => 0,
+                'url'=>'',
                 'title' => $title,
                 'children' => [],
             ];
@@ -84,16 +85,17 @@ class Node
                             'id' => $class . '\\' . $action,
                             'pid' => $class,
                             'method' => $action,
+                            'url'=>'ex-admin/'.str_replace('\\', '-', $class).'/'.$action,
                             'title' => $title,
                         ];
                     }
                 }
             }
             if (count($node) > 1) {
-                $this->node = array_merge($this->node,$node);
+                $this->node = array_merge($this->node, $node);
             }
         }
-      
+
         return $this->node;
     }
 }

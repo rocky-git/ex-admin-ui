@@ -9,16 +9,16 @@ trait CallProvide
     public function parseCallMethod($reset = false)
     {
         if (count($this->call) == 0 || $reset = true) {
-            $backtraces = debug_backtrace(1, 5);
-            $backtraces = array_slice($backtraces, 4);
-            $backtrace = $backtraces[0];
-            $class = new \ReflectionClass($backtrace['class']);
-            $this->call = [
-                'class' => str_replace('\\', '-', $backtrace['class']),
-                'function' => $backtrace['function'],
-                'params' => [],
-            ];
             try {
+                $backtraces = debug_backtrace(1, 5);
+                $backtraces = array_slice($backtraces, 4);
+                $backtrace = $backtraces[0];
+                $class = new \ReflectionClass($backtrace['class']);
+                $this->call = [
+                    'class' => str_replace('\\', '-', $backtrace['class']),
+                    'function' => $backtrace['function'],
+                    'params' => [],
+                ];
                 $params = $class->getMethod($this->call['function'])->getParameters();
                 foreach ($params as $key => $param) {
                     $name = $param->getName();

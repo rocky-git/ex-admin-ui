@@ -17,6 +17,12 @@ trait Directive
         $this->directive[] = ['name' => $name, 'argument' => $argument, 'value' => $value];
         return $this;
     }
+    public function getDirective(){
+        return $this->directive;
+    }
+    public function setDirective(array $directive){
+        $this->directive = $directive;
+    }
     /**
      * ajax请求
      * @param string $url 请求url 空不请求

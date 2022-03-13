@@ -63,6 +63,22 @@ class System extends SystemAbstract
                 "pid" => 0,
                 "name" => "启动页",
                 "icon" => "fa fa-hourglass-start",
+                "url" => "ex-admin/ExAdmin-laravel-Controllers-MenuController/index",
+                "mark" => "",
+                "sort" => 1,
+                "open" => 1,
+                "status" => 1,
+                "admin_visible" => 1,
+                "create_time" => "2021-11-10 13=>57=>15",
+                "update_time" => "2021-11-12 10=>16=>25"
+            ]
+        ];
+        return [
+            [
+                "id" => 1092,
+                "pid" => 0,
+                "name" => "启动页",
+                "icon" => "fa fa-hourglass-start",
                 "url" => "admin/system/startPage",
                 "mark" => "",
                 "sort" => 1,

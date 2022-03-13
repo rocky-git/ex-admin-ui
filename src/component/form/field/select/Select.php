@@ -63,7 +63,9 @@ class Select extends Field
      * 禁用的选项
      * @var array
      */
-    protected $disabledData = [];
+    protected $disabledValue = [];
+
+    protected $optionsClosure = null;
 
     public function __construct($field = null, $value = '')
     {
@@ -82,55 +84,65 @@ class Select extends Field
         $value = $this->getbindAttrValue('value');
         if (!is_array($value)) {
             $field = $this->bindAttr('value');
-            $this->bind($field,$this->value);
+            $this->bind($field, $this->value);
         }
         $this->modelValue();
         return $this->mode('multiple');
     }
 
     /**
+     * 禁用选项
+     * @param array $data
+     * @return $this
+     */
+    public function disabledValue(array $data)
+    {
+        $this->disabledValue = $data;
+        return $this;
+    }
+
+    /**
      * 设置选项数据
      * @param array $data 选项数据 $data = [1 => '第一个选项', 2 => '第二个选项'];
-     * @param array $disable 禁用选项数据
      * @return Select
      */
-    public function options(array $data, array $disable = [])
+    public function options(array $data)
     {
-        $options = [];
-        $this->disabledData = $disable;
-        foreach ($data as $id => $title) {
-            $disabled = false;
-            if (in_array($id, $this->disabledData)) {
-                $disabled = true;
+        $this->optionsClosure = function () use ($data) {
+            $options = [];
+            foreach ($data as $id => $title) {
+                $disabled = false;
+                if (in_array($id, $this->disabledValue)) {
+                    $disabled = true;
+                }
+                $options[] = [
+                    'value' => $id,
+                    'title' => $title,
+                    'disabled' => $disabled,
+                    'slotDefault' => $title,
+                ];
             }
-            $options[] = [
-                'value'       => $id,
-                'title'       => $title,
-                'disabled'    => $disabled,
-                'slotDefault' => $title,
-            ];
-        }
 
-        $selectOption = SelectOption::create()
-                                    ->map($options)
-                                    ->mapAttr('value')
-                                    ->mapAttr('title')
-                                    ->mapAttr('disabled')
-                                    ->mapAttr('slotDefault');
-        $this->content($selectOption);
+            $selectOption = SelectOption::create()
+                ->map($options)
+                ->mapAttr('value')
+                ->mapAttr('title')
+                ->mapAttr('disabled')
+                ->mapAttr('slotDefault');
+            $this->content($selectOption);
+        };
         return $this;
     }
 
     /**
      * 分组下拉框
      * @param array $data 数组源
-     * @param array $disabledArr 禁用的选项
      * @param string $name 关联的字段
      * @param string $label 名称的字段
      * @param string $id 主键的字段
      * @return $this
      */
-    public function groupOptions(array $data, array $disabledArr = [], $name = 'options', $label = 'label', $id = 'id')
+    public function groupOptions(array $data, $name = 'options', $label = 'label', $id = 'id')
     {
         /* 格式
          $data = [
@@ -156,46 +168,53 @@ class Select extends Field
             ]
          ];
         */
-        $this->disabledData = $disabledArr;
-        foreach ($data as $key => $option) {
-            $disabled = false;
-            if (in_array($option[$id], $this->disabledData)) {
-                $disabled = true;
-            }
-            $selectGroup = SelectGroup::create()
-                                      ->attr('label', $option[$label])
-                                      ->attr('slotDefault', $option[$label])
-                                      ->attr('disabled', $disabled);
-            foreach ($option[$name] as $item) {
+        $this->optionsClosure = function () use ($data, $name, $label, $id) {
+            foreach ($data as $key => $option) {
                 $disabled = false;
-                if (in_array($item[$id], $this->disabledData)) {
+                if (in_array($option[$id], $this->disabledValue)) {
                     $disabled = true;
                 }
-                $selectGroup->content(
-                    SelectOption::create()
-                                ->attr('title', $item[$label])
-                                ->attr('slotDefault', $item[$label])
-                                ->attr('disabled', $disabled)
-                                ->attr('value', $item[$id])
-                );
+                $selectGroup = SelectGroup::create()
+                    ->attr('label', $option[$label])
+                    ->attr('slotDefault', $option[$label])
+                    ->attr('disabled', $disabled);
+                foreach ($option[$name] as $item) {
+                    $disabled = false;
+                    if (in_array($item[$id], $this->disabledValue)) {
+                        $disabled = true;
+                    }
+                    $selectGroup->content(
+                        SelectOption::create()
+                            ->attr('title', $item[$label])
+                            ->attr('slotDefault', $item[$label])
+                            ->attr('disabled', $disabled)
+                            ->attr('value', $item[$id])
+                    );
+                }
+                $this->content($selectGroup);
             }
-            $this->content($selectGroup);
-        }
+        };
         return $this;
     }
 
     /**
      * 下拉框选项（标签模式-可创建选项）
      * @param array $data
-     * @param array $disabled
      * @param string[] $tokenSeparators
      * @return $this
      */
-    public function tagOptions(array $data, array $disabled = [], array $tokenSeparators = [',', '，'])
+    public function tagOptions(array $data, array $tokenSeparators = [',', '，'])
     {
-        $this->options($data, $disabled);
+        $this->options($data);
         $this->tokenSeparators($tokenSeparators);
         $this->mode('tags');
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        $this->optionsClosure->bindTo($this);
+        call_user_func($this->optionsClosure);
+        return parent::jsonSerialize(); // TODO: Change the autogenerated stub
     }
 }

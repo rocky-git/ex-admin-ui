@@ -5,6 +5,7 @@ namespace ExAdmin\ui\component\grid\grid;
 use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
@@ -62,6 +63,10 @@ class Grid extends Table
      */
     protected $actionColumn;
     /**
+     * @var ActionButton
+     */
+    protected $setForm;
+    /**
      * @var Filter
      */
     protected $filter = null;
@@ -75,6 +80,7 @@ class Grid extends Table
     protected $treePid;
     //树形id
     protected $treeId;
+
     public function __construct($data)
     {
         parent::__construct();
@@ -87,37 +93,43 @@ class Grid extends Table
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params($this->call['params']);
         $this->scroll(['x' => 'max-content']);
-      
+
     }
+
     public function drive()
     {
         return $this->drive;
     }
+
     /**
      * 头部
      * @param mixed $content
      */
     public function header($content)
     {
-        $this->arrayComponent($content,__FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__);
     }
+
     /**
      * 工具栏
      * @param mixed $content
      */
     public function tools($content)
     {
-        $this->arrayComponent($content,__FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__);
     }
+
     /**
      * 尾部
      * @param mixed $content
      */
     public function footer($content)
     {
-        $this->arrayComponent($content,__FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__);
     }
-    protected function arrayComponent($content,$name){
+
+    protected function arrayComponent($content, $name)
+    {
         if ($content instanceof Component || is_string($content)) {
             $content = [$content];
         }
@@ -132,12 +144,14 @@ class Grid extends Table
     /**
      * @return Filter
      */
-    public function getFilter(){
+    public function getFilter()
+    {
         if (is_null($this->filter)) {
             $this->filter = new Filter();
         }
         return $this->filter;
     }
+
     /**
      * 筛选表单
      * @param \Closure $callback
@@ -146,10 +160,11 @@ class Grid extends Table
     public function filter(\Closure $callback)
     {
         $this->getFilter();
-        call_user_func($callback,$this->filter);
+        call_user_func($callback, $this->filter);
         $this->drive->filter($this->filter->getRule());
         return $this->filter;
     }
+
     /**
      * 开启树形表格
      * @param string $pidField 父级字段
@@ -164,6 +179,7 @@ class Grid extends Table
         $this->hidePage();
         $this->defaultExpandAllRows($expand);
     }
+
     /**
      * 展开行
      * @param \Closure $closure
@@ -175,6 +191,7 @@ class Grid extends Table
         $this->attr('expandedRow', true);
         $this->defaultExpandAllRows($defaultExpandAllRow);
     }
+
     /**
      * 拖拽排序
      * @param string $field 排序字段
@@ -201,6 +218,7 @@ class Grid extends Table
             ->width(100)
             ->align('center');
     }
+
     /**
      * 操作列定义
      * @param \Closure|null $closure
@@ -213,6 +231,7 @@ class Grid extends Table
         }
         return $this->actionColumn->column();
     }
+
     /**
      * 添加表格列
      * @param string|\Closure $field 字段
@@ -290,6 +309,7 @@ class Grid extends Table
         }
         return $tableData;
     }
+
     /**
      * 隐藏操作列
      * @param bool $bool
@@ -309,41 +329,63 @@ class Grid extends Table
         $this->addButton = new ActionButton();
         return $this->addButton;
     }
-    protected function dispatch($method){
+
+    /**
+     * 设置添加编辑表单
+     * @return ActionButton
+     */
+    public function setForm(){
+        $this->setForm = new ActionButton();
+        return $this->setForm;
+    }
+    protected function dispatch($method)
+    {
         return Container::getInstance()
             ->make(Route::class)
-            ->invokeMethod($this->drive,$method,Request::input());
-}
+            ->invokeMethod($this->drive, $method, Request::input());
+    }
+
     public function jsonSerialize()
     {
-        if(Request::has('ex_admin_action')){
+        if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
-        if($this->filter){
-            if($this->filter->isHide()){
+        if ($this->filter) {
+            if ($this->filter->isHide()) {
                 $this->hideFilter();
             }
-            $this->attr('filter',$this->filter->form());
+            $this->attr('filter', $this->filter->form());
         }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();
         }
+        //添加编辑表单
+        if($this->setForm){
+            $this->addButton = clone $this->setForm;
+            $this->actionColumn->setEditButton($this->setForm);
+        }
+        //添加按钮
+        if($this->addButton){
+            $this->addButton->button()->content(admin_trans('grid.add'))
+                ->type('primary')
+                ->icon('<plus-outlined />');
+        }
         $this->pagination->total($this->drive->total());
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
         $this->drive->filter($this->getFilter()->getRule());
-        $this->drive->quickSearch(Request::input('quickSearch',''));
-        if(Request::has('ex_admin_sort_field')){
-            $this->drive->tableSort(Request::input('ex_admin_sort_field'),Request::input('ex_admin_sort_by'));
+        $this->drive->quickSearch(Request::input('quickSearch', ''));
+        if (Request::has('ex_admin_sort_field')) {
+            $this->drive->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
         $data = $this->drive->data($page, $size);
 
         $data = $this->parseColumn($data);
-        if($this->isTree){
-            $data = Arr::tree($data,'ex_admin_tree_id','ex_admin_tree_parent',$this->attr('childrenColumnName')??'children');
+        if ($this->isTree) {
+            $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
         }
-        if(Request::has('ex_admin_export')){
+        if (Request::has('ex_admin_export')) {
             return $this->dispatch('export');
         }
         $dispatch = $this->getDispatch();
@@ -357,8 +399,8 @@ class Grid extends Table
                 'code' => 200,
             ];
         } else {
-            if($this->addButton){
-                $this->attr('addButton', $this->addButton->button());
+            if ($this->addButton) {
+                $this->attr('addButton', $this->addButton->action());
             }
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);

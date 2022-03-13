@@ -73,6 +73,7 @@ class TreeSelect extends Field
 
     public function __construct($field = null, $value = '')
     {
+        $this->allowClear();
         $this->treeDefaultExpandAll(true);
         parent::__construct($field, $value);
     }
@@ -95,5 +96,6 @@ class TreeSelect extends Field
             'value'    => $id
         ]);
         $this->treeData($treeData);
+        return $this;
     }
 }

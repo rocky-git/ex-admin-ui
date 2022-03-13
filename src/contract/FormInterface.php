@@ -37,4 +37,11 @@ interface FormInterface
      * @return mixed
      */
     public function getData(string $field = null);
+
+    /**
+     * 编辑数据
+     * @param mixed $id 
+     * @return mixed
+     */
+    public function edit($id);
 }

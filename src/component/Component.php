@@ -18,7 +18,7 @@ use think\app\Url;
  */
 abstract class Component implements \JsonSerializable
 {
-    use Where, ForMap, Event,Directive,CallProvide;
+    use Where, ForMap, Event, Directive, CallProvide;
 
     //组件名称
     protected $name;
@@ -300,6 +300,7 @@ abstract class Component implements \JsonSerializable
     {
         return $this->bindAttr($this->vModel);
     }
+
     /**
      * @param $url
      * @param $params
@@ -314,6 +315,7 @@ abstract class Component implements \JsonSerializable
         }
         return array($component, $params);
     }
+
     /**
      * Modal 对话框
      * @param string|Component $url
@@ -323,29 +325,26 @@ abstract class Component implements \JsonSerializable
      */
     public function modal($url = '', $params = [], $method = 'GET')
     {
-        list($url, $params) = $this->parseComponentCall($url, $params);
-        $modal = Modal::create($this);
-        $modal->title($this->content['default'][0]);
-        $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
-        return $modal;
-    }
+        return $this->modalParse(Modal::class,$url,$params,$method);
 
+    }
     /**
      * Modal 对话框
      * @param string|Component $url 请求url 空不请求
      * @param array $params 请求参数
      * @param string $method 请求方式
-     * @return Modal
+     * @return Drawer
      */
     public function drawer($url = '', $params = [], $method = 'GET')
     {
+        return $this->modalParse(Drawer::class,$url,$params,$method);
+    }
+    private function modalParse($component,$url = '', $params = [], $method = 'GET'){
         list($url, $params) = $this->parseComponentCall($url, $params);
-        $modal = Drawer::create($this);
-        $modal->title($this->content['default'][0]);
+        $modal = $component::create($this);
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
-
     /**
      * 确认消息框
      * @param string $message 确认内容
@@ -362,6 +361,7 @@ abstract class Component implements \JsonSerializable
             ->url($url)
             ->params($params);
     }
+
     public function getName()
     {
         return $this->name;

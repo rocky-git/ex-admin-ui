@@ -14,7 +14,9 @@ use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\contract\FormInterface;
+use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
 
@@ -86,7 +88,10 @@ class Form extends Component
         $this->eventCustom('success', 'GridRefresh');
         $pk = $this->drive->getPk();
         if (Request::has($pk)) {
-            $this->attr('editId', Request::input($pk));
+            $id = Request::input($pk);
+            $this->drive->edit($id);
+            $this->data = $this->drive->getData();
+            $this->attr('editId', $id);
             $this->method('PUT');
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
@@ -137,15 +142,18 @@ class Form extends Component
         }
         return Arr::get($this->data, $field);
     }
+
     public function getFormItem()
     {
         return $this->formItem;
     }
+
     public function popItem()
     {
         $item = array_pop($this->formItem);
         return $item;
     }
+
     /**
      * 设置数据
      * @param string $field 字段
@@ -185,7 +193,7 @@ class Form extends Component
             $placeholder = 'please_enter';
         }
         if (!empty($placeholder)) {
-            $component->placeholder(admin_trans('form.'.$placeholder) . $label);
+            $component->placeholder(admin_trans('form.' . $placeholder) . $label);
         }
     }
 
@@ -351,8 +359,18 @@ class Form extends Component
         $this->formItem[] = $item;
     }
 
+    protected function dispatch($method)
+    {
+        return Container::getInstance()
+            ->make(Route::class)
+            ->invokeMethod($this->drive, $method, Request::input());
+    }
+
     public function jsonSerialize()
     {
+        if (Request::has('ex_admin_action')) {
+            return $this->dispatch(Request::input('ex_admin_action'));
+        }
         $this->content($this->formItem);
         $this->content($this->actions, 'footer');
         $this->bind($this->bindAttr('model'), $this->data);

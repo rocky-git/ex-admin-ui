@@ -10,6 +10,8 @@ namespace ExAdmin\ui\component\grid\grid;
 
 use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\feedback\Drawer;
+use ExAdmin\ui\component\feedback\Modal;
 
 /**
  * Class AddButton
@@ -18,28 +20,46 @@ use ExAdmin\ui\component\Component;
  */
 class ActionButton
 {
-    protected $button;
-
     //是否隐藏添加按钮
     protected $hide = false;
 
+    protected $action;
+
+    protected $button;
+
     public function __construct()
     {
-        $this->button = Button::create(admin_trans('grid.add'))
-            ->type('primary')
-            ->icon('<plus-outlined />');
+        $this->button = Button::create();
+        $this->action = $this->button;
     }
 
     public function __call($name, $arguments)
     {
-        $result = call_user_func_array([$this->button, $name], $arguments);
+        $result = call_user_func_array([$this->action, $name], $arguments);
         if ($result instanceof Component) {
-            $this->button = $result;
+            $this->action = $result;
         }
         return $this;
     }
-   
-    public function button(){
+
+    public function button()
+    {
         return $this->button;
+    }
+
+    public function action()
+    {
+        return $this->action;
+    }
+
+    public function __clone()
+    {
+        $this->action = clone $this->action;
+        $this->button = clone $this->button;
+        if($this->action instanceof Modal || $this->action instanceof Drawer){
+            $this->action->attr('reference',$this->button);
+        }else{
+            $this->action = $this->button;
+        }
     }
 }

@@ -9,12 +9,13 @@ trait Event
 
     /**
      * 移除事件
-     * @param $name
+     * @param $name 事件名称
+     * @param $type 类型
      */
-    public function removeEvent($name)
+    public function removeEvent($name,$type)
     {
         $name = ucfirst($name);
-        unset($this->event[$name]);
+        unset($this->event[$name][$type]);
         return $this;
     }
 
@@ -60,5 +61,10 @@ trait Event
         $this->event[$name][$type][] = $value;
         return $this;
     }
-
+    public function getEvent($name,$type){
+        return $this->event[$name][$type];
+    }
+    public function setEvent($name,$type,$event){
+        $this->event[$name][$type] = $event;
+    }
 }
