@@ -2,7 +2,9 @@
 
 namespace ExAdmin\ui\contract;
 
+use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\response\Message;
+
 use Illuminate\Http\Request;
 
 interface GridInterface
@@ -10,8 +12,9 @@ interface GridInterface
     /**
      * 设置数据源
      * @param mixed $data
+     * @param Grid $grid
      */
-    public function __construct($data);
+    public function __construct($data,Grid $grid);
 
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
@@ -92,4 +95,16 @@ interface GridInterface
      * @return mixed
      */
     public function filter(array $rule);
+    /**
+     * 删除前
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function deling(\Closure  $closure);
+    /**
+     * 删除后
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function deleted(\Closure  $closure);
 }

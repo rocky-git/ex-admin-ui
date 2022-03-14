@@ -31,6 +31,7 @@ use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\field\Slider;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\field\Transfer;
+use ExAdmin\ui\component\form\field\Tree;
 use ExAdmin\ui\component\form\field\TreeSelect;
 use ExAdmin\ui\component\form\field\upload\File;
 use ExAdmin\ui\component\form\field\upload\Image;
@@ -44,7 +45,8 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Slider slider(string $field, string $label = '') 滑动输入条 #TODO range模式不展示，带输入框的未封装
  * @method Transfer transfer(string $field, string $label = '') 穿梭框
  * @method Select select(string $field, string $label = '') 下拉选择框
- * @method TreeSelect tree(string $field, string $label = '') 树形选择框
+ * @method TreeSelect treeSelect(string $field, string $label = '') 树形选择框
+ * @method Tree tree(string $field, string $label = '') 树形
  * @method Switches switch (string $field, string $label = '') 开关
  * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框 # TODO 全选未封装
  * @method Cascade cascader(string $field, string $label = '') 级联选择 #todo
@@ -85,7 +87,8 @@ trait FormComponent
         'rate'          => Rate::class,
         'slider'        => Slider::class,
         'transfer'      => Transfer::class,
-        'tree'          => TreeSelect::class,
+        'treeSelect'    => TreeSelect::class,
+        'tree'          => Tree::class,
         'select'        => Select::class,
         'switch'        => Switches::class,
         'checkbox'      => CheckboxGroup::class,

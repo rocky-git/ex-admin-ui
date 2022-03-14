@@ -11,6 +11,7 @@ namespace ExAdmin\ui\component\grid\grid;
 
 use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
+use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
 
@@ -96,21 +97,21 @@ class Actions
 
     /**
      * 前面追加
-     * @param mixed $val
+     * @param array|Component $content
      */
-    public function prepend($val)
+    public function prepend($content)
     {
-        $this->prependArr[] = $val;
+        $this->prependArr[] = $content;
         return $this;
     }
 
     /**
      * 追加尾部
-     * @param mixed $val
+     * @param array|Component $content
      */
-    public function append($val)
+    public function append($content)
     {
-        $this->appendArr[] = $val;
+        $this->appendArr[] = $content;
         return $this;
     }
 

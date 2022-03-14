@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Grid extends Table
 {
-    use CallProvide;
+    use GridEvent;
 
     protected $name = 'ExGrid';
     /**
@@ -85,7 +85,7 @@ class Grid extends Table
     {
         parent::__construct();
         $drive = admin_config('admin.request_interface.grid');
-        $this->drive = (new $drive($data))->getDriver();
+        $this->drive = (new $drive($data,$this))->getDriver();
         $this->pagination = Pagination::create();
         //操作列
         $this->actionColumn = new Actions($this);

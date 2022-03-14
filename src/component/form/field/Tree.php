@@ -1,8 +1,10 @@
 <?php
 
-namespace ExAdmin\ui\component\grid;
+namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\support\Arr;
 
 /**
  * 文字提醒
@@ -32,7 +34,7 @@ use ExAdmin\ui\component\Component;
  * @method $this title(mixed $title) 自定义标题                                    													slot
  * @package ExAdmin\ui\component\form\field
  */
-class Tree extends Component
+class Tree extends Field
 {
 	/**
      * 插槽
@@ -49,5 +51,33 @@ class Tree extends Component
      */
 	protected $name = 'ATree';
 
-	
+    protected $vModel = 'checkedKeys';
+    public function __construct($field = null, $value = [])
+    {
+        $this->defaultExpandAll();
+        parent::__construct($field, $value);
+    }
+
+    /**
+     * 设置选项
+     * @param mixed $data 数据源
+     * @param string $label 名称
+     * @param string $id 主键
+     * @param string $pid 上级id
+     * @param string $children 下级成员
+     */
+    public function options($data, string $label = 'name', string $id = 'id', string $pid = 'pid', string $children = 'children')
+    {
+        $treeData = Arr::tree($data, $id, $pid, $children);
+        $this->fieldNames([
+            'children' => $children,
+            'label'    => $label,
+            'key'      => $id,
+            'value'    => $id
+        ]);
+        $this->treeData($treeData);
+        return $this;
+    }
+
+
 }

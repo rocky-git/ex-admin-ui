@@ -6,7 +6,7 @@ abstract class Manager
 {
     protected $driver;
 
-    abstract function __construct($repository);
+    abstract function __construct($repository,$component);
 
     final public function getDriver()
     {

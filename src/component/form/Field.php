@@ -41,7 +41,7 @@ class Field extends Component
      */
     public function modelValue(){
         if($this->formItem){
-            $this->formItem->form()->setData($this->field,$this->value);
+            $this->formItem->form()->inputDefault($this->field,$this->value);
             $this->removeBind($this->field);
             $field = $this->formItem->form()->getBindField($this->field);
             $this->bindAttr($this->vModel,$field,true);
@@ -64,7 +64,7 @@ class Field extends Component
      */
     public function default($value)
     {
-        $this->formItem->form()->setData($this->field,$value);
+        $this->formItem->form()->inputDefault($this->field,$value);
         return $this;
     }
 
@@ -75,7 +75,7 @@ class Field extends Component
      */
     public function value($value)
     {
-        $this->formItem->form()->setData($this->field,$value,true);
+        $this->formItem->form()->input($this->field,$value);
         return $this;
     }
 

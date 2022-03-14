@@ -23,7 +23,7 @@ class RangeField extends Field
     public function modelValue()
     {
         $field = $this->bindAttr($this->vModel);
-        $this->formItem->form()->setData($field, $this->value);
+        $this->formItem->form()->inputDefault($field, $this->value);
         $this->removeBind($field);
         $form = $this->formItem->form();
         $form->except($field);
@@ -35,7 +35,7 @@ class RangeField extends Field
         ];
         foreach ($bindFields as $field) {
             $bindField = $this->attr($field);
-            $this->formItem->form()->setData($bindField);
+            $this->formItem->form()->inputDefault($bindField);
             $bindField = $form->getBindField($bindField);
             $this->attr($field, $bindField);
         }
@@ -55,9 +55,9 @@ class RangeField extends Field
             throw new \Exception('传递数组参数至少2个元素');
         }
         [$startValue, $endValue] = $value;
-        $this->formItem->form()->setData($this->field, $value, $value);
-        $this->formItem->form()->setData($this->startField, $startValue);
-        $this->formItem->form()->setData($this->endField, $endValue);
+        $this->formItem->form()->inputDefault($this->field, $value);
+        $this->formItem->form()->inputDefault($this->startField, $startValue);
+        $this->formItem->form()->inputDefault($this->endField, $endValue);
         return $this;
 
     }
@@ -76,9 +76,9 @@ class RangeField extends Field
             throw new \Exception('传递数组参数至少2个元素');
         }
         [$startValue, $endValue] = $value;
-        $this->formItem->form()->setData($this->field, $value, true);
-        $this->formItem->form()->setData($this->startField, $startValue, true);
-        $this->formItem->form()->setData($this->endField, $endValue, true);
+        $this->formItem->form()->input($this->field, $value);
+        $this->formItem->form()->input($this->startField, $startValue);
+        $this->formItem->form()->input($this->endField, $endValue);
         return $this;
     }
 }

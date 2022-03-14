@@ -61,9 +61,23 @@ class System extends SystemAbstract
             [
                 "id" => 1092,
                 "pid" => 0,
-                "name" => "启动页",
+                "name" => "菜单管理",
                 "icon" => "fa fa-hourglass-start",
                 "url" => "ex-admin/ExAdmin-laravel-Controllers-MenuController/index",
+                "mark" => "",
+                "sort" => 1,
+                "open" => 1,
+                "status" => 1,
+                "admin_visible" => 1,
+                "create_time" => "2021-11-10 13=>57=>15",
+                "update_time" => "2021-11-12 10=>16=>25"
+            ],
+            [
+                "id" => 1093,
+                "pid" => 0,
+                "name" => "角色管理",
+                "icon" => "fa fa-hourglass-start",
+                "url" => "ex-admin/ExAdmin-laravel-Controllers-RoleController/index",
                 "mark" => "",
                 "sort" => 1,
                 "open" => 1,
@@ -627,5 +641,5 @@ class System extends SystemAbstract
             ]
         ];
     }
-  
+
 }

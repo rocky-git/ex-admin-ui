@@ -13,6 +13,7 @@ use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
+use ExAdmin\ui\contract\FormEventInterface;
 use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
@@ -45,14 +46,17 @@ use ExAdmin\ui\traits\CallProvide;
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = false) 为 true 时不带样式，作为纯字段控件使用                                            boolean
  * @method static $this create($data, $bindField = null) 创建
+ * @mixin FormEventInterface
  * @package ExAdmin\ui\component\form
  */
 class Form extends Component
 {
-    use FormComponent;
+    use FormComponent,FormEvent;
 
     protected $formItem = [];
-    //表单操作区组件
+    /**
+     * @var FormAction
+     */
     protected $actions;
     //数据源
     protected $data = [];
@@ -78,7 +82,7 @@ class Form extends Component
     {
         parent::__construct();
         $drive = admin_config('admin.request_interface.form');
-        $this->drive = (new $drive($data))->getDriver();
+        $this->drive = (new $drive($data,$this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
@@ -90,7 +94,8 @@ class Form extends Component
         if (Request::has($pk)) {
             $id = Request::input($pk);
             $this->drive->edit($id);
-            $this->data = $this->drive->getData();
+            $this->data = $this->drive->get();
+
             $this->attr('editId', $id);
             $this->method('PUT');
         }
@@ -130,18 +135,6 @@ class Form extends Component
         return $component;
     }
 
-    /**
-     * 获取数据
-     * @param string|null $field 字段
-     * @return array|mixed
-     */
-    public function getData(string $field = null)
-    {
-        if (is_null($field)) {
-            return $this->data;
-        }
-        return Arr::get($this->data, $field);
-    }
 
     public function getFormItem()
     {
@@ -154,20 +147,49 @@ class Form extends Component
         return $item;
     }
 
-    /**
-     * 设置数据
-     * @param string $field 字段
-     * @param null $value 值
-     * @param bool $force 覆盖
-     */
-    public function setData(string $field, $value = null, $force = false)
-    {
 
-        $data = Arr::get($this->data, $field);
-        if ((empty($data) && $data !== '0' && $data !== 0) || $force) {
+
+    /**
+     * 设置缺省值
+     * @param string $field 字段
+     * @param mixed $value 值
+     */
+    public function inputDefault($field, $value = null)
+    {
+        $data = $this->input($field);
+        if ((empty($data) && $data !== '0' && $data !== 0)) {
             $value = $this->convertNumber($value);
             Arr::set($this->data, $field, $value);
         }
+    }
+
+    /**
+     * 移除数据
+     * @param array|string $keys 字段
+     */
+    public function removeInput($keys){
+        Arr::forget($this->data, $keys);
+    }
+    /**
+     * 设置/获取数据
+     * @param string|array $field 字段
+     * @param null $value 值
+     * @return array|mixed
+     */
+    public function input($field = null, $value = null)
+    {
+        if (is_null($field)) {
+            return $this->data;
+        }
+        if (is_array($field)) {
+            $this->data = array_merge($this->data, $field);
+            return;
+        }
+        if (is_null($value)) {
+            return Arr::get($this->data, $field);
+        }
+        $value = $this->convertNumber($value);
+        Arr::set($this->data, $field, $value);
     }
 
     protected function convertNumber($value)
@@ -224,7 +246,7 @@ class Form extends Component
     public function hasMany(string $field, $title, \Closure $closure)
     {
         $bindField = $this->getBindField($field);
-        $manyData = $this->getData($field) ?? [];
+        $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
         $this->manyField = $field;
@@ -237,7 +259,7 @@ class Form extends Component
         }
         $this->manyField = '';
         $this->data = $data;
-        $this->setData($field, $manyData, true);
+        $this->set($field, $manyData, true);
         $formMany = FormMany::create($bindField)
             ->content($formItems)
             ->attr('field', $field)
