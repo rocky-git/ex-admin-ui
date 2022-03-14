@@ -10,7 +10,7 @@ class Request
     protected function getInputData(): array
     {
         $var = $_REQUEST;
-        array_shift($var);
+        //array_shift($var);
         $content = file_get_contents('php://input');
         $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
         $data = [];
@@ -19,6 +19,7 @@ class Request
         } elseif (false !== strpos($contentType, 'json')) {
             $data = (array)json_decode($content, true);
         }
+
         return array_merge($var, $data);
     }
 

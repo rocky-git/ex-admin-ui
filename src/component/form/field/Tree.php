@@ -71,9 +71,8 @@ class Tree extends Field
         $treeData = Arr::tree($data, $id, $pid, $children);
         $this->fieldNames([
             'children' => $children,
-            'label'    => $label,
+            'title'    => $label,
             'key'      => $id,
-            'value'    => $id
         ]);
         $this->treeData($treeData);
         return $this;

@@ -15,7 +15,7 @@ use ExAdmin\ui\support\Str;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @method static dispatch($class, $function, $vars = [])
+ * @method static dispatch($class, $function)
  */
 class Route
 {

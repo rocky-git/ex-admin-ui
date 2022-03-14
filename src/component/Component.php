@@ -323,7 +323,7 @@ abstract class Component implements \JsonSerializable
      * @param string $method
      * @return Modal
      */
-    public function modal($url = '', $params = [], $method = 'GET')
+    public function modal($url = '', $params = [], $method = 'POST')
     {
         return $this->modalParse(Modal::class,$url,$params,$method);
 
@@ -335,11 +335,11 @@ abstract class Component implements \JsonSerializable
      * @param string $method 请求方式
      * @return Drawer
      */
-    public function drawer($url = '', $params = [], $method = 'GET')
+    public function drawer($url = '', $params = [], $method = 'POST')
     {
         return $this->modalParse(Drawer::class,$url,$params,$method);
     }
-    private function modalParse($component,$url = '', $params = [], $method = 'GET'){
+    private function modalParse($component,$url = '', $params = [], $method = 'POST'){
         list($url, $params) = $this->parseComponentCall($url, $params);
         $modal = $component::create($this);
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);

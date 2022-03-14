@@ -402,6 +402,7 @@ class Grid extends Table
             if ($this->addButton) {
                 $this->attr('addButton', $this->addButton->action());
             }
+            $this->attr('callParams',$this->call['params']);
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));
