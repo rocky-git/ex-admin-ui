@@ -129,11 +129,13 @@ class AutoComplete extends Field
             foreach ($data as $key => &$option) {
                 $option['label'] = $option[$label];
                 $option['value'] = $option[$id];
+                $option['key'] = $this->random();
                 $option['disabled'] = in_array($option[$id], $this->disabledValue) ? true : false;
                 $option['options'] = $option[$name] ?? [];
                 foreach ($option['options'] as &$item) {
                     $item['label'] = $item[$label];
                     $item['value'] = $item[$id];
+                    $item['key'] = $this->random();
                     $item['disabled'] = in_array($item[$id], $this->disabledValue) ? true : false;
                 }
             }

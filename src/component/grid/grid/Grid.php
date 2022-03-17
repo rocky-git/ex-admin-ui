@@ -6,6 +6,7 @@ use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\grid\avatar\Avatar;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
@@ -164,7 +165,27 @@ class Grid extends Table
         $this->drive->filter($this->filter->getRule());
         return $this->filter;
     }
-
+    /**
+     * 头像昵称咧
+     * @param string $avatar 头像
+     * @param string $nickname 昵称
+     * @param string $label 标签
+     * @return Column
+     */
+    public function userInfo($avatar = 'avatar', $nickname = 'nickname', $label = null)
+    {
+        if (is_null($label)) {
+            $label = admin_trans('admin.user_info');
+        }
+        $column = $this->column($nickname, $label);
+        return $column->display(function ($val, $data) use ($column, $avatar) {
+            $avatarValue = Arr::get($data, $avatar);
+            $image = Avatar::create()
+                ->size(50)
+                ->src($avatarValue);
+            return Html::create()->content($image)->content("<br>{$val}");
+        })->align('center');
+    }
     /**
      * 开启树形表格
      * @param string $pidField 父级字段
@@ -388,8 +409,7 @@ class Grid extends Table
         if (Request::has('ex_admin_export')) {
             return $this->dispatch('export');
         }
-        $dispatch = $this->getDispatch();
-        if (Request::input('grid_request_data') && $dispatch['class'] == $this->call['class'] && $dispatch['function'] == $this->call['function']) {
+        if (Request::input('grid_request_data') && Request::input('ex_admin_class') == $this->call['class'] && Request::input('ex_admin_function') == $this->call['function']) {
             return [
                 'data' => $data,
                 'header' => $this->attr('header'),
@@ -402,7 +422,9 @@ class Grid extends Table
             if ($this->addButton) {
                 $this->attr('addButton', $this->addButton->action());
             }
-            $this->attr('callParams',$this->call['params']);
+            $callParams = ['ex_admin_class'=>$this->call['class'],'ex_admin_function'=>$this->call['function']];
+            $callParams = array_merge($callParams,$this->call['params']);
+            $this->attr('callParams',$callParams);
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

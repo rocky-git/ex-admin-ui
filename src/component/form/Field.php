@@ -109,9 +109,11 @@ class Field extends Component
     /**
      * 提示信息
      * @param string|Component $content
+     * @return $this
      */
     public function help($content){
         $this->formItem->help($content);
+        return $this;
     }
 //    /**
 //     * 提示信息

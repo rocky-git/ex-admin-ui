@@ -117,7 +117,7 @@ class Node
                     }
                 }
             }
-            if (count($node) > 1) {
+            if (count($nodes) > 1) {
                 $this->node = array_merge($this->node, $nodes);
             }
         }

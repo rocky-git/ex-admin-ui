@@ -85,7 +85,21 @@ class System extends SystemAbstract
                 "admin_visible" => 1,
                 "create_time" => "2021-11-10 13=>57=>15",
                 "update_time" => "2021-11-12 10=>16=>25"
-            ]
+            ],
+            [
+            "id" => 1011,
+            "pid" => 0,
+            "name" => "用户管理",
+            "icon" => "fa fa-hourglass-start",
+            "url" => "ex-admin/ExAdmin-laravel-Controllers-AdminController/index",
+            "mark" => "",
+            "sort" => 1,
+            "open" => 1,
+            "status" => 1,
+            "admin_visible" => 1,
+            "create_time" => "2021-11-10 13=>57=>15",
+            "update_time" => "2021-11-12 10=>16=>25"
+        ]
         ];
         return [
             [

@@ -33,16 +33,4 @@ trait CallProvide
     public function getCall(){
         return $this->call;
     }
-    protected function getDispatch()
-    {
-        $path = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $path = trim($path, '/');
-        $paths = explode('/', $path);
-        array_shift($paths);
-        list($class, $function) = $paths;
-        return [
-            'class' => $class,
-            'function' => $function
-        ];
-    }
 }

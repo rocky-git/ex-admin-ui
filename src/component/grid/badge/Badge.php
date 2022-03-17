@@ -22,13 +22,7 @@ use ExAdmin\ui\component\Component;
  */
 class Badge extends Component
 {
-	/**
-     * 插槽
-     * @var string[]
-     */
-    protected $slot = [
-        'count',
-    ];
+	
 
     /**
      * 组件名称
