@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\navigation\menu;
 
+use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\Component;
 
 /**
@@ -28,7 +29,21 @@ class Menu extends Component
      * 组件名称
      * @var string
      */
-	protected $name = 'AMenu';
+    protected $name = 'AMenu';
 
-	
+    /**
+     * 下拉菜单选项
+     * @param mixed $content
+     * @param string $icon 图标
+     * @return MenuItem
+     */
+    public function item($content, $icon = null)
+    {
+        $item = MenuItem::create($this)
+            ->content($content)
+            ->icon(Icon::create($icon));
+        $this->content($item);
+        return $item;
+    }
+    
 }

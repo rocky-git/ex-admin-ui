@@ -19,7 +19,7 @@ use ExAdmin\ui\component\Component;
  * @method $this visible(bool $visible) 菜单是否显示								                                        boolean
  * @package ExAdmin\ui\component\form\field
  */
-class DropdownButton extends Component
+class DropdownButton extends Dropdown
 {
 	/**
      * 插槽

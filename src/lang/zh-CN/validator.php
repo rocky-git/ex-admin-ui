@@ -13,7 +13,7 @@ return [
     'number' => '必须是数字',
     'integer' => '必须是整数',
     'float' => '必须是浮点数',
-    'mobile' => '手机号格式不符',
+    'mobile' => '格式不符',
     'leng' => '长度不符合要求 ',
     'alpha' => '只能是字母',
     'alphaNum' => '只能是字母数字',

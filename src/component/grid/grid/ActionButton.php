@@ -12,6 +12,7 @@ use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
+use ExAdmin\ui\component\navigation\menu\MenuItem;
 
 /**
  * Class AddButton
@@ -23,43 +24,77 @@ class ActionButton
     //是否隐藏添加按钮
     protected $hide = false;
 
-    protected $action;
+    protected $dropdown = false;
+
+    protected $actionButton;
+
+    protected $actionMenuItem;
 
     protected $button;
+
+    protected $menuItem;
+
 
     public function __construct()
     {
         $this->button = Button::create();
-        $this->action = $this->button;
+        $this->menuItem = MenuItem::create();
+        $this->actionButton = $this->button;
+        $this->actionMenuItem = $this->menuItem;
     }
 
     public function __call($name, $arguments)
     {
-        $result = call_user_func_array([$this->action, $name], $arguments);
+        $result = call_user_func_array([$this->actionButton, $name], $arguments);
         if ($result instanceof Component) {
-            $this->action = $result;
+            $this->actionButton = $result;
+        }
+        $result = call_user_func_array([$this->actionMenuItem, $name], $arguments);
+        if ($result instanceof Component) {
+            $this->actionMenuItem = $result;
         }
         return $this;
     }
 
+    public function dropdown($bool=true)
+    {
+        $this->dropdown = $bool;
+    }
+
     public function button()
     {
-        return $this->button;
+        if ($this->dropdown) {
+            return $this->menuItem;
+        } else {
+            return $this->button;
+        }
+
     }
 
     public function action()
     {
-        return $this->action;
+        if ($this->dropdown) {
+            return $this->actionMenuItem;
+        } else {
+            return $this->actionButton;
+        }
     }
 
     public function __clone()
     {
-        $this->action = clone $this->action;
+        $this->actionMenuItem = clone $this->actionMenuItem;
+        $this->actionButton = clone $this->actionButton;
         $this->button = clone $this->button;
-        if($this->action instanceof Modal || $this->action instanceof Drawer){
-            $this->action->attr('reference',$this->button);
-        }else{
-            $this->action = $this->button;
+        $this->menuItem = clone $this->menuItem;
+        if ($this->actionButton instanceof Modal || $this->actionButton instanceof Drawer) {
+            $this->actionButton->attr('reference', $this->button);
+        } else {
+            $this->actionButton = $this->button;
+        }
+        if ($this->actionMenuItem instanceof Modal || $this->actionMenuItem instanceof Drawer) {
+            $this->actionMenuItem->attr('reference', $this->menuItem);
+        } else {
+            $this->actionMenuItem = $this->menuItem;
         }
     }
 }
