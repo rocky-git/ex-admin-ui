@@ -195,7 +195,7 @@ class Form extends Component
             return;
         }
         if (is_null($value)) {
-            return Arr::get($this->data, $field);
+            return Arr::get($this->data, $field) ?? $this->drive->get($field);
         }
         $value = $this->convertNumber($value);
         Arr::set($this->data, $field, $value);

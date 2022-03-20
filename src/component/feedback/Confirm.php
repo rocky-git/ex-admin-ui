@@ -9,6 +9,7 @@
 namespace ExAdmin\ui\component\feedback;
 
 
+use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 
@@ -28,7 +29,11 @@ class Confirm extends Component
     protected $component;
     public function __construct($component)
     {
-        $this->component = Html::create($component);
+        if($component instanceof Button){
+            $this->component = $component;
+        }else{
+            $this->component = Html::create($component);
+        }
         parent::__construct();
     }
 

@@ -100,7 +100,7 @@ trait Validator
      * @param array $trigger 触发方式
      * @return $this
      */
-    public function rulePattern($pattern, $trans = null, $trigger = ['change', 'blur'])
+    public function rulePattern($pattern, $trans = null, $trigger = ['blur'])
     {
         if (is_null($trans)) {
             $trans = $type;

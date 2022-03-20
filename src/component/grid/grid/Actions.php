@@ -232,7 +232,7 @@ class Actions
         $this->delButton = new ActionButton;
         $this->delButton->dropdown($this->dropdown?true:false);
         $this->delButton->content(admin_trans('grid.delete'))
-            ->when(!$this->dropdown,function (Button $button){
+            ->when(!$this->dropdown,function ($button){
                 $button->danger()->type('primary');
             })
             ->icon('<DeleteFilled />')
