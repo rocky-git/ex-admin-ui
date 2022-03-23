@@ -98,33 +98,7 @@ class Actions
         return $this->dropdown;
     }
 
-    /**
-     * 详情按钮
-     * @return ActionButton
-     */
-    public function detailButton()
-    {
-        return $this->detailButton;
-    }
-
-    /**
-     * 编辑按钮
-     * @return ActionButton
-     */
-    public function editButton()
-    {
-        return $this->editButton;
-    }
-
-    /**
-     * 删除按钮
-     * @return ActionButton
-     */
-    public function delButton()
-    {
-        return $this->delButton;
-    }
-
+  
     /**
      * 前面追加
      * @param array|Component $content
@@ -239,11 +213,6 @@ class Actions
             ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), ['ex_admin_action' => 'delete', 'ids' => [$this->id]])
             ->method('delete')
             ->gridRefresh();
-
-        //自定义内容显示处理
-        if (!is_null($this->closure)) {
-            call_user_func_array($this->closure, [$this, $this->row]);
-        }
 
         //前面追加
         $html->content($this->prependArr);
