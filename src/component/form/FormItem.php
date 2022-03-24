@@ -24,6 +24,8 @@ use ExAdmin\ui\component\Component;
  * @method $this wrapperCol(mixed $wrapperCol) 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol				        object
  * @method $this validateFirst(bool $validateFirst = false) 当某一规则校验不通过时，是否停止剩下的规则的校验。				    boolean
  * @method $this validateTrigger(mixed $validateTrigger = 'change') 设置字段校验的时机				                        string | string[]
+ * @method $this extra(mixed $content) 额外的提示信息，和 help 类似，当需要错误信息和提示文案同时出现时，可以使用这个。
+ * @method $this help(mixed $content) 提示信息，如不设置，则会根据校验规则自动生成
  * @method static $this create(Form $form=null) 创建
  * @package ExAdmin\ui\component\form
  */
@@ -51,7 +53,7 @@ class FormItem extends Component
         parent::__construct();
         $this->form = $form;
     }
-    
+
 
     /**
      * @return Form

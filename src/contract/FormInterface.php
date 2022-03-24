@@ -4,6 +4,7 @@ namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\response\Message;
+use ExAdmin\ui\response\Response;
 
 interface FormInterface
 {
@@ -18,11 +19,11 @@ interface FormInterface
      * 数据保存
      * @param array $data
      * @param mixed $id
-     * @return Message
+     * @return Message|Response
      */
-    public function save(array $data, $id = null): Message;
+    public function save(array $data, $id = null): Message|Response;
 
-    
+
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
      * @return string

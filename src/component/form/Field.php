@@ -44,6 +44,7 @@ class Field extends Component
             $this->formItem->form()->inputDefault($this->field,$this->value);
             $this->removeBind($this->field);
             $field = $this->formItem->form()->getBindField($this->field);
+         //   $this->formItem->bindAttr('help',$field,true);
             $this->bindAttr($this->vModel,$field,true);
         }
     }
@@ -112,7 +113,7 @@ class Field extends Component
      * @return $this
      */
     public function help($content){
-        $this->formItem->help($content);
+        $this->formItem->extra($content);
         return $this;
     }
 //    /**

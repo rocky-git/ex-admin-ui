@@ -88,7 +88,7 @@ class Grid extends Table
     public function __construct($data)
     {
         parent::__construct();
-        $drive = admin_config('admin.request_interface.grid');
+        $drive = admin_config('admin.grid.manager');
         $this->drive = (new $drive($data, $this))->getDriver();
         $this->pagination = Pagination::create();
         //操作列

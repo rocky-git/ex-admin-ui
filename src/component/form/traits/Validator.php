@@ -47,12 +47,16 @@ trait Validator
         'chsAlphaNum' => '^[\u4e00-\u9fa5a-zA-Z0-9]+$',
         'chsDash' => '^[\u4e00-\u9fa5a-zA-Z0-9\_\-]+$',
     ];
+
+
     protected static $regexMsg = [];
-    
-    public static function extend(string $type,$pattern,$trans){
+
+    public static function extend(string $type, $pattern, $trans)
+    {
         static::$regex[$type] = $pattern;
         static::$regexMsg[$type] = $trans;
     }
+
     /**
      * 是否必填
      * @return $this
@@ -67,7 +71,7 @@ trait Validator
         return $this;
     }
 
-    
+
     /**
      * 长度验证
      * @param int $min 最小
@@ -108,7 +112,7 @@ trait Validator
         $rule = [
             'pattern' => $pattern,
             'trigger' => $trigger,
-            'message' => $this->formItem->attr('label') . admin_trans('validator.'.$trans),
+            'message' => $this->formItem->attr('label') . admin_trans('validator.' . $trans),
         ];
         $this->setRule($rule);
         return $this;
@@ -124,5 +128,46 @@ trait Validator
         }
         $this->formItem->attr('rules', $rules);
         return $this;
+    }
+
+    /**
+     * 表单验证规则
+     * @param array $rule 验证规则
+     * @param int $type 0全部，1新增，2更新
+     * @return $this
+     */
+    public function rule(array $rule, $type = 0)
+    {
+        $formItem = $this->getFormItem();
+        $validator = $formItem->form()->validator();
+        $field = implode('.', $formItem->attr('name'));
+        if ($type == 1) {
+            $validator->createRule($field, $rule);
+        } elseif ($type == 2) {
+            $validator->updateRule($field, $rule);
+        } else {
+            $validator->createRule($field, $rule);
+            $validator->updateRule($field, $rule);
+        }
+        return $this;
+    }
+
+    /**
+     * 表单新增验证规则
+     * @param array $rule 验证规则
+     * @return \ExAdmin\ui\component\form\Field
+     */
+    public function createRule(array $rule)
+    {
+        return $this->rule($rule, 1);
+    }
+    /**
+     * 表单更新验证规则
+     * @param array $rule 验证规则
+     * @return \ExAdmin\ui\component\form\Field
+     */
+    public function updateRule(array $rule)
+    {
+        return $this->rule($rule, 2);
     }
 }

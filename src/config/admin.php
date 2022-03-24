@@ -6,14 +6,24 @@
  * Time: 21:12
  */
 return [
-    'request_interface'=>[
-      'grid'=>\ExAdmin\ui\test\Grid::class,
-      'form'=>\ExAdmin\ui\test\Form::class,
-      'login'=>\ExAdmin\laravel\Login::class,
-      'system'=>\ExAdmin\ui\test\System::class,
+    'request_interface' => [
+        //ExAdmin\ui\contract\LoginInterface
+        'login' => '',
+        //ExAdmin\ui\contract\SystemAbstract
+        'system' => '',
+    ],
+    'grid' => [
+         //ExAdmin\ui\Manager
+        'manager' => '',
+    ],
+    'form' => [
+        //ExAdmin\ui\Manager
+        'manager' => '',
+        //ExAdmin\ui\contract\ValidatorForm
+        'validator' => \ExAdmin\ui\test\Validator::class,
     ],
     //扫描权限目录
-    'auth_scan'=>[],
+    'auth_scan' => [],
     // 默认语言
     'lang' => 'zh-CN',
     //主题 light 暗黑dark
