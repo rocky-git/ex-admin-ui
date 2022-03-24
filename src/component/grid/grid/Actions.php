@@ -49,9 +49,9 @@ class Actions
      * @var Dropdown
      */
     protected $dropdown;
-    
+
     protected $row = [];
-   
+
     protected $id;
     public function __construct(Grid $grid)
     {
@@ -98,7 +98,7 @@ class Actions
         return $this->dropdown;
     }
 
-  
+
     /**
      * 前面追加
      * @param array|Component $content
@@ -210,7 +210,7 @@ class Actions
                 $button->danger()->type('primary');
             })
             ->icon('<DeleteFilled />')
-            ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), ['ex_admin_action' => 'delete', 'ids' => [$this->id]])
+            ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), ['ex_admin_trashed'=>$this->grid->isTrashed(),'ex_admin_action' => 'delete', 'ids' => [$this->id]])
             ->method('delete')
             ->gridRefresh();
 
@@ -231,7 +231,23 @@ class Actions
                 $html->content($this->editButton->action());
             }
         }
-        if (!$this->hideDelButton) {
+        //恢复数据
+        if($this->grid->isTrashed() && !$this->grid->attr('hideTrashedRestore')){
+            $restoreAction = new ActionButton;
+            $restoreAction->dropdown($this->dropdown?true:false);
+            $restoreAction->content(admin_trans('grid.restore'))
+
+                ->icon('<diff-outlined />')
+                ->confirm(admin_trans('grid.confim_restore'), $this->grid->attr('url'), ['ex_admin_action' => 'restore', 'ids' => [$this->id]])
+                ->method('put')
+                ->gridRefresh();
+            if($this->dropdown){
+                $this->dropdown->menu->content($restoreAction->action());
+            }else{
+                $html->content($restoreAction->action());
+            }
+        }
+        if (!$this->hideDelButton && !($this->grid->isTrashed() && $this->grid->attr('hideTrashedDelete'))) {
             if($this->dropdown){
                 $this->dropdown->menu->content($this->delButton->action());
             }else{

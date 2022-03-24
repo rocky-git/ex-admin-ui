@@ -7,6 +7,8 @@ return [
     'sort' => 'Sort',
     'action' => 'Action',
     'confim_delete' => 'Confirm deletion?',
+    'confim_restore' => 'Confirm recovery?',
+    'restore' => 'Restore data',
     'pagination'=>[
         'total' => 'Total {total}',
     ]

@@ -22,11 +22,14 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class Grid
  * @method static $this create($data) 创建
- * @method $this hideDeleteButton(bool $bool = true) 隐藏清空按钮
+ * @method $this hideDelete(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
  * @method $this hideSelection(bool $bool = true) 隐藏选择框
  * @method $this expandFilter(bool $bool = true) 展开筛选
  * @method $this hideTools(bool $bool = true) 隐藏工具栏
+ * @method $this hideTrashed(bool $bool = true) 隐藏回收站
+ * @method $this hideTrashedDelete(bool $bool = true) 隐藏回收站删除按钮
+ * @method $this hideTrashedRestore(bool $bool = true) 隐藏回收站恢复按钮
  * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideExport(bool $bool = true) 隐藏导出
  * @method $this quickSearch(bool $bool = true) 快捷搜索
@@ -86,7 +89,7 @@ class Grid extends Table
     {
         parent::__construct();
         $drive = admin_config('admin.request_interface.grid');
-        $this->drive = (new $drive($data,$this))->getDriver();
+        $this->drive = (new $drive($data, $this))->getDriver();
         $this->pagination = Pagination::create();
         //操作列
         $this->actionColumn = new Actions($this);
@@ -94,7 +97,7 @@ class Grid extends Table
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params($this->call['params']);
         $this->scroll(['x' => 'max-content']);
-
+        $this->hideTrashed(!$this->drive->trashed());
     }
 
     public function drive()
@@ -165,6 +168,7 @@ class Grid extends Table
         $this->drive->filter($this->filter->getRule());
         return $this->filter;
     }
+
     /**
      * 头像昵称咧
      * @param string $avatar 头像
@@ -186,6 +190,7 @@ class Grid extends Table
             return Html::create()->content($image)->content("<br>{$val}");
         })->align('center');
     }
+
     /**
      * 开启树形表格
      * @param string $pidField 父级字段
@@ -355,10 +360,21 @@ class Grid extends Table
      * 设置添加编辑表单
      * @return ActionButton
      */
-    public function setForm(){
+    public function setForm()
+    {
         $this->setForm = new ActionButton();
         return $this->setForm;
     }
+
+    /**
+     * 当前是否回收站请求
+     * @return mixed
+     */
+    public function isTrashed()
+    {
+        return Request::input('ex_admin_trashed') ? true : false;
+    }
+
     protected function dispatch($method)
     {
         return Container::getInstance()
@@ -382,12 +398,12 @@ class Grid extends Table
             $this->column[] = $this->actionColumn->column();
         }
         //添加编辑表单
-        if($this->setForm){
+        if ($this->setForm) {
             $this->addButton = clone $this->setForm;
             $this->actionColumn->setEditButton($this->setForm);
         }
         //添加按钮
-        if($this->addButton){
+        if ($this->addButton) {
             $this->addButton->button()->content(admin_trans('grid.add'))
                 ->type('primary')
                 ->icon('<plus-outlined />');
@@ -422,9 +438,9 @@ class Grid extends Table
             if ($this->addButton) {
                 $this->attr('addButton', $this->addButton->action());
             }
-            $callParams = ['ex_admin_class'=>$this->call['class'],'ex_admin_function'=>$this->call['function']];
-            $callParams = array_merge($callParams,$this->call['params']);
-            $this->attr('callParams',$callParams);
+            $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
+            $callParams = array_merge($callParams, $this->call['params']);
+            $this->attr('callParams', $callParams);
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

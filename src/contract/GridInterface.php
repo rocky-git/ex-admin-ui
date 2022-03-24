@@ -26,10 +26,15 @@ interface GridInterface
     /**
      * 删除
      * @param array $ids 删除id
-     * @return mixed
+     * @return Message
      */
     public function delete(array $ids): Message;
-
+    /**
+     * 恢复数据
+     * @param array $ids 恢复id
+     * @return Message
+     */
+    public function restore(array $ids): Message;
     /**
      * 删除全部
      * @return Message
@@ -79,6 +84,13 @@ interface GridInterface
      * @return int
      */
     public function total(): int;
+
+    /**
+     * 是否有回收站
+     * @return bool
+     */
+    public function trashed():bool;
+    
 
     /**
      * 导出数据
