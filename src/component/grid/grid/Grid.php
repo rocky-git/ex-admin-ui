@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class Grid
  * @method static $this create($data) 创建
+ * @method $this hideAdd(bool $bool = true) 隐藏添加按钮
  * @method $this hideDelete(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
  * @method $this hideSelection(bool $bool = true) 隐藏选择框

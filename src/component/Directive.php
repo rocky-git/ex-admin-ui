@@ -2,6 +2,9 @@
 
 namespace ExAdmin\ui\component;
 
+use ExAdmin\ui\component\common\Html;
+use ExAdmin\ui\component\navigation\menu\MenuItem;
+
 trait Directive
 {
     //自定义指令
@@ -53,6 +56,7 @@ trait Directive
         $style = array_merge($style, ['cursor' => 'pointer']);
         $this->attr('style', $style);
         return $this->directive('redirect', $url);
+
     }
 
     /**

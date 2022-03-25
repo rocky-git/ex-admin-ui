@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\navigation\dropdown;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\navigation\menu\Menu;
@@ -11,7 +12,8 @@ use ExAdmin\ui\component\navigation\menu\MenuItem;
  * 下拉菜单
  * Class Dropdown
  * @link   https://next.antdv.com/components/dropdown-cn 下拉菜单组件
- * @method $this disabled(bool $disabled) 菜单是否禁用                                                                    boolean
+ * @method $this destroyPopupOnHide(bool $value=true) 	关闭后是否销毁 Dropdown                                                               boolean
+ * @method $this disabled(bool $value=true) 菜单是否禁用                                                                    boolean
  * @method $this overlayClassName(string $overlayClassName) 下拉根元素的类名称                                                string
  * @method $this overlayStyle(mixed $overlayStyle) 下拉根元素的样式                                                        object
  * @method $this overlay(mixed $menu)
@@ -32,7 +34,7 @@ class Dropdown extends Component
 
     protected $slot = ['overlay'];
     /**
-     * @var Menu 
+     * @var Menu
      */
     public $menu;
 
@@ -69,7 +71,6 @@ class Dropdown extends Component
             $this->menu->content['default'][] = $item;
 
         }
-
         return $item;
     }
 
@@ -82,7 +83,7 @@ class Dropdown extends Component
     public function menuItem($content, $icon = null)
     {
         return MenuItem::create($this->menu)
-            ->content($content)
+            ->content(Html::create($content))
             ->icon(Icon::create($icon));
     }
     /**

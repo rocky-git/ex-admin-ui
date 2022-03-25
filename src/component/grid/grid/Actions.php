@@ -159,6 +159,7 @@ class Actions
             foreach ($event as &$item) {
                 if ($item['type'] == 'Modal') {
                     $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->drive()->getPk() => $id]);
+                    $actionButton->action()->removeBind($actionButton->action()->getModel());
                     $actionButton->action()->vModel('visible', null, false);
                     $item['params']['modal'] = $actionButton->action()->getModel();
                 }
