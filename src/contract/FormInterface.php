@@ -21,7 +21,7 @@ interface FormInterface
      * @param mixed $id
      * @return Message|Response
      */
-    public function save(array $data, $id = null): Message|Response;
+    public function save(array $data, $id = null);
 
 
     /**

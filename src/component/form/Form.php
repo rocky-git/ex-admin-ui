@@ -70,6 +70,9 @@ class Form extends Component
     protected $data = [];
 
     protected $manyField = '';
+    
+    public $manyValidateField = [];
+    
     //验证绑定提示字段
     protected $validateBindField = '';
     /**
@@ -281,6 +284,7 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
+        $this->manyValidateField[]=$field;
         $bindField = $this->getBindField($field);
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
@@ -294,6 +298,7 @@ class Form extends Component
             $row = $this->data;
         }
         $this->manyField = '';
+        $this->manyValidateField = [];
         $this->data = $data;
         $this->input($field, $manyData);
         $formMany = FormMany::create($bindField)

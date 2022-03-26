@@ -139,8 +139,14 @@ trait Validator
     public function rule(array $rule, $type = 0)
     {
         $formItem = $this->getFormItem();
-        $validator = $formItem->form()->validator();
+        $form = $formItem->form();
+        $validator = $form->validator();
         $field = implode('.', $formItem->attr('name'));
+        if(count($form->manyValidateField)>0){
+            $validateField = $form->manyValidateField;
+            array_push($validateField,$field);
+            $field =  implode('.*.',$validateField);
+        }
         if ($type == 1) {
             $validator->createRule($field, $rule);
         } elseif ($type == 2) {
@@ -161,6 +167,7 @@ trait Validator
     {
         return $this->rule($rule, 1);
     }
+
     /**
      * 表单更新验证规则
      * @param array $rule 验证规则
