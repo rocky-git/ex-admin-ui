@@ -142,8 +142,8 @@ trait Validator
         $form = $formItem->form();
         $validator = $form->validator();
         $field = implode('.', $formItem->attr('name'));
-        if(count($form->manyValidateField)>0){
-            $validateField = $form->manyValidateField;
+        if(count($form->manyField)>0){
+            $validateField = $form->manyField;
             array_push($validateField,$field);
             $field =  implode('.*.',$validateField);
         }
