@@ -5,24 +5,26 @@ namespace ExAdmin\ui\component\grid\grid;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\FilterIde;
 use ExAdmin\ui\support\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
- * @method FormComponent eq(\Closure $closure= null) 等于
- * @method FormComponent neq(\Closure $closure= null) 不等于
- * @method FormComponent egt(\Closure $closure= null) 大于等于
- * @method FormComponent elt(\Closure $closure= null) 小于等于
- * @method FormComponent gt(\Closure $closure= null) 大于
- * @method FormComponent lt(\Closure $closure= null) 小于
- * @method FormComponent between(\Closure $closure= null) 区间
- * @method FormComponent notBetween(\Closure $closure= null) NOT区间查询
- * @method FormComponent like(\Closure $closure= null) 模糊
- * @method FormComponent json(\Closure $closure= null) json查询
- * @method FormComponent jsonLike(\Closure $closure= null) json模糊查询
- * @method FormComponent jsonArrLike(\Closure $closure= null) json数组模糊查询
- * @method FormComponent in(\Closure $closure= null) in查询
- * @method FormComponent notIn(\Closure $closure= null) not in查询
- * @method FormComponent findIn(\Closure $closure= null) findIn查询
+ * @method FilterIde eq(\Closure $closure= null) 等于
+ * @method FilterIde neq(\Closure $closure= null) 不等于
+ * @method FilterIde egt(\Closure $closure= null) 大于等于
+ * @method FilterIde elt(\Closure $closure= null) 小于等于
+ * @method FilterIde gt(\Closure $closure= null) 大于
+ * @method FilterIde lt(\Closure $closure= null) 小于
+ * @method FilterIde between(\Closure $closure= null) 区间
+ * @method FilterIde notBetween(\Closure $closure= null) NOT区间查询
+ * @method FilterIde like(\Closure $closure= null) 模糊
+ * @method FilterIde json(\Closure $closure= null) json查询
+ * @method FilterIde jsonLike(\Closure $closure= null) json模糊查询
+ * @method FilterIde jsonArrLike(\Closure $closure= null) json数组模糊查询
+ * @method FilterIde in(\Closure $closure= null) in查询
+ * @method FilterIde notIn(\Closure $closure= null) not in查询
+ * @method FilterIde findIn(\Closure $closure= null) findIn查询
  */
 class Filter
 {
@@ -76,13 +78,15 @@ class Filter
                 call_user_func($arguments[0],$this);
             }
         }elseif (isset($this->formComponent[$name])){
-            if(is_null($form)){
-                $form = $this->form;
+            if(in_array($name,['dateRange','dateTimeRange','timeRange','yearRange','monthRange','weekRange','quarterRange'])){
+                array_unshift($arguments,$arguments[0]);
             }
-
             if(!is_null($form)){
                 $formComponent = call_user_func_array([$this->form,$name],$arguments);
                 $formComponent->getFormItem()->style(['display'=>'none']);
+            }
+            if(is_null($form)){
+                $form = $this->form;
             }
             $formComponent = call_user_func_array([$form,$name],$arguments);
             list($fields) = Arr::formItem($formComponent,$arguments);
