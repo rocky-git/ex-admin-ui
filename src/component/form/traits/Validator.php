@@ -120,6 +120,8 @@ trait Validator
 
     protected function setRule($rule)
     {
+        $field = $this->getValidateField();
+        $this->formItem->form()->validator()->setTabField($field);
         $rules = $this->formItem->attr('rules');
         if ($rules) {
             array_push($rules, $rule);
@@ -129,7 +131,16 @@ trait Validator
         $this->formItem->attr('rules', $rules);
         return $this;
     }
-
+    protected function getValidateField(){
+        $field = implode('.', $this->formItem->attr('name'));
+        $form = $this->formItem->form();
+        if(count($form->manyField)>0){
+            $validateField = $form->manyField;
+            array_push($validateField,$field);
+            $field = implode('.*.',$validateField);
+        }
+        return $field;
+    }
     /**
      * 表单验证规则
      * @param array $rule 验证规则
@@ -138,15 +149,10 @@ trait Validator
      */
     public function rule(array $rule, $type = 0)
     {
-        $formItem = $this->getFormItem();
-        $form = $formItem->form();
+        $form = $this->formItem->form();
         $validator = $form->validator();
-        $field = implode('.', $formItem->attr('name'));
-        if(count($form->manyField)>0){
-            $validateField = $form->manyField;
-            array_push($validateField,$field);
-            $field =  implode('.*.',$validateField);
-        }
+        $field = $this->getValidateField();
+        $this->formItem->form()->validator()->setTabField($field);
         if ($type == 1) {
             $validator->createRule($field, $rule);
         } elseif ($type == 2) {

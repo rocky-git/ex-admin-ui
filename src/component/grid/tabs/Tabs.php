@@ -13,8 +13,9 @@ use ExAdmin\ui\component\form\Form;
  * @method $this animated(mixed $animated) 是否使用动画切换 Tabs，在 tabPosition = top | bottom 时有效                       boolean | {
 inkBar:boolean, tabPane:boolean
 }
- * @method $this centered(bool $centered = false) 标签居中展示                                                            boolean
- * @method $this hideAdd(bool $hideAdd = false) 是否隐藏加号图标，在 type = "editable-card" 时有效                           boolean
+ * @method $this destroyInactiveTabPane(bool $value=true) 被隐藏时是否销毁 DOM 结构                                        boolean
+ * @method $this centered(bool $centered = true) 标签居中展示                                                            boolean
+ * @method $this hideAdd(bool $hideAdd = true) 是否隐藏加号图标，在 type = "editable-card" 时有效                           boolean
  * @method $this size(string $size = 'default') 大小，提供 large default 和 small 三种大小                                string
  * @method $this tabBarExtraContent(string $value)    tab bar 上额外的元素                               slot
  * @method $this tabBarStyle(mixed $tabBarStyle) tab bar 的样式对象                                                        object
@@ -37,8 +38,11 @@ class Tabs extends Component
     protected $slot = [
         'tabBarExtraContent'
     ];
+    /**
+     * @var Form
+     */
     protected $form;
-    
+
     protected $pane = [];
 
     public function __construct($value = 1, $field = null)
@@ -54,7 +58,7 @@ class Tabs extends Component
         $field = $this->bindAttr($this->vModel);
         $this->bind($field,$value);
     }
-    
+
     /**
      * 添加选项卡
      * @param string $title 标题
@@ -72,13 +76,15 @@ class Tabs extends Component
             ->key($key);
         $this->pane[] = $pane;
         if($content instanceof \Closure && $this->form){
+            $this->form->tabs[$this->getModel()] = $key;
             $content = $this->form->collectFields($content);
+            unset($this->form->tabs[$this->getModel()]);
         }
         $pane->content($content);
         $this->content($pane);
         return $this;
     }
-    
+
     public function setForm(Form $form){
         $this->form = $form;
     }
