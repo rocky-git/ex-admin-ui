@@ -8,6 +8,7 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\avatar\Avatar;
 use ExAdmin\ui\component\grid\grid\Column;
+use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridInterface;
@@ -33,6 +34,9 @@ use Illuminate\Support\Facades\Log;
  * @method $this hideTrashedRestore(bool $bool = true) 隐藏回收站恢复按钮
  * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideExport(bool $bool = true) 隐藏导出
+ * @method $this hideExportCurrentPage(bool $bool = true) 隐藏导出当前页
+ * @method $this hideExportSelection(bool $bool = true) 隐藏导出选中
+ * @method $this hideExportAll(bool $bool = true) 隐藏导出所有
  * @method $this quickSearch(bool $bool = true) 快捷搜索
  * @method $this quickSearchText(string $string) 快捷提示文本内容
  * @method $this url(string $url) 加载数据地址
@@ -85,6 +89,10 @@ class Grid extends Table
     protected $treePid;
     //树形id
     protected $treeId;
+    /**
+     * @var Export
+     */
+    protected $export;
 
     public function __construct($data)
     {
@@ -99,6 +107,7 @@ class Grid extends Table
         $this->params($this->call['params']);
         $this->scroll(['x' => 'max-content']);
         $this->hideTrashed(!$this->drive->trashed());
+        $this->hideExport();
     }
 
     public function drive()
@@ -346,6 +355,22 @@ class Grid extends Table
         $this->hideAction = $bool;
     }
 
+    /**
+     * 导出
+     * @param string|AbstractExporter $driver
+     * @return Export
+     */
+    public function export($driver = null)
+    {
+        $this->export = new Export($this);
+        $this->export->filename(date('YmdHis'));
+        if(is_string($driver)){
+            $this->export->filename($driver);
+        }elseif($driver instanceof AbstractExporter){
+            $this->export->resolve($driver);
+        }
+        return $this->export;
+    }
 
     /**
      * 添加按钮
@@ -424,6 +449,7 @@ class Grid extends Table
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
         }
         if (Request::has('ex_admin_export')) {
+
             return $this->dispatch('export');
         }
         if (Request::input('grid_request_data') && Request::input('ex_admin_class') == $this->call['class'] && Request::input('ex_admin_function') == $this->call['function']) {

@@ -18,7 +18,8 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "symfony/translation": "^5"
+    "symfony/translation": "^5",
+    "phpoffice/phpspreadsheet": "^1.1"
   },
   "autoload": {
     "psr-4": {

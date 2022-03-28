@@ -21,6 +21,7 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -70,7 +71,7 @@ class Form extends Component
     protected $data = [];
 
     public $manyField = [];
-    
+
     public $tabs = [];
     //验证绑定提示字段
     protected $validateBindField = '';
@@ -186,14 +187,18 @@ class Form extends Component
      * 设置缺省值
      * @param string $field 字段
      * @param mixed $value 值
+     * @param bool $convertNumber 数字格式化
      */
-    public function inputDefault($field, $value = null)
+    public function inputDefault($field, $value = null,$convertNumber=true)
     {
         $data = $this->input($field);
         if ((empty($data) && $data !== '0' && $data !== 0)) {
-            $value = $this->convertNumber($value);
-            Arr::set($this->data, $field, $value);
+            $data = $value;
         }
+        if($convertNumber){
+            $data = $this->convertNumber($data);
+        }
+        Arr::set($this->data, $field, $data);
     }
 
     /**

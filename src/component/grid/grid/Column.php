@@ -88,7 +88,15 @@ class Column extends Component
         }
         return $html;
     }
-
+    /**
+     * 关闭当前列导出
+     * @return $this
+     */
+    public function closeExport()
+    {
+        $this->attr('closeExport', true);
+        return $this;
+    }
     /**
      * 隐藏
      * @return \Eadmin\grid\Column|$this

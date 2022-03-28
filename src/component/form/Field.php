@@ -10,6 +10,7 @@ namespace ExAdmin\ui\component\form;
 
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\traits\Validator;
 use ExAdmin\ui\support\Str;
 
@@ -20,6 +21,7 @@ use ExAdmin\ui\support\Str;
 class Field extends Component
 {
     use Validator;
+
     protected $formItem;
 
     protected $vModel = 'value';
@@ -39,12 +41,13 @@ class Field extends Component
     /**
      * form表单中绑定组件
      */
-    public function modelValue(){
-        if($this->formItem){
-            $this->formItem->form()->inputDefault($this->field,$this->value);
+    public function modelValue()
+    {
+        if ($this->formItem) {
+            $this->formItem->form()->inputDefault($this->field, $this->value, $this instanceof Input ? false : true);
             $this->removeBind($this->field);
             $field = $this->formItem->form()->getBindField($this->field);
-            $this->bindAttr($this->vModel,$field,true);
+            $this->bindAttr($this->vModel, $field, true);
         }
     }
 
@@ -64,7 +67,7 @@ class Field extends Component
      */
     public function default($value)
     {
-        $this->formItem->form()->inputDefault($this->field,$value);
+        $this->formItem->form()->inputDefault($this->field, $value);
         return $this;
     }
 
@@ -75,7 +78,7 @@ class Field extends Component
      */
     public function value($value)
     {
-        $this->formItem->form()->input($this->field,$value);
+        $this->formItem->form()->input($this->field, $value);
         return $this;
     }
 
@@ -97,8 +100,8 @@ class Field extends Component
             $name = Str::camel($name);
             if (isset(static::$regex[$name])) {
                 $trans = $name;
-                if(isset(static::$regexMsg[$name])){
-                    $trans = static::$regexMsg[$name];     
+                if (isset(static::$regexMsg[$name])) {
+                    $trans = static::$regexMsg[$name];
                 }
                 return $this->rulePattern(static::$regex[$name], $trans);
             }
@@ -111,17 +114,18 @@ class Field extends Component
      * @param string|Component $content
      * @return $this
      */
-    public function help($content){
+    public function help($content)
+    {
         $this->formItem->extra($content);
         return $this;
     }
-//    /**
-//     * 提示信息
-//     * @param string|Component $content
-//     */
-//    public function tip($content){
-//        $this->formItem->help($content);
-//    }
+    //    /**
+    //     * 提示信息
+    //     * @param string|Component $content
+    //     */
+    //    public function tip($content){
+    //        $this->formItem->help($content);
+    //    }
     /**
      * 设置FormItem
      * @param FormItem $formItem
@@ -130,7 +134,9 @@ class Field extends Component
     {
         $this->formItem = $formItem;
     }
-    public function getFormItem(){
+
+    public function getFormItem()
+    {
         return $this->formItem;
     }
 }
