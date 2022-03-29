@@ -18,15 +18,12 @@ class Export
      */
     protected $driver;
 
-    protected $init;
+   
 
     public function __construct(Grid $grid)
     {
         $this->grid = $grid;
         $this->resolve();
-        if($this->init){
-            call_user_func($this->init,$this);
-        }
     }
     public function resolve($driver = null){
         if(is_null($driver)){
@@ -34,19 +31,25 @@ class Export
         }elseif($driver instanceof AbstractExporter){
             $this->driver = $driver;
         }
-    }
 
+    }
+    /**
+     * @return AbstractExporter
+     */
+    public function driver()
+    {
+        return $this->driver ?: $this->resolve();
+    }
     /**
      * @param \Closure $closure
      */
     public function init(\Closure $closure)
     {
-        $this->init = $closure;
+        call_user_func($closure,$this);
     }
-    
+
     public function __call($name, $arguments)
     {
-        call_user_func_array([$this->driver,$name],$arguments);
-        return $this;
+        return call_user_func_array([$this->driver,$name],$arguments);
     }
 }

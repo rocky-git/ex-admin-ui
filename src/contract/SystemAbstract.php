@@ -30,6 +30,12 @@ abstract class SystemAbstract
      */
     abstract public function menu(): array;
 
+    /**
+     * 导出进度
+     * @param $key
+     * @return Response
+     */
+    abstract public function exportProgress($key): Response;
 
     final public function info(): Response
     {

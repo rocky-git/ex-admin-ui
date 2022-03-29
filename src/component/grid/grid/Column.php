@@ -37,6 +37,8 @@ class Column extends Component
 
     protected $closure = null;
 
+    protected $exportClosure = null;
+    
     protected $hide = false;
 
     protected $default = '--';
@@ -67,9 +69,10 @@ class Column extends Component
     /**
      * 解析每行数据
      * @param array $data 数据
+     * @param bool $export 是否导出
      * @return mixed
      */
-    public function row($data)
+    public function row($data,$export = false)
     {
         $originValue = Arr::get($data, $this->field);
         if (is_null($originValue)) {
@@ -81,12 +84,32 @@ class Column extends Component
         if (!is_null($this->closure)) {
             $value = call_user_func_array($this->closure, [$originValue, $data]);
         }
-        $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
-        $fontSize = $this->grid->attr('fontSize');
-        if ($fontSize) {
-            $html->style(['fontSize' => $fontSize . 'px']);
+        if($export){
+            //自定义导出
+            if (!is_null($this->exportClosure)) {
+                return call_user_func_array($this->exportClosure, [$originValue, $data]);
+            }elseif (is_string($value) || is_numeric($value)) {
+                return $value;
+            }else{
+                return $originValue;
+            }
+        }else{
+            $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
+            $fontSize = $this->grid->attr('fontSize');
+            if ($fontSize) {
+                $html->style(['fontSize' => $fontSize . 'px']);
+            }
+            return $html;
         }
-        return $html;
+    }
+    /**
+     * 自定义导出
+     * @param \Closure $closure
+     */
+    public function export(\Closure $closure)
+    {
+        $this->exportClosure = $closure;
+        return $this;
     }
     /**
      * 关闭当前列导出

@@ -286,7 +286,7 @@ return [
         'exportPage'=>'Export current page',
         'exportSelect'=>'Export selected row',
         'exportAll'=>'Export all',
-        'exportProgressl' => 'Export progress',
+        'exportProgress' => 'Export progress',
         'exportFail' => 'Export failed',
         'exportSuccess' => 'Exported successfully, please click',
         'download' => 'download',

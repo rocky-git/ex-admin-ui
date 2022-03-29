@@ -5,6 +5,7 @@ namespace ExAdmin\ui\contract;
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\response\Message;
 
+use ExAdmin\ui\response\Response;
 use Illuminate\Http\Request;
 
 interface GridInterface
@@ -75,9 +76,10 @@ interface GridInterface
      * 数据源
      * @param int $page 第几页
      * @param int $size 分页大小
+     * @param bool $hidePage 是否分页
      * @return mixed
      */
-    public function data(int $page, int $size);
+    public function data(int $page, int $size,bool $hidePage);
 
     /**
      * 返回总条数
@@ -97,9 +99,9 @@ interface GridInterface
      * @param array $selectIds 导出选中id
      * @param array $columns 导出列
      * @param bool $all 是否导出全部
-     * @return mixed
+     * @return Response
      */
-    public function export(array $selectIds,array $columns,bool $all):Message;
+    public function export(array $selectIds,array $columns,bool $all):Response;
 
     /**
      * 筛选

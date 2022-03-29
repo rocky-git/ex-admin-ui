@@ -280,7 +280,7 @@ return [
         'exportPage'=>'导出当前页',
         'exportSelect'=>'导出选中行',
         'exportAll'=>'导出全部',
-        'exportProgressl' => '导出进度',
+        'exportProgress' => '导出进度',
         'exportFail' => '导出失败',
         'exportSuccess' => '已导出成功，请点击',
         'download' => '下载',
