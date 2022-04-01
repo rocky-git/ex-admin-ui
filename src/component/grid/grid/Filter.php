@@ -91,8 +91,9 @@ class Filter
             $formComponent = call_user_func_array([$form,$name],$arguments);
             list($fields) = Arr::formItem($formComponent,$arguments);
             $params = [];
+            $input = Request::input();
             foreach ($fields as $field){
-                $params[$field] = Request::input($field);
+                $params[$field] = Arr::get($input,$field);
             }
             $this->rules[] = [
                 'type'=>$this->rule,
