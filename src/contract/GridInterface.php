@@ -70,7 +70,7 @@ interface GridInterface
      * @param string $keyword 关键词
      * @return mixed
      */
-    public function quickSearch(string $keyword);
+    public function quickSearch($keyword);
 
     /**
      * 数据源
@@ -92,7 +92,7 @@ interface GridInterface
      * @return bool
      */
     public function trashed():bool;
-    
+
 
     /**
      * 导出数据
@@ -121,4 +121,9 @@ interface GridInterface
      * @return mixed
      */
     public function deleted(\Closure  $closure);
+    /**
+     * 
+     * @return mixed
+     */
+    public function model();
 }

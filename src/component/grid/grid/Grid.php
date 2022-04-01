@@ -112,6 +112,15 @@ class Grid extends Table
         $this->hideExport();
     }
 
+    /**
+     * @return mixed
+     */
+    public function model(){
+        return $this->drive->model();
+    }
+    /**
+     * @return GridInterface
+     */
     public function drive()
     {
         return $this->drive;
@@ -401,7 +410,7 @@ class Grid extends Table
         return Request::input('ex_admin_trashed') ? true : false;
     }
 
-    public function dispatch($method)
+    protected function dispatch($method)
     {
         return Container::getInstance()
             ->make(Route::class)
@@ -410,14 +419,17 @@ class Grid extends Table
 
     public function jsonSerialize()
     {
-        if (Request::has('ex_admin_action')) {
-            return $this->dispatch(Request::input('ex_admin_action'));
-        }
+
         if ($this->filter) {
             if ($this->filter->isHide()) {
                 $this->hideFilter();
             }
             $this->attr('filter', $this->filter->form());
+        }
+        $this->drive->filter($this->getFilter()->getRule());
+        $this->drive->quickSearch(Request::input('quickSearch', ''));
+        if (Request::has('ex_admin_action')) {
+            return $this->dispatch(Request::input('ex_admin_action'));
         }
         //添加操作列
         if (!$this->hideAction) {
@@ -437,8 +449,7 @@ class Grid extends Table
         $this->pagination->total($this->drive->total());
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
-        $this->drive->filter($this->getFilter()->getRule());
-        $this->drive->quickSearch(Request::input('quickSearch', ''));
+
         if (Request::has('ex_admin_sort_field')) {
             $this->drive->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
@@ -448,10 +459,7 @@ class Grid extends Table
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
         }
-        //导出
-        if (Request::has('ex_admin_export')) {
-            return $this->dispatch('export');
-        }
+
         if (Request::input('grid_request_data') && Request::input('ex_admin_class') == $this->call['class'] && Request::input('ex_admin_function') == $this->call['function']) {
             return [
                 'data' => $data,

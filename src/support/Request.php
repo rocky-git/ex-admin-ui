@@ -10,7 +10,6 @@ class Request
     protected function getInputData(): array
     {
         $var = $_REQUEST;
-        //array_shift($var);
         $content = file_get_contents('php://input');
         $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
         $data = [];
