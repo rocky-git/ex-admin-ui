@@ -64,27 +64,7 @@ class Dropdown extends Component
      */
     public function prepend($content, $icon = null)
     {
-        $item = $this->menuItem($content, $icon);
-        if(isset($this->menu->content['default'])){
-            array_unshift($this->menu->content['default'],$item);
-        }else{
-            $this->menu->content['default'][] = $item;
-
-        }
-        return $item;
-    }
-
-    /**
-     * 下拉菜单选项
-     * @param mixed $content
-     * @param string $icon
-     * @return MenuItem
-     */
-    public function menuItem($content, $icon = null)
-    {
-        return MenuItem::create($this->menu)
-            ->content(Html::create($content))
-            ->icon(Icon::create($icon));
+        return $this->menu->item($content, $icon,2);
     }
     /**
      * 追加尾部
@@ -94,14 +74,7 @@ class Dropdown extends Component
      */
     public function append($content, $icon = null)
     {
-
-        $item = $this->menuItem($content, $icon);
-        if(isset($this->menu->content['default'])){
-            arrau_push($this->menu->content['default'],$item);
-        }else{
-            $this->menu->content['default'][] = $item;
-        }
-        return $item;
+        return $this->menu->item($content, $icon);
     }
     public function jsonSerialize()
     {

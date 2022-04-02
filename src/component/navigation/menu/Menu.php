@@ -35,15 +35,27 @@ class Menu extends Component
      * 下拉菜单选项
      * @param mixed $content
      * @param string $icon 图标
+     * @param int $type 1追加尾部 2追加前面
      * @return MenuItem
      */
-    public function item($content, $icon = null)
+    public function item($content, $icon = null,$type=1)
     {
-        $item = MenuItem::create($this)
-            ->content($content)
-            ->icon(Icon::create($icon));
-        $this->content($item);
+        $item = MenuItem::create($this,$type)
+            ->content($content);
+        if($icon){
+            $item->icon(Icon::create($icon));
+        }
+        if($type == 1){
+            $function = 'arrau_push';
+        }else{
+            $function = 'array_unshift';
+        }
+        if(isset($this->content['default'])){
+            $function($this->content['default'],$item);
+        }else{
+            $this->content['default'][] = $item;
+        }
         return $item;
     }
-    
+
 }
