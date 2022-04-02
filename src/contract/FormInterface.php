@@ -15,6 +15,17 @@ interface FormInterface
      */
     public function __construct($data, Form $form);
 
+    
+    /**
+     * 上传文件 file|image组件上传接口
+     * @param string $upload_field 上传字段
+     * @param string $directory 上传目录
+     * @param string $type image file
+     * @param string $disk 
+     * @return Response
+     */
+    public function upload($upload_field,$directory,$type,$disk):Response;
+
     /**
      * 数据保存
      * @param array $data

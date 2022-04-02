@@ -36,7 +36,7 @@ abstract class SystemAbstract
      * @return Response
      */
     abstract public function exportProgress($key): Response;
-
+    
     final public function info(): Response
     {
         return Response::success([

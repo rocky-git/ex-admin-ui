@@ -2,7 +2,7 @@
 
 namespace ExAdmin\ui\response;
 /**
- * @method static success(array $data =[])
+ * @method static success($data =[])
  */
 class Response implements \JsonSerializable
 {
@@ -16,7 +16,7 @@ class Response implements \JsonSerializable
         return $self->send(...$arguments);
     }
 
-    public function send(array $data = [], $message = '', $code = 200)
+    public function send($data = [], $message = '', $code = 200)
     {
         $this->code = $code;
         $this->data = $data;

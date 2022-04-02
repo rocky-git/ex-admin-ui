@@ -13,8 +13,8 @@ class Image extends File
         parent::__construct($field, $value);
         $this->type('image')
             ->size(80,80)
-           ->input(false)
-            ;
+            ->chunk(false)
+           ->input(false);
     }
 
     /**
