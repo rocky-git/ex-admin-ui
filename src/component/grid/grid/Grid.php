@@ -17,7 +17,7 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
-use Illuminate\Support\Facades\Log;
+
 
 
 /**
@@ -39,7 +39,6 @@ use Illuminate\Support\Facades\Log;
  * @method $this hideExportSelection(bool $bool = true) 隐藏导出选中
  * @method $this hideExportAll(bool $bool = true) 隐藏导出所有
  * @method $this queueExport(bool $bool = true) 是否启动队列导出
- * @method $this quickSearch(bool $bool = true) 快捷搜索
  * @method $this quickSearchText(string $string) 快捷提示文本内容
  * @method $this url(string $url) 加载数据地址
  * @method $this params(array $params) 加载数据附加参数
@@ -96,6 +95,8 @@ class Grid extends Table
      */
     protected $export;
 
+    protected $search;
+    
     public function __construct($data)
     {
         parent::__construct();
@@ -115,9 +116,11 @@ class Grid extends Table
     /**
      * @return mixed
      */
-    public function model(){
+    public function model()
+    {
         return $this->drive->model();
     }
+
     /**
      * @return GridInterface
      */
@@ -300,7 +303,9 @@ class Grid extends Table
         $this->column[] = $column;
         return $column;
     }
-
+    public function getColumn(){
+        return $this->column;
+    }
     /**
      * 分页组件
      * @return Pagination
@@ -333,7 +338,7 @@ class Grid extends Table
             }
             foreach ($columns as $column) {
                 $field = $column->attr('dataIndex');
-                $rowData[$field] = $column->row($row,$export);
+                $rowData[$field] = $column->row($row, $export);
             }
             if (!is_null($this->expandRow)) {
                 $expandRow = call_user_func($this->expandRow, $row);
@@ -367,9 +372,9 @@ class Grid extends Table
         $this->hideExport(false);
         $this->export = new Export($this);
         $this->export->filename(date('YmdHis'));
-        if(is_string($driver)){
+        if (is_string($driver)) {
             $this->export->filename($driver);
-        }elseif($driver instanceof AbstractExporter){
+        } elseif ($driver instanceof AbstractExporter) {
             $this->export->resolve($driver);
         }
         return $this->export;
@@ -378,9 +383,11 @@ class Grid extends Table
     /**
      * @return Export
      */
-    public function getExport(){
+    public function getExport()
+    {
         return $this->export;
     }
+
     /**
      * 添加按钮
      * @return ActionButton
@@ -410,6 +417,16 @@ class Grid extends Table
         return Request::input('ex_admin_trashed') ? true : false;
     }
 
+    /**
+     * 快捷搜索
+     * @param string|array|\Closure $search
+     */
+    public function quickSearch($search = null)
+    {
+        $this->attr('quickSearch', true);
+        $this->search = $search;
+    }
+    
     protected function dispatch($method)
     {
         return Container::getInstance()
@@ -427,7 +444,7 @@ class Grid extends Table
             $this->attr('filter', $this->filter->form());
         }
         $this->drive->filter($this->getFilter()->getRule());
-        $this->drive->quickSearch(Request::input('quickSearch', ''));
+        $this->drive->quickSearch(Request::input('quickSearch', ''),$this->search);
         if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
@@ -453,7 +470,7 @@ class Grid extends Table
         if (Request::has('ex_admin_sort_field')) {
             $this->drive->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
-        $data = $this->drive->data($page, $size,$this->attr('hidePage')?true:false);
+        $data = $this->drive->data($page, $size, $this->attr('hidePage') ? true : false);
 
         $data = $this->parseColumn($data);
         if ($this->isTree) {

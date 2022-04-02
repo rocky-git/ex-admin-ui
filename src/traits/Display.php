@@ -19,6 +19,7 @@ use ExAdmin\ui\support\Arr;
 
 trait Display
 {
+    public $using = [];
     /**
      * 星级
      * @param int $count star总数
@@ -361,6 +362,7 @@ trait Display
      */
     public function using(array $usings, array $color = [])
     {
+        $this->using = $usings;
         $this->display(function ($value) use ($usings, $color) {
             return $this->getTag($usings[$value], $color[$value] ?? '');
         });

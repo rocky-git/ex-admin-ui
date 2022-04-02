@@ -68,9 +68,10 @@ interface GridInterface
     /**
      * 快捷搜索
      * @param string $keyword 关键词
+     * @param string|array|\Closure $search 搜索设置
      * @return mixed
      */
-    public function quickSearch($keyword);
+    public function quickSearch($keyword,$search);
 
     /**
      * 数据源

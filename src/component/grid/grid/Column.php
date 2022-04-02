@@ -44,6 +44,7 @@ class Column extends Component
     protected $default = '--';
 
     protected $field;
+    
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
