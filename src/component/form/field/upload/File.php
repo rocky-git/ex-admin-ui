@@ -45,7 +45,7 @@ class File extends Field
     /**
      * 是否支持多选文件
      */
-    public function multiple(bool $value=true){
+    public function multiple(bool $value = true){
         $this->value = [];
         $this->modelValue();
         return $this->attr('multiple',true);
