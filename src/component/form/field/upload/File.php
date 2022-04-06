@@ -13,7 +13,6 @@ use ExAdmin\ui\component\form\FormItem;
  * @method $this type(string $value) 类型：file文件 image图片
  * @method $this disk(string $value)
  * @method $this driver(string $value) 上传驱动：local本地 oss阿里云 qiniu七牛云
- * @method $this saveDir(string $value) 保存目录
  * @method $this accept(string $value) 接受上传的文件类型
  * @method $this chunk(bool $value = true) 是否开启分片
  * @method $this directory(bool $value = true) 是否支持上传文件夹
@@ -41,7 +40,18 @@ class File extends Field
         $this->action($this->formItem->form()->attr('url'));
         $this->params(['upload_field'=>$this->getValidateField(),'ex_admin_action'=>'upload']);
     }
-
+    /**
+     * 指定保存目录
+     * @param string $path 目录地址
+     */
+    public function saveDir($path)
+    {
+        if (substr($path, -1) != '/') {
+            $path .= '/';
+        }
+        $this->attr('saveDir', $path);
+        return $this;
+    }
     /**
      * 是否支持多选文件
      */
@@ -50,6 +60,7 @@ class File extends Field
         $this->modelValue();
         return $this->attr('multiple',true);
     }
+
     /**
      * 限制文件上传大小
      * @param $value
