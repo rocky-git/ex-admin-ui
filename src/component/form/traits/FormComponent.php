@@ -28,6 +28,7 @@ use ExAdmin\ui\component\form\field\mentions\Mentions;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\select\Select;
+use ExAdmin\ui\component\form\field\SelectIcon;
 use ExAdmin\ui\component\form\field\Slider;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\field\Transfer;
@@ -70,9 +71,9 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Editor editor(string $field, string $label = '') 富文本
  * @method Mentions mentions(string $field, string $label = '') 提及(@某人)
  * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
+ * @method SelectIcon icon(string $field, string $label = '') 图标选择器
  * #TODO 地图组件
  * #TODO 规格组件
- * #TODO 多选日期组件
  * #TODO 表格选择器
  * #TODO 图标选择器
  * #TODO 颜色选择器
@@ -113,5 +114,6 @@ trait FormComponent
         'editor'        => Editor::class,
         'mentions'      => Mentions::class,
         'autoComplete'  => AutoComplete::class,
+        'icon'  => SelectIcon::class,
     ];
 }
