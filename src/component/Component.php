@@ -7,8 +7,7 @@ use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
 use ExAdmin\ui\traits\CallProvide;
-use think\helper\Str;
-use think\app\Url;
+
 
 /**
  * Class Component
@@ -38,6 +37,8 @@ abstract class Component implements \JsonSerializable
     protected $bindExpose = [];
     //初始化
     protected static $init = [];
+    //方法
+    protected static $method = [];
 
     protected $vModel = 'value';
     // 插槽
@@ -53,6 +54,14 @@ abstract class Component implements \JsonSerializable
         }
     }
 
+    /**
+     * 添加方法
+     * @param $name 方法名称
+     * @param \Closure $closure
+     */
+    public static function addMethod($name,\Closure $closure){
+        self::$method[static::class][$name] = $closure;
+    }
     /**
      * 初始化
      * @param \Closure $closure
@@ -208,6 +217,12 @@ abstract class Component implements \JsonSerializable
     {
         if (in_array($name, $this->slot)) {
             return $this->content($arguments[0], $name);
+        }
+
+        if (isset(self::$method[static::class]) && array_key_exists($name,self::$method[static::class])) {
+            $method = self::$method[static::class][$name];
+            $method = $method->bindTo($this);
+            return call_user_func_array($method,$arguments);
         }
         if (empty($arguments)) {
             return $this->attr($name, true);

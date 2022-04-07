@@ -8,6 +8,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
+use ExAdmin\ui\component\form\field\upload\Image;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
@@ -67,6 +68,8 @@ class Form extends Component
      * @var FormAction
      */
     protected $actions;
+    
+    protected $imageComponent = [];
     //数据源
     protected $data = [];
 
@@ -86,7 +89,7 @@ class Form extends Component
     protected $name = 'ExForm';
 
     public $vModel = 'model';
-
+    
     /**
      * @param array $data 初始数据
      * @param null $bindField 绑定字段
@@ -167,10 +170,15 @@ class Form extends Component
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
+        if($component instanceof Image){
+            $this->imageComponent[$component->uploadField] = $component;
+        }
         return $component;
     }
-
-
+    public function getImageComponent(){
+        return $this->imageComponent;
+    }
+    
     public function getFormItem()
     {
         return $this->formItem;

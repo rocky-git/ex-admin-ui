@@ -7,6 +7,7 @@ use ExAdmin\ui\component\form\FormItem;
 
 /**
  * 富文本
+ * @method $this disk(string $value)
  * @method $this height(int $value) 高度
  * @method $this width(int $value) 宽度
  * @method $this options(array $value) tinymce配置选项
@@ -16,6 +17,13 @@ use ExAdmin\ui\component\form\FormItem;
 class Editor extends Field
 {
     protected $name = 'ExTinymceEditor';
+
+    public function __construct($field = null, $value = '')
+    {
+        parent::__construct($field, $value);
+        $disk = admin_config('admin.upload.disk');
+        $this->disk($disk);
+    }
 
     /**
      * textarea模式
