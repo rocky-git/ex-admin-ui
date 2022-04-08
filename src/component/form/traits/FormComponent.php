@@ -5,6 +5,7 @@ namespace ExAdmin\ui\component\form\traits;
 use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascade;
 use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
+use ExAdmin\ui\component\form\field\ColorPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\DateTimeRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\MonthRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\QuarterRangePicker;
@@ -74,6 +75,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
  * @method SelectIcon icon(string $field, string $label = '') 图标选择器
  * @method SelectTable selectTable(string $field, string $label = '') 表格选择器
+ * @method ColorPicker color(string $field, string $label = '') 颜色选择器
  * #TODO 地图组件
  * #TODO 规格组件
  * #TODO 颜色选择器
@@ -116,5 +118,6 @@ trait FormComponent
         'autoComplete'  => AutoComplete::class,
         'icon'  => SelectIcon::class,
         'selectTable'  => SelectTable::class,
+        'color'  => ColorPicker::class,
     ];
 }
