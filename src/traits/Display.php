@@ -3,7 +3,9 @@
 namespace ExAdmin\ui\traits;
 
 use ExAdmin\ui\component\common\Button;
+use ExAdmin\ui\component\common\DownloadFile;
 use ExAdmin\ui\component\common\Html;
+use ExAdmin\ui\component\common\Video;
 use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
@@ -16,6 +18,7 @@ use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
+use Illuminate\Support\Facades\Log;
 
 trait Display
 {
@@ -30,7 +33,7 @@ trait Display
      */
     public function rate(int $count = 5, bool $allowHalf = false, array $toolTips = [], $character = '<StarOutlined />')
     {
-        $this->display(function ($value) use ($count, $allowHalf, $character, $toolTips) {
+        return $this->display(function ($value) use ($count, $allowHalf, $character, $toolTips) {
             return Rate::create(null, $value)
                        ->disabled()
                        ->tooltips($toolTips)
@@ -38,7 +41,6 @@ trait Display
                        ->allowHalf(true)
                        ->character($character);
         });
-        return $this;
     }
 
     /**
@@ -51,7 +53,7 @@ trait Display
      */
     public function tip(int $width = 150, string $placement = 'top', string $color = '', string $trigger = 'hover')
     {
-        $this->display(function ($value) use ($width, $placement, $color, $trigger) {
+        return $this->display(function ($value) use ($width, $placement, $color, $trigger) {
             return ToolTip::create(
                 Html::create($value)
                     ->tag('div')
@@ -66,7 +68,6 @@ trait Display
                           ->trigger($trigger)
                           ->color($color);
         })->width($width);
-        return $this;
     }
 
     /**
@@ -76,10 +77,9 @@ trait Display
      */
     public function tag($color = '#2db7f5', $icon = '')
     {
-        $this->display(function ($value) use ($color, $icon) {
+        return $this->display(function ($value) use ($color, $icon) {
             return $this->getTag($value, $color, $icon);
         });
-        return $this;
     }
 
 
@@ -92,13 +92,12 @@ trait Display
      */
     public function tags($field = '', $color = '#2db7f5', $icon = '')
     {
-        $this->display(function ($value, $data) use ($field, $color, $icon) {
+        return $this->display(function ($value, $data) use ($field, $color, $icon) {
             $valueData = $this->getAssignValue($value, $data, $field);
             if (empty($valueData)) return '';
             $valueData = $this->getArrayValue($valueData);
             return $this->getTags($valueData, $color, $icon);
         });
-        return $this;
     }
 
     /**
@@ -162,10 +161,9 @@ trait Display
      */
     public function image(int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
-        $this->display(function ($value) use ($width, $height, $alt, $preview) {
+        return $this->display(function ($value) use ($width, $height, $alt, $preview) {
             return $this->commonImage($value, $width, $height, $alt, $preview);
         });
-        return $this;
     }
 
     /**
@@ -178,7 +176,7 @@ trait Display
      */
     public function images(int $width = 80, int $height = 80, string $alt = '', $style = ['marginRight' => '5px', 'marginBottom' => '5px'])
     {
-        $this->display(function ($value) use ($width, $height, $alt, $style) {
+        return $this->display(function ($value) use ($width, $height, $alt, $style) {
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             $html = [];
@@ -192,7 +190,6 @@ trait Display
             }
             return ImagePreviewGroup::create(Html::create($html)->tag('div')->style(['display' => 'flex']));
         });
-        return $this;
     }
 
     /**
@@ -201,28 +198,27 @@ trait Display
      */
     public function audio($width = 300, $height = 54)
     {
-        $this->display(function ($value) use ($width, $height) {
+        return $this->display(function ($value) use ($width, $height) {
             return Html::create('您的浏览器不支持 audio 标签。')
                        ->attr('src', $value)
                        ->attr('controls', true)
                        ->tag('audio')
                        ->style(["width" => "{$width}px", 'height' => "{$height}px"]);
         });
-        return $this;
     }
 
     /**
-     * 视频 #TODO
+     * 视频显示
+     * @param int|string $width 宽度
+     * @param int|string $height 高度
      * @return $this
      */
-    public function video()
+    public function video($width = 200, $height = 100)
     {
-        $this->display(function ($value) {
-
-        });
-        return $this;
+        return $this->display(function ($value) use ($width, $height)  {
+           return Video::create()->url($value)->size($width, $height);
+        })->width($width);
     }
-
     /**
      * 进度条
      * @param string $type  line(线形) circle(圆形) dashboard(仪表盘)
@@ -234,7 +230,7 @@ trait Display
      */
     public function process(string $type = 'line', int $width = 80, string $status = 'normal', $strokeColor = '', string $trailColor = '')
     {
-        $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
+        return $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
             $process = Process::create()
                               ->percent($value)
                               ->type($type)
@@ -244,7 +240,6 @@ trait Display
             if (!empty($trailColor) && !is_array($strokeColor)) $process->trailColor($trailColor);
             return $process;
         });
-        return $this;
     }
 
     /**
@@ -257,7 +252,7 @@ trait Display
      */
     public function statistic(int $precision = 0, $prefix = '', $suffix = '', string $groupSeparator = ',')
     {
-        $this->display(function ($value) use ($precision, $prefix, $suffix, $groupSeparator) {
+        return $this->display(function ($value) use ($precision, $prefix, $suffix, $groupSeparator) {
             $statistic = Statistic::create()
                                   ->value($value)
                                   ->precision($precision)
@@ -266,7 +261,6 @@ trait Display
             if (!empty($suffix)) $statistic->suffix($suffix);
             return $statistic;
         });
-        return $this;
     }
 
     /**
@@ -277,18 +271,17 @@ trait Display
      */
     public function link($field = '', $target = '_blank')
     {
-        $this->display(function ($value, $data) use ($field, $target) {
+        return $this->display(function ($value, $data) use ($field, $target) {
             $href = $this->getAssignValue($value, $data, $field);
             return Html::create($href)
                        ->attr('href', $href)
                        ->attr('target', $target)
                        ->tag('a');
         });
-        return $this;
     }
 
     /**
-     * 弹出框 #TODO
+     * 弹出框
      * @param string $field 指定字段
      * @param string $label 按钮名称
      * @param string $width 宽度
@@ -298,7 +291,7 @@ trait Display
      */
     public function popover($field = '', $label = '查看', $width = '500px', $tigger = 'hover', $placement = 'top')
     {
-        $this->display(function ($value, $data) use ($field, $label, $width, $tigger, $placement) {
+        return $this->display(function ($value, $data) use ($field, $label, $width, $tigger, $placement) {
             $value = $this->getAssignValue($value, $data, $field);
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
@@ -308,25 +301,27 @@ trait Display
                           ->trigger($tigger)
                           ->placement($placement);
         });
-        return $this;
     }
 
     /**
-     * 文件显示 #TODO
+     * 文件显示
      * @return $this
      */
     public function file()
     {
-        $this->display(function ($value) {
-            $html = [];
-            foreach ($vals as $val) {
-                $file = new DownloadFile();
-                $file->url($val);
-                $html[] = $file;
+        return $this->display(function ($value) {
+            if(empty($value)){
+                return $value;
             }
-            return Html::create()->content($html)->tag('div');
+            if (is_string($value)) {
+                $value = [$value];
+            }
+            $html = Html::create()->tag('div');
+            foreach ($value as $val) {
+                $html->content(DownloadFile::create()->url($val));
+            }
+            return $html;
         });
-        return $this;
     }
 
     /**
@@ -336,10 +331,9 @@ trait Display
      */
     public function prepend($prepend)
     {
-        $this->display(function ($val) use ($prepend) {
+        return $this->display(function ($val) use ($prepend) {
             return $prepend . $val;
         });
-        return $this;
     }
 
     /**
@@ -349,10 +343,10 @@ trait Display
      */
     public function append($append)
     {
-        $this->display(function ($val) use ($append) {
+        return $this->display(function ($val) use ($append) {
             return $val . $append;
         });
-        return $this;
+
     }
 
     /**
@@ -363,10 +357,10 @@ trait Display
     public function using(array $usings, array $color = [])
     {
         $this->using = $usings;
-        $this->display(function ($value) use ($usings, $color) {
+        return $this->display(function ($value) use ($usings, $color) {
             return $this->getTag($usings[$value], $color[$value] ?? '');
         });
-        return $this;
+
     }
 
     /**

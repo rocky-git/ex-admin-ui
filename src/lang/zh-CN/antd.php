@@ -298,6 +298,12 @@ return [
         'restoreSelected' => '恢复选中',
         'deleteSelected' => '删除选中',
     ],
+    'SelectTable' => [
+        'select' => '选择',
+        'selected' => '已选中',
+        'confirm' => '确定',
+        'cancel' => '取消',
+    ],
     'Confirm'=>[
         'title'=>'提示'
     ],

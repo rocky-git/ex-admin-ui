@@ -28,6 +28,7 @@ use ExAdmin\ui\component\form\field\mentions\Mentions;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\select\Select;
+use ExAdmin\ui\component\form\field\select\SelectTable;
 use ExAdmin\ui\component\form\field\SelectIcon;
 use ExAdmin\ui\component\form\field\Slider;
 use ExAdmin\ui\component\form\field\Switches;
@@ -43,7 +44,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Password password(string $field, string $label = '') 密码输入框
  * @method TextArea textarea(string $field, string $label = '') 文本域输入框
  * @method Rate rate(string $field, string $label = '') 评分
- * @method Slider slider(string $field, string $label = '') 滑动输入条 #TODO range模式不展示，带输入框的未封装
+ * @method Slider slider(string $field, string $label = '') 滑动输入条
  * @method Transfer transfer(string $field, string $label = '') 穿梭框
  * @method Select select(string $field, string $label = '') 下拉选择框
  * @method TreeSelect treeSelect(string $field, string $label = '') 树形选择框
@@ -72,10 +73,9 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Mentions mentions(string $field, string $label = '') 提及(@某人)
  * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
  * @method SelectIcon icon(string $field, string $label = '') 图标选择器
+ * @method SelectTable selectTable(string $field, string $label = '') 表格选择器
  * #TODO 地图组件
  * #TODO 规格组件
- * #TODO 表格选择器
- * #TODO 图标选择器
  * #TODO 颜色选择器
  */
 trait FormComponent
@@ -115,5 +115,6 @@ trait FormComponent
         'mentions'      => Mentions::class,
         'autoComplete'  => AutoComplete::class,
         'icon'  => SelectIcon::class,
+        'selectTable'  => SelectTable::class,
     ];
 }

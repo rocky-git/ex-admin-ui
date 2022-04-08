@@ -304,6 +304,12 @@ return [
         'restoreSelected' => 'Restore selected',
         'deleteSelected' => 'Delete selected',
     ],
+    'SelectTable'=>[
+        'select' => 'select',
+        'selected'=> 'Selected',
+        'confirm'=> 'OK',
+        'cancel'=> 'Cancel',
+    ],
     'Confirm'=>[
         'title'=>'Confirm'
     ],

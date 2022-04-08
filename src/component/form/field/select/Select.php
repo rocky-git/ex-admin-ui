@@ -81,13 +81,7 @@ class Select extends Field
      */
     public function multiple()
     {
-        $this->value = [];
-        $value = $this->getbindAttrValue('value');
-        if (!is_array($value)) {
-            $field = $this->bindAttr('value');
-            $this->bind($field, $this->value);
-        }
-        $this->modelValue();
+        $this->modelValueArray();
         return $this->mode('multiple');
     }
 

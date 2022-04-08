@@ -321,7 +321,7 @@ abstract class Component implements \JsonSerializable
      * @param $params
      * @return array
      */
-    protected function parseComponentCall($component, $params): array
+    protected function parseComponentCall($component, $params=[]): array
     {
         if ($component instanceof Component) {
             $call = $component->getCall();

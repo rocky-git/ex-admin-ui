@@ -37,7 +37,17 @@ class Field extends Component
         $this->value = $value;
         parent::__construct();
     }
-
+    protected function modelValueArray(){
+        $this->value = [];
+        if (!$this->formItem) {
+            $value = $this->getbindAttrValue('value');
+            if (!is_array($value)) {
+                $field = $this->bindAttr('value');
+                $this->bind($field, $this->value);
+            }
+        }
+        $this->modelValue();
+    }
     /**
      * form表单中绑定组件
      */
