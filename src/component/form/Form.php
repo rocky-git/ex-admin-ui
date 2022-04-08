@@ -8,6 +8,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
+use ExAdmin\ui\component\form\field\select\SelectTable;
 use ExAdmin\ui\component\form\field\upload\Image;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\grid\tabs\Tabs;
@@ -22,7 +23,7 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
-use Illuminate\Support\Facades\Log;
+
 
 
 /**
@@ -69,7 +70,9 @@ class Form extends Component
      */
     protected $actions;
     
-    protected $imageComponent = [];
+    protected $imageComponent;
+    
+    protected $selectTableComponent;
     //数据源
     protected $data = [];
 
@@ -170,15 +173,21 @@ class Form extends Component
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
-        if($component instanceof Image){
-            $this->imageComponent[$component->uploadField] = $component;
+        if($component instanceof Image && $component->uploadField == Request::input('upload_field')){
+            $this->imageComponent = $component;
+        }elseif ($component instanceof SelectTable && $component->selectField == Request::input('ex_admin_select_field')){
+            $this->selectTableComponent = $component;
         }
         return $component;
     }
     public function getImageComponent(){
+
         return $this->imageComponent;
     }
-    
+    public function getSelectTableComponent(){
+       
+        return $this->selectTableComponent;
+    }
     public function getFormItem()
     {
         return $this->formItem;

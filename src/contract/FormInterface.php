@@ -15,7 +15,11 @@ interface FormInterface
      */
     public function __construct($data, Form $form);
 
-    
+    /**
+     * selectTable组件
+     * @return Response
+     */
+    public function selectTable():Response;
     /**
      * 上传文件 file|image组件上传接口
      * @return Response
