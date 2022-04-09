@@ -38,13 +38,13 @@ class Column extends Component
     protected $closure = null;
 
     protected $exportClosure = null;
-    
+
     protected $hide = false;
 
     protected $default = '--';
 
     protected $field;
-    
+
     public function __construct($field, $label = '', Grid $grid)
     {
         $this->grid = $grid;
@@ -73,7 +73,7 @@ class Column extends Component
      * @param bool $export 是否导出
      * @return mixed
      */
-    public function row($data,$export = false)
+    public function row($data, $export = false)
     {
         $originValue = Arr::get($data, $this->field);
         if (is_null($originValue)) {
@@ -85,16 +85,16 @@ class Column extends Component
         if (!is_null($this->closure)) {
             $value = call_user_func_array($this->closure, [$originValue, $data]);
         }
-        if($export){
+        if ($export) {
             //自定义导出
             if (!is_null($this->exportClosure)) {
                 return call_user_func_array($this->exportClosure, [$originValue, $data]);
-            }elseif (is_string($value) || is_numeric($value)) {
+            } elseif (is_string($value) || is_numeric($value)) {
                 return $value;
-            }else{
+            } else {
                 return $originValue;
             }
-        }else{
+        } else {
             $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
             $fontSize = $this->grid->attr('fontSize');
             if ($fontSize) {
@@ -103,6 +103,7 @@ class Column extends Component
             return $html;
         }
     }
+
     /**
      * 自定义导出
      * @param \Closure $closure
@@ -112,6 +113,7 @@ class Column extends Component
         $this->exportClosure = $closure;
         return $this;
     }
+
     /**
      * 关闭当前列导出
      * @return $this
@@ -121,6 +123,7 @@ class Column extends Component
         $this->attr('closeExport', true);
         return $this;
     }
+
     /**
      * 隐藏
      * @return \Eadmin\grid\Column|$this
@@ -157,7 +160,7 @@ class Column extends Component
      */
     public function switch($switchArr = [[1 => '开启'], [0 => '关闭']])
     {
-        $this->display(function ($value,$data) use ($switchArr) {
+        $this->display(function ($value, $data) use ($switchArr) {
             return $this->getSwitch($value, $data, $this->field, $switchArr);
         });
         return $this;
@@ -183,26 +186,7 @@ class Column extends Component
         return $this;
     }
 
-    /**
-     * switch开关Html::create中直接使用 #TODO
-     * @param string $text 开关名称
-     * @param string $field 开关的字段
-     * @param array $data 当前行的数据
-     * @param array $switchArr 二维数组 开启的在下标0 关闭的在下标1
-     *                              $arr = [
-     *                              [1 => '开启'],
-     *                              [0 => '关闭'],
-     *                              ];
-     * @return Html
-     */
-    public function switchHtml($text, $field, $data, $switchArr = [[1 => '开启'], [0 => '关闭']])
-    {
-        if (!empty($text)) $text .= "：";
-        return Html::create([
-            $text,
-            $this->getSwitch($data[$field], $data, $field, $switchArr)
-        ])->tag('p');
-    }
+    
 
     /**
      * 获取开关
@@ -212,15 +196,16 @@ class Column extends Component
      * @param array $switchArr 开关选项
      * @return mixed
      */
-    protected function getSwitch($value, $data, $field, $switchArr = [])
+    protected function getSwitch($value, $data, $field, $switchArr = [[1 => '开启'], [0 => '关闭']])
     {
-//        $params = $this->grid->getCallMethod();
-//        $params['eadmin_ids'] = [$data[$this->grid->drive()->getPk()]];
-        return Switches::create(null, $value);
-//            ->options($switchArr ?? admin_trans('admin.switch'))
-//            ->url('/eadmin/batch.rest')
-//            ->field($field)
-//            ->params($params);
+        return Switches::create(null, $value)
+            ->options($switchArr)
+            ->url($this->grid->attr('url'))
+            ->field($field)
+            ->params([
+                'ex_admin_action'=>'update',
+                'ids' => [$data[$this->grid->drive()->getPk()]],
+            ]);
     }
 
 

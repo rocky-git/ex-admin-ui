@@ -23,7 +23,13 @@ interface GridInterface
      */
     public function getPk():string;
 
-
+    /**
+     * 更新
+     * @param array $ids 更新条件id集合
+     * @param array $data 更新数据
+     * @return Message
+     */
+    public function update(array $ids, array $data): Message;
     /**
      * 删除
      * @param array $ids 删除id
@@ -46,17 +52,19 @@ interface GridInterface
      * 拖拽排序
      * @param int $id 排序id
      * @param int $sort 排序位置
+     * @param string $field 字段
      * @return Message
      */
-    public function dragSort($id, int $sort): Message;
+    public function dragSort($id, int $sort,string $field): Message;
 
     /**
      * 输入框排序
      * @param int $id 排序id
      * @param int $sort 排序位置
+     * @param string $field 字段
      * @return Message
      */
-    public function inputSort($id, int $sort): Message;
+    public function inputSort($id, int $sort,string $field): Message;
 
     /**
      * 表格列触发排序
@@ -123,7 +131,7 @@ interface GridInterface
      */
     public function deleted(\Closure  $closure);
     /**
-     * 
+     *
      * @return mixed
      */
     public function model();

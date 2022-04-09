@@ -10,7 +10,6 @@ use ExAdmin\ui\component\form\Field;
  * Class Switches
  * @link   https://next.antdv.com/components/switch-cn 开关组件
  * @method $this autofocus(bool $focus = false) 组件自动获取焦点                                                            boolean
- * @method $this checked(bool $checked = false) 指定当前是否选中                                                            checkedValue | unCheckedValue
  * @method $this disabled(bool $disabled = false) 是否禁用                                                                boolean
  * @method $this loading(bool $loading = false) 加载中的开关                                                                boolean
  * @method $this size(bool $size = 'default') 开关大小，可选值：default small                                                string
@@ -18,6 +17,9 @@ use ExAdmin\ui\component\form\Field;
  * @method $this unCheckedChildren(mixed $content) 非选中时的内容                                                            string|slot
  * @method $this checkedValue(mixed $value = true) 选中时的值                                                            boolean | string | number
  * @method $this unCheckedValue(mixed $value = false) 非选中时的值                                                        boolean | string | number
+ * @method $this url(string $value) 请求url
+ * @method $this params(array $value)  请求数据
+ * @method $this field(string $value)  请求值字段名称
  * @package ExAdmin\ui\component\form\field
  */
 class Switches extends Field
@@ -35,7 +37,7 @@ class Switches extends Field
      * 组件名称
      * @var string
      */
-    protected $name = 'ASwitch';
+    protected $name = 'ExSwitch';
 
     protected $vModel = 'checked';
 

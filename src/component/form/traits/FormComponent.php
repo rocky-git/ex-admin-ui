@@ -78,7 +78,6 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method ColorPicker color(string $field, string $label = '') 颜色选择器
  * #TODO 地图组件
  * #TODO 规格组件
- * #TODO 颜色选择器
  */
 trait FormComponent
 {
