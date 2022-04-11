@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\grid\grid;
 
+use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\support\Arr;
@@ -92,8 +93,22 @@ class Filter
             list($fields) = Arr::formItem($formComponent,$arguments);
             $params = [];
             $input = Request::input();
+            $rule = $this->rule;
+            if($formComponent instanceof Cascader){
+                if(Request::has($formComponent->getRelation())){
+                    $this->rule = 'cascader';
+                    $fields  = [$formComponent->getRelation()];
+                }else{
+                    $fields = $fields[0];
+                }
+               
+            }
             foreach ($fields as $field){
-                $params[$field] = Arr::get($input,$field);
+                if($this->rule == 'cascader'){
+                    $params[$rule] = Arr::get($input,$field);
+                }else{
+                    $params[$field] = Arr::get($input,$field);
+                }
             }
             $this->rules[] = [
                 'type'=>$this->rule,

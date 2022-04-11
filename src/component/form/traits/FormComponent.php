@@ -3,7 +3,8 @@
 namespace ExAdmin\ui\component\form\traits;
 
 use ExAdmin\ui\component\form\field\AutoComplete;
-use ExAdmin\ui\component\form\field\Cascade;
+use ExAdmin\ui\component\form\field\Cascader;
+use ExAdmin\ui\component\form\field\CascaderMultiple;
 use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
 use ExAdmin\ui\component\form\field\ColorPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\DateTimeRangePicker;
@@ -52,7 +53,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method Tree tree(string $field, string $label = '') 树形
  * @method Switches switch (string $field, string $label = '') 开关
  * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框 # TODO 全选未封装
- * @method Cascade cascader(string $field, string $label = '') 级联选择 #todo
+ * @method Cascader cascader(array $field, $label) 级联选择器
  * @method RadioGroup radio(string $field, string $label = '') 单选框
  * @method DatePicker date(string $field, string $label = '') 日期选择框
  * @method DateTimePicker dateTime(string $field, string $label = '') 日期时间选择框
@@ -94,7 +95,8 @@ trait FormComponent
         'select'        => Select::class,
         'switch'        => Switches::class,
         'checkbox'      => CheckboxGroup::class,
-        'cascader'      => Cascade::class,
+        'cascader'      => Cascader::class,
+        'cascaderMultiple'      => CascaderMultiple::class,
         'radio'         => RadioGroup::class,
         'date'          => DatePicker::class,
         'dateTime'      => DateTimePicker::class,

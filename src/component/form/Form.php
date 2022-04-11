@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Input;
@@ -23,7 +24,8 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
-
+use ExAdmin\ui\traits\Delayed;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -55,7 +57,7 @@ use ExAdmin\ui\traits\CallProvide;
  */
 class Form extends Component
 {
-    use FormComponent, FormEvent;
+    use FormComponent, FormEvent,Delayed;
 
     //是否编辑表单
     protected $isEdit = false;
@@ -69,9 +71,9 @@ class Form extends Component
      * @var FormAction
      */
     protected $actions;
-    
+
     protected $imageComponent;
-    
+
     protected $selectTableComponent;
     //数据源
     protected $data = [];
@@ -92,7 +94,7 @@ class Form extends Component
     protected $name = 'ExForm';
 
     public $vModel = 'model';
-    
+
     /**
      * @param array $data 初始数据
      * @param null $bindField 绑定字段
@@ -100,6 +102,7 @@ class Form extends Component
     public function __construct($data, $bindField = null)
     {
         parent::__construct();
+      //  $this->lazyLoad();
         $drive = admin_config('admin.form.manager');
         $this->drive = (new $drive($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
@@ -185,7 +188,7 @@ class Form extends Component
         return $this->imageComponent;
     }
     public function getSelectTableComponent(){
-       
+
         return $this->selectTableComponent;
     }
     public function getFormItem()
@@ -251,7 +254,7 @@ class Form extends Component
 
     protected function convertNumber($value)
     {
-        if (is_array($value) && count($value) == count($value, 1)) {
+        if (is_array($value)) {
             foreach ($value as &$v) {
                 $v = $this->convertNumber($v);
             }
@@ -269,7 +272,9 @@ class Form extends Component
         if ($component instanceof Input) {
             $placeholder = 'please_enter';
         } elseif ($component instanceof Select) {
-            $placeholder = 'please_enter';
+            $placeholder = 'please_select';
+        } elseif ($component instanceof Cascader) {
+            $placeholder = 'please_select';
         }
         if (!empty($placeholder)) {
             $component->placeholder(admin_trans('form.' . $placeholder) . $label);

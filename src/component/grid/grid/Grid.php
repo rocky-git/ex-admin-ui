@@ -17,7 +17,8 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -96,7 +97,7 @@ class Grid extends Table
     protected $export;
 
     protected $search;
-    
+
     public function __construct($data)
     {
         parent::__construct();
@@ -426,7 +427,7 @@ class Grid extends Table
         $this->attr('quickSearch', true);
         $this->search = $search;
     }
-    
+
     protected function dispatch($method)
     {
         return Container::getInstance()
@@ -470,8 +471,9 @@ class Grid extends Table
         if (Request::has('ex_admin_sort_field')) {
             $this->drive->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
+        DB::enableQueryLog();
         $data = $this->drive->data($page, $size, $this->attr('hidePage') ? true : false);
-
+//Log::error(DB::getQueryLog());
         $data = $this->parseColumn($data);
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');

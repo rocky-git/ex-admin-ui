@@ -155,7 +155,7 @@ class Column extends Component
     }
 
     /**
-     * 开关 #todo
+     * 开关 
      * @return $this
      */
     public function switch($switchArr = [[1 => '开启'], [0 => '关闭']])
@@ -167,7 +167,7 @@ class Column extends Component
     }
 
     /**
-     * 开关组 #TODO
+     * 开关组 
      * @param array $fields
      * @return $this
      */
