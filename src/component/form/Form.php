@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\form;
 
+use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
@@ -212,6 +213,8 @@ class Form extends Component
     public function inputDefault($field, $value = null,$convertNumber=true)
     {
         $data = $this->input($field);
+        Log::error($field);
+        Log::error($value);
         if ((empty($data) && $data !== '0' && $data !== 0)) {
             $data = $value;
         }
@@ -310,7 +313,7 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        $bindField = $this->getBindField($field);
+     //   $bindField = $this->getBindField($field);
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
@@ -325,12 +328,34 @@ class Form extends Component
         unset($this->manyField[$field]);
         $this->data = $data;
         $this->input($field, $manyData);
-        $formMany = FormMany::create($bindField)
+        $formMany = FormMany::create($field)
             ->content($formItems)
             ->attr('field', $field)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
-        $this->push($formMany);
+        $item = $this->item()->content($formMany);
+        $formMany->setFormItem($item);
+        $formMany->modelValue();
+
+        $columns = [];
+        foreach ($formItems as $item){
+            if ($item instanceof FormItem) {
+                $formItem = clone $item;
+                $columns[] = [
+                    'header' => Html::create($formItem->content['label']),
+                    'dataIndex' => $formItem->attr('name'),
+                    'component' => $formItem
+                ];
+                unset($formItem->content['label']);
+                $formItem->removeAttr('label');
+            }
+        }
+        $columns[]  = [
+            'type'=>'action',
+            'width'=>70,
+            'dataIndex'=>'action',
+        ];
+        $formMany->attr('columns', $columns);
         return $formMany;
     }
 
@@ -392,11 +417,11 @@ class Form extends Component
 
     /**
      * 添加item
-     * @param sring $name
+     * @param array $name
      * @param string|Component $label label 标签的文本
      * @return FormItem
      */
-    public function item($name = '', $label = '')
+    public function item($name = [], $label = '')
     {
         $item = FormItem::create($this)
             ->label($label)
