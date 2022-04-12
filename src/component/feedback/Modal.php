@@ -30,6 +30,7 @@ use ExAdmin\ui\component\Component;
  * @method $this zIndex(int $zIndex = 1000) 设置 Modal 的 z-index                                                        Number
  * @method $this dialogStyle(mixed $dialogStyle) 可用于设置浮层的样式，调整浮层位置等                                        object
  * @method $this dialogClass(string $dialogClass) 可用于设置浮层的类名                                                    string
+ * @method $this gridBatch() grid批量选中项
  * @method static $this create(Component $component, $field = null, $value = false) 创建
  * @package ExAdmin\ui\component\form\field
  */

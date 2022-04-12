@@ -31,7 +31,6 @@ trait Directive
      * @param string $url 请求url 空不请求
      * @param array $params 请求参数
      * @param string $method 请求方式
-   
      * @return Ajax
      */
     public function ajax(string $url, array $params = [], $method = 'POST')

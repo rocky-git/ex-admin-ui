@@ -29,6 +29,7 @@ use ExAdmin\ui\component\Component;
  * @method $this visible(bool $visible) 	Drawer 是否可见                             									boolean
  * @method $this width(mixed $width = 378) 宽度                             											string | number
  * @method $this zIndex(string $zIndex = 1000) 设置 Drawer 的 z-index                            					 	Number
+ * @method $this gridBatch() grid批量选中项
  * @method static $this create(Component $component, $field = null, $value = false) 创建
  * @package ExAdmin\ui\component\form\field
  */

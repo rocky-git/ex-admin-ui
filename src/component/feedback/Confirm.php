@@ -21,7 +21,8 @@ use ExAdmin\ui\component\Component;
  * @method $this url(string $value) ajax请求url
  * @method $this method(string $value) ajax请求method get / post /put / delete
  * @method $this params(array $value) 提交ajax参数
- * @method $this gridRefresh(bool $value = true) 成功刷新grid表格
+ * @method $this gridRefresh() 成功刷新grid表格
+ * @method $this gridBatch() grid批量选中项
  * @package ExAdmin\ui\component\feedback
  */
 class Confirm extends Component
@@ -45,9 +46,12 @@ class Confirm extends Component
     }
     public function jsonSerialize()
     {
-        $this->component
+        return $this->component
             ->ajax($this->attr('url'),$this->attr('params'),$this->attr('method'))
-            ->confirms($this->attribute);
-        return $this->component;
+            ->when($this->attr('gridBatch'),function ($component){
+                $component->gridBatch();
+            })
+            ->arg('confirm',$this->attribute);
+
     }
 }

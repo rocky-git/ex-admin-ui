@@ -297,6 +297,7 @@ return [
         'clearData' => '清空数据',
         'restoreSelected' => '恢复选中',
         'deleteSelected' => '删除选中',
+        'selectedAction' => '请勾选操作数据',
     ],
     'SelectTable' => [
         'select' => '选择',
