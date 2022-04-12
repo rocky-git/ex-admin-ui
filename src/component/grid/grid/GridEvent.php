@@ -21,4 +21,21 @@ trait GridEvent
     {
         $this->drive->deleted($closure);
     }
+    /**
+     * 更新前
+     * @param \Closure $closure
+     */
+    public function updateing(\Closure $closure)
+    {
+        $this->drive->updateing($closure);
+    }
+
+    /**
+     * 更新后
+     * @param \Closure $closure
+     */
+    public function updated(\Closure $closure)
+    {
+        $this->drive->updated($closure);
+    }
 }

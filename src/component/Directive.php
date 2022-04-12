@@ -31,16 +31,16 @@ trait Directive
      * @param string $url 请求url 空不请求
      * @param array $params 请求参数
      * @param string $method 请求方式
-     * @param bool $gridRefresh 成功刷新grid表格
-     * @return $this
+   
+     * @return Ajax
      */
-    public function ajax(string $url, array $params = [], $method = 'POST', $gridRefresh = true)
+    public function ajax(string $url, array $params = [], $method = 'POST')
     {
-        return $this->directive('ajax', [
+        return new Ajax($this,[
             'url' => $url,
             'data' => $params,
             'method' => $method,
-        ],['gridRefresh'=>$gridRefresh]);
+        ]);
     }
     /**
      * 跳转路径

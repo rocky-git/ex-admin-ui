@@ -1,5 +1,9 @@
 <?php
-
+if (extension_loaded('zlib')) {
+    if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) and strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
+        ob_start('ob_gzhandler');
+    }
+}
 use ExAdmin\ui\component\common\Html;
 
 if (!function_exists('admin_config')) {

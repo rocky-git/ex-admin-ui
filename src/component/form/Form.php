@@ -26,7 +26,6 @@ use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\CallProvide;
 use ExAdmin\ui\traits\Delayed;
-use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -120,7 +119,6 @@ class Form extends Component
         if (Request::input($pk)) {
             $id = Request::input($pk);
             $this->drive->edit($id);
-            $this->data = $this->drive->get();
             $this->attr('editId', $id);
             $this->method('PUT');
             $this->isEdit = true;
@@ -213,8 +211,6 @@ class Form extends Component
     public function inputDefault($field, $value = null,$convertNumber=true)
     {
         $data = $this->input($field);
-        Log::error($field);
-        Log::error($value);
         if ((empty($data) && $data !== '0' && $data !== 0)) {
             $data = $value;
         }

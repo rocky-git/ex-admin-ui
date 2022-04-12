@@ -13,7 +13,7 @@ use ExAdmin\ui\component\Component;
 
 /**
  * Class FormMany
- * @method static $this create($bindField = null,$value = []) 创建
+ * @method static $this create($field = null,$value = []) 创建
  * @method $this table(bool $value=true) 表格模式
  * @method $this disabled(bool $disabled = true) 是否禁用状态								 	boolean
  * @method $this limit(int $value) 限制数量

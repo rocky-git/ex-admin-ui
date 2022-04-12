@@ -131,6 +131,18 @@ interface GridInterface
      */
     public function deleted(\Closure  $closure);
     /**
+     * 更新前
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function updateing(\Closure  $closure);
+    /**
+     * 更新后
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function updated(\Closure  $closure);
+    /**
      *
      * @return mixed
      */

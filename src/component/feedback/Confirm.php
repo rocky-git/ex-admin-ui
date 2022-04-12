@@ -45,11 +45,9 @@ class Confirm extends Component
     }
     public function jsonSerialize()
     {
-        $this->component->directive('confirm',$this->attribute,[
-            'url'=>$this->attr('url'),
-            'data'=>$this->attr('params'),
-            'method'=>$this->attr('method')
-        ]);
+        $this->component
+            ->ajax($this->attr('url'),$this->attr('params'),$this->attr('method'))
+            ->confirms($this->attribute);
         return $this->component;
     }
 }
