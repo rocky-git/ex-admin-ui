@@ -30,7 +30,7 @@ class FormAction extends FormItem
     public function __construct(Form $form)
     {
         $this->form = $form;
-        $this->submitButton = Button::create(admin_trans('form.save'))
+        $this->submitButton = Button::create(admin_trans('form.submit'))
             ->eventFunction('click', 'submit', [], $this->form)
             ->bindExpose('loading','loading',$form)
             ->type('primary');

@@ -26,6 +26,7 @@ trait Directive
     public function setDirective(array $directive){
         $this->directive = $directive;
     }
+    
     /**
      * ajax请求
      * @param string $url 请求url 空不请求
@@ -33,7 +34,7 @@ trait Directive
      * @param string $method 请求方式
      * @return Ajax
      */
-    public function ajax(string $url, array $params = [], $method = 'POST')
+    public function ajax(string $url, array $params = [],string $method = 'POST')
     {
         return new Ajax($this,[
             'url' => $url,

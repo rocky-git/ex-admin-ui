@@ -3,6 +3,8 @@
 namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\support\Request;
+use Illuminate\Support\Facades\Log;
 
 abstract class ValidatorForm
 {
@@ -22,6 +24,11 @@ abstract class ValidatorForm
      */
     protected $tabFields = [];
     /**
+     * step位置字段
+     * @var array
+     */
+    protected $stepFields = [];
+    /**
      * @var Form
      */
     protected $form;
@@ -40,13 +47,30 @@ abstract class ValidatorForm
             }
             $this->tabFields[] = $tabs;
         }
-    }
 
+    }
+    public function setStepField($field){
+        if($this->form->getSteps()){
+            $current = $this->form->getSteps()->getStepCount()-1;
+            $this->stepFields[$current][] = $current.'-'.$field;
+        }
+    }
     public function getTabField()
     {
         return $this->tabFields;
     }
-
+    public function passField($field){
+        if(Request::has('CURRENT_VALIDATION_STEP')){
+            $current = Request::input('CURRENT_VALIDATION_STEP');
+            if(!isset($this->stepFields[$current])){
+                return false;
+            }
+            if(!in_array($current.'-'.$field,$this->stepFields[$current])){
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * 新增验证规则
      * @param string $field 验证字段

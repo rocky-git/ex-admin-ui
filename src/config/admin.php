@@ -20,7 +20,7 @@ return [
         //ExAdmin\ui\Manager
         'manager' => '',
         //ExAdmin\ui\contract\ValidatorForm
-        'validator' => \ExAdmin\ui\test\Validator::class,
+        'validator' => '',
     ],
     //扫描权限目录
     'auth_scan' => [],

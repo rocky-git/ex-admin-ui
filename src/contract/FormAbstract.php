@@ -6,25 +6,26 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
 
-interface FormInterface
+abstract class FormAbstract
 {
     /**
      * 设置数据源
      * @param mixed $data
      * @param Form $form
      */
-    public function __construct($data, Form $form);
+    abstract public function __construct($data, Form $form);
 
     /**
      * selectTable组件
      * @return Response
      */
-    public function selectTable():Response;
+    abstract public function selectTable(): Response;
+
     /**
      * 上传文件 file|image组件上传接口
      * @return Response
      */
-    public function upload():Response;
+    abstract public function upload(): Response;
 
     /**
      * 数据保存
@@ -32,38 +33,40 @@ interface FormInterface
      * @param mixed $id
      * @return Message|Response
      */
-    public function save(array $data, $id = null);
+    abstract public function save(array $data, $id = null);
 
 
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
      * @return string
      */
-    public function getPk(): string;
+    abstract public function getPk(): string;
 
     /**
      * 获取数据
      * @param string $field 字段
      * @return mixed
      */
-    public function get(string $field = null);
+    abstract public function get(string $field = null);
 
     /**
      * 编辑数据
      * @param mixed $id
      * @return mixed
      */
-    public function edit($id);
+    abstract public function edit($id);
+
     /**
      * 保存前
      * @param \Closure $closure
      * @return mixed
      */
-    public function saving(\Closure  $closure);
+    abstract public function saving(\Closure $closure);
+
     /**
      * 保存后
      * @param \Closure $closure
      * @return mixed
      */
-    public function saved(\Closure  $closure);
+    abstract public function saved(\Closure $closure);
 }

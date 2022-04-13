@@ -24,16 +24,20 @@ trait Event
      * @param string $name 事件名称 例如点击直接click
      * @param string $function 函数称
      * @param array $params 函数传参
-     * @param Component $component 要执行函数的组件，默认当前组件
+     * @param Component|string $component 要执行函数的组件，默认当前组件
      * @return $this
      */
-    public function eventFunction(string $name, string $function, array $params = [], Component $component = null)
+    public function eventFunction(string $name, string $function, array $params = [], $component = null)
     {
         if (is_null($component)) {
             $component = $this;
         }
-        $field = $component->ref();
-        return $this->event($name, ['function' => $function, 'params' => $params, 'ref' => $field, 'name' => $component->getName()], 'function');
+        if($component instanceof Component){
+            $field = $component->ref();
+        }else{
+            $field = $component;
+        }
+        return $this->event($name, ['function' => $function, 'params' => $params, 'ref' => $field], 'function');
     }
 
     /**

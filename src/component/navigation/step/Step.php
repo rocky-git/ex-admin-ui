@@ -14,7 +14,7 @@ use ExAdmin\ui\component\Component;
  * 												可选：wait process finish error                                          string
  * @method $this title(mixed $title) 标题                                  												string | slot
  * @method $this subTitle(mixed $subTitle) 子标题                                  										string | slot
- * @method $this disabled(bool $disabled = false) 禁用点击                                  								boolean
+ * @method $this disabled(bool $disabled = true) 禁用点击                                  								boolean
  * @package ExAdmin\ui\component\form\field
  */
 class Step extends Component
@@ -36,5 +36,5 @@ class Step extends Component
      */
 	protected $name = 'AStep';
 
-	
+
 }

@@ -152,14 +152,16 @@ trait Validator
         $form = $this->formItem->form();
         $validator = $form->validator();
         $field = $this->getValidateField();
-        $this->formItem->form()->validator()->setTabField($field);
-        if ($type == 1) {
-            $validator->createRule($field, $rule);
-        } elseif ($type == 2) {
-            $validator->updateRule($field, $rule);
-        } else {
-            $validator->createRule($field, $rule);
-            $validator->updateRule($field, $rule);
+        $this->formItem->form()->validator()->setStepField($field);
+        if($validator->passField($field)){
+            if ($type == 1) {
+                $validator->createRule($field, $rule);
+            } elseif ($type == 2) {
+                $validator->updateRule($field, $rule);
+            } else {
+                $validator->createRule($field, $rule);
+                $validator->updateRule($field, $rule);
+            }
         }
         return $this;
     }

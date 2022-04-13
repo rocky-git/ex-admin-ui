@@ -338,7 +338,7 @@ abstract class Component implements \JsonSerializable
      * @param string $method
      * @return Modal
      */
-    public function modal($url = '', $params = [], $method = 'POST')
+    public function modal($url = '',array $params = [],string $method = 'POST')
     {
         return $this->modalParse(Modal::class,$url,$params,$method);
 
@@ -350,7 +350,7 @@ abstract class Component implements \JsonSerializable
      * @param string $method 请求方式
      * @return Drawer
      */
-    public function drawer($url = '', $params = [], $method = 'POST')
+    public function drawer($url = '',array $params = [],string $method = 'POST')
     {
         return $this->modalParse(Drawer::class,$url,$params,$method);
     }
@@ -368,7 +368,7 @@ abstract class Component implements \JsonSerializable
      * @param array $params 请求参数
      * @return Confirm
      */
-    public function confirm(string $message, string $url = '', array $params = [], $method = 'POST')
+    public function confirm(string $message, string $url = '', array $params = [],string $method = 'POST')
     {
         return Confirm::create($this)
             ->method($method)
