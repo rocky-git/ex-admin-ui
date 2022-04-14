@@ -11,12 +11,24 @@ use Illuminate\Http\Request;
 abstract class GridAbstract
 {
     /**
-     * 设置数据源
-     * @param mixed $data
-     * @param Grid $grid
+     * @var Grid
      */
-    abstract public function __construct($data,Grid $grid);
+    protected $grid;
 
+    protected $repository;
+
+
+    /**
+     * 初始化
+     * @param Grid $grid
+     * @param $repository
+     */
+    public function initialize(Grid $grid,$repository){
+
+        $this->grid = $grid;
+
+        $this->repository = $repository;
+    }
     /**
      * 返回唯一标识字段，一般数据库主键自增字段
      * @return string

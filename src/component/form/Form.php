@@ -104,8 +104,8 @@ class Form extends Component
     {
         parent::__construct();
       //  $this->lazyLoad();
-        $drive = admin_config('admin.form.manager');
-        $this->drive = (new $drive($data, $this))->getDriver();
+        $manager = admin_config('admin.form.manager');
+        $this->drive = (new $manager($data,$this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         //验证绑定提示
         $this->validateBindField = $this->getModel().'Validate';

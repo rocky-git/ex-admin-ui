@@ -9,12 +9,24 @@ use ExAdmin\ui\response\Response;
 abstract class FormAbstract
 {
     /**
-     * 设置数据源
-     * @param mixed $data
-     * @param Form $form
+     * @var Form
      */
-    abstract public function __construct($data, Form $form);
+    protected $form;
+    
+    protected $repository;
 
+    /**
+     * 初始化
+     * @param Form $form
+     * @param $repository
+     */
+    public function initialize(Form $form,$repository){
+        
+        $this->form = $form;
+
+        $this->repository = $repository;
+    }
+    
     /**
      * selectTable组件
      * @return Response
