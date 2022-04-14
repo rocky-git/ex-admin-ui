@@ -11,12 +11,12 @@ abstract class SystemAbstract
      * 网站名称
      * @return string
      */
-    abstract public function name(): string;
+    abstract public function name(): ?string;
     /**
      * 网站logo
      * @return string
      */
-    abstract public function logo(): string;
+    abstract public function logo(): ?string;
     /**
      * 头部导航右侧
      * @return array
