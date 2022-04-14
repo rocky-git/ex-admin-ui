@@ -1,5 +1,7 @@
 <?php
 return [
+    'add'=>'Add',
+    'edit' => 'Edit',
     'please_enter' => 'Please enter',
     'please_select' => 'Please select',
     'cancel' => 'Cancel',

@@ -58,7 +58,7 @@ use ExAdmin\ui\traits\Delayed;
  */
 class Form extends Component
 {
-    use FormComponent, FormEvent,Delayed,Step;
+    use FormComponent, FormEvent, Delayed, Step;
 
     //是否编辑表单
     protected $isEdit = false;
@@ -103,13 +103,14 @@ class Form extends Component
     public function __construct($data, $bindField = null)
     {
         parent::__construct();
-      //  $this->lazyLoad();
+
+        //  $this->lazyLoad();
         $manager = admin_config('admin.form.manager');
-        $this->drive = (new $manager($data,$this))->getDriver();
+        $this->drive = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         //验证绑定提示
-        $this->validateBindField = $this->getModel().'Validate';
-        $this->vModel('validateField',$this->validateBindField, [],true);
+        $this->validateBindField = $this->getModel() . 'Validate';
+        $this->vModel('validateField', $this->validateBindField, [], true);
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
         //保存成功关闭弹窗
@@ -125,6 +126,7 @@ class Form extends Component
             $this->isEdit = true;
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
+        $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
     }
@@ -176,21 +178,26 @@ class Form extends Component
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
-        if($component instanceof Image && $component->uploadField == Request::input('upload_field')){
+        if ($component instanceof Image && $component->uploadField == Request::input('upload_field')) {
             $this->imageComponent = $component;
-        }elseif ($component instanceof SelectTable && $component->selectField == Request::input('ex_admin_select_field')){
+        } elseif ($component instanceof SelectTable && $component->selectField == Request::input('ex_admin_select_field')) {
             $this->selectTableComponent = $component;
         }
         return $component;
     }
-    public function getImageComponent(){
+
+    public function getImageComponent()
+    {
 
         return $this->imageComponent;
     }
-    public function getSelectTableComponent(){
+
+    public function getSelectTableComponent()
+    {
 
         return $this->selectTableComponent;
     }
+
     public function getFormItem()
     {
         return $this->formItem;
@@ -208,13 +215,13 @@ class Form extends Component
      * @param mixed $value 值
      * @param bool $convertNumber 数字格式化
      */
-    public function inputDefault($field, $value = null,$convertNumber=true)
+    public function inputDefault($field, $value = null, $convertNumber = true)
     {
         $data = $this->input($field);
         if ((empty($data) && $data !== '0' && $data !== 0)) {
             $data = $value;
         }
-        if($convertNumber){
+        if ($convertNumber) {
             $data = $this->convertNumber($data);
         }
         Arr::set($this->data, $field, $data);
@@ -292,7 +299,7 @@ class Form extends Component
     public function getBindField($field, $model = null)
     {
         $bindField = $field;
-        if(is_null($model)){
+        if (is_null($model)) {
             $model = $this->getModel();
         }
         if (count($this->manyField) == 0) {
@@ -309,7 +316,7 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-     //   $bindField = $this->getBindField($field);
+        //   $bindField = $this->getBindField($field);
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
@@ -334,7 +341,7 @@ class Form extends Component
         $formMany->modelValue();
 
         $columns = [];
-        foreach ($formItems as $item){
+        foreach ($formItems as $item) {
             if ($item instanceof FormItem) {
                 $formItem = clone $item;
                 $columns[] = [
@@ -346,10 +353,10 @@ class Form extends Component
                 $formItem->removeAttr('label');
             }
         }
-        $columns[]  = [
-            'type'=>'action',
-            'width'=>70,
-            'dataIndex'=>'action',
+        $columns[] = [
+            'type' => 'action',
+            'width' => 70,
+            'dataIndex' => 'action',
         ];
         $formMany->attr('columns', $columns);
         return $formMany;
@@ -422,7 +429,7 @@ class Form extends Component
         $item = FormItem::create($this)
             ->label($label)
             ->name($name)
-            ->attr('validateFormField',$this->validateBindField);
+            ->attr('validateFormField', $this->validateBindField);
         $this->push($item);
         return $item;
     }
@@ -462,9 +469,11 @@ class Form extends Component
     /**
      * @return FormAction
      */
-    public function getActions(){
+    public function getActions()
+    {
         return $this->actions;
     }
+
     /**
      * 添加一个组件到表单
      * @param Component $item

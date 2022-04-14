@@ -6,6 +6,17 @@ use ExAdmin\ui\response\Response;
 
 abstract class SystemAbstract
 {
+
+    /**
+     * 网站名称
+     * @return string
+     */
+    abstract public function name(): string;
+    /**
+     * 网站logo
+     * @return string
+     */
+    abstract public function logo(): string;
     /**
      * 头部导航右侧
      * @return array
@@ -36,10 +47,12 @@ abstract class SystemAbstract
      * @return Response
      */
     abstract public function exportProgress($key): Response;
-    
+
     final public function info(): Response
     {
         return Response::success([
+            'name'=>$this->name(),
+            'logo'=>$this->logo(),
             'adminDropdown' => $this->adminDropdown(),
             'navbarRight' => $this->navbarRight(),
             'menu' => $this->menu(),

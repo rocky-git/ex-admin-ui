@@ -2,17 +2,13 @@
 
 namespace ExAdmin\ui;
 
-use ExAdmin\ui\auth\Node;
-use ExAdmin\ui\contract\CommonInterface;
-use ExAdmin\ui\contract\FormInterface;
-use ExAdmin\ui\contract\GridInterface;
-use ExAdmin\ui\contract\LoginInterface;
+
+use ExAdmin\ui\contract\LoginAbstract;
 use ExAdmin\ui\contract\SystemAbstract;
-use ExAdmin\ui\exception\HttpException;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
-use Illuminate\Support\Facades\Auth;
+
 
 /**
  * @method static dispatch($class, $function)
@@ -21,7 +17,7 @@ class Route
 {
     protected $contract = [
         'system' => SystemAbstract::class,
-        'login' => LoginInterface::class,
+        'login' => LoginAbstract::class,
     ];
 
     public static function __callStatic($name, $arguments)

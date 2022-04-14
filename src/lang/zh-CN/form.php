@@ -1,5 +1,7 @@
 <?php
 return [
+    'add'=>'添加',
+    'edit' => '编辑',
     'please_enter' => '请输入',
     'please_select' => '请选择',
     'cancel' => '取消',

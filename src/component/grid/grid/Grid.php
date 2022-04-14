@@ -110,6 +110,11 @@ class Grid extends Table
         $this->scroll(['x' => 'max-content']);
         $this->hideTrashed(!$this->drive->trashed());
         $this->hideExport();
+        $this->description(admin_trans('admin.list'));
+    }
+    public function title($title)
+    {
+        return $this->attr('ex_admin_title', $title);
     }
 
     /**
@@ -441,7 +446,7 @@ class Grid extends Table
             }
             $this->attr('filter', $this->filter->form());
         }
-       
+
         $this->drive->filter($this->getFilter()->getRule());
         $this->drive->quickSearch(Request::input('quickSearch', ''),$this->search);
         if (Request::has('ex_admin_action')) {

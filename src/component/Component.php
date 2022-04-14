@@ -387,6 +387,36 @@ abstract class Component implements \JsonSerializable
     {
         $this->name = $name;
     }
+    /**
+     * 设置标题
+     * @param string $title
+     * @return $this
+     */
+    public function title($title)
+    {
+        if (in_array(__FUNCTION__, $this->slot)) {
+            return $this->content($title, __FUNCTION__);
+        }
+        $this->attr('ex_admin_title', $title);
+        $this->attr(__FUNCTION__,$title);
+        return $this;
+
+    }
+
+    /**
+     * 设置描述
+     * @param string $description
+     * @return $this
+     */
+    public function description($description)
+    {
+        if (in_array(__FUNCTION__, $this->slot)) {
+            return $this->content($description, __FUNCTION__);
+        }
+        $this->attr('ex_admin_description', $description);
+        $this->attr(__FUNCTION__,$description);
+        return $this;
+    }
 
     public function jsonSerialize()
     {

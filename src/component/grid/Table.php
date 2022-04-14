@@ -60,5 +60,5 @@ class Table extends Component
      */
 	protected $name = 'ATable';
 
-	
+
 }
