@@ -26,6 +26,8 @@ return [
     'auth_scan' => [],
     // 默认语言
     'lang' => 'zh-CN',
+    //布局 headerSider顶部侧边  sider侧边
+    'layout'=>'headerSider',
     //主题 light 暗黑dark
     'theme' => 'light',
     //菜单主题 dark light
@@ -34,6 +36,8 @@ return [
     'navigationMode' => 'sideTopMenuLayout',
     //侧边栏
     'sidebar' => [
+        //宽度
+        'width'=>200,
         //是否收起状态
         'collapsed' => false,
         //显示隐藏

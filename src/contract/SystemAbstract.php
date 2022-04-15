@@ -59,7 +59,7 @@ abstract class SystemAbstract
             'user_info' => $this->userInfo(),
         ]);
     }
-
+   
     /**
      * 配置信息
      * @return Response

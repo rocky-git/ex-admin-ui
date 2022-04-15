@@ -9,9 +9,12 @@
 namespace ExAdmin\ui\component\form;
 
 
+use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\traits\Validator;
+use ExAdmin\ui\component\form\traits\When;
+use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Str;
 
 /**
@@ -20,7 +23,7 @@ use ExAdmin\ui\support\Str;
  */
 class Field extends Component
 {
-    use Validator;
+    use Validator, When;
 
     protected $formItem;
 
@@ -37,7 +40,9 @@ class Field extends Component
         $this->value = $value;
         parent::__construct();
     }
-    protected function modelValueArray(){
+
+    protected function modelValueArray()
+    {
         $this->value = [];
         if (!$this->formItem) {
             $value = $this->getbindAttrValue('value');
@@ -48,6 +53,7 @@ class Field extends Component
         }
         $this->modelValue();
     }
+
     /**
      * form表单中绑定组件
      */
@@ -129,13 +135,40 @@ class Field extends Component
         $this->formItem->extra($content);
         return $this;
     }
-    //    /**
-    //     * 提示信息
-    //     * @param string|Component $content
-    //     */
-    //    public function tip($content){
-    //        $this->formItem->help($content);
-    //    }
+
+    /**
+     * icon形式的帮助内容
+     * @param mixed $content 提示的信息
+     * @param string $icon 图标样式
+     * @param string $placement 气泡框位置，可选 top left right bottom topLeft topRight bottomLeft bottomRight leftTop leftBottom rightTop rightBottom
+     * @return $this
+     */
+    public function tip($content, string $icon = 'InfoCircleOutlined', string $placement = 'top')
+    {
+        $this->formItem->content(
+            ToolTip::create([
+                Icon::create($icon)->style(['marginLeft'=>'5px'])
+            ])
+                ->title($content)
+                ->placement($placement), 'label');
+        return $this;
+    }
+
+    /**
+     * 追加item到后面
+     * @param \Closure $closure 闭包 Form参数
+     * @return $this
+     */
+    public function pushItem(\Closure $closure)
+    {
+        $form = $this->formItem->form();
+        $formItems = $form->collectFields($closure);
+        foreach ($formItems as $formItem) {
+            $form->push($formItem);
+        }
+        return $this;
+    }
+
     /**
      * 设置FormItem
      * @param FormItem $formItem
