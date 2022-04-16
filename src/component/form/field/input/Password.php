@@ -20,5 +20,4 @@ class Password extends Input
      */
 	protected $name = 'AInputPassword';
 
-
 }

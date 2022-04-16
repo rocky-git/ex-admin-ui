@@ -9,7 +9,7 @@
 namespace ExAdmin\ui\support;
 
 use ExAdmin\ui\auth\Node;
-use Illuminate\Support\Facades\Log;
+
 
 /**
  * @property Config $config
@@ -29,7 +29,8 @@ class Container
     public function init()
     {
         $this->make(Config::class,[__DIR__.'/../config/']);
-        $this->make(Translator::class,[$this->config->get('admin.lang')]);
+      
+        $this->make(Translator::class,[$this->config->get('admin.lang.default')]);
         $this->make(Node::class);
 
     }

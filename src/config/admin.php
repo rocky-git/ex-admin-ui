@@ -24,12 +24,22 @@ return [
     ],
     //扫描权限目录
     'auth_scan' => [],
-    // 默认语言
-    'lang' => 'zh-CN',
+    //语言
+    'lang' => [
+        // 默认语言
+        'default'=>'zh-CN',
+        //语言列表
+        'list'=>[
+            'zh-CN'=>'中文',
+            'en'=>'English',
+        ]
+    ],
     //布局 headerSider顶部侧边  sider侧边
     'layout'=>'headerSider',
     //主题 light 暗黑dark
     'theme' => 'light',
+    //主题色
+    'theme_color' => 'red',
     //菜单主题 dark light
     'menu_theme' => 'dark',
     //导航模式 sideTopMenuLayout sideMenuLayout topMenuLayout
