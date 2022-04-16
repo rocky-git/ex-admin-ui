@@ -75,6 +75,7 @@ class Grid extends Table
      * @var ActionButton
      */
     protected $setForm;
+
     /**
      * @var Filter
      */
@@ -112,6 +113,7 @@ class Grid extends Table
         $this->hideExport();
         $this->description(admin_trans('admin.list'));
     }
+
     public function title($title)
     {
         return $this->attr('ex_admin_title', $title);
@@ -306,9 +308,12 @@ class Grid extends Table
         $this->column[] = $column;
         return $column;
     }
-    public function getColumn(){
+
+    public function getColumn()
+    {
         return $this->column;
     }
+
     /**
      * 分页组件
      * @return Pagination
@@ -437,6 +442,22 @@ class Grid extends Table
             ->invokeMethod($this->drive, $method, Request::input());
     }
 
+    /**
+     * 侧边栏
+     * @param string $field 筛选字段
+     * @param mixed $data 数据源
+     * @param string $label 名称
+     * @param string $id 主键
+     * @return Sidebar
+     */
+    public function sidebar(string $field,$data, string $label = 'name',string $id = 'id')
+    {
+        $sidebar = Sidebar::create($data, $label,$id,$this);
+        $sidebar->field($field);
+        $this->attr('sidebar', $sidebar);
+        return $sidebar;
+    }
+
     public function jsonSerialize()
     {
 
@@ -448,7 +469,7 @@ class Grid extends Table
         }
 
         $this->drive->filter($this->getFilter()->getRule());
-        $this->drive->quickSearch(Request::input('quickSearch', ''),$this->search);
+        $this->drive->quickSearch(Request::input('quickSearch', ''), $this->search);
         if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
