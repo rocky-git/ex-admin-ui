@@ -18,8 +18,8 @@ use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
+use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\contract\FormEventInterface;
-use ExAdmin\ui\contract\FormInterface;
 use ExAdmin\ui\contract\ValidatorForm;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
@@ -85,9 +85,9 @@ class Form extends Component
     //验证绑定提示字段
     protected $validateBindField = '';
     /**
-     * @var FormInterface
+     * @var FormAbstract
      */
-    protected $drive;
+    protected $driver;
     /**
      * 组件名称
      * @var string
@@ -106,7 +106,7 @@ class Form extends Component
 
         //  $this->lazyLoad();
         $manager = admin_config('admin.form.manager');
-        $this->drive = (new $manager($data, $this))->getDriver();
+        $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         //验证绑定提示
         $this->validateBindField = $this->getModel() . 'Validate';
@@ -117,10 +117,10 @@ class Form extends Component
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
         $this->eventCustom('success', 'GridRefresh');
-        $pk = $this->drive->getPk();
+        $pk = $this->driver->getPk();
         if (Request::input($pk)) {
             $id = Request::input($pk);
-            $this->drive->edit($id);
+            $this->driver->edit($id);
             $this->attr('editId', $id);
             $this->method('PUT');
             $this->isEdit = true;
@@ -130,7 +130,13 @@ class Form extends Component
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
     }
-
+    /**
+     * @return FormAbstract
+     */
+    public function driver()
+    {
+        return $this->driver;
+    }
     /**
      * @return ValidatorForm
      */
@@ -252,7 +258,7 @@ class Form extends Component
             return;
         }
         if (is_null($value)) {
-            return Arr::get($this->data, $field) ?? $this->drive->get($field);
+            return Arr::get($this->data, $field) ?? $this->driver->get($field);
         }
         $value = $this->convertNumber($value);
         Arr::set($this->data, $field, $value);
@@ -487,7 +493,7 @@ class Form extends Component
     {
         return Container::getInstance()
             ->make(Route::class)
-            ->invokeMethod($this->drive, $method, Request::input());
+            ->invokeMethod($this->driver, $method, Request::input());
     }
 
     public function jsonSerialize()

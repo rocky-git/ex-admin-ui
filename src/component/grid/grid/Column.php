@@ -204,7 +204,7 @@ class Column extends Component
             ->field($field)
             ->params([
                 'ex_admin_action'=>'update',
-                'ids' => [$data[$this->grid->drive()->getPk()]],
+                'ids' => [$data[$this->grid->driver()->getPk()]],
             ]);
     }
 

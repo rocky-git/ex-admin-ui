@@ -158,7 +158,7 @@ class Actions
             $event = $reference->getEvent('Click', 'custom');
             foreach ($event as &$item) {
                 if ($item['type'] == 'Modal') {
-                    $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->drive()->getPk() => $id]);
+                    $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->driver()->getPk() => $id]);
                     $actionButton->action()->removeBind($actionButton->action()->getModel());
                     $actionButton->action()->vModel('visible', null, false);
                     $item['params']['modal'] = $actionButton->action()->getModel();
@@ -174,7 +174,7 @@ class Actions
                     if (isset($parse['query'])) {
                         parse_str($parse['query'], $params);
                     }
-                    $params = array_merge($params, [$this->grid->drive()->getPk() => $id]);
+                    $params = array_merge($params, [$this->grid->driver()->getPk() => $id]);
                     $item['value'] = $parse['path'] . '?' . http_build_query($params);
                 }
             }
@@ -185,7 +185,7 @@ class Actions
     public function row($data)
     {
         $this->row = $data;
-        $this->id = $data[$this->grid->drive()->getPk()];
+        $this->id = $data[$this->grid->driver()->getPk()];
         $html = Html::create()->attr('class', $this->column->attr('dataIndex'));
         //自定义内容显示处理
         if (!is_null($this->closure)) {

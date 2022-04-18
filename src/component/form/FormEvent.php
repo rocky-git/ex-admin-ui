@@ -10,7 +10,7 @@ trait FormEvent
      */
     public function saving(\Closure $closure)
     {
-        $this->drive->saving($closure);
+        $this->driver->saving($closure);
     }
 
     /**
@@ -19,6 +19,6 @@ trait FormEvent
      */
     public function saved(\Closure $closure)
     {
-        $this->drive->saved($closure);
+        $this->driver->saved($closure);
     }
 }

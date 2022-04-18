@@ -326,7 +326,7 @@ abstract class Component implements \JsonSerializable
         if ($component instanceof Component) {
             $call = $component->getCall();
             $component = "ex-admin/{$call['class']}/{$call['function']}";
-            $params = $call['params'];
+            $params = array_merge($call['params'],$params);
         }
         return array($component, $params);
     }

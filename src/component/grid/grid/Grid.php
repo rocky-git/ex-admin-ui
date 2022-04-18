@@ -11,7 +11,7 @@ use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
-use ExAdmin\ui\contract\GridInterface;
+use ExAdmin\ui\contract\GridAbstract;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
@@ -64,9 +64,9 @@ class Grid extends Table
      */
     protected $addButton;
     /**
-     * @var GridInterface
+     * @var GridAbstract
      */
-    protected $drive;
+    protected $driver;
     /**
      * @var Actions
      */
@@ -91,6 +91,10 @@ class Grid extends Table
     //树形id
     protected $treeId;
     /**
+     * @var Sidebar
+     */
+    protected $sidebar;
+    /**
      * @var Export
      */
     protected $export;
@@ -101,7 +105,7 @@ class Grid extends Table
     {
         parent::__construct();
         $manager = admin_config('admin.grid.manager');
-        $this->drive = (new $manager($data, $this))->getDriver();
+        $this->driver = (new $manager($data, $this))->getDriver();
         $this->pagination = Pagination::create();
         //操作列
         $this->actionColumn = new Actions($this);
@@ -109,7 +113,7 @@ class Grid extends Table
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params($this->call['params']);
         $this->scroll(['x' => 'max-content']);
-        $this->hideTrashed(!$this->drive->trashed());
+        $this->hideTrashed(!$this->driver->trashed());
         $this->hideExport();
         $this->description(admin_trans('admin.list'));
     }
@@ -124,15 +128,15 @@ class Grid extends Table
      */
     public function model()
     {
-        return $this->drive->model();
+        return $this->driver->model();
     }
 
     /**
-     * @return GridInterface
+     * @return GridAbstract
      */
-    public function drive()
+    public function driver()
     {
-        return $this->drive;
+        return $this->driver;
     }
 
     /**
@@ -338,7 +342,7 @@ class Grid extends Table
         $tableData = [];
         foreach ($data as $key => $row) {
 
-            $rowData = ['ex_admin_id' => $row[$this->drive->getPk()] ?? $key];
+            $rowData = ['ex_admin_id' => $row[$this->driver->getPk()] ?? $key];
             //树形父级pid
             if ($this->isTree) {
                 $rowData['ex_admin_tree_id'] = $row[$this->treeId];
@@ -437,9 +441,12 @@ class Grid extends Table
 
     protected function dispatch($method)
     {
+        if (Request::has('ex_admin_sidebar')) {
+            $this->driver = $this->sidebar->driver();
+        }
         return Container::getInstance()
             ->make(Route::class)
-            ->invokeMethod($this->drive, $method, Request::input());
+            ->invokeMethod($this->driver, $method, Request::input());
     }
 
     /**
@@ -450,12 +457,12 @@ class Grid extends Table
      * @param string $id 主键
      * @return Sidebar
      */
-    public function sidebar(string $field,$data, string $label = 'name',string $id = 'id')
+    public function sidebar(string $field, $data, string $label = 'name', string $id = 'id')
     {
-        $sidebar = Sidebar::create($data, $label,$id,$this);
-        $sidebar->field($field);
-        $this->attr('sidebar', $sidebar);
-        return $sidebar;
+        $this->sidebar = Sidebar::create($data, $label, $id, $this);
+        $this->sidebar->field($field);
+        $this->attr('sidebar', $this->sidebar);
+        return $this->sidebar;
     }
 
     public function jsonSerialize()
@@ -468,8 +475,8 @@ class Grid extends Table
             $this->attr('filter', $this->filter->form());
         }
 
-        $this->drive->filter($this->getFilter()->getRule());
-        $this->drive->quickSearch(Request::input('quickSearch', ''), $this->search);
+        $this->driver->filter($this->getFilter()->getRule());
+        $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
         if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
@@ -488,15 +495,15 @@ class Grid extends Table
                 ->type('primary')
                 ->icon('<plus-outlined />');
         }
-        $this->pagination->total($this->drive->total());
+        $this->pagination->total($this->driver->total());
         $page = Request::input('page', 1);
         $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
 
         if (Request::has('ex_admin_sort_field')) {
-            $this->drive->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
+            $this->driver->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
 
-        $data = $this->drive->data($page, $size, $this->attr('hidePage') ? true : false);
+        $data = $this->driver->data($page, $size, $this->attr('hidePage') ? true : false);
 
         $data = $this->parseColumn($data);
         if ($this->isTree) {
@@ -509,7 +516,7 @@ class Grid extends Table
                 'header' => $this->attr('header'),
                 'tools' => $this->attr('tools'),
                 'footer' => $this->attr('footer'),
-                'total' => $this->drive->total(),
+                'total' => $this->driver->total(),
                 'code' => 200,
             ];
         } else {
