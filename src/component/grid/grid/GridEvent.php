@@ -10,7 +10,7 @@ trait GridEvent
      */
     public function deling(\Closure $closure)
     {
-        $this->drive->deling($closure);
+        $this->driver->deling($closure);
     }
 
     /**
@@ -19,7 +19,7 @@ trait GridEvent
      */
     public function deleted(\Closure $closure)
     {
-        $this->drive->deleted($closure);
+        $this->driver->deleted($closure);
     }
     /**
      * 更新前
@@ -27,7 +27,7 @@ trait GridEvent
      */
     public function updateing(\Closure $closure)
     {
-        $this->drive->updateing($closure);
+        $this->driver->updateing($closure);
     }
 
     /**
