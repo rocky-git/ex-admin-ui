@@ -272,7 +272,12 @@ return [
         'back' => 'Back',
     ],
     'Uploader' => [
+        'finder'=>'Finder',
         'upload' => 'Upload',
+        'success'=>'Success',
+        'error'=>'Rrror',
+        'check'=>'Check',
+        'uploading'=>'Uploading',
     ],
     'Grid' => [
         'confirmRecoverySelected' => 'This action will restore the selected data？',
@@ -344,6 +349,9 @@ return [
         'sider' => 'Sider',
         'header_sider' => 'Header-Sider',
         'header' => 'Header',
+    ],
+    'Sidebar' => [
+        'all'=>'All'
     ],
     'Dayjs' => [
         'weekdays' => explode('_', "domingo_lunes_martes_miércoles_jueves_viernes_sábado"),

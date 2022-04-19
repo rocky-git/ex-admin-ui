@@ -266,7 +266,12 @@ return [
         'back' => '返回上一页',
     ],
     'Uploader' => [
+        'finder'=>'资源',
         'upload' => '上传',
+        'success'=>'上传成功',
+        'error'=>'未知错误',
+        'check'=>'上传中',
+        'uploading'=>'上传中',
     ],
     'Grid' => [
         'confirmRecoverySelected' => '此操作将恢复选中数据？',
@@ -339,6 +344,9 @@ return [
         'sider' => '侧边',
         'header_sider' => '顶部-侧边',
         'header' => '顶部',
+    ],
+    'Sidebar' => [
+        'all'=>'全部'
     ],
     'Dayjs' => [
         'weekdays' => explode('_',"星期日_星期一_星期二_星期三_星期四_星期五_星期六"),

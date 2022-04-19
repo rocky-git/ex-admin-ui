@@ -35,7 +35,7 @@ class Sidebar extends Component
         
         $this->grid = $grid;
         $this->attr('url',$this->grid->attr('url'));
-        $this->attr('params',$this->grid->attr('params')+['ex_admin_sidebar'=>true,'ex_admin_action'=>'data','page'=>1,'size'=>20,'hidePage'=>true]);
+        $this->attr('params',$this->grid->attr('callParams')+['ex_admin_sidebar'=>true,'ex_admin_action'=>'data','page'=>1,'size'=>20,'hidePage'=>true]);
         $this->attr('fieldNames', [
             'children' => 'children',
             'title' => $label,

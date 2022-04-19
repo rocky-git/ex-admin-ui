@@ -2,7 +2,9 @@
 
 namespace ExAdmin\ui\component\form\field\upload;
 
+use ExAdmin\laravel\Controllers\AttachmentController;
 use ExAdmin\ui\component\form\FormItem;
+use ExAdmin\ui\Route;
 
 class File extends Upload
 {
@@ -12,6 +14,9 @@ class File extends Upload
         parent::__construct($field, $value);
         $this->progress(false);
         $this->onlyShow(false);
+        $grid = Route::dispatch(AttachmentController::class,'index');
+        $grid->selectionField('url');
+        $this->attr('finder',$grid);
     }
 
     public function setFormItem(FormItem $formItem)

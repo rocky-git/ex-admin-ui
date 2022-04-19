@@ -43,6 +43,7 @@ use ExAdmin\ui\traits\CallProvide;
  * @method $this url(string $url) 加载数据地址
  * @method $this params(array $params) 加载数据附加参数
  * @method $this selectionType(string $string) 选择框类型checkbox radio
+ * @method $this selectionField(string $string) 选中字段
  */
 class Grid extends Table
 {
@@ -115,7 +116,9 @@ class Grid extends Table
         $this->actionColumn = new Actions($this);
         $this->rowKey('ex_admin_id');
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
-        $this->params($this->call['params']);
+        $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
+        $callParams = array_merge($callParams, $this->call['params']);
+        $this->attr('callParams', $callParams);
         $this->scroll(['x' => 'max-content']);
         $this->hideTrashed(!$this->driver->trashed());
         $this->hideExport();
@@ -345,7 +348,10 @@ class Grid extends Table
         $columns = array_merge($this->column, $this->childrenColumn);
         $tableData = [];
         foreach ($data as $key => $row) {
-            $rowData = ['ex_admin_id' => $row[$this->driver->getPk()] ?? $key];
+            $pk = $this->driver->getPk();
+            $rowData = ['ex_admin_id' => $row[$pk] ?? $key];
+            $selectionField = $this->attr('selectionField') ?? $pk;
+            $rowData[$selectionField] = $row[$selectionField];
             if (is_null($this->customClosure)) {
                 //树形父级pid
                 if ($this->isTree) {
@@ -360,7 +366,7 @@ class Grid extends Table
                     $expandRow = call_user_func($this->expandRow, $row);
                     $rowData['ExAdminExpandRow'] = Html::create($expandRow);
                 }
-            }else{
+            } else {
                 $rowData['custom'] = call_user_func($this->customClosure, $row);
             }
             if (!$this->hideAction && !$export) {
@@ -471,20 +477,22 @@ class Grid extends Table
         $this->attr('sidebar', $this->sidebar);
         return $this->sidebar;
     }
+
     /**
      * 自定义列表元素
      * @param \Closure $closure
      * @param string $container 容器标签
      * @return Lists
      */
-    public function custom(\Closure $closure,$container ='div')
+    public function custom(\Closure $closure, $container = 'div')
     {
         $this->customClosure = $closure;
         $list = Lists::create();
         $this->attr('custom', $list);
-        $list->attr('container',$container);
+        $list->attr('container', $container);
         return $list;
     }
+
     public function jsonSerialize()
     {
 
@@ -542,9 +550,7 @@ class Grid extends Table
             if ($this->addButton) {
                 $this->attr('addButton', $this->addButton->action());
             }
-            $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-            $callParams = array_merge($callParams, $this->call['params']);
-            $this->attr('callParams', $callParams);
+           
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));
