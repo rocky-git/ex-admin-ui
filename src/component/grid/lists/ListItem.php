@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid\list;
+namespace ExAdmin\ui\component\grid\lists;
 
 use ExAdmin\ui\component\Component;
 

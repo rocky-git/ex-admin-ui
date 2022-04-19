@@ -69,5 +69,10 @@ abstract class SystemAbstract
         return Response::success(admin_config('*'));
     }
 
-    
+    /**
+     * 上传写入数据库
+     * @param $data 上传入库数据
+     * @return Response
+     */
+    abstract public function upload($data): Response;
 }

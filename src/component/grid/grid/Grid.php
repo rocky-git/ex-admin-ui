@@ -9,6 +9,7 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\avatar\Avatar;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
+use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridAbstract;
@@ -41,6 +42,7 @@ use ExAdmin\ui\traits\CallProvide;
  * @method $this quickSearchText(string $string) 快捷提示文本内容
  * @method $this url(string $url) 加载数据地址
  * @method $this params(array $params) 加载数据附加参数
+ * @method $this selectionType(string $string) 选择框类型checkbox radio
  */
 class Grid extends Table
 {
@@ -90,6 +92,8 @@ class Grid extends Table
     protected $treePid;
     //树形id
     protected $treeId;
+    //自定义列表元素
+    protected $customClosure = null;
     /**
      * @var Sidebar
      */
@@ -341,20 +345,23 @@ class Grid extends Table
         $columns = array_merge($this->column, $this->childrenColumn);
         $tableData = [];
         foreach ($data as $key => $row) {
-
             $rowData = ['ex_admin_id' => $row[$this->driver->getPk()] ?? $key];
-            //树形父级pid
-            if ($this->isTree) {
-                $rowData['ex_admin_tree_id'] = $row[$this->treeId];
-                $rowData['ex_admin_tree_parent'] = $row[$this->treePid];
-            }
-            foreach ($columns as $column) {
-                $field = $column->attr('dataIndex');
-                $rowData[$field] = $column->row($row, $export);
-            }
-            if (!is_null($this->expandRow)) {
-                $expandRow = call_user_func($this->expandRow, $row);
-                $rowData['ExAdminExpandRow'] = Html::create($expandRow);
+            if (is_null($this->customClosure)) {
+                //树形父级pid
+                if ($this->isTree) {
+                    $rowData['ex_admin_tree_id'] = $row[$this->treeId];
+                    $rowData['ex_admin_tree_parent'] = $row[$this->treePid];
+                }
+                foreach ($columns as $column) {
+                    $field = $column->attr('dataIndex');
+                    $rowData[$field] = $column->row($row, $export);
+                }
+                if (!is_null($this->expandRow)) {
+                    $expandRow = call_user_func($this->expandRow, $row);
+                    $rowData['ExAdminExpandRow'] = Html::create($expandRow);
+                }
+            }else{
+                $rowData['custom'] = call_user_func($this->customClosure, $row);
             }
             if (!$this->hideAction && !$export) {
                 $actionColumn = clone $this->actionColumn;
@@ -464,7 +471,20 @@ class Grid extends Table
         $this->attr('sidebar', $this->sidebar);
         return $this->sidebar;
     }
-
+    /**
+     * 自定义列表元素
+     * @param \Closure $closure
+     * @param string $container 容器标签
+     * @return Lists
+     */
+    public function custom(\Closure $closure,$container ='div')
+    {
+        $this->customClosure = $closure;
+        $list = Lists::create();
+        $this->attr('custom', $list);
+        $list->attr('container',$container);
+        return $list;
+    }
     public function jsonSerialize()
     {
 
@@ -514,7 +534,6 @@ class Grid extends Table
             return [
                 'data' => $data,
                 'header' => $this->attr('header'),
-                'tools' => $this->attr('tools'),
                 'footer' => $this->attr('footer'),
                 'total' => $this->driver->total(),
                 'code' => 200,

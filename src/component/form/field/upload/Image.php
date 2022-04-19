@@ -24,6 +24,8 @@ class Image extends File
         'input',
         'chunkSize',
         'domain',
+        'progress',
+        'onlyShow',
         'limit',
         'accessKey',
         'secretKey',

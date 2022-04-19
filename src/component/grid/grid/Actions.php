@@ -44,6 +44,8 @@ class Actions
 
     protected $appendArr = [];
 
+    protected $icon = false;
+
     protected $closure = null;
     /**
      * @var Dropdown
@@ -76,7 +78,9 @@ class Actions
     {
         $this->hideDelButton = $bool;
     }
-
+    public function icon(){
+        $this->icon = true;
+    }
     /**
      * 下拉菜单
      * @param string $text
@@ -193,23 +197,40 @@ class Actions
         }
         if ($this->detailButton) {
             $this->detailButton->dropdown($this->dropdown?true:false);
-            $this->detailButton->button()->content(admin_trans('grid.detail'))
+            $this->detailButton->button()
+                ->when($this->icon,function ($button){
+                    $button->size('small')->shape('circle');
+                },function ($button){
+                    $button->content(admin_trans('grid.detail'));
+                })
                 ->icon('<InfoCircleFilled />');
             $this->setActionParams($this->detailButton, $this->id);
         }
         if ($this->editButton) {
             $this->editButton->dropdown($this->dropdown?true:false);
-            $this->editButton->button()->content(admin_trans('grid.edit'))
+            $this->editButton->button()
+
+                ->when($this->icon,function ($button){
+                    $button->size('small')->shape('circle');
+                },function ($button){
+                    $button->content(admin_trans('grid.edit'));
+                })
                 ->type('primary')
                 ->icon('<EditFilled />');
             $this->setActionParams($this->editButton, $this->id);
         }
         $this->delButton = new ActionButton;
         $this->delButton->dropdown($this->dropdown?true:false);
-        $this->delButton->content(admin_trans('grid.delete'))
+        $this->delButton
             ->when(!$this->dropdown,function ($button){
                 $button->danger()->type('primary');
             })
+            ->when($this->icon,function ($button){
+                $button->size('small')->shape('circle')->danger(false)->type('');
+            },function ($button){
+                $button->content(admin_trans('grid.delete'));
+            })
+
             ->icon('<DeleteFilled />')
             ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), ['ex_admin_trashed'=>$this->grid->isTrashed(),'ex_admin_action' => 'delete', 'ids' => [$this->id]])
             ->method('delete')
@@ -236,8 +257,13 @@ class Actions
         if($this->grid->isTrashed() && !$this->grid->attr('hideTrashedRestore')){
             $restoreAction = new ActionButton;
             $restoreAction->dropdown($this->dropdown?true:false);
-            $restoreAction->content(admin_trans('grid.restore'))
+            $restoreAction
 
+                ->when($this->icon,function ($button){
+                    $button->size('small')->shape('circle');
+                },function ($button){
+                    $button->content(admin_trans('grid.restore'));
+                })
                 ->icon('<diff-outlined />')
                 ->confirm(admin_trans('grid.confim_restore'), $this->grid->attr('url'), ['ex_admin_action' => 'restore', 'ids' => [$this->id]])
                 ->method('put')

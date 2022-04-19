@@ -1,6 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\grid\list;
+namespace ExAdmin\ui\component\grid\lists;
 
 use ExAdmin\ui\component\Component;
 
@@ -10,7 +10,6 @@ use ExAdmin\ui\component\Component;
  * @link    https://next.antdv.com/components/list-cn 列表组件
  * @method $this bordered(bool $bordered = false) 是否展示边框                                        					boolean
  * @method $this footer(mixed $footer) 列表底部                                        									string|slot
- * @method $this grid(mixed $grid) 列表栅格配置                                 											object
  * @method $this header(mixed $header) 列表头部                                        									string|slot
  * @method $this itemLayout(string $itemLayout) 设置 List.Item 布局, 设置成 vertical 则竖直样式显示, 默认横排               string
  * @method $this loading(mixed $loading = false) 	当卡片内容还在加载中时，可以用 loading 展示一个占位                      boolean|object
@@ -40,5 +39,22 @@ class Lists extends Component
      */
 	protected $name = 'AList';
 
-
+    /**
+     * 列表栅格配置
+     * @param int $gutter 栅格间隔
+     * @param int $column 列数
+     * @return $this
+     */
+    public function grid($gutter,$column){
+        $sm = $column / 2;
+        if ($sm < 1) {
+            $sm = 1;
+        }
+        $xs = $column / 4;
+        if ($xs < 1) {
+            $xs = 1;
+        }
+        $this->attr('grid',['column'=>$column,'gutter'=>$gutter,'md'=>$column,'sm'=>$sm,'xs'=>$xs]);
+        return $this;
+    }
 }

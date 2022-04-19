@@ -24,6 +24,7 @@ use ExAdmin\ui\component\Component;
  * @method $this visible(bool $visible = false) 用于手动控制浮层显隐                                        				boolean
  * @method $this destroyTooltipOnHide(bool $destroyTooltipOnHide = false) 隐藏后是否销毁 tooltip                          boolean
  * @method $this align(mixed $align) 该值将合并到 placement 的配置中，设置参考 dom-align                                    Object
+ * @method static $this create($content='') 创建
  * @package ExAdmin\ui\component\form\field
  */
 class ToolTip extends Component
@@ -42,10 +43,12 @@ class ToolTip extends Component
      */
 	protected $name = 'ATooltip';
 
-    public function __construct($content)
+    public function __construct($content='')
     {
         parent::__construct();
-        $this->content(Html::create($content));
+        if($content){
+            $this->content(Html::create($content));
+        }
     }
 
 
