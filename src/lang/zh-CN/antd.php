@@ -329,6 +329,8 @@ return [
     'Setting' => [
         'lang' => '语言',
         'theme_color' => '主题色',
+        'sidebar_background' => '侧边栏背景色',
+        'header_background' => '顶部背景色',
         'layout' => '布局',
         'menu_layout' => '菜单布局',
         'menu_style' => '菜单样式',

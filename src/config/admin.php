@@ -39,13 +39,17 @@ return [
     //主题 light 暗黑dark
     'theme' => 'light',
     //主题色
-    'theme_color' => 'red',
+    'theme_color' => '#1890ff',
     //菜单主题 dark light
     'menu_theme' => 'dark',
     //导航模式 sideTopMenuLayout sideMenuLayout topMenuLayout
     'navigationMode' => 'sideTopMenuLayout',
+    //header背景色
+    'header_background'=>'#1b253d',
     //侧边栏
     'sidebar' => [
+        //背景色
+        'background'=>'#121929',
         //宽度
         'width'=>200,
         //是否收起状态

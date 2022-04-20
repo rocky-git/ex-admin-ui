@@ -334,6 +334,8 @@ return [
     'Setting' => [
         'lang' => 'Lang',
         'theme_color' => 'Theme Color',
+        'sidebar_background' => 'Sidebar Background',
+        'header_background' => 'Header Background',
         'layout' => 'Layout',
         'menu_layout' => 'Menu Layout',
         'menu_style' => 'Menu Style',
