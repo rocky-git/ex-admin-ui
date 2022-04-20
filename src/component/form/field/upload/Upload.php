@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component\form\field\upload;
 
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\component\form\FormItem;
+use ExAdmin\ui\component\grid\grid\Grid;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -78,7 +79,24 @@ class Upload extends Field
         $this->attr('fileSize', $value);
         return $this;
     }
-
+    /**
+     * 限制上传类型
+     * @param string|array $value
+     */
+    public function ext($value)
+    {
+        if (is_string($value)) {
+            $value = explode(',', $value);
+        }
+        $this->attr('ext', $value);
+        $value = array_map(function ($item) {
+            return ".{$item}";
+        }, $value);
+        $accept = implode(',', $value);
+        $this->accept($accept);
+        return $this;
+    }
+   
     public function jsonSerialize()
     {
         $type = $this->attr('type') ?? 'file';

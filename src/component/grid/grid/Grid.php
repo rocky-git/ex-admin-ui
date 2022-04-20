@@ -43,6 +43,7 @@ use ExAdmin\ui\traits\CallProvide;
  * @method $this url(string $url) 加载数据地址
  * @method $this params(array $params) 加载数据附加参数
  * @method $this selectionType(string $string) 选择框类型checkbox radio
+ * @method $this selectionLimit(int $number) 选中数量限制
  * @method $this selectionField(string $string) 选中字段
  */
 class Grid extends Table
@@ -523,9 +524,10 @@ class Grid extends Table
                 ->type('primary')
                 ->icon('<plus-outlined />');
         }
-        $this->pagination->total($this->driver->total());
-        $page = Request::input('page', 1);
-        $size = Request::input('size', $this->pagination->attr('defaultPageSize'));
+        $total = $this->driver->total();
+        $this->pagination->total($total);
+        $page = Request::input('ex_admin_page', 1);
+        $size = Request::input('ex_admin_size', $this->pagination->attr('defaultPageSize'));
 
         if (Request::has('ex_admin_sort_field')) {
             $this->driver->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
@@ -543,14 +545,14 @@ class Grid extends Table
                 'data' => $data,
                 'header' => $this->attr('header'),
                 'footer' => $this->attr('footer'),
-                'total' => $this->driver->total(),
+                'total' => $total,
                 'code' => 200,
             ];
         } else {
             if ($this->addButton) {
                 $this->attr('addButton', $this->addButton->action());
             }
-           
+
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

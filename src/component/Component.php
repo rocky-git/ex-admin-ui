@@ -37,6 +37,8 @@ abstract class Component implements \JsonSerializable
     protected $bindExpose = [];
     //初始化
     protected static $init = [];
+    //结束前
+    protected static $beforeEnd = [];
     //方法
     protected static $method = [];
 
@@ -47,9 +49,11 @@ abstract class Component implements \JsonSerializable
     public function __construct()
     {
         $this->parseCallMethod();
-        foreach (self::$init as $class => $init) {
+        foreach (self::$init as $class => $inits) {
             if (static::class == $class) {
-                call_user_func($init, $this);
+                foreach ($inits as $init){
+                    call_user_func($init, $this);
+                }
             }
         }
     }
@@ -68,9 +72,16 @@ abstract class Component implements \JsonSerializable
      */
     public static function init(\Closure $closure)
     {
-        self::$init[static::class] = $closure;
+        self::$init[static::class][] = $closure;
     }
-
+    /**
+     * 结束前
+     * @param \Closure $closure
+     */
+    public static function beforeEnd(\Closure $closure)
+    {
+        self::$beforeEnd[static::class][] = $closure;
+    }
 
     /**
      * 设置属性
@@ -93,7 +104,10 @@ abstract class Component implements \JsonSerializable
         $this->attribute = array_merge($this->attribute, $attrs);
         return $this;
     }
-
+    public function getAttrs()
+    {
+        return  $this->attribute;
+    }
     public function removeAttr($name)
     {
         unset($this->attribute[$name]);
@@ -420,6 +434,13 @@ abstract class Component implements \JsonSerializable
 
     public function jsonSerialize()
     {
+        foreach (self::$beforeEnd as $class => $ends) {
+            if (static::class == $class) {
+                foreach ($ends as $end){
+                    call_user_func($end, $this);
+                }
+            }
+        }
         if (!$this->attr('key')) {
             $this->attr('key', $this->random());
         }

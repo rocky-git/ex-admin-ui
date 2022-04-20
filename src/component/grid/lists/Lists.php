@@ -54,7 +54,7 @@ class Lists extends Component
         if ($xs < 1) {
             $xs = 1;
         }
-        $this->attr('grid',['column'=>$column,'gutter'=>$gutter,'md'=>$column,'sm'=>$sm,'xs'=>$xs]);
+        $this->attr('grid',['gutter'=>$gutter,'column'=>$column,'md'=>$column,'sm'=>$sm,'xs'=>$xs]);
         return $this;
     }
 }
