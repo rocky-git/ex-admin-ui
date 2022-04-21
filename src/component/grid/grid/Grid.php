@@ -45,6 +45,7 @@ use ExAdmin\ui\traits\CallProvide;
  * @method $this selectionType(string $string) 选择框类型checkbox radio
  * @method $this selectionLimit(int $number) 选中数量限制
  * @method $this selectionField(string $string) 选中字段
+ * @method $this selection(array $data) 选中项
  */
 class Grid extends Table
 {

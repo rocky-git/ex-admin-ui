@@ -26,12 +26,16 @@ abstract class FormAbstract
 
         $this->repository = $repository;
     }
-    
+
     /**
      * selectTable组件
      * @return Response
      */
-    abstract public function selectTable(): Response;
+    public function selectTable(): Response
+    {
+        $result = $this->form->getSelectTableComponent()->handle();
+        return Response::success($result);
+    }
 
     /**
      * 上传文件 file|image组件上传接口
