@@ -15,6 +15,7 @@ use ExAdmin\ui\auth\Node;
  * @property Config $config
  * @property Translator $translator
  * @property Node $node
+ * @property Captcha $captcha
  */
 class Container
 {
@@ -23,6 +24,7 @@ class Container
         'config'=>Config::class,
         'translator'=>Translator::class,
         'node'=>Node::class,
+        'captcha'=>Captcha::class,
     ];
     protected $instances = [];
 
@@ -32,6 +34,7 @@ class Container
       
         $this->make(Translator::class,[$this->config->get('admin.lang.default')]);
         $this->make(Node::class);
+        $this->make(Captcha::class);
 
     }
 
