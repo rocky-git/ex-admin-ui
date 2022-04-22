@@ -56,6 +56,8 @@ return [
         'collapsed' => false,
         //显示隐藏
         'visible' => true,
+        //菜单并排数量
+        'menu_num'=>1
     ],
     //多页标签
     'tabs' => true,

@@ -339,6 +339,7 @@ return [
             'width' => '宽度',
             'visible' => '显示',
             'collapsed' => '收起',
+            'menu_num' => '菜单并排数量',
         ],
         'tabs' => '多标签',
         'light' => '亮色',
@@ -346,6 +347,7 @@ return [
         'sider' => '侧边',
         'header_sider' => '顶部-侧边',
         'header' => '顶部',
+        
     ],
     'Sidebar' => [
         'all'=>'全部'

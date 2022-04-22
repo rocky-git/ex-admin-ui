@@ -344,6 +344,7 @@ return [
             'width' => 'Width',
             'visible' => 'Visible',
             'collapsed' => 'Collapsed',
+            'menu_num' => 'Number of menus',
         ],
         'tabs' => 'Tabs',
         'light' => 'Light',
