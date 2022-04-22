@@ -17,12 +17,12 @@ use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
-use ExAdmin\ui\traits\CallProvide;
+
 
 
 /**
  * Class Grid
- * @method static $this create($data) 创建
+ * @method static $this create($data, \Closure $closure=null) 创建
  * @method $this hideAdd(bool $bool = true) 隐藏添加按钮
  * @method $this hideDelete(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
@@ -105,12 +105,18 @@ class Grid extends Table
      * @var Export
      */
     protected $export;
-
+    /**
+     * 快捷搜索条件
+     * @var
+     */
     protected $search;
 
-    public function __construct($data)
+    protected $exec;
+
+    public function __construct($data, \Closure $closure = null)
     {
         parent::__construct();
+        $this->exec = $closure;
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->pagination = Pagination::create();
@@ -497,7 +503,9 @@ class Grid extends Table
 
     public function jsonSerialize()
     {
-
+        if($this->exec){
+            call_user_func($this->exec,$this);
+        }
         if ($this->filter) {
             if ($this->filter->isHide()) {
                 $this->hideFilter();

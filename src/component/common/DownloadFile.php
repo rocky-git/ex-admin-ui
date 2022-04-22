@@ -17,7 +17,7 @@ use ExAdmin\ui\component\Component;
  * @package namespace ExAdmin\ui\component\common
  * @method $this filename(string $filename) 文件名
  * @method $this url(string $url) 文件链接
- * @method $this onlyImage(bool $value) 只是图片
+ * @method $this onlyImage(bool $value = true) 只是图片
  */
 class DownloadFile extends Component
 {

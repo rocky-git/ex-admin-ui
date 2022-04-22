@@ -25,8 +25,8 @@ use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
-use ExAdmin\ui\traits\CallProvide;
-use ExAdmin\ui\traits\Delayed;
+
+
 
 
 /**
@@ -52,13 +52,13 @@ use ExAdmin\ui\traits\Delayed;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用                                                        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = false) 为 true 时不带样式，作为纯字段控件使用                                            boolean
- * @method static $this create($data, $bindField = null) 创建
+ * @method static $this create($data, \Closure $closure = null,$bindField = null) 创建
  * @mixin FormEventInterface
  * @package ExAdmin\ui\component\form
  */
 class Form extends Component
 {
-    use FormComponent, FormEvent, Delayed, Step;
+    use FormComponent, FormEvent, Step;
 
     //是否编辑表单
     protected $isEdit = false;
@@ -96,15 +96,17 @@ class Form extends Component
 
     public $vModel = 'model';
 
+    protected $exec;
     /**
      * @param array $data 初始数据
-     * @param null $bindField 绑定字段
+     * @param \Closure $closure
+     * @param string $bindField 绑定字段
      */
-    public function __construct($data, $bindField = null)
+    public function __construct($data,\Closure $closure=null, $bindField = null)
     {
         parent::__construct();
+        $this->exec = $closure;
 
-        //  $this->lazyLoad();
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
@@ -498,6 +500,9 @@ class Form extends Component
 
     public function jsonSerialize()
     {
+        if($this->exec){
+            call_user_func($this->exec,$this);
+        }
         if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
