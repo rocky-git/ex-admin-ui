@@ -45,9 +45,11 @@ return [
     //导航模式 sideTopMenuLayout sideMenuLayout topMenuLayout
     'navigationMode' => 'sideTopMenuLayout',
     //header背景色
-    'header_background'=>'#1b253d',
+    'header_background'=>'#121929',
     //侧边栏
     'sidebar' => [
+        //选中色
+        'sidebar_color'=>'#1890ff',
         //背景色
         'background'=>'#121929',
         //宽度
