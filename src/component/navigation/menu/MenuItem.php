@@ -8,7 +8,7 @@ use ExAdmin\ui\component\Component;
  * 菜单
  * Class MenuItem
  * @link    https://next.antdv.com/components/menu-cn 菜单组件
- * @method $this disabled(bool $disabled = false) 是否禁用                                boolean
+ * @method $this disabled(bool $disabled = true) 是否禁用                                boolean
  * @method $this key(string $key) item 的唯一标志                                        string
  * @method $this title(mixed $title) 设置收缩时展示的悬浮标题                                string | slot
  * @method $this icon(mixed $icon) 菜单图标                                            slot

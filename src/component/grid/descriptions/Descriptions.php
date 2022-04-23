@@ -8,7 +8,7 @@ use ExAdmin\ui\component\Component;
  * 描述列表
  * Class Descriptions
  * @link    https://next.antdv.com/components/descriptions-cn 描述列表组件
- * @method $this bordered(boolean $bordered = false) 是否展示边框                                        						boolean
+ * @method $this bordered(boolean $bordered = true) 是否展示边框                                        						boolean
  * @method $this colon(boolean $colon = true) 配置 Descriptions.Item 的 colon 的默认值                                        	boolean
  * @method $this column(int $column = 3) 一行的 DescriptionItems 数量，可以写成像素值或支持响应式的对象写法 { xs: 8, sm: 16, md: 24}  number
  * @method $this extra(mixed $extra) 描述列表的操作区域，显示在右上方                                        						string | VNode | slot

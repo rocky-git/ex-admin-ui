@@ -12,7 +12,7 @@ use ExAdmin\ui\component\form\Field;
  * @link   https://day.js.org/docs/zh-CN/display/format 时间格式
  * @link   https://github.com/vueComponent/ant-design-vue/blob/next/components/date-picker/locale/example.json 国际化配置
  * @method $this allowClear(bool $clear = true) 是否展示清除按钮                                                            boolean
- * @method $this autofocus(bool $focus = false) 自动获取焦点                                                                boolean
+ * @method $this autofocus(bool $focus = true) 自动获取焦点                                                                boolean
  * @method $this bordered(bool $bordered = true) 是否有边框                                                                boolean
  * @method $this disabled(bool $disabled = false) 禁用全部操作                                                            boolean
  * @method $this dropdownClassName(string $name) 额外的弹出日历 className                                                    string

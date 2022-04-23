@@ -9,7 +9,7 @@ use ExAdmin\ui\component\Component;
  * Class SubMenu
  * @link    https://next.antdv.com/components/menu-cn 菜单组件
  * @method $this popupClassName(string $popupClassName) 是否禁用                            	string
- * @method $this disabled(bool $disabled = false) 是否禁用                            		boolean
+ * @method $this disabled(bool $disabled = true) 是否禁用                            		boolean
  * @method $this key(string $key) 唯一标志, 必填                            					string
  * @method $this title(mixed $title) 子菜单项值                           					string|slot
  * @method $this expandIcon(mixed $expandIcon) 自定义 Menu 展开收起图标                       slot

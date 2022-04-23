@@ -9,11 +9,11 @@ use ExAdmin\ui\component\Component;
  * 菜单
  * Class Menu
  * @link    https://next.antdv.com/components/menu-cn 菜单组件
- * @method $this forceSubMenuRender(bool $forceSubMenuRender = false) 在子菜单展示之前就渲染进 DOM                            boolean
+ * @method $this forceSubMenuRender(bool $forceSubMenuRender = true) 在子菜单展示之前就渲染进 DOM                            boolean
  * @method $this inlineCollapsed(bool $inlineCollapsed) inline 时菜单是否收起状态                                            boolean
  * @method $this inlineIndent(int $inlineIndent = 24) inline 模式的菜单缩进宽度                                            number
  * @method $this mode(string $mode = 'vertical') 菜单类型，现在支持垂直、水平、和内嵌模式三种                                    string
- * @method $this multiple(bool $multiple = false) 是否允许多选                                                            boolean
+ * @method $this multiple(bool $multiple = true) 是否允许多选                                                            boolean
  * @method $this openKeys(mixed $openKeys) 当前展开的 SubMenu 菜单项 key 数组                                                string[]
  * @method $this selectable(bool $selectable = true) 是否允许选中                                                            boolean
  * @method $this selectedKeys(mixed $selectedKeys) 当前选中的菜单项 key 数组                                                string[]

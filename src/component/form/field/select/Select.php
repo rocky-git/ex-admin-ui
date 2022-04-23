@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
  * 选择器
  * Class Select
  * @link   https://next.antdv.com/components/select-cn 选择器组件
- * @method $this allowClear(bool $clear = false) 支持清除                                                                boolean
+ * @method $this allowClear(bool $clear = true) 支持清除                                                                boolean
  * @method $this autoClearSearchValue(bool $search = true) 是否在选中项后清空搜索框，只在 mode 为 multiple 或 tags 时有效。    boolean
  * @method $this autofocus(bool $focus = false) 默认获取焦点                                                                boolean
  * @method $this bordered(bool $bordered = true) 是否有边框                                                                boolean

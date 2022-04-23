@@ -12,12 +12,12 @@ use ExAdmin\ui\component\Component;
  * @method $this class(string $class) 对话框外层容器的类名                                      							string
  * @method $this closable(bool $closable = true) 是否显示右上角的关闭按钮                                 					boolean
  * @method $this closeIcon(mixed $closeIcon) 自定义关闭图标                                      							VNode | slot
- * @method $this destroyOnClose(mixed $destroyOnClose = false) 关闭时销毁 Drawer 里的子元素                                boolean
+ * @method $this destroyOnClose(mixed $destroyOnClose = true) 关闭时销毁 Drawer 里的子元素                                boolean
  * @method $this drawerStyle(mixed $drawerStyle) 用于设置 Drawer 弹出层的样式                                       		object
  * @method $this extra(mixed $extra) 抽屉右上角的操作区域                                        							VNode | slot
  * @method $this footer(mixed $footer) 抽屉的页脚                             											VNode | slot
  * @method $this footerStyle(array $styles) 抽屉页脚部件的样式                            				array
- * @method $this forceRender(bool $forceRender = false) 预渲染 Drawer 内元素                             				boolean
+ * @method $this forceRender(bool $forceRender = true) 预渲染 Drawer 内元素                             				boolean
  * @method $this height(mixed $height = 378) 	高度, 在 placement 为 top 或 bottom 时使用                             	string | number
  * @method $this keyboard(bool $keyboard = true) 是否支持键盘 esc 关闭                             								boolean
  * @method $this mask(bool $mask = true) 是否展示遮罩                             										boolean

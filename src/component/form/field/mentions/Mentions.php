@@ -9,7 +9,7 @@ use ExAdmin\ui\component\form\Field;
  * 提及
  * Class Mentions
  * @link    https://next.antdv.com/components/mentions-cn 提及组件
- * @method $this autofocus(bool $focus = false) 自动获得焦点                                                                boolean
+ * @method $this autofocus(bool $focus = true) 自动获得焦点                                                                boolean
  * @method $this defaultValue(string $value) 默认值                                                                        boolean
  * @method $this placement(string $placement = 'bottom') 弹出层展示位置                                                    top | bottom
  * @method $this prefix(mixed $prefix = '@') 设置触发关键字                                                                string | string[]

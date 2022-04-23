@@ -14,11 +14,11 @@ return [
     ],
     'grid' => [
          //ExAdmin\ui\Manager
-        'manager' => '',
+        'manager' => \ExAdmin\ui\manager\GridManager::class,
     ],
     'form' => [
         //ExAdmin\ui\Manager
-        'manager' => '',
+        'manager' => \ExAdmin\ui\manager\FormManager::class,
         //ExAdmin\ui\contract\ValidatorForm
         'validator' => '',
     ],
