@@ -353,6 +353,7 @@ return [
         'sider' => 'Sider',
         'header_sider' => 'Header-Sider',
         'header' => 'Header',
+        'defualt' => 'Restore default configuration',
     ],
     'Sidebar' => [
         'all'=>'All'

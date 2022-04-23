@@ -9,6 +9,7 @@
 namespace ExAdmin\ui\support;
 
 use ExAdmin\ui\auth\Node;
+use ExAdmin\ui\Route;
 
 
 /**
@@ -16,6 +17,7 @@ use ExAdmin\ui\auth\Node;
  * @property Translator $translator
  * @property Node $node
  * @property Captcha $captcha
+ * @property Route $route
  */
 class Container
 {
@@ -25,6 +27,7 @@ class Container
         'translator'=>Translator::class,
         'node'=>Node::class,
         'captcha'=>Captcha::class,
+        'route'=>Route::class,
     ];
     protected $instances = [];
 
@@ -35,6 +38,7 @@ class Container
         $this->make(Translator::class,[$this->config->get('admin.lang.default')]);
         $this->make(Node::class);
         $this->make(Captcha::class);
+        $this->make(Route::class);
 
     }
 

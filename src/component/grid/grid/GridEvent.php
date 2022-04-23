@@ -36,6 +36,6 @@ trait GridEvent
      */
     public function updated(\Closure $closure)
     {
-        $this->drive->updated($closure);
+        $this->driver->updated($closure);
     }
 }

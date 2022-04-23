@@ -1,5 +1,7 @@
 <?php
 namespace ExAdmin\ui\response;
+use ExAdmin\ui\support\Container;
+
 /**
  * Message 响应提示
  * @method $this success(string $message) 成功
@@ -42,6 +44,15 @@ class Message implements \JsonSerializable
     public function redirect($url)
     {
         $this->data['url'] = $url;
+        return $this;
+    }
+    /**
+     * 刷新菜单
+     * @return $this
+     */
+    public function refreshMenu(){
+        $class = admin_config('admin.request_interface.system');
+        $this->data['menu'] = Container::getInstance()->route->invokeMethod($class,'menu');
         return $this;
     }
     /**

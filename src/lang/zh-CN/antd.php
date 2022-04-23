@@ -348,6 +348,7 @@ return [
         'sider' => '侧边',
         'header_sider' => '顶部-侧边',
         'header' => '顶部',
+        'defualt' => '恢复默认配置',
         
     ],
     'Sidebar' => [
