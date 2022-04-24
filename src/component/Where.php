@@ -18,7 +18,7 @@ trait Where
      * @param bool $condition
      * @return Component
      */
-    public function whenShow(bool $condition)
+    public function whenShow($condition)
     {
         $this->componentVisible = $condition;
 

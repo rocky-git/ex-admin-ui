@@ -52,7 +52,7 @@ use ExAdmin\ui\support\Request;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用                                                        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = true) 为 true 时不带样式，作为纯字段控件使用                                            boolean
- * @method static $this create($data, \Closure $closure = null,$bindField = null) 创建
+ * @method static $this create($data = [], \Closure $closure = null,$bindField = null) 创建
  * @mixin FormEventInterface
  * @package ExAdmin\ui\component\form
  */
@@ -102,7 +102,7 @@ class Form extends Component
      * @param \Closure $closure
      * @param string $bindField 绑定字段
      */
-    public function __construct($data,\Closure $closure=null, $bindField = null)
+    public function __construct($data = [],\Closure $closure=null, $bindField = null)
     {
         parent::__construct();
         $this->exec = $closure;

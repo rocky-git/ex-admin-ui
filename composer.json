@@ -18,12 +18,14 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "symfony/translation": "^5",
+    "symfony/translation": "<=5",
+    "symfony/finder": "<=5",
+    "symfony/filesystem": "<=5",
     "phpoffice/phpspreadsheet": "^1.1"
   },
   "autoload": {
     "psr-4": {
-      "ExAdmin\\ui\\": "src"
+      "ExAdmin\\ui\\": "src",
     },
     "files": [
       "src/helpers.php"

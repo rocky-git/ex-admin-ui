@@ -9,6 +9,7 @@
 namespace ExAdmin\ui\support;
 
 use ExAdmin\ui\auth\Node;
+use ExAdmin\ui\plugin\Manager;
 use ExAdmin\ui\Route;
 
 
@@ -18,6 +19,7 @@ use ExAdmin\ui\Route;
  * @property Node $node
  * @property Captcha $captcha
  * @property Route $route
+ * @property Manager $plugin
  */
 class Container
 {
@@ -28,19 +30,11 @@ class Container
         'node'=>Node::class,
         'captcha'=>Captcha::class,
         'route'=>Route::class,
+        'plugin'=>Manager::class,
     ];
     protected $instances = [];
 
-    public function init()
-    {
-        $this->make(Config::class,[__DIR__.'/../config/']);
-      
-        $this->make(Translator::class,[$this->config->get('admin.lang.default')]);
-        $this->make(Node::class);
-        $this->make(Captcha::class);
-        $this->make(Route::class);
 
-    }
 
     /**
      * 获取当前容器的实例（单例）
@@ -51,7 +45,6 @@ class Container
     {
         if (is_null(static::$instance)) {
             static::$instance = new self();
-            static::$instance->init();
         }
         return static::$instance;
     }
@@ -60,7 +53,10 @@ class Container
     {
 
         if(isset($this->bind[$name])){
-            return $this->instances[$this->bind[$name]];
+            if(isset($this->instances[$this->bind[$name]])){
+                return $this->instances[$this->bind[$name]];
+            }
+            return $this->make($this->bind[$name]);
         }
     }
 

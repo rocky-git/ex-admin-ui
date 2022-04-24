@@ -9,6 +9,7 @@ use ExAdmin\ui\component\feedback\Modal;
 use ExAdmin\ui\traits\CallProvide;
 
 
+
 /**
  * Class Component
  * @package Eadmin\component
@@ -370,6 +371,7 @@ abstract class Component implements \JsonSerializable
     }
     private function modalParse($component,$url = '', $params = [], $method = 'POST'){
         list($url, $params) = $this->parseComponentCall($url, $params);
+        $url = $this->parseUrl($url);
         $modal = $component::create($this);
         $modal->destroyOnClose();
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
@@ -378,12 +380,13 @@ abstract class Component implements \JsonSerializable
     /**
      * 确认消息框
      * @param string $message 确认内容
-     * @param string $url 请求url 空不请求
+     * @param string|array $url 请求url 空不请求
      * @param array $params 请求参数
      * @return Confirm
      */
-    public function confirm(string $message, string $url = '', array $params = [],string $method = 'POST')
+    public function confirm(string $message, $url = '', array $params = [],string $method = 'POST')
     {
+        $url = $this->parseUrl($url);
         return Confirm::create($this)
             ->method($method)
             ->title(admin_trans('antd.Confirm.title'))
@@ -391,7 +394,16 @@ abstract class Component implements \JsonSerializable
             ->url($url)
             ->params($params);
     }
-
+    protected function parseUrl($url){
+        if(is_array($url)){
+            list($class,$function) = $url;
+            if(is_object($class)){
+                $class = get_class($class);
+            }
+            $url = 'ex-admin/'.str_replace('\\', '-', $class).'/'.$function;
+        }
+        return $url;
+    }
     public function getName()
     {
         return $this->name;

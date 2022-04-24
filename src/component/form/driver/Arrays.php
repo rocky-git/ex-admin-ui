@@ -13,8 +13,10 @@ use Illuminate\Support\Arr;
 class Arrays extends FormAbstract
 {
     protected $data = [];
-   
 
+    protected $saving;
+
+    protected $saved;
     /**
      * 上传文件 file|image组件上传接口
      * @return Response
@@ -43,7 +45,21 @@ class Arrays extends FormAbstract
      */
     public function save(array $data, $id = null): Message
     {
-        return message_success(admin_trans('form.save_success'));
+        $this->form->input($data);
+        if($this->saving){
+            $savedResult= call_user_func($this->saving,$this->form);
+            if ($savedResult instanceof Message) {
+                return $savedResult;
+            }
+        }
+        $result =  message_success(admin_trans('form.save_success'));
+        if($this->saved){
+            $savedResult= call_user_func($this->saved,$this->form);
+            if ($savedResult instanceof Message) {
+                return $savedResult;
+            }
+        }
+        return $result;
     }
 
 
@@ -74,7 +90,7 @@ class Arrays extends FormAbstract
      */
     public function saving(\Closure $closure)
     {
-        // TODO: Implement saving() method.
+        $this->saving  = $closure;
     }
 
     /**
@@ -84,14 +100,7 @@ class Arrays extends FormAbstract
      */
     public function saved(\Closure $closure)
     {
-        // TODO: Implement saved() method.
+        $this->saved  = $closure;
     }
-    /**
-     * selectTable组件
-     * @return Response
-     */
-    public function selectTable(): Response
-    {
-        return Response::success();
-    }
+
 }

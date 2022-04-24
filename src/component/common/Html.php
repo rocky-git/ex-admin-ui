@@ -13,6 +13,7 @@ use ExAdmin\ui\component\Component;
 
 /**
  * @method static $this create($content = '') 创建
+ * @method static Html div() div标签
  */
 class Html extends Component
 {
@@ -29,6 +30,15 @@ class Html extends Component
         if (!empty($content) || is_numeric($content)) {
             $this->content($content);
         }
+    }
+    public static function __callStatic($name, $arguments)
+    {
+        if ($name == 'div') {
+            $self = new static();
+            $self->tag($name);
+            return $self;
+        }
+        return parent::__callStatic($name, $arguments);
     }
     /**
      * 自定义元素标签

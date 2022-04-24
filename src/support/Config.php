@@ -34,6 +34,7 @@ class Config
     {
         $this->path = $path ?: '';
         $this->ext  = $ext;
+        $files = [];
         if (is_dir($this->path)) {
             $files = glob($this->path . '*' . $this->ext );
         }
@@ -94,7 +95,7 @@ class Config
                 $config = json_decode(file_get_contents($file), true);
                 break;
         }
-       
+
         return is_array($config) ? $this->set($config, strtolower($name)) : [];
     }
 

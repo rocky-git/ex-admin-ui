@@ -7,7 +7,7 @@ use Symfony\Component\Translation\MessageSelector;
 
 class Translator extends \Symfony\Component\Translation\Translator
 {
-    public function __construct($locale)
+    public function __construct($locale='en')
     {
 
         parent::__construct($locale);

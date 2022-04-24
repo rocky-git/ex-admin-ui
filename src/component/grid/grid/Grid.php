@@ -22,7 +22,7 @@ use ExAdmin\ui\support\Request;
 
 /**
  * Class Grid
- * @method static $this create($data, \Closure $closure=null) 创建
+ * @method static $this create($data = [], \Closure $closure=null) 创建
  * @method $this hideAdd(bool $bool = true) 隐藏添加按钮
  * @method $this hideDelete(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
@@ -113,7 +113,7 @@ class Grid extends Table
 
     protected $exec;
 
-    public function __construct($data, \Closure $closure = null)
+    public function __construct($data = [], \Closure $closure = null)
     {
         parent::__construct();
         $this->exec = $closure;

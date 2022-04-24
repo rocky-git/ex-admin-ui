@@ -24,6 +24,13 @@ return [
     ],
     //扫描权限目录
     'auth_scan' => [],
+   
+    'plugin'=>[
+        //插件目录
+        'dir'=>'',
+        //插件命名空间
+        'namespace'=>'plugin'
+    ],
     //语言
     'lang' => [
         // 默认语言

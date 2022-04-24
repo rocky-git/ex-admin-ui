@@ -64,9 +64,10 @@ class Tabs extends Component
      * @param string $title 标题
      * @param string|Component|\Closure $content 内容
      * @param string $key 对应 activeKey
+     * @param bool  $destroy 是否切换卸载重新加载
      * @return $this
      */
-    public function pane($title, $content, $key = null)
+    public function pane($title, $content, $key = null, $destroy = false)
     {
         if (is_null($key)) {
             $key = count($this->pane) + 1;
@@ -81,6 +82,9 @@ class Tabs extends Component
             unset($this->form->tabs[$this->getModel()]);
         }
         $pane->content($content);
+        if($destroy && $content instanceof Component){
+            $content->where($this->getModel(), $key);
+        }
         $this->content($pane);
         return $this;
     }

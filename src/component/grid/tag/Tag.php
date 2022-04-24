@@ -12,6 +12,7 @@ use ExAdmin\ui\component\Component;
  * @method $this closable(bool $closable = true) 标签是否可以关闭                                        				boolean
  * @method $this color(string $color) 标签色                                        										string
  * @method $this visible(bool $visible = true) 是否显示标签                                 								boolean
+ * @method static $this create($content) 创建
  * @package ExAdmin\ui\component\form\field
  */
 class Tag extends Component

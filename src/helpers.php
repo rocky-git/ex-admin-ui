@@ -1,10 +1,11 @@
 <?php
+use ExAdmin\ui\component\common\Html;
 if (extension_loaded('zlib')) {
     if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) and strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
         ob_start('ob_gzhandler');
     }
 }
-use ExAdmin\ui\component\common\Html;
+\ExAdmin\ui\support\Container::getInstance()->make(\ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
 
 if (!function_exists('admin_config')) {
     /**
