@@ -12,4 +12,6 @@ return [
     'next_step' => '下一步',
     'operation_complete' => '操作完成',
     'resubmit' => '重新提交',
+    'save_success' => '数据保存成功',
+    'save_fail' => '数据保存失败',
 ];

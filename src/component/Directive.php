@@ -26,15 +26,15 @@ trait Directive
     public function setDirective(array $directive){
         $this->directive = $directive;
     }
-    
+
     /**
      * ajax请求
-     * @param string $url 请求url 空不请求
+     * @param string|array $url 请求url 空不请求
      * @param array $params 请求参数
      * @param string $method 请求方式
      * @return Ajax
      */
-    public function ajax(string $url, array $params = [],string $method = 'POST')
+    public function ajax($url, array $params = [],string $method = 'POST')
     {
         $url = $this->parseUrl($url);
         return new Ajax($this,[

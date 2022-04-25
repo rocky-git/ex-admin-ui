@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Event;
 
 class Arrays extends GridAbstract
 {
-    protected $data = [];
-   
 
     /**
      * 更新
@@ -34,11 +32,7 @@ class Arrays extends GridAbstract
     {
         return message_success(admin_trans('grid.update_success'));
     }
-
-    public function getPk(): string
-    {
-        return 'id';
-    }
+    
 
     public function delete(array $ids): Message
     {
@@ -93,7 +87,12 @@ class Arrays extends GridAbstract
      */
     public function data(int $page, int $size,bool $hidePage)
     {
-       return $this->repository;
+        if($hidePage){
+            return $this->repository;
+        }else{
+            $page = ($page - 1) * $size;
+            return array_slice($this->repository,$page,$size);
+        }
     }
 
     public function total(): int

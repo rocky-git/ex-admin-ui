@@ -17,23 +17,40 @@ abstract class GridAbstract
 
     protected $repository;
 
+    protected $pk;
+
+    protected $total = 0;
 
     /**
      * 初始化
      * @param Grid $grid
      * @param $repository
      */
-    public function initialize(Grid $grid,$repository){
+    public function initialize(Grid $grid, $repository)
+    {
 
         $this->grid = $grid;
 
         $this->repository = $repository;
     }
+
     /**
-     * 返回唯一标识字段，一般数据库主键自增字段
+     * 返回主键名称
      * @return string
      */
-    abstract public function getPk():string;
+    public function getPk(): string
+    {
+        return $this->pk ?: 'id';
+    }
+
+    /**
+     * 设置主键名称
+     * @param $name
+     */
+    public function setPk($name)
+    {
+        $this->pk = $name;
+    }
 
     /**
      * 更新
@@ -42,18 +59,21 @@ abstract class GridAbstract
      * @return Message
      */
     abstract public function update(array $ids, array $data): Message;
+
     /**
      * 删除
      * @param array $ids 删除id
      * @return Message
      */
     abstract public function delete(array $ids): Message;
+
     /**
      * 恢复数据
      * @param array $ids 恢复id
      * @return Message
      */
     abstract public function restore(array $ids): Message;
+
     /**
      * 删除全部
      * @return Message
@@ -67,7 +87,7 @@ abstract class GridAbstract
      * @param string $field 字段
      * @return Message
      */
-    abstract public function dragSort($id, int $sort,string $field): Message;
+    abstract public function dragSort($id, int $sort, string $field): Message;
 
     /**
      * 输入框排序
@@ -76,7 +96,7 @@ abstract class GridAbstract
      * @param string $field 字段
      * @return Message
      */
-    abstract public function inputSort($id, int $sort,string $field): Message;
+    abstract public function inputSort($id, int $sort, string $field): Message;
 
     /**
      * 表格列触发排序
@@ -84,14 +104,15 @@ abstract class GridAbstract
      * @param string $sort 排序 asc desc
      * @return mixed
      */
-    abstract public function tableSort($field,$sort);
+    abstract public function tableSort($field, $sort);
+
     /**
      * 快捷搜索
      * @param string $keyword 关键词
      * @param string|array|\Closure $search 搜索设置
      * @return mixed
      */
-    abstract public function quickSearch($keyword,$search);
+    abstract public function quickSearch($keyword, $search);
 
     /**
      * 数据源
@@ -100,19 +121,37 @@ abstract class GridAbstract
      * @param bool $hidePage 是否分页
      * @return mixed
      */
-    abstract public function data(int $page, int $size,bool $hidePage);
+    abstract public function data(int $page, int $size, bool $hidePage);
 
     /**
-     * 返回总条数
+     * 总条数
      * @return int
      */
     abstract public function total(): int;
 
     /**
+     * 返回总条数
+     * @return int
+     */
+    public function getTotal(): int
+    {
+        return $this->total > 0 ? $this->total : $this->total();
+    }
+
+    /**
+     * 设置总条数
+     * @param int $total
+     */
+    public function setTotal(int $total)
+    {
+        $this->total = $total;
+    }
+
+    /**
      * 是否有回收站
      * @return bool
      */
-    abstract public function trashed():bool;
+    abstract public function trashed(): bool;
 
 
     /**
@@ -122,7 +161,7 @@ abstract class GridAbstract
      * @param bool $all 是否导出全部
      * @return Response
      */
-    abstract public function export(array $selectIds,array $columns,bool $all):Response;
+    abstract public function export(array $selectIds, array $columns, bool $all): Response;
 
     /**
      * 筛选
@@ -130,30 +169,35 @@ abstract class GridAbstract
      * @return mixed
      */
     abstract public function filter(array $rule);
+
     /**
      * 删除前
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function deling(\Closure  $closure);
+    abstract public function deling(\Closure $closure);
+
     /**
      * 删除后
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function deleted(\Closure  $closure);
+    abstract public function deleted(\Closure $closure);
+
     /**
      * 更新前
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function updateing(\Closure  $closure);
+    abstract public function updateing(\Closure $closure);
+
     /**
      * 更新后
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function updated(\Closure  $closure);
+    abstract public function updated(\Closure $closure);
+
     /**
      *
      * @return mixed

@@ -15,6 +15,7 @@ abstract class FormAbstract
     
     protected $repository;
 
+    protected $data = [];
     /**
      * 初始化
      * @param Form $form

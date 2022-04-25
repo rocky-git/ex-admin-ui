@@ -1,0 +1,10 @@
+<?php
+
+namespace ExAdmin\ui\plugin{
+/**
+{%doc%}
+ */
+class Manager{}
+}
+
+

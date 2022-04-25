@@ -11,19 +11,28 @@ use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\grid\tag\Tag;
-use ExAdmin\ui\support\Container;
-use Illuminate\Support\Facades\Log;
 
 class Controller
 {
     public function index(){
         $tabs = Tabs::create();
         $tabs->pane('全部',$this->grid());
-        $tabs->pane('已安装',$this->grid());
-        return Card::create($tabs)->title('插件管理');
+        $tabs->pane('已安装',$this->grid(1));
+        return Card::create($tabs)->attr('ex_admin_title','插件管理');
     }
-    public function grid(){
-        $grid = Grid::create(Container::getInstance()->plugin->getPlug());
+    public function grid($type=0,$quickSearch=''){
+        $plugs = plugin()->getPlug();
+        if($quickSearch){
+            foreach ($plugs as $name=>$plug){
+                if(strpos($plug['title'],$quickSearch) === false &&
+                    strpos($plug['name'],$quickSearch) === false &&
+                    strpos($plug['description'],$quickSearch) === false &&
+                    strpos($plug['author'],$quickSearch) === false){
+                    unset($plugs[$name]);
+                }
+            }
+        }
+        $grid = Grid::create($plugs);
         $grid->column('title', '名称')->display(function ($val, $data) {
             return Html::div()->content([
                 Image::create()
@@ -57,31 +66,32 @@ class Controller
         $grid->actions(function (Actions  $actions,$data){
             $actions->hideDel();
             $actions->append([
+                Button::create('设置')
+                    ->whenShow(method_exists($data,'setting'))
+                    ->when(method_exists($data,'setting'),function ($button) use($data){
+                        return $button->modal($data->setting())->width('50%');
+                    }),
                 Button::create($data->enabled()?'禁用':'启用')
                     ->when(!$data->enabled(),function ($button){
                         $button->type('primary');
                     })
                     ->confirm($data->enabled()?'确认禁用？':'确认启用？',[$this,'enable'],['name'=>$data['name'],'status'=>!$data['status']])
-                    ->gridRefresh()
+                    ->gridRefresh(),
+                Button::create('卸载')
+                    ->type('danger')
+                    ->confirm('确认卸载？',[$this,'uninstall'],['name'=>$data['name']])
+                    ->gridRefresh(),
             ]);
         });
         $grid->quickSearch();
         $grid->tools([
             Button::create('创建插件')
-                ->modal($this->create())
+                ->modal($this->create()),
+            Button::create('生成IDE')->ajax([$this,'ide'])
         ]);
         $grid->hideDelete();
         $grid->hideSelection();
         return $grid;
-    }
-    public function enable($name,$status){
-        $plug = Container::getInstance()->plugin->getPlug($name);
-        if($status){
-            $plug->enable();
-        }else{
-            $plug->disable();
-        }
-        return message_success('操作完成');
     }
     /**
      * 创建插件
@@ -89,15 +99,49 @@ class Controller
      */
     public function create(){
         return Form::create([],function (Form $form){
-            $form->text('name','扩展标识')->required();
+            $form->text('name','扩展标识')->ruleAlphaDash()->required();
             $form->text('author','作者')->required();
             $form->text('title','名称')->required();
             $form->text('description','描述');
             $form->saved(function (Form $form) {
                 $data = $form->input();
                 extract($data);
-                Container::getInstance()->plugin->create($author,$name,$title,$description);
+                plugin()->create($author,$name,$title,$description);
+                plugin()->buildIde();
             });
         });
+    }
+    /**
+     * 卸载
+     * @param $name
+     * @return \ExAdmin\ui\response\Message
+     */
+    public function uninstall($name){
+        $plug = plugin()->uninstall($name);
+        return message_success('操作完成');
+    }
+    /**
+     * 禁用/启用
+     * @param $name
+     * @param $status
+     * @return \ExAdmin\ui\response\Message
+     */
+    public function enable($name,$status){
+        $plug = plugin()->getPlug($name);
+        if($status){
+            $plug->enable();
+        }else{
+            $plug->disable();
+        }
+        return message_success('操作完成');
+    }
+
+    /**
+     * 生成ide
+     * @return \ExAdmin\ui\response\Message
+     */
+    public function ide(){
+        plugin()->buildIde();
+        return message_success('操作完成');
     }
 }

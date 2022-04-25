@@ -1,0 +1,10 @@
+<?php
+
+namespace {%namespace%}\service;
+/**
+ * 服务
+ */
+class Service
+{
+
+}

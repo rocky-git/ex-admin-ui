@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component\grid\tabs;
 
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\grid\grid\Grid;
 
 /**
  * 标签页
@@ -64,10 +65,9 @@ class Tabs extends Component
      * @param string $title 标题
      * @param string|Component|\Closure $content 内容
      * @param string $key 对应 activeKey
-     * @param bool  $destroy 是否切换卸载重新加载
      * @return $this
      */
-    public function pane($title, $content, $key = null, $destroy = false)
+    public function pane($title, $content, $key = null)
     {
         if (is_null($key)) {
             $key = count($this->pane) + 1;
@@ -82,8 +82,19 @@ class Tabs extends Component
             unset($this->form->tabs[$this->getModel()]);
         }
         $pane->content($content);
-        if($destroy && $content instanceof Component){
-            $content->where($this->getModel(), $key);
+
+        if($content instanceof Grid){
+            $conditionFunction = <<<JS
+            if(activeKey == $key){
+                return true
+            }
+            return false
+JS;
+            $this->event('change', ['function' => 'requestData', 'params' => [], 'ref' => $content->ref(),'conditionFunction'=>[
+                'activeKey',
+                $conditionFunction
+            ]], 'function');
+
         }
         $this->content($pane);
         return $this;

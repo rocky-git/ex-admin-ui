@@ -12,4 +12,6 @@ return [
     'next_step' => 'Next step',
     'operation_complete' => 'Operation complete',
     'resubmit' => 'Resubmit',
+    'save_success' => 'Data saved successfully',
+    'save_fail' => 'Data saving failed',
 ];

@@ -188,4 +188,13 @@ if (!function_exists('admin_view')) {
         return Html::create($content)->tag('component');
     }
 }
-
+if (!function_exists('plugin')) {
+    /**
+     * 插件管理
+     * @return \ExAdmin\ui\plugin\Manager
+     */
+    function plugin()
+    {
+        return \ExAdmin\ui\support\Container::getInstance()->plugin;
+    }
+}

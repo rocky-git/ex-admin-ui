@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\plugin;
 
 use ExAdmin\ui\support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class Plugin implements \ArrayAccess
 {
@@ -27,7 +28,7 @@ class Plugin implements \ArrayAccess
      */
     protected $info;
 
-    public function __construct($name, $path, Manager $manager)
+    public function init($name, $path, Manager $manager)
     {
         $this->name = $name;
         $this->path = $path;
@@ -180,4 +181,16 @@ PHP;
     {
         unset($this->info, $offset);
     }
+    public function __call($method, $arguments)
+    {
+        foreach (glob($this->path . '/service/*.php') as $file) {
+            $name = str_replace('.php','',basename($file));
+            if(strtolower($method) == strtolower($name)){
+               $class = '\\'.$this->getNamespace().'service\\'.$name;
+               return new $class($name,$arguments);
+            }
+        }
+        return null;
+    }
+
 }

@@ -490,13 +490,15 @@ class Grid extends Table
      * 自定义列表元素
      * @param \Closure $closure
      * @param string $container 容器标签
+     * @param string $customStyle card
      * @return Lists
      */
-    public function custom(\Closure $closure, $container = 'div')
+    public function custom(\Closure $closure, $container = 'div',$customStyle=null)
     {
         $this->customClosure = $closure;
         $list = Lists::create();
         $this->attr('custom', $list);
+        $list->attr('customStyle', $customStyle);
         $list->attr('container', $container);
         return $list;
     }
@@ -533,7 +535,7 @@ class Grid extends Table
                 ->type('primary')
                 ->icon('<plus-outlined />');
         }
-        $total = $this->driver->total();
+        $total = $this->driver->getTotal();
         $this->pagination->total($total);
         $page = Request::input('ex_admin_page', 1);
         $size = Request::input('ex_admin_size', $this->pagination->attr('defaultPageSize'));

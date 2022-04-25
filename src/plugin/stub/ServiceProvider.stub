@@ -1,0 +1,39 @@
+<?php
+
+namespace {%namespace%};
+use ExAdmin\ui\plugin\Plugin;
+use ExAdmin\ui\component\form\Form;
+/**
+ * @property service\Service $service 服务
+ */
+class ServiceProvider extends Plugin
+{
+    /**
+     * 注册服务
+     *
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * 菜单
+     * @return array
+     */
+    public function menus(): array
+    {
+        return [];
+    }
+
+    /**
+     * 设置
+     * @return Form
+     */
+    public function setting(): Form
+    {
+        $form = Form::create(__DIR__.'/config.php');
+        $form->title('配置');
+        return $form;
+    }
+}
