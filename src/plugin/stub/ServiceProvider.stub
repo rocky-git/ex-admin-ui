@@ -3,9 +3,7 @@
 namespace {%namespace%};
 use ExAdmin\ui\plugin\Plugin;
 use ExAdmin\ui\component\form\Form;
-/**
- * @property service\Service $service 服务
- */
+
 class ServiceProvider extends Plugin
 {
     /**
