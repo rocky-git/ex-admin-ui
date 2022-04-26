@@ -6,7 +6,7 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\support\Request;
 use Illuminate\Support\Facades\Log;
 
-abstract class ValidatorForm
+abstract class ValidatorAbstract
 {
     /**
      * 新增验证规则

@@ -12,7 +12,7 @@ abstract class FormAbstract
      * @var Form
      */
     protected $form;
-    
+
     protected $repository;
 
     protected $data = [];
@@ -22,7 +22,7 @@ abstract class FormAbstract
      * @param $repository
      */
     public function initialize(Form $form,$repository){
-        
+
         $this->form = $form;
 
         $this->repository = $repository;
@@ -42,7 +42,12 @@ abstract class FormAbstract
      * 上传文件 file|image组件上传接口
      * @return Response
      */
-    abstract public function upload(): Response;
+    public function upload(): Response{
+        $class = admin_config('admin.form.uploader');
+        $simpleUploader = new $class;
+        $simpleUploader->setForm($this->form);
+        return $simpleUploader->upload();
+    }
 
     /**
      * 数据保存

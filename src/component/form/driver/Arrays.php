@@ -17,15 +17,7 @@ class Arrays extends FormAbstract
     protected $saving;
 
     protected $saved;
-    /**
-     * 上传文件 file|image组件上传接口
-     * @return Response
-     */
-    public function upload():Response
-    {
-        // TODO: Implement upload() method.
-    }
-
+   
 
     /**
      * 编辑数据

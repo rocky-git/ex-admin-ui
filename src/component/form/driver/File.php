@@ -21,14 +21,7 @@ class File extends FormAbstract
 
     }
 
-    /**
-     * 上传文件 file|image组件上传接口
-     * @return Response
-     */
-    public function upload(): Response
-    {
-        // TODO: Implement upload() method.
-    }
+    
 
     /**
      * 数据保存

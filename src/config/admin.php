@@ -19,8 +19,10 @@ return [
     'form' => [
         //ExAdmin\ui\Manager
         'manager' => \ExAdmin\ui\manager\FormManager::class,
-        //ExAdmin\ui\contract\ValidatorForm
+        //ExAdmin\ui\contract\ValidatorAbstract
         'validator' => '',
+        //ExAdmin\ui\contract\UploaderAbstract
+        'uploader'=>'',
     ],
     //扫描权限目录
     'auth_scan' => [],
