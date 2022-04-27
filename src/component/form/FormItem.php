@@ -72,6 +72,9 @@ class FormItem extends Component
      */
     public function label($content)
     {
+        if(is_string($content)){
+            $this->attr('title', $content);
+        }
         $this->attr('label', $content);
         if ($content) {
             $this->content($content, 'label');

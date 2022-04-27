@@ -42,7 +42,8 @@ abstract class Component implements \JsonSerializable
     protected static $beforeEnd = [];
     //方法
     protected static $method = [];
-
+    //禁用结束前
+    protected $disableBeforeEnd = false;
     protected $vModel = 'value';
     // 插槽
     protected $slot = [];
@@ -84,6 +85,14 @@ abstract class Component implements \JsonSerializable
         self::$beforeEnd[static::class][] = $closure;
     }
 
+    /**
+     * 禁用结束前
+     * @return $this
+     */
+    public function disableBeforeEnd(){
+        $this->disableBeforeEnd = true;
+        return $this;
+    }
     /**
      * 设置属性
      * @param string $name 属性名
@@ -446,12 +455,14 @@ abstract class Component implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        foreach (self::$beforeEnd as $class => $ends) {
-            if (static::class == $class) {
-                foreach ($ends as $end){
-                    call_user_func($end, $this);
+        if(!$this->disableBeforeEnd){
+            foreach (self::$beforeEnd as $class => $ends) {
+                if (static::class == $class) {
+                    foreach ($ends as $end){
+                        call_user_func($end, $this);
+                    }
                 }
-            }
+            } 
         }
         if (!$this->attr('key')) {
             $this->attr('key', $this->random());
