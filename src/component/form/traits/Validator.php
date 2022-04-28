@@ -63,6 +63,7 @@ trait Validator
      */
     public function required()
     {
+        $this->attr('required',true);
         $this->setRule([
             'required' => true,
             'trigger' => ['change', 'blur'],

@@ -20,7 +20,6 @@ use ExAdmin\ui\component\form\Field;
  * @method $this size(string $size = 'default') 控件大小。注：标准表单内的输入框大小限制为 large。可选 large default small 	string|slot
  * @method $this suffix(mixed $suffix) 带有后缀图标的 input 															 	string|slot
  * @method $this type(string $type = 'text') 声明 input 类型，同原生 input 标签的 type 属性。 								string
- * @method $this value(string $content) 输入框内容    																 	string
  * @method $this allowClear(bool $is_allow) 可以点击清除图标删除内容 													 	boolean
  * @package ExAdmin\ui\component\form\field
  */
