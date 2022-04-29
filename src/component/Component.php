@@ -44,6 +44,7 @@ abstract class Component implements \JsonSerializable
     protected static $method = [];
     //禁用结束前
     protected $disableBeforeEnd = false;
+    
     protected $vModel = 'value';
     // 插槽
     protected $slot = [];
@@ -134,7 +135,7 @@ abstract class Component implements \JsonSerializable
         unset($this->modelBind[$name]);
         unset($this->bindAttribute[$name]);
     }
-
+   
     /**
      * 绑定属性对应绑定字段
      * @param string $name 属性名称
@@ -339,7 +340,9 @@ abstract class Component implements \JsonSerializable
     {
         return $this->bindAttr($this->vModel);
     }
-
+    public function getModelField(){
+        return $this->vModel;
+    }
     /**
      * @param $url
      * @param $params

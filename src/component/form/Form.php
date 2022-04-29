@@ -94,7 +94,7 @@ class Form extends Component
      */
     protected $name = 'ExForm';
 
-    public $vModel = 'model';
+    protected $vModel = 'model';
 
     protected $exec;
     /**
@@ -182,7 +182,7 @@ class Form extends Component
         list($field, $label) = Arr::formItem($class, $arguments);
         $component = $class::create(...$field);
         $this->setPlaceholder($component, $label);
-        $name = explode('.', $component->getVmodel());
+        $name = explode('.', $component->getModel());
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();

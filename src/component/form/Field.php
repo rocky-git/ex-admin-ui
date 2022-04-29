@@ -69,14 +69,7 @@ class Field extends Component
     public function getField(){
         return $this->field;
     }
-    /**
-     * 获取当前绑定字段
-     * @return Field|mixed|null
-     */
-    public function getVmodel()
-    {
-        return $this->bindAttr($this->vModel);
-    }
+    
 
     /**
      * 设置缺省默认值
