@@ -19,7 +19,7 @@
   "require": {
     "php": ">=7.1.0",
     "symfony/translation": "<=5",
-    "symfony/finder": "<=5",
+    "symfony/finder": "<=6",
     "symfony/filesystem": "<=5",
     "symfony/http-foundation": "<=5",
     "phpoffice/phpspreadsheet": "^1.1"
