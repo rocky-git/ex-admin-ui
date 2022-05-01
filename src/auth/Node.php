@@ -19,7 +19,7 @@ class Node
      */
     public function all(bool $tree = false)
     {
-        $calss = $this->scan();
+        $calss = $this->scan(admin_config('admin.auth_scan',[]));
         $this->parse($calss);
         if ($tree) {
             return Arr::tree($this->node);
@@ -29,14 +29,13 @@ class Node
 
     /**
      * 扫描权限目录获取类
+     * @param array $path 目录
      * @return array
      */
-    public function scan()
+    public function scan(array $path)
     {
-        $scan = admin_config('admin.auth_scan');
-
         $class = [];
-        foreach ($scan as $dir) {
+        foreach ($path as $dir) {
             foreach (Finder::create()->files()->in($dir)->name('*.php') as $file) {
                 if (preg_match('/namespace (.*);/u', $file->getContents(), $arr)) {
                     $namespace = $arr[1];
