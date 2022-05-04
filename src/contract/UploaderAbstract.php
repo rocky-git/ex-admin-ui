@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 abstract class UploaderAbstract
 {
+    protected $form;
     public function __construct()
     {
         $this->chunk = Request::input('chunkNumber');

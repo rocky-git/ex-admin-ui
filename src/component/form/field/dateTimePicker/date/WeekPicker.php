@@ -21,6 +21,5 @@ class WeekPicker extends DatePicker
     {
         parent::__construct($field, $value);
         $this->picker('week');
-       
     }
 }

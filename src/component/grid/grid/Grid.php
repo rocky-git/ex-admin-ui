@@ -80,7 +80,10 @@ class Grid extends Table
      * @var ActionButton
      */
     protected $setForm;
-
+    /**
+     * @var ActionButton
+     */
+    protected $setDetail;
     /**
      * @var Filter
      */
@@ -440,7 +443,15 @@ class Grid extends Table
         $this->setForm = new ActionButton();
         return $this->setForm;
     }
-
+    /**
+     * 设置详情
+     * @return ActionButton
+     */
+    public function setDetail()
+    {
+        $this->setDetail = new ActionButton();
+        return $this->setDetail;
+    }
     /**
      * 当前是否回收站请求
      * @return mixed
@@ -528,6 +539,10 @@ class Grid extends Table
         if ($this->setForm) {
             $this->addButton = clone $this->setForm;
             $this->actionColumn->setEditButton($this->setForm);
+        }
+        //详情
+        if ($this->setDetail) {
+            $this->actionColumn->setDetailButton($this->setDetail);
         }
         //添加按钮
         if ($this->addButton) {

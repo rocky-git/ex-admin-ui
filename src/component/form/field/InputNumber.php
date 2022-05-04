@@ -36,6 +36,7 @@ class InputNumber extends Field
     protected $slot = [
         'addonAfter',
         'addonBefore',
+        'prefix',
     ];
 
     /**

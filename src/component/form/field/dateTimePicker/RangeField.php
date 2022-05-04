@@ -19,7 +19,12 @@ class RangeField extends Field
         $this->attr('endField', $endField);
         parent::__construct(null, $value);
     }
-
+    public function getStartField(){
+        return $this->startField;
+    }
+    public function getEndField(){
+        return $this->endField;
+    }
     public function modelValue()
     {
         parent::modelValue();

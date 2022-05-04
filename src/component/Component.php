@@ -9,7 +9,6 @@ use ExAdmin\ui\component\feedback\Modal;
 use ExAdmin\ui\traits\CallProvide;
 
 
-
 /**
  * Class Component
  * @package Eadmin\component
@@ -44,7 +43,7 @@ abstract class Component implements \JsonSerializable
     protected static $method = [];
     //禁用结束前
     protected $disableBeforeEnd = false;
-    
+
     protected $vModel = 'value';
     // 插槽
     protected $slot = [];
@@ -54,7 +53,7 @@ abstract class Component implements \JsonSerializable
         $this->parseCallMethod();
         foreach (self::$init as $class => $inits) {
             if (static::class == $class) {
-                foreach ($inits as $init){
+                foreach ($inits as $init) {
                     call_user_func($init, $this);
                 }
             }
@@ -66,9 +65,11 @@ abstract class Component implements \JsonSerializable
      * @param $name 方法名称
      * @param \Closure $closure
      */
-    public static function addMethod($name,\Closure $closure){
+    public static function addMethod($name, \Closure $closure)
+    {
         self::$method[static::class][$name] = $closure;
     }
+
     /**
      * 初始化
      * @param \Closure $closure
@@ -77,6 +78,7 @@ abstract class Component implements \JsonSerializable
     {
         self::$init[static::class][] = $closure;
     }
+
     /**
      * 结束前
      * @param \Closure $closure
@@ -90,10 +92,12 @@ abstract class Component implements \JsonSerializable
      * 禁用结束前
      * @return $this
      */
-    public function disableBeforeEnd(){
+    public function disableBeforeEnd()
+    {
         $this->disableBeforeEnd = true;
         return $this;
     }
+
     /**
      * 设置属性
      * @param string $name 属性名
@@ -115,10 +119,12 @@ abstract class Component implements \JsonSerializable
         $this->attribute = array_merge($this->attribute, $attrs);
         return $this;
     }
+
     public function getAttrs()
     {
-        return  $this->attribute;
+        return $this->attribute;
     }
+
     public function removeAttr($name)
     {
         unset($this->attribute[$name]);
@@ -135,7 +141,7 @@ abstract class Component implements \JsonSerializable
         unset($this->modelBind[$name]);
         unset($this->bindAttribute[$name]);
     }
-   
+
     /**
      * 绑定属性对应绑定字段
      * @param string $name 属性名称
@@ -244,10 +250,10 @@ abstract class Component implements \JsonSerializable
             return $this->content($arguments[0], $name);
         }
 
-        if (isset(self::$method[static::class]) && array_key_exists($name,self::$method[static::class])) {
+        if (isset(self::$method[static::class]) && array_key_exists($name, self::$method[static::class])) {
             $method = self::$method[static::class][$name];
             $method = $method->bindTo($this);
-            return call_user_func_array($method,$arguments);
+            return call_user_func_array($method, $arguments);
         }
         if (empty($arguments)) {
             return $this->attr($name, true);
@@ -264,6 +270,13 @@ abstract class Component implements \JsonSerializable
         }
     }
 
+    public function getContent($name = null)
+    {
+        if (is_null($name)) {
+            return $this->content;
+        }
+        return $this->content[$name] ?? null;
+    }
 
     /**
      * 插槽内容
@@ -340,20 +353,23 @@ abstract class Component implements \JsonSerializable
     {
         return $this->bindAttr($this->vModel);
     }
-    public function getModelField(){
+
+    public function getModelField()
+    {
         return $this->vModel;
     }
+
     /**
      * @param $url
      * @param $params
      * @return array
      */
-    protected function parseComponentCall($component, $params=[]): array
+    protected function parseComponentCall($component, $params = []): array
     {
         if ($component instanceof Component) {
             $call = $component->getCall();
             $component = "ex-admin/{$call['class']}/{$call['function']}";
-            $params = array_merge($call['params'],$params);
+            $params = array_merge($call['params'], $params);
         }
         return array($component, $params);
     }
@@ -365,11 +381,12 @@ abstract class Component implements \JsonSerializable
      * @param string $method
      * @return Modal
      */
-    public function modal($url = '',array $params = [],string $method = 'POST')
+    public function modal($url = '', array $params = [], string $method = 'POST')
     {
-        return $this->modalParse(Modal::class,$url,$params,$method);
+        return $this->modalParse(Modal::class, $url, $params, $method);
 
     }
+
     /**
      * Modal 对话框
      * @param string|Component $url 请求url 空不请求
@@ -377,11 +394,13 @@ abstract class Component implements \JsonSerializable
      * @param string $method 请求方式
      * @return Drawer
      */
-    public function drawer($url = '',array $params = [],string $method = 'POST')
+    public function drawer($url = '', array $params = [], string $method = 'POST')
     {
-        return $this->modalParse(Drawer::class,$url,$params,$method);
+        return $this->modalParse(Drawer::class, $url, $params, $method);
     }
-    private function modalParse($component,$url = '', $params = [], $method = 'POST'){
+
+    private function modalParse($component, $url = '', $params = [], $method = 'POST')
+    {
         list($url, $params) = $this->parseComponentCall($url, $params);
         $url = $this->parseUrl($url);
         $modal = $component::create($this);
@@ -389,6 +408,7 @@ abstract class Component implements \JsonSerializable
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
+
     /**
      * 确认消息框
      * @param string $message 确认内容
@@ -396,7 +416,7 @@ abstract class Component implements \JsonSerializable
      * @param array $params 请求参数
      * @return Confirm
      */
-    public function confirm(string $message, $url = '', array $params = [],string $method = 'POST')
+    public function confirm(string $message, $url = '', array $params = [], string $method = 'POST')
     {
         $url = $this->parseUrl($url);
         return Confirm::create($this)
@@ -406,16 +426,19 @@ abstract class Component implements \JsonSerializable
             ->url($url)
             ->params($params);
     }
-    protected function parseUrl($url){
-        if(is_array($url)){
-            list($class,$function) = $url;
-            if(is_object($class)){
+
+    protected function parseUrl($url)
+    {
+        if (is_array($url)) {
+            list($class, $function) = $url;
+            if (is_object($class)) {
                 $class = get_class($class);
             }
-            $url = 'ex-admin/'.str_replace('\\', '-', $class).'/'.$function;
+            $url = 'ex-admin/' . str_replace('\\', '-', $class) . '/' . $function;
         }
         return $url;
     }
+
     public function getName()
     {
         return $this->name;
@@ -425,6 +448,7 @@ abstract class Component implements \JsonSerializable
     {
         $this->name = $name;
     }
+
     /**
      * 设置标题
      * @param string $title
@@ -436,7 +460,7 @@ abstract class Component implements \JsonSerializable
             return $this->content($title, __FUNCTION__);
         }
         $this->attr('ex_admin_title', $title);
-        $this->attr(__FUNCTION__,$title);
+        $this->attr(__FUNCTION__, $title);
         return $this;
 
     }
@@ -452,20 +476,20 @@ abstract class Component implements \JsonSerializable
             return $this->content($description, __FUNCTION__);
         }
         $this->attr('ex_admin_description', $description);
-        $this->attr(__FUNCTION__,$description);
+        $this->attr(__FUNCTION__, $description);
         return $this;
     }
 
     public function jsonSerialize()
     {
-        if(!$this->disableBeforeEnd){
+        if (!$this->disableBeforeEnd) {
             foreach (self::$beforeEnd as $class => $ends) {
                 if (static::class == $class) {
-                    foreach ($ends as $end){
+                    foreach ($ends as $end) {
                         call_user_func($end, $this);
                     }
                 }
-            } 
+            }
         }
         if (!$this->attr('key')) {
             $this->attr('key', $this->random());

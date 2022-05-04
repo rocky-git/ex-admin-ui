@@ -22,6 +22,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimeRangePicker;
 use ExAdmin\ui\component\form\field\Editor;
+use ExAdmin\ui\component\form\field\input\Hidden;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;

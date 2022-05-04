@@ -12,6 +12,7 @@ use ExAdmin\ui\component\form\Field;
  * @link    https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input#%E5%B1%9E%E6%80%A7 MDN
  * @method $this autoSize(mixed $size = false) 自适应内容高度，可设置为 true | false 或对象：{ minRows: 2, maxRows: 6 }		boolean|object
  * @method $this showCount(bool $is_show = false) 是否展示字数															boolean
+ * @method $this rows(int $number) 行数															boolean
  * @package ExAdmin\ui\component\form\field
  */
 class TextArea extends Input
@@ -22,15 +23,7 @@ class TextArea extends Input
      */
 	protected $name = 'ATextarea';
 
-    /**
-     * 设置行数
-     * @param int $minRows 最小行数
-     * @param int $maxRows 最大行数
-     */
-    public function rows(int $minRows = 3, int $maxRows = 6)
-    {
-        $this->autoSize(['minRows' => $minRows, 'maxRows' => $maxRows]);
-        return $this;
-    }
+
+  
 
 }

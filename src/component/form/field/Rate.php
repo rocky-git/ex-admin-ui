@@ -34,4 +34,9 @@ class Rate extends Field
      * @var string
      */
 	protected $name = 'ARate';
+	public function __construct($field = null, $value = '')
+    {
+        $this->allowClear();
+        parent::__construct($field, $value);
+    }
 }

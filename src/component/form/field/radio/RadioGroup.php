@@ -29,6 +29,7 @@ class RadioGroup extends Field
      */
     protected $buttonType = false;
 
+    protected $options = [];
     /**
      * 设置选项
      * @param array $data 数据源 [key => value] 的形式
@@ -39,27 +40,33 @@ class RadioGroup extends Field
     public function options(array $data, $disabledArr = [], bool $buttonType = false)
     {
         $this->buttonType = $buttonType;
-        $options = [];
+       
         foreach($data as $id => $value) {
             $disabled = false;
             if (in_array($id, $disabledArr)) {
                 $disabled = true;
             }
-            $options[] = [
+            $this->options[] = [
                 'value' => $id,
+                'label' => $value,
                 'disabled' => $disabled,
                 'slotDefault' => $value,
             ];
         }
         $radioOption = $this->getButton()
-            ->map($options)
+            ->map($this->options)
             ->mapAttr('value')
             ->mapAttr('disabled')
             ->mapAttr('slotDefault');
         $this->content($radioOption);
         return $this;
     }
-
+    
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
     /**
      * 获取按钮类型 radio 默认单选 RadioButton 单选按钮
      * @return Radio|RadioButton

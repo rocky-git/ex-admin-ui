@@ -22,6 +22,8 @@ class CheckboxGroup extends Field
      */
 	protected $name = 'ACheckboxGroup';
 
+    protected $options = [];
+
     public function __construct($field = null, $value = [])
     {
         parent::__construct($field, $value);
@@ -29,20 +31,23 @@ class CheckboxGroup extends Field
 
     /**
      * 设置选项
-     * @param array $data 数据源 $data = [1 =>'111', 2=>'2312312'];
+     * @param array $data 数据源 $data = [1 =>'选项1', 2=>'选项2'];
      * @return $this
      */
     public function options(array $data)
     {
-        $options = [];
+
         foreach ($data as $key => $value) {
-            $options[] = [
+            $this->options[] = [
                 'label' => $value,
                 'value' => $key,
             ];
         }
-        $this->attr('options', $options);
+        $this->attr('options', $this->options);
         return $this;
     }
-
+    public function getOptions()
+    {
+        return $this->options;
+    }
 }

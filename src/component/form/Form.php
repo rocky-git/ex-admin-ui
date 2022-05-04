@@ -321,6 +321,7 @@ class Form extends Component
      * @param string $field
      * @param string|Component $title
      * @param \Closure $closure
+     * @return FormMany
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
