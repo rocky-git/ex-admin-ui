@@ -13,9 +13,7 @@ namespace ExAdmin\ui\component;
 
 trait ForMap
 {
-    protected $map = [
-        'attribute' => []
-    ];
+    protected $map = [];
 
     /**
      * 遍历绑定字段

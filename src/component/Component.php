@@ -495,7 +495,7 @@ abstract class Component implements \JsonSerializable
             $this->attr('key', $this->random());
         }
         if ($this->componentVisible) {
-            return [
+            $data =  [
                 'name' => $this->name,
                 'where' => $this->where,
                 'map' => $this->map,
@@ -509,6 +509,7 @@ abstract class Component implements \JsonSerializable
                 'event' => $this->event,
                 'directive' => $this->directive,
             ];
+            return array_filter($data);
         }
         return null;
     }

@@ -6,10 +6,7 @@ namespace ExAdmin\ui\component;
 
 trait Where
 {
-    protected $where = [
-        'AND' => [],
-        'OR' => []
-    ];
+    protected $where = [];
     //组件显示
     protected $componentVisible = true;
 

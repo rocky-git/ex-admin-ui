@@ -110,7 +110,15 @@ trait Validator
         if (is_null($trans)) {
             $trans = $type;
         }
+        $regexKey = array_search($pattern,static::$regex);
+        if($regexKey){
+            $regexKey = 'rule_'.$regexKey;
+            $regexKey = Str::camel($regexKey);
+        }else{
+            $regexKey = 'custom';
+        }
         $rule = [
+            'regexKey'=>$regexKey,
             'pattern' => $pattern,
             'trigger' => $trigger,
             'message' => $this->formItem->attr('label') . admin_trans('validator.' . $trans),

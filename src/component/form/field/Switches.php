@@ -25,14 +25,7 @@ use ExAdmin\ui\component\form\Field;
  */
 class Switches extends Field
 {
-    /**
-     * 插槽
-     * @var string[]
-     */
-    protected $slot = [
-        'checkedChildren',
-        'unCheckedChildren',
-    ];
+   
 
     /**
      * 组件名称

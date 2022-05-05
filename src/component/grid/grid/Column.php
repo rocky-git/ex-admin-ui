@@ -57,7 +57,9 @@ class Column extends Component
             );
         }
     }
-
+    public function getField(){
+        return $this->field;
+    }
     /**
      * 设置缺失值
      * @param $value
