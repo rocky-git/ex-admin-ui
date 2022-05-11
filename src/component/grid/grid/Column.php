@@ -12,6 +12,7 @@ use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\form\FormAction;
+use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
 use ExAdmin\ui\component\grid\Popover;
@@ -31,7 +32,7 @@ use ExAdmin\ui\traits\Display;
  */
 class Column extends Component
 {
-    use Display;
+    use Display,FormComponent;
 
     protected $name = 'ATableColumn';
 
@@ -225,12 +226,14 @@ class Column extends Component
     }
 
     /**
+     * 可编辑
      * @param Field $editable
+     * @param bool $alwaysShow 总是显示
      * @return $this
      */
-    public function editable($editable = null){
+    public function editable($editable = null,$alwaysShow=false){
 
-        return $this->display(function ($value,$data) use($editable){
+        return $this->display(function ($value,$data) use($editable,$alwaysShow){
             $form = Form::create();
             if(is_null($editable)){
                 $editable = Editable::text();
@@ -243,11 +246,21 @@ class Column extends Component
                     call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
+            $field  = $component->random();
+            $editable  = $component->random();
+            $component->vModel($component->getModelField(),$field,$value ?? '');
             $component->changeAjax($this->field,$this->grid->attr('url'),[
                 'ex_admin_action'=>'update',
                 'ids' => [$data[$this->grid->driver()->getPk()]],
-            ],'PUT');
-            return $form;
+            ],'PUT',[$editable => $alwaysShow]);
+           
+            $component->bind($editable,$alwaysShow)->where($editable, true);
+            $html = Html::div()->content([
+                Html::create('{{'.$field.'}}'),
+                Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon'])->event('click', [$editable => true])
+            ])->attr('class', 'ex-admin-editable-cell')->where($editable, false);
+            return [$html,$component];
+
         });
     }
     /**

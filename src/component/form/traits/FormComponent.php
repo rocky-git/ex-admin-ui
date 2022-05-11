@@ -42,42 +42,42 @@ use ExAdmin\ui\component\form\field\upload\File;
 use ExAdmin\ui\component\form\field\upload\Image;
 
 /**
- * @method static Input text(string $field, string $label = '') 文本输入框
- * @method static InputNumber number(string $field, string $label = '') 数字输入框
- * @method static Password password(string $field, string $label = '') 密码输入框
- * @method static TextArea textarea(string $field, string $label = '') 文本域输入框
- * @method static Rate rate(string $field, string $label = '') 评分
- * @method static Slider slider(string $field, string $label = '') 滑动输入条
- * @method static Transfer transfer(string $field, string $label = '') 穿梭框
- * @method static Select select(string $field, string $label = '') 下拉选择框
- * @method static TreeSelect treeSelect(string $field, string $label = '') 树形选择框
- * @method static Tree tree(string $field, string $label = '') 树形
- * @method static Switches switch (string $field, string $label = '') 开关
- * @method static CheckboxGroup checkbox(string $field, string $label = '') 多选框 # TODO 全选未封装
- * @method static Cascader cascader(array $field, $label) 级联选择器
- * @method static RadioGroup radio(string $field, string $label = '') 单选框
- * @method static DatePicker date(string $field, string $label = '') 日期选择框
- * @method static DateTimePicker dateTime(string $field, string $label = '') 日期时间选择框
- * @method static YearPicker year(string $field, string $label = '') 年份选择框
- * @method static MonthPicker month(string $field, string $label = '') 月份选择框
- * @method static WeekPicker week(string $field, string $label = '') 星期选择框
- * @method static QuarterPicker quarter(string $field, string $label = '') 季度选择框
- * @method static RangePicker dateRange(string $startFiled, string $endField, string $label = '') 日期范围选择框
- * @method static DateTimeRangePicker dateTimeRange(string $startFiled, string $endField, string $label = '') 日期时间范围选择框
- * @method static YearRangePicker yearRange(string $startFiled, string $endField, string $label = '') 年份范围选择框
- * @method static MonthRangePicker monthRange(string $startFiled, string $endField, string $label = '') 月份范围选择框
- * @method static WeekRangePicker weekRange(string $startFiled, string $endField, string $label = '') 星期范围选择框
- * @method static QuarterRangePicker quarterRange(string $startFiled, string $endField, string $label = '') 季度范围选择框
- * @method static TimePicker time(string $field, string $label = '') 时间选择框
- * @method static TimeRangePicker timeRange(string $startFiled, string $endField, string $label = '') 时间范围选择框
- * @method static File file(string $field, string $label = '') 文件上传
- * @method static Image image(string $field, string $label = '') 图片上传
- * @method static Editor editor(string $field, string $label = '') 富文本
- * @method static Mentions mentions(string $field, string $label = '') 提及(@某人)
- * @method static AutoComplete autoComplete(string $field, string $label = '') 自动完成
- * @method static SelectIcon icon(string $field, string $label = '') 图标选择器
- * @method static SelectTable selectTable(string $field, string $label = '') 表格选择器
- * @method static ColorPicker color(string $field, string $label = '') 颜色选择器
+ * @method Input text(string $field, string $label = '') 文本输入框
+ * @method InputNumber number(string $field, string $label = '') 数字输入框
+ * @method Password password(string $field, string $label = '') 密码输入框
+ * @method TextArea textarea(string $field, string $label = '') 文本域输入框
+ * @method Rate rate(string $field, string $label = '') 评分
+ * @method Slider slider(string $field, string $label = '') 滑动输入条
+ * @method Transfer transfer(string $field, string $label = '') 穿梭框
+ * @method Select select(string $field, string $label = '') 下拉选择框
+ * @method TreeSelect treeSelect(string $field, string $label = '') 树形选择框
+ * @method Tree tree(string $field, string $label = '') 树形
+ * @method Switches switch (string $field, string $label = '') 开关
+ * @method CheckboxGroup checkbox(string $field, string $label = '') 多选框 # TODO 全选未封装
+ * @method Cascader cascader(array $field, $label) 级联选择器
+ * @method RadioGroup radio(string $field, string $label = '') 单选框
+ * @method DatePicker date(string $field, string $label = '') 日期选择框
+ * @method DateTimePicker dateTime(string $field, string $label = '') 日期时间选择框
+ * @method YearPicker year(string $field, string $label = '') 年份选择框
+ * @method MonthPicker month(string $field, string $label = '') 月份选择框
+ * @method WeekPicker week(string $field, string $label = '') 星期选择框
+ * @method QuarterPicker quarter(string $field, string $label = '') 季度选择框
+ * @method RangePicker dateRange(string $startFiled, string $endField, string $label = '') 日期范围选择框
+ * @method DateTimeRangePicker dateTimeRange(string $startFiled, string $endField, string $label = '') 日期时间范围选择框
+ * @method YearRangePicker yearRange(string $startFiled, string $endField, string $label = '') 年份范围选择框
+ * @method MonthRangePicker monthRange(string $startFiled, string $endField, string $label = '') 月份范围选择框
+ * @method WeekRangePicker weekRange(string $startFiled, string $endField, string $label = '') 星期范围选择框
+ * @method QuarterRangePicker quarterRange(string $startFiled, string $endField, string $label = '') 季度范围选择框
+ * @method TimePicker time(string $field, string $label = '') 时间选择框
+ * @method TimeRangePicker timeRange(string $startFiled, string $endField, string $label = '') 时间范围选择框
+ * @method File file(string $field, string $label = '') 文件上传
+ * @method Image image(string $field, string $label = '') 图片上传
+ * @method Editor editor(string $field, string $label = '') 富文本
+ * @method Mentions mentions(string $field, string $label = '') 提及(@某人)
+ * @method AutoComplete autoComplete(string $field, string $label = '') 自动完成
+ * @method SelectIcon icon(string $field, string $label = '') 图标选择器
+ * @method SelectTable selectTable(string $field, string $label = '') 表格选择器
+ * @method ColorPicker color(string $field, string $label = '') 颜色选择器
  * #TODO 地图组件
  * #TODO 规格组件
  */

@@ -76,12 +76,14 @@ class Field extends Component
      * @param $url 请求url
      * @param array $params 请求参数
      * @param string $method 请求方式
+     * @param array $success 请求成功后
      * @return $this
      */
-    public function changeAjax(string $field,$url, array $params = [], string $method = 'POST')
+    public function changeAjax(string $field,$url, array $params = [], string $method = 'POST',$success=[])
     {
         $this->attr('changeAjax',[
             'ex_admin_field'=>$field,
+            'ex_admin_success'=>$success,
             'url' => $url,
             'data' => $params,
             'method' => $method,
