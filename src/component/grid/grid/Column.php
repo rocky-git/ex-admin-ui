@@ -6,6 +6,8 @@ use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Process;
+use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\Form;
@@ -157,7 +159,7 @@ class Column extends Component
     }
 
     /**
-     * 开关 
+     * 开关
      * @return $this
      */
     public function switch($switchArr = [[1 => '开启'], [0 => '关闭']])
@@ -169,7 +171,7 @@ class Column extends Component
     }
 
     /**
-     * 开关组 
+     * 开关组
      * @param array $fields
      * @return $this
      */
@@ -188,7 +190,7 @@ class Column extends Component
         return $this;
     }
 
-    
+
 
     /**
      * 获取开关
@@ -222,6 +224,36 @@ class Column extends Component
         return $this;
     }
 
+    /**
+     * @param Field $editable
+     * @return $this
+     */
+    public function editable($editable = null){
+
+        return $this->display(function ($value,$data) use($editable){
+            $form = Form::create();
+            if(is_null($editable)){
+                $editable = Editable::text();
+            }
+            foreach ($editable->getCall() as $key => $item) {
+                $arguments = $item['arguments'];
+                if ($key == 0) {
+                    $component = call_user_func_array([$form, $item['name']], [null]);
+                } else {
+                    call_user_func_array([$component, $item['name']], $arguments);
+                }
+            }
+            $component->changeAjax($this->field,$this->grid->attr('url'),[
+                'ex_admin_action'=>'update',
+                'ids' => [$data[$this->grid->driver()->getPk()]],
+            ],'PUT');
+            return $form;
+        });
+    }
+    /**
+     * 列筛选
+     * @param Field|array $filterColumn
+     */
     public function filter($filterColumn)
     {
 
@@ -229,7 +261,7 @@ class Column extends Component
             $filterColumn = [$filterColumn];
         }
         $filter = $this->grid->getFilter();
-        $form = Form::create([], $filter->form()->getModel());
+        $form = Form::create([], null,$filter->form()->getModel());
         $form->actions()->hide();
         $form->removeAttr('labelCol')
             ->layout('vertical')

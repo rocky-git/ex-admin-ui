@@ -69,7 +69,25 @@ class Field extends Component
     public function getField(){
         return $this->field;
     }
-    
+
+    /**
+     * 改变值触发请求ajax
+     * @param string $field 请求值字段
+     * @param $url 请求url
+     * @param array $params 请求参数
+     * @param string $method 请求方式
+     * @return $this
+     */
+    public function changeAjax(string $field,$url, array $params = [], string $method = 'POST')
+    {
+        $this->attr('changeAjax',[
+            'ex_admin_field'=>$field,
+            'url' => $url,
+            'data' => $params,
+            'method' => $method,
+        ]);
+        return $this;
+    }
 
     /**
      * 设置缺省默认值
