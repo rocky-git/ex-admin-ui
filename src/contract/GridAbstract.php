@@ -4,10 +4,7 @@ namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\response\Message;
-
 use ExAdmin\ui\response\Response;
-use Illuminate\Http\Request;
-
 abstract class GridAbstract
 {
     /**
@@ -20,6 +17,8 @@ abstract class GridAbstract
     protected $pk;
 
     protected $total = 0;
+
+    protected $event = [];
 
     /**
      * 初始化
@@ -175,28 +174,52 @@ abstract class GridAbstract
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function deling(\Closure $closure);
+    public function deling(\Closure $closure)
+    {
+        $this->event[__FUNCTION__] = $closure;
+    }
 
     /**
      * 删除后
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function deleted(\Closure $closure);
+    public function deleted(\Closure $closure)
+    {
+        $this->event[__FUNCTION__] = $closure;
+    }
 
     /**
      * 更新前
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function updateing(\Closure $closure);
+    public function updateing(\Closure $closure)
+    {
+        $this->event[__FUNCTION__] = $closure;
+    }
 
     /**
      * 更新后
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function updated(\Closure $closure);
+    public function updated(\Closure $closure)
+    {
+        $this->event[__FUNCTION__] = $closure;
+    }
+
+    /**
+     * 触发事件
+     * @param $name 事件名称
+     * @param $eventArgs 事件参数
+     */
+    public function dispatchEvent($name,$eventArgs)
+    {
+        if (isset($this->event[$name])) {
+            call_user_func_array($this->event[$name],$eventArgs);
+        }
+    }
 
     /**
      *

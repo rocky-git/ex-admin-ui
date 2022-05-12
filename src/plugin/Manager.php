@@ -69,13 +69,14 @@ class Manager
      * @param $name 插件名称
      * @param $title 插件标题
      * @param string $description 插件描述
+     * @param string $version 版本
      * @return bool
      */
-    public function create($author, $name, $title, $description = '')
+    public function create($author, $name, $title, $description = '',$version='1.0.0')
     {
         $info = compact('name', 'title', 'description');
         $info['status'] = true;
-        $info['version'] = '1.0.0';
+        $info['version'] = $version;
         $info['author'] = $author;
         $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
         $this->setInfo($name, $info);
@@ -112,6 +113,9 @@ class Manager
         $i = 0;
         $count = count($this->plug);
         foreach ($this->plug as $name=>$plug){
+            if($plug->disabled()){
+                continue;
+            }
             $title = $plug['title'];
             $namespace = $plug['namespace'];
             $doc .= " * @property \\{$namespace}\\ServiceProvider \$$name $title";

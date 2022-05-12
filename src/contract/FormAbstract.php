@@ -16,6 +16,8 @@ abstract class FormAbstract
     protected $repository;
 
     protected $data = [];
+    
+    protected $event = [];
     /**
      * 初始化
      * @param Form $form
@@ -83,12 +85,27 @@ abstract class FormAbstract
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function saving(\Closure $closure);
+    public function saving(\Closure $closure){
+        $this->event[__FUNCTION__] = $closure;
+    }
 
     /**
      * 保存后
      * @param \Closure $closure
      * @return mixed
      */
-    abstract public function saved(\Closure $closure);
+    public function saved(\Closure $closure){
+        $this->event[__FUNCTION__] = $closure;
+    }
+    /**
+     * 触发事件
+     * @param $name 事件名称
+     * @param $eventArgs 事件参数
+     */
+    public function dispatchEvent($name,$eventArgs)
+    {
+        if (isset($this->event[$name])) {
+            call_user_func_array($this->event[$name],$eventArgs);
+        }
+    }
 }

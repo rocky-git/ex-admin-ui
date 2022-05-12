@@ -12,12 +12,11 @@ use ExAdmin\ui\support\Arr;
 
 class Arrays extends FormAbstract
 {
-    protected $data = [];
 
     protected $saving;
 
     protected $saved;
-   
+
 
     /**
      * 编辑数据
@@ -72,7 +71,7 @@ class Arrays extends FormAbstract
      */
     public function get(string $field = null)
     {
-        return Arr::get($this->data, $field);
+        return Arr::get($this->repository, $field);
     }
 
     /**

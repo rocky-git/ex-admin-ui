@@ -30,17 +30,48 @@ class Arrays extends GridAbstract
      */
     public function update(array $ids, array $data): Message
     {
+        $result = $this->dispatchEvent('updateing',[$ids]);
+        if($result instanceof Message){
+            return $result;
+        }
+
+
+        $deletedResult = $this->dispatchEvent('updated',[$ids]);
+        if($deletedResult instanceof Message){
+            return $deletedResult;
+        }
+
         return message_success(admin_trans('grid.update_success'));
     }
-    
+
 
     public function delete(array $ids): Message
     {
+        $result = $this->dispatchEvent('deling',[$ids]);
+        if($result instanceof Message){
+            return $result;
+        }
+
+
+        $deletedResult = $this->dispatchEvent('deleted',[$ids]);
+        if($deletedResult instanceof Message){
+            return $deletedResult;
+        }
         return message_success(admin_trans('grid.delete_success'));
     }
 
     public function deleteAll(): Message
     {
+        $result = $this->dispatchEvent('deling',[$ids]);
+        if($result instanceof Message){
+            return $result;
+        }
+
+
+        $deletedResult = $this->dispatchEvent('deleted',[$ids]);
+        if($deletedResult instanceof Message){
+            return $deletedResult;
+        }
         return message_success(admin_trans('grid.delete_success'));
     }
 
@@ -109,25 +140,7 @@ class Arrays extends GridAbstract
     {
         // TODO: Implement filter() method.
     }
-    /**
-     * 删除前
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function deling(\Closure $closure)
-    {
-        Event::listen(Deling::class,$closure);
-    }
 
-    /**
-     * 删除后
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function deleted(\Closure $closure)
-    {
-        Event::listen(Deleted::class,$closure);
-    }
 
     /**
      * 恢复数据
@@ -139,25 +152,7 @@ class Arrays extends GridAbstract
         // TODO: Implement restore() method.
     }
 
-    /**
-     * 更新前
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function updateing(\Closure $closure)
-    {
-        Event::listen(Updateing::class, $closure);
-    }
 
-    /**
-     * 更新后
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function updated(\Closure $closure)
-    {
-        Event::listen(Updated::class, $closure);
-    }
 
     public function model()
     {

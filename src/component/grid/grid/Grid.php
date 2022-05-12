@@ -565,20 +565,21 @@ class Grid extends Table
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
         }
+        if ($this->addButton) {
+            $this->attr('addButton', $this->addButton->action());
+        }
 
         if (Request::input('grid_request_data') && Request::input('ex_admin_class') == $this->call['class'] && Request::input('ex_admin_function') == $this->call['function']) {
             return [
                 'data' => $data,
                 'header' => $this->attr('header'),
                 'footer' => $this->attr('footer'),
+                'tools' => $this->attr('tools'),
+                'addButton' => $this->attr('addButton'),
                 'total' => $total,
                 'code' => 200,
             ];
         } else {
-            if ($this->addButton) {
-                $this->attr('addButton', $this->addButton->action());
-            }
-
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

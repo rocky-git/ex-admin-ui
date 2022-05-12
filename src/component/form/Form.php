@@ -113,7 +113,7 @@ class Form extends Component
         $this->vModel($this->vModel, $bindField, $data);
         //验证绑定提示
         $this->validateBindField = $this->getModel() . 'Validate';
-        $this->vModel('validateField', $this->validateBindField, [], true);
+        $this->vModel('validateField', $this->validateBindField, '', true);
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
         //保存成功关闭弹窗
