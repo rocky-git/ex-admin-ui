@@ -30,13 +30,13 @@ class Arrays extends GridAbstract
      */
     public function update(array $ids, array $data): Message
     {
-        $result = $this->dispatchEvent('updateing',[$ids]);
+        $result = $this->dispatchEvent('updateing',[$ids,$data]);
         if($result instanceof Message){
             return $result;
         }
 
 
-        $deletedResult = $this->dispatchEvent('updated',[$ids]);
+        $deletedResult = $this->dispatchEvent('updated',[$ids,$data]);
         if($deletedResult instanceof Message){
             return $deletedResult;
         }

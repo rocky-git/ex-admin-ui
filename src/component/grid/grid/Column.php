@@ -8,6 +8,7 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\component\form\field\input\Input;
+use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\Form;
@@ -236,7 +237,7 @@ class Column extends Component
         return $this->display(function ($value,$data) use($editable,$alwaysShow){
             $form = Form::create();
             if(is_null($editable)){
-                $editable = Editable::text();
+                $editable = Editable::text()->allowClear(false);
             }
             foreach ($editable->getCall() as $key => $item) {
                 $arguments = $item['arguments'];
@@ -249,11 +250,23 @@ class Column extends Component
             $field  = $component->random();
             $editable  = $component->random();
             $component->vModel($component->getModelField(),$field,$value ?? '');
-            $component->changeAjax($this->field,$this->grid->attr('url'),[
-                'ex_admin_action'=>'update',
-                'ids' => [$data[$this->grid->driver()->getPk()]],
-            ],'PUT',[$editable => $alwaysShow]);
-           
+            if($component instanceof Input || $component instanceof InputNumber){
+                $component->eventCustom('blur','Ajax',[
+                    'ex_admin_field'=>$this->field,
+                    'ex_admin_success'=>[$editable => $alwaysShow],
+                    'url' => $this->grid->attr('url'),
+                    'data' => $this->grid->getCall()['params']+[
+                        'ex_admin_action'=>'update',
+                        'ids' => [$data[$this->grid->driver()->getPk()]],
+                    ],
+                    'method' => 'PUT',
+                ]);
+            }else{
+                $component->changeAjax($this->field,$this->grid->attr('url'),$this->grid->getCall()['params']+[
+                    'ex_admin_action'=>'update',
+                    'ids' => [$data[$this->grid->driver()->getPk()]],
+                ],'PUT',[$editable => $alwaysShow]);
+            }
             $component->bind($editable,$alwaysShow)->where($editable, true);
             $html = Html::div()->content([
                 Html::create('{{'.$field.'}}'),

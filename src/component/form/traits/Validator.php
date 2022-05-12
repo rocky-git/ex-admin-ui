@@ -67,7 +67,7 @@ trait Validator
         $this->setRule([
             'required' => true,
             'trigger' => ['change', 'blur'],
-            'message' => $this->formItem->attr('label') . admin_trans('validator.required'),
+            'message' =>  $this->formItem->attr('title') . admin_trans('validator.required'),
         ]);
         return $this;
     }

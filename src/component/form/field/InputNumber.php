@@ -21,6 +21,7 @@ use ExAdmin\ui\component\form\Field;
  * @method $this value(int $num) 当前值																					number
  * @method $this bordered(bool $bordered = true) 是否有边框																boolean
  * @method $this addonAfter(mixed $content) 带标签的 input，设置后置标签													slot
+ * @method $this placeholder(string $text) 输入框占位文本
  * @method $this addonBefore(mixed $content) 带标签的 input，设置前置标签													slot
  * @method $this controls(bool $controls = true) 是否显示增减按钮															boolean
  * @method $this keyboard(bool $keyboard = true) 是否启用键盘快捷行为														boolean

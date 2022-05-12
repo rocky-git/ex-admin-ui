@@ -147,7 +147,6 @@ class Form extends Component
     {
         return $this->validator;
     }
-
     /**
      * 是否编辑
      * @return bool
