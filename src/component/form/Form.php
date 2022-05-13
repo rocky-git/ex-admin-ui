@@ -37,6 +37,7 @@ use ExAdmin\ui\support\Request;
  * @method $this model(mixed $model) 表单数据对象                                                                            object
  * @method $this url(string $url) 提交地址
  * @method $this method(string $value) ajax请求method get / post /put / delete
+ * @method $this params(array $data) ajax请求附加参数
  * @method $this rules(mixed $rules) 表单验证规则                                                                            object
  * @method $this hideRequiredMark(bool $hide = true) 隐藏所有表单项的必选标记                                                boolean
  * @method $this labelAlign(string $align = 'right') label 标签的文本对齐方式                                                'left' | 'right'

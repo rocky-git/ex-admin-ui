@@ -296,7 +296,7 @@ trait Display
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             return Popover::create(Button::create($label))
-                          ->content($this->getTags($value), 'content')
+                          ->content($this->getTags($value))
                           ->width($width)
                           ->trigger($tigger)
                           ->placement($placement);

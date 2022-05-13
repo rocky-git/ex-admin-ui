@@ -344,7 +344,7 @@ abstract class Component implements \JsonSerializable
         if (empty($field)) {
             $field = $this->random();
         }
-        $this->bind($field, $value);
+        $this->bind[$field] = $value;
         $this->bindAttr($name, $field, $model);
         return $field;
     }

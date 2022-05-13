@@ -7,6 +7,7 @@ use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\feedback\Process;
 use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\Rate;
@@ -33,7 +34,7 @@ use ExAdmin\ui\traits\Display;
  */
 class Column extends Component
 {
-    use Display,FormComponent;
+    use Display, FormComponent;
 
     protected $name = 'ATableColumn';
 
@@ -43,11 +44,16 @@ class Column extends Component
 
     protected $exportClosure = null;
 
+    protected $editable = null;
+
+    protected $when = null;
+
     protected $hide = false;
 
     protected $default = '--';
 
     protected $field;
+
 
     public function __construct($field, $label = '', Grid $grid)
     {
@@ -61,9 +67,12 @@ class Column extends Component
             );
         }
     }
-    public function getField(){
+
+    public function getField()
+    {
         return $this->field;
     }
+
     /**
      * 设置缺失值
      * @param $value
@@ -87,18 +96,34 @@ class Column extends Component
         } else {
             $value = $originValue;
         }
+        $resetClosure = [$this->editable,$this->closure,$this->exportClosure];
+        //条件显示
+        if (!is_null($this->when)) {
+            list($condition, $closure, $other) = $this->when;
+            if($condition instanceof \Closure){
+                $condition = call_user_func_array($condition, [$originValue, $data]);
+            }
+            if ($condition) {
+                call_user_func_array($closure, [$this]);
+            } else {
+                if ($other instanceof \Closure) {
+                    call_user_func_array($other, [$this]);
+                }
+            }
+        }
         //自定义内容显示处理
         if (!is_null($this->closure)) {
             $value = call_user_func_array($this->closure, [$originValue, $data]);
         }
+        if (!is_null($this->editable)) {
+            $value = call_user_func_array($this->editable, [$originValue, $data,$value]);
+        }
         if ($export) {
             //自定义导出
             if (!is_null($this->exportClosure)) {
-                return call_user_func_array($this->exportClosure, [$originValue, $data]);
-            } elseif (is_string($value) || is_numeric($value)) {
-                return $value;
-            } else {
-                return $originValue;
+                $value = call_user_func_array($this->exportClosure, [$originValue, $data]);
+            } elseif (!is_string($value) && !is_numeric($value)) {
+                $value =  $originValue;
             }
         } else {
             $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
@@ -106,8 +131,11 @@ class Column extends Component
             if ($fontSize) {
                 $html->style(['fontSize' => $fontSize . 'px']);
             }
-            return $html;
+            $value = $html;
         }
+        //重置
+        [$this->editable,$this->closure,$this->exportClosure] = $resetClosure;
+        return $value;
     }
 
     /**
@@ -193,7 +221,6 @@ class Column extends Component
     }
 
 
-
     /**
      * 获取开关
      * @param string $value 当前值
@@ -209,7 +236,7 @@ class Column extends Component
             ->url($this->grid->attr('url'))
             ->field($field)
             ->params([
-                'ex_admin_action'=>'update',
+                'ex_admin_action' => 'update',
                 'ids' => [$data[$this->grid->driver()->getPk()]],
             ]);
     }
@@ -225,6 +252,18 @@ class Column extends Component
         $this->closure = $closure;
         return $this;
     }
+    /**
+     * 条件执行
+     * @param $condition
+     * @param \Closure $closure
+     * @param \Closure|null $other
+     * @return $this
+     */
+    public function when($condition, \Closure $closure, $other = null)
+    {
+        $this->when = [$condition,$closure,$other];
+        return $this;
+    }
 
     /**
      * 可编辑
@@ -232,50 +271,66 @@ class Column extends Component
      * @param bool $alwaysShow 总是显示
      * @return $this
      */
-    public function editable($editable = null,$alwaysShow=false){
-
-        return $this->display(function ($value,$data) use($editable,$alwaysShow){
+    public function editable($editable = null, $alwaysShow = false)
+    {
+        $this->editable = function ($value,$data,$html) use($editable, $alwaysShow){
             $form = Form::create();
-            if(is_null($editable)){
+            $form->style(['padding' => '0px']);
+            $form->layout('inline');
+            $form->removeAttr('labelCol');
+            $form->url($this->grid->attr('url'));
+            $form->method('PUT');
+            $form->params($this->grid->getCall()['params'] + [
+                    'ex_admin_action' => 'update',
+                    'ids' => [$data[$this->grid->driver()->getPk()]],
+                ]);
+            if (is_null($editable)) {
                 $editable = Editable::text()->allowClear(false);
             }
             foreach ($editable->getCall() as $key => $item) {
                 $arguments = $item['arguments'];
                 if ($key == 0) {
-                    $component = call_user_func_array([$form, $item['name']], [null]);
+                    $component = call_user_func_array([$form, $item['name']], [$this->field]);
                 } else {
                     call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
-            $field  = $component->random();
-            $editable  = $component->random();
-            $component->vModel($component->getModelField(),$field,$value ?? '');
-            if($component instanceof Input || $component instanceof InputNumber){
-                $component->eventCustom('blur','Ajax',[
-                    'ex_admin_field'=>$this->field,
-                    'ex_admin_success'=>[$editable => $alwaysShow],
-                    'url' => $this->grid->attr('url'),
-                    'data' => $this->grid->getCall()['params']+[
-                        'ex_admin_action'=>'update',
-                        'ids' => [$data[$this->grid->driver()->getPk()]],
-                    ],
-                    'method' => 'PUT',
-                ]);
-            }else{
-                $component->changeAjax($this->field,$this->grid->attr('url'),$this->grid->getCall()['params']+[
-                    'ex_admin_action'=>'update',
-                    'ids' => [$data[$this->grid->driver()->getPk()]],
-                ],'PUT',[$editable => $alwaysShow]);
-            }
-            $component->bind($editable,$alwaysShow)->where($editable, true);
-            $html = Html::div()->content([
-                Html::create('{{'.$field.'}}'),
-                Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon'])->event('click', [$editable => true])
-            ])->attr('class', 'ex-admin-editable-cell')->where($editable, false);
-            return [$html,$component];
+            if ($alwaysShow) {
+                $field = $component->random();
+                $component->vModel($component->getModelField(), $field, $value === ''?null:$value);
+                if ($component instanceof Input || $component instanceof InputNumber || $component instanceof AutoComplete) {
+                    $component->style(['width'=>'100%']);
+                    $component->eventCustom('blur', 'Ajax', [
+                        'ex_admin_field' => $this->field,
+                        'url' => $this->grid->attr('url'),
+                        'data' => $this->grid->getCall()['params'] + [
+                                'ex_admin_action' => 'update',
+                                'ids' => [$data[$this->grid->driver()->getPk()]],
+                            ],
+                        'method' => 'PUT',
+                    ]);
+                } else {
+                    $component->changeAjax($this->field, $this->grid->attr('url'), $this->grid->getCall()['params'] + [
+                            'ex_admin_action' => 'update',
+                            'ids' => [$data[$this->grid->driver()->getPk()]],
+                        ], 'PUT');
+                }
 
-        });
+                return $component;
+            } else {
+                $component->default($value);
+                return Html::div()->content([
+                    Html::create($html),
+                    Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
+                        ->trigger('click')
+                        ->content($form)
+                ])->attr('class', 'ex-admin-editable-cell');
+            }
+        };
+        return $this;
+
     }
+
     /**
      * 列筛选
      * @param Field|array $filterColumn
@@ -287,7 +342,7 @@ class Column extends Component
             $filterColumn = [$filterColumn];
         }
         $filter = $this->grid->getFilter();
-        $form = Form::create([], null,$filter->form()->getModel());
+        $form = Form::create([], null, $filter->form()->getModel());
         $form->actions()->hide();
         $form->removeAttr('labelCol')
             ->layout('vertical')
