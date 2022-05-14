@@ -36,6 +36,8 @@ class Plugin implements \ArrayAccess
         $this->info = $this->manager->getInfo($name);
     }
 
+    
+
     /**
      * 判断是否启用.
      *

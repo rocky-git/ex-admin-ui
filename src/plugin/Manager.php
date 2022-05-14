@@ -32,7 +32,9 @@ class Manager
         $this->initialize();
     }
     protected function initialize(){
+
         $this->basePath = rtrim(admin_config('admin.plugin.dir'), '/');
+
         $this->plugPath = [];
         $this->plug = [];
         if (is_dir($this->basePath)) {
@@ -45,6 +47,9 @@ class Manager
                 }
             }
         }
+    }
+    public function getBasePath(){
+        return $this->basePath;
     }
     /**
      * 获取插件
@@ -162,6 +167,7 @@ PHP;
      */
     public function register()
     {
+       
         foreach ($this->plugPath as $name => $path) {
             $this->loadPlugin($name,$path);
         }

@@ -1,11 +1,15 @@
 <?php
 use ExAdmin\ui\component\common\Html;
+use ExAdmin\ui\support\Container;
+
 if (extension_loaded('zlib')) {
     if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) and strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
         ob_start('ob_gzhandler');
     }
 }
+
 \ExAdmin\ui\support\Container::getInstance()->make(\ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
+
 
 if (!function_exists('admin_config')) {
     /**
@@ -198,3 +202,5 @@ if (!function_exists('plugin')) {
         return \ExAdmin\ui\support\Container::getInstance()->plugin;
     }
 }
+
+

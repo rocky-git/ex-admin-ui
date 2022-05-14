@@ -26,10 +26,10 @@ return [
     ],
     //扫描权限目录
     'auth_scan' => [],
-   
+
     'plugin'=>[
         //插件目录
-        'dir'=>'',
+        'dir'=>dirname(__DIR__,5).DIRECTORY_SEPARATOR.'plugin',
         //插件命名空间
         'namespace'=>'plugin'
     ],
