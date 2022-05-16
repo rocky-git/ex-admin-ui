@@ -36,7 +36,7 @@ class Plugin implements \ArrayAccess
         $this->info = $this->manager->getInfo($name);
     }
 
-    
+
 
     /**
      * 判断是否启用.
@@ -119,6 +119,20 @@ class Plugin implements \ArrayAccess
         return null;
     }
 
+    /**
+     * 已安装
+     * @return bool
+     */
+    final public function installed(){
+        return is_dir($this->path) ? true:false;
+    }
+    /**
+     * @param $data
+     */
+    final public function setInfo($data)
+    {
+        $this->info  = $data;
+    }
     /**
      * 获取插件信息
      * @return array

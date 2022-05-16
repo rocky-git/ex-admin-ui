@@ -10,7 +10,6 @@ use ExAdmin\ui\component\Component;
  * @link    https://next.antdv.com/components/pagination-cn 分页组件
  * @method $this current(int $current) 当前页数                                                        					number
  * @method $this pageSize(int $pageSize) 每页条数                                                        				number
- * @method $this defaultPageSize(int $defaultPageSize = 10) 默认的每页条数                                                number
  * @method $this disabled(bool $disabled) 禁用分页                                                        				boolean
  * @method $this hideOnSinglePage(bool $hideOnSinglePage = true) 只有一页时是否隐藏分页器                                 boolean
  * @method $this pageSizeOptions(array $pageSizeOptions = ['10', '20', '30', '40']) 指定每页可以显示多少条                 string[]
@@ -35,7 +34,7 @@ class Pagination extends Component
         $this->showQuickJumper();
         $this->showLessItems();
         $this->showSizeChanger();
-        $this->defaultPageSize(20);
+        $this->pageSize(20);
         $this->size('small');
         $totalLang = admin_trans('grid.pagination.total',null,['{total}'=>"'+total+'"]);
         $this->bindFunction('showTotal',"return '".$totalLang."';",['total']);

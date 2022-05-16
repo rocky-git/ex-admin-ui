@@ -3,11 +3,12 @@
 namespace ExAdmin\ui\plugin;
 
 
-
 use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Str;
+use GuzzleHttp\Client;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class Manager
 {
@@ -27,11 +28,19 @@ class Manager
      */
     protected $plug = [];
 
+    protected $client;
+
     public function __construct()
     {
+        $this->client = new Client([
+            'base_uri' => 'http://laravel.test/api/',
+            'verify' => false,
+        ]);
         $this->initialize();
     }
-    protected function initialize(){
+
+    protected function initialize()
+    {
 
         $this->basePath = rtrim(admin_config('admin.plugin.dir'), '/');
 
@@ -48,9 +57,143 @@ class Manager
             }
         }
     }
-    public function getBasePath(){
+
+    public function getBasePath()
+    {
         return $this->basePath;
     }
+
+    /**
+     * 获取插件列表
+     * @param $type 0线上，1本地已安装
+     * @param string $search 搜索标题
+     * @param int $cate_id 分类id
+     * @param int $page 页码
+     * @param int $size 页码大小
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getList($type, $search = '', $cate_id = 0, $page = 1, $size = 20)
+    {
+        $plugs = [];
+        $names = [];
+        if ($type == 1) {
+            $plugs = $this->getPlug();
+            if ($search) {
+                foreach ($plugs as $name => $plug) {
+                    if (strpos($plug['title'], $search) === false &&
+                        strpos($plug['name'], $search) === false &&
+                        strpos($plug['description'], $search) === false &&
+                        strpos($plug['author'], $search) === false) {
+                        unset($plugs[$name]);
+                    }
+                }
+            }
+            $names = array_keys($this->getPlug());
+        }
+        $response = $this->client->get("plugin/list", [
+            'query' => [
+                'cate_id' => $cate_id,
+                'page' => $page,
+                'size' => $size,
+                'search' => $search,
+                'names' => $names,
+            ]
+        ]);
+        $content = $response->getBody()->getContents();
+        $content = json_decode($content, true);
+        if ($type == 1) {
+            foreach ($plugs as $name => &$plug) {
+                foreach ($content['data']['data'] as $item) {
+                    if ($name == $item['name']) {
+                        $plug = $this->getPlug($item['name']);
+                        $plug['price'] = $item['price'];
+                        $plug['is_free'] = $item['is_free'];
+                        $plug['online'] = true;
+                    }
+                }
+            }
+        } else {
+            foreach ($content['data']['data'] as $item) {
+                if (array_key_exists($item['name'], $this->plug)) {
+                    $plug = $this->getPlug($item['name']);
+                    $plug['price'] = $item['price'];
+                    $plug['is_free'] = $item['is_free'];
+                    $plug['online'] = true;
+                } else {
+                    $plug = new Plugin();
+                    $plug->init($item['name'], $this->basePath . '/' . $item['name'], $this);
+                    $info = [
+                        "name" => $item['name'],
+                        "title" => $item['title'],
+                        "description" => $item['description'],
+                        "price" => $item['price'],
+                        "is_free" => $item['is_free'],
+                        "status" => false,
+                        "online" => true,
+                        "version" => "",
+                        "author" => $item['author'],
+                        "namespace" => "plugin\\" . $item['name']
+                    ];
+                    $plug->setInfo($info);
+                }
+                $plugs[] = $plug;
+            }
+        }
+
+        return [
+            'data' => $plugs,
+            'total' => $content['data']['total'],
+        ];
+    }
+
+    public function upload($data)
+    {
+        $path = $this->getPlug($data['name'])->getPath();
+        $zip = new \ZipArchive();
+        $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '.zip';
+        if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
+            foreach (Finder::create()->in($path)->files() as $file) {
+                $zip->addFile($file->getRealPath(), $file->getRelativePathname());
+            }
+            $zip->close();
+            $response = $this->client->post('plugin/upload', [
+                'multipart' => [
+                    [
+                        'name' => 'file',
+                        'contents' => fopen($zipPath, 'r'),
+                        'filename' => basename($zipPath)
+                    ],
+                    [
+                        'name'     => 'data',
+                        'contents' => json_encode($data),
+                    ],
+                ]
+            ]);
+            $content = $response->getBody()->getContents();
+            $content = json_decode($content, true);
+            if($content['code'] === 0){
+                return true;
+            }
+            return $content['message'];
+        } else {
+            throw new \Exception('zip 创建失败');
+        }
+    }
+
+    /**
+     * 获取插件分类
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getCate()
+    {
+        $response = $this->client->get("plugin/cate");
+        $content = $response->getBody()->getContents();
+        $content = json_decode($content, true);
+        return $content['data'];
+    }
+
     /**
      * 获取插件
      * @param $name
@@ -63,7 +206,9 @@ class Manager
         }
         return $this->plug[$name];
     }
-    public function __get($name){
+
+    public function __get($name)
+    {
         return $this->plug[$name];
     }
 
@@ -77,7 +222,7 @@ class Manager
      * @param string $version 版本
      * @return bool
      */
-    public function create($author, $name, $title, $description = '',$version='1.0.0')
+    public function create($author, $name, $title, $description = '', $version = '1.0.0')
     {
         $info = compact('name', 'title', 'description');
         $info['status'] = true;
@@ -94,14 +239,14 @@ class Manager
         //语言包目录
         $file->mkdir($path . 'lang');
         //服务层
-        $content = file_get_contents(__DIR__.'/stub/Service.stub');
-        $content = str_replace('{%namespace%}',$info['namespace'],$content);
+        $content = file_get_contents(__DIR__ . '/stub/Service.stub');
+        $content = str_replace('{%namespace%}', $info['namespace'], $content);
         $file->dumpFile($path . 'service/Service.php', $content);
         //服务提供
-        $content = file_get_contents(__DIR__.'/stub/ServiceProvider.stub');
-        $content = str_replace('{%namespace%}',$info['namespace'],$content);
+        $content = file_get_contents(__DIR__ . '/stub/ServiceProvider.stub');
+        $content = str_replace('{%namespace%}', $info['namespace'], $content);
         $file->dumpFile($path . 'ServiceProvider.php', $content);
-        $this->loadPlugin($name,$path);
+        $this->loadPlugin($name, $path);
         //config文件
         return $file->dumpFile($path . 'config.php', '<?php return [];');
     }
@@ -110,15 +255,16 @@ class Manager
      * 生成IDE
      * @return false|int
      */
-    public function buildIde(){
+    public function buildIde()
+    {
         $this->initialize();
         $this->register();
-        $content = file_get_contents(__DIR__.'/stub/IDE.stub');
+        $content = file_get_contents(__DIR__ . '/stub/IDE.stub');
         $doc = '';
         $i = 0;
         $count = count($this->plug);
-        foreach ($this->plug as $name=>$plug){
-            if($plug->disabled()){
+        foreach ($this->plug as $name => $plug) {
+            if ($plug->disabled()) {
                 continue;
             }
             $title = $plug['title'];
@@ -136,17 +282,17 @@ namespace $namespace{
     class ServiceProvider{}
 }
 PHP;
-            $j=0;
+            $j = 0;
             $methodDoc = '';
             $files = glob($plug->getPath() . '/service/*.php');
             foreach ($files as $file) {
-                $name = str_replace('.php','',basename($file));
+                $name = str_replace('.php', '', basename($file));
                 $method = Str::camel($name);
                 $class = "\\$namespace\\service\\$name";
                 $ReflectionClass = new \ReflectionClass($class);
                 $docArr = Annotation::parse($ReflectionClass->getDocComment());
                 $title = '';
-                if($docArr){
+                if ($docArr) {
                     $title = $docArr['title'];
                 }
                 $methodDoc .= " * @method $class $method() {$title}";
@@ -155,24 +301,27 @@ PHP;
                 }
                 $j++;
             }
-            $serviceContent = str_replace('{%doc%}',$methodDoc,$serviceContent);
-            $content.=$serviceContent.PHP_EOL;
+            $serviceContent = str_replace('{%doc%}', $methodDoc, $serviceContent);
+            $content .= $serviceContent . PHP_EOL;
         }
-        $content = str_replace('{%doc%}',$doc,$content);
+        $content = str_replace('{%doc%}', $doc, $content);
 
         return file_put_contents($this->basePath . DIRECTORY_SEPARATOR . 'IDE.php', $content);
     }
+
     /**
      * 注册插件
      */
     public function register()
     {
-       
+
         foreach ($this->plugPath as $name => $path) {
-            $this->loadPlugin($name,$path);
+            $this->loadPlugin($name, $path);
         }
     }
-    protected function loadPlugin($name,$path){
+
+    protected function loadPlugin($name, $path)
+    {
         $loader = include __DIR__ . '/../../../../autoload.php';
         $info = $this->getInfo($name);
         if ($info['status']) {
@@ -185,6 +334,7 @@ PHP;
             $this->plug[$name]->register();
         }
     }
+
     /**
      * 校验插件目录内容是否正确
      * @param $name
@@ -246,12 +396,14 @@ PHP;
         $file = new Filesystem();
         return $file->dumpFile($this->infoPath($name), json_encode($content, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     }
+
     /**
      * 卸载
      * @param string $name 插件名称
      * @return bool
      */
-    public function uninstall($name){
+    public function uninstall($name)
+    {
         $file = new Filesystem();
         $result = $file->remove($this->plugPath[$name]);
         $this->buildIde();

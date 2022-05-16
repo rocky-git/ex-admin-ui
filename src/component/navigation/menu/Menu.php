@@ -46,7 +46,7 @@ class Menu extends Component
             $item->icon(Icon::create($icon));
         }
         if($type == 1){
-            $function = 'arrau_push';
+            $function = 'array_push';
         }else{
             $function = 'array_unshift';
         }

@@ -550,17 +550,18 @@ class Grid extends Table
                 ->type('primary')
                 ->icon('<plus-outlined />');
         }
-        $total = $this->driver->getTotal();
-        $this->pagination->total($total);
+       
         $page = Request::input('ex_admin_page', 1);
-        $size = Request::input('ex_admin_size', $this->pagination->attr('defaultPageSize'));
+        $size = Request::input('ex_admin_size', $this->pagination->attr('pageSize'));
 
         if (Request::has('ex_admin_sort_field')) {
             $this->driver->tableSort(Request::input('ex_admin_sort_field'), Request::input('ex_admin_sort_by'));
         }
 
         $data = $this->driver->data($page, $size, $this->attr('hidePage') ? true : false);
-
+        $total = $this->driver->getTotal();
+        $this->pagination->total($total);
+        
         $data = $this->parseColumn($data);
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');

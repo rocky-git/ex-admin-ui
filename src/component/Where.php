@@ -13,7 +13,7 @@ trait Where
     /**
      * 条件显示
      * @param bool $condition
-     * @return Component
+     * @return $this
      */
     public function whenShow($condition)
     {

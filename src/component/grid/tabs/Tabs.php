@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\component\grid\tabs;
 
+use ExAdmin\ui\component\common\AsnycRender;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\grid\Grid;
@@ -81,9 +82,11 @@ class Tabs extends Component
             $content = $this->form->collectFields($content);
             unset($this->form->tabs[$this->getModel()]);
         }
-        $pane->content($content);
+
 
         if($content instanceof Grid){
+            list($url,$params) = $this->parseComponentCall($content);
+            $content = AsnycRender::create()->url($url)->params($params);
             $conditionFunction = <<<JS
             if(activeKey == $key){
                 return true
@@ -96,6 +99,7 @@ JS;
             ]], 'function');
 
         }
+        $pane->content($content);
         $this->content($pane);
         return $this;
     }

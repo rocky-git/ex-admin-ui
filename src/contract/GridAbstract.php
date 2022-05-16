@@ -32,7 +32,7 @@ abstract class GridAbstract
 
         $this->repository = $repository;
     }
-
+    
     /**
      * 返回主键名称
      * @return string
