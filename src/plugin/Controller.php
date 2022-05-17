@@ -5,6 +5,7 @@ namespace ExAdmin\ui\plugin;
 use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Icon;
+use ExAdmin\ui\component\common\typography\TypographyText;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\badge\Badge;
 use ExAdmin\ui\component\grid\card\Card;
@@ -13,8 +14,11 @@ use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\grid\tag\Tag;
+use ExAdmin\ui\component\grid\timeline\TimeLine;
+use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\component\navigation\dropdown\Dropdown;
-use Illuminate\Support\Facades\Log;
+use ExAdmin\ui\response\Response;
+use GuzzleHttp\Client;
 
 class Controller
 {
@@ -62,25 +66,51 @@ class Controller
                 return '免费';
             }
         });
-        $grid->column('version', '版本');
+        $grid->column('version', '版本')
+            ->header(ToolTip::create(
+                Html::create('版本')
+                    ->content(
+                        Icon::create('QuestionCircleOutlined')->style(['marginLeft' => '5px'])
+                    )
+            )->title('点击查看历史版本'))
+            ->display(function ($val, $data) {
+                $tag = Tag::create($val);
+                if (!empty($data['versions'])) {
+                    $timeLine = TimeLine::create();
+                    foreach ($data['versions'] as $item) {
+                        $timeLine->item(Html::div()->content([
+                            TypographyText::create()->type('secondary')->content($item['version']),
+                            Html::div()->content($item['version_content']),
+                        ]));
+                    }
+                    $tag = $tag->modal()
+                        ->title('历史版本')
+                        ->content($timeLine);
+                }
+                return $tag;
+            });
         $grid->actions(function (Actions $actions, $data) {
             $actions->hideDel();
             $dropdown = Dropdown::create(
                 Button::create(
                     [
                         '安装',
-                        Icon::create('DownOutlined')->style(['marginRight'=>'5px'])
+                        Icon::create('DownOutlined')->style(['marginRight' => '5px'])
                     ]
                 )
             )->trigger(['click'])->whenShow(!$data->installed());
-//            $dropdown->item('1.0.0')->confirm($data->enabled() ? '确认禁用？' : '确认启用？', [$this, 'enable'], ['name' => $data['name'], 'status' => !$data['status']]);
-//            $dropdown->item('1.1.0')->confirm($data->enabled() ? '确认禁用？' : '确认启用？', [$this, 'enable'], ['name' => $data['name'], 'status' => !$data['status']]);
-
+            if (!$data->installed()) {
+                foreach ($data['versions'] as $item) {
+                    $dropdown->item($item['version'])
+                        ->confirm('确认安装？', [$this, 'onlineInstall'], ['url' => $item['url']])
+                        ->gridRefresh();
+                }
+            }
             $actions->append([
                 Button::create('上传到插件市场')
                     ->modal($this->uploadForm($data->getInfo()))
                     ->width('70%')
-                    ->whenShow(empty($data['online'])),
+                    ->whenShow(empty($data['online']) && plugin()->token()),
                 Button::create('设置')
                     ->whenShow(method_exists($data, 'setting'))
                     ->when(method_exists($data, 'setting'), function ($button) use ($data) {
@@ -106,7 +136,18 @@ class Controller
         $grid->tools([
             Button::create('创建插件')
                 ->modal($this->create()),
-            Button::create('生成IDE')->ajax([$this, 'ide'])
+            Button::create('生成IDE')->ajax([$this, 'ide']),
+            Button::create('本地安装')
+                ->upload([$this,'localInstall'])
+                ->style(['margin'=>'0 8px']),
+            Button::create('登陆')
+                ->type('primary')
+                ->modal([$this,'login'])
+                ->whenShow(!plugin()->token()),
+            Button::create('退出登陆')
+                ->whenShow(plugin()->token())
+                ->ajax([$this,'logout'])
+                ->gridRefresh(),
         ]);
         $grid->hideDelete();
         $grid->hideSelection();
@@ -114,29 +155,77 @@ class Controller
     }
 
     /**
+     * 退出登陆
+     * @return \ExAdmin\ui\response\Message
+     */
+    public function logout(){
+        setcookie('plugin_token','',time()-3600);
+        return message_success('已退出登陆');
+    }
+    /**
+     * 登陆
+     * @return Form
+     */
+    public function login(){
+        return Form::create([], function (Form $form) {
+            $form->removeAttr('labelCol');
+            $form->text('username')
+                ->prefix(Icon::create('fas fa-user-alt'))
+                ->placeholder('你的手机号、用户名或邮箱');
+            $form->password('password')
+                ->prefix(Icon::create('fas fa-key'))
+                ->placeholder('你的密码');
+            $form->saved(function (Form $form){
+                $result = plugin()->login($form->input('username'),$form->input('password'));
+                if($result !== true){
+                    return message_error($result);
+                }
+                return message_success('登陆成功');
+            });
+        });
+    }
+    /**
      * 上传到插件市场
      * @param $data
      * @return Form
      */
-    public function uploadForm($data){
+    public function uploadForm($data)
+    {
         return Form::create($data, function (Form $form) {
+            $form->select('cate_id', '分类')
+                ->options(array_column(plugin()->getCate(), 'name', 'id'))
+                ->required();
             $form->text('name', '扩展标识')
                 ->ruleAlphaDash()
                 ->required();
             $form->text('author', '作者')->required();
             $form->text('title', '名称')->required();
             $form->text('description', '描述');
+            $form->radio('is_free', '收费类型')
+                ->options([0 => '收费', 1 => '免费'])
+                ->default(1)
+                ->when(0, function (Form $form) {
+                    $form->row(function (Form $form) {
+                        $form->number('cost_price', '原价')->required();
+                        $form->number('price', '售价')->required();
+                    }, '标准授权');
+                    $form->row(function (Form $form) {
+                        $form->number('high_cost_price', '原价')->required();
+                        $form->number('high_price', '售价')->required();
+                    }, '高级授权');
+                });
             $form->editor('content', '介绍内容');
             $form->text('version', '版本号');
             $form->textarea('version_content', '版本说明')->rows(5);
-            $form->saved(function (Form $form){
+            $form->saved(function (Form $form) {
                 $result = plugin()->upload($form->input());
-                if($result !== true){
+                if ($result !== true) {
                     return message_error($result);
                 }
             });
         });
     }
+
     /**
      * 创建插件
      * @return Form
@@ -158,6 +247,41 @@ class Controller
         });
     }
 
+    /**
+     * 在线安装
+     * @param $url
+     * @return \ExAdmin\ui\response\Message
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function onlineInstall($url)
+    {
+        if(!plugin()->token()){
+            return message_error('请登录后操作！');
+        }
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename($url);
+        $client = new Client(['verify' => false]);
+        $response = $client->get($url, ['sink' => $path]);
+        if (!file_exists($path)) {
+            return message_error('文件下载失败');
+        }
+        return $this->install($path);
+    }
+
+    /**
+     * 本地安装
+     */
+    public function localInstall(){
+        return $this->install($_FILES['file']['tmp_name']);
+    }
+
+    protected function install($path){
+        $result = plugin()->install($path);
+        unlink($path);
+        if ($result === true) {
+            return message_success('安装完成');
+        }
+        return message_error($result);
+    }
     /**
      * 卸载
      * @param $name

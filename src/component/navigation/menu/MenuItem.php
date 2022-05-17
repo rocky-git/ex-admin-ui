@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\navigation\menu;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\feedback\Confirm;
 
 /**
  * 菜单

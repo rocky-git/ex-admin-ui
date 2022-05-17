@@ -291,7 +291,7 @@ class Form extends Component
         } elseif ($component instanceof Cascader) {
             $placeholder = 'please_select';
         }
-        if (!empty($placeholder)) {
+        if (!empty($placeholder) && is_string($label)) {
             $component->placeholder(admin_trans('form.' . $placeholder) . $label);
         }
     }

@@ -270,7 +270,7 @@ return [
         'upload' => '上传',
         'success'=>'上传成功',
         'error'=>'未知错误',
-        'check'=>'上传中',
+        'check'=>'校验中',
         'uploading'=>'上传中',
     ],
     'Grid' => [

@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\common;
 
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\field\upload\Upload;
 
 /**
  * 按钮
@@ -64,5 +65,21 @@ class Button extends Component
             parent::content($content, $name);
         }
         return $this;
+    }
+
+    /**
+     * 上传按钮
+     * @param string|array $url 请求链接
+     * @param array $params 请求参数
+     * @return Component
+     */
+    public function upload($url,array $params = []){
+        $url = $this->parseUrl($url);
+        return Upload::create()
+            ->content($this)
+            ->chunk(false)
+            ->action($url)
+            ->params($params)
+            ->eventCustom('success', 'GridRefresh');
     }
 }

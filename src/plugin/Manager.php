@@ -110,6 +110,7 @@ class Manager
                         $plug['price'] = $item['price'];
                         $plug['is_free'] = $item['is_free'];
                         $plug['online'] = true;
+                        $plug['versions'] = $item['versions'];
                     }
                 }
             }
@@ -119,6 +120,7 @@ class Manager
                     $plug = $this->getPlug($item['name']);
                     $plug['price'] = $item['price'];
                     $plug['is_free'] = $item['is_free'];
+                    $plug['versions'] = $item['versions'];
                     $plug['online'] = true;
                 } else {
                     $plug = new Plugin();
@@ -131,7 +133,8 @@ class Manager
                         "is_free" => $item['is_free'],
                         "status" => false,
                         "online" => true,
-                        "version" => "",
+                        "version" => $item['version'],
+                        "versions" => $item['versions'],
                         "author" => $item['author'],
                         "namespace" => "plugin\\" . $item['name']
                     ];
@@ -151,13 +154,16 @@ class Manager
     {
         $path = $this->getPlug($data['name'])->getPath();
         $zip = new \ZipArchive();
-        $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '.zip';
-        if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
+        $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
             foreach (Finder::create()->in($path)->files() as $file) {
                 $zip->addFile($file->getRealPath(), $file->getRelativePathname());
             }
             $zip->close();
             $response = $this->client->post('plugin/upload', [
+                'headers' => [
+                    'Authorization' => $this->token()
+                ],
                 'multipart' => [
                     [
                         'name' => 'file',
@@ -165,20 +171,58 @@ class Manager
                         'filename' => basename($zipPath)
                     ],
                     [
-                        'name'     => 'data',
+                        'name' => 'data',
                         'contents' => json_encode($data),
                     ],
                 ]
             ]);
             $content = $response->getBody()->getContents();
             $content = json_decode($content, true);
-            if($content['code'] === 0){
+            unlink($zipPath);
+            if ($content['code'] === 0) {
                 return true;
             }
             return $content['message'];
         } else {
             throw new \Exception('zip 创建失败');
         }
+    }
+
+    /**
+     * 获取登陆token
+     * @return string|null
+     */
+    public function token()
+    {
+        $token = null;
+        if(!empty($_COOKIE['plugin_token'])){
+            $token = 'Bearer '.$_COOKIE['plugin_token'];
+        }
+        return $token;
+    }
+
+    /**
+     * 登陆
+     * @param string $username 账号
+     * @param string $password 密码
+     * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function login($username, $password)
+    {
+        $response = $this->client->post('plugin/login', [
+            'form_params' => [
+                'username' => $username,
+                'password' => $password,
+            ]
+        ]);
+        $content = $response->getBody()->getContents();
+        $content = json_decode($content, true);
+        if ($content['code'] === 0) {
+            setcookie('plugin_token', $content['data'], time() + 3600 * 24);
+            return true;
+        }
+        return $content['message'];
     }
 
     /**
@@ -398,12 +442,37 @@ PHP;
     }
 
     /**
+     * 安装
+     * @param string $fileZip 插件压缩包
+     * @return bool|string
+     */
+    public function install($fileZip)
+    {
+        $zip = new \ZipArchive();
+        if ($zip->open($fileZip) === true) {
+            $info = $zip->getFromName('info.json');
+            $info = json_decode($info, true);
+            $path = $this->basePath . '/' . $info['name'];
+            if (is_dir($path)) {
+                return '请删除插件目录下的' . $info['name'] . '目录再进行安装';
+            }
+            $zip->extractTo($path);
+            $zip->close();
+            $this->buildIde();
+            $this->getPlug($info['name'])->install();
+            return true;
+        }
+        return '解压插件失败';
+    }
+
+    /**
      * 卸载
      * @param string $name 插件名称
      * @return bool
      */
     public function uninstall($name)
     {
+        $this->getPlug($name)->uninstall();
         $file = new Filesystem();
         $result = $file->remove($this->plugPath[$name]);
         $this->buildIde();

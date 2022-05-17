@@ -45,7 +45,7 @@ class InputNumber extends Field
      * @var string
      */
 	protected $name = 'AInputNumber';
-    public function __construct($field = null, $value = '')
+    public function __construct($field = null, $value = null)
     {
         $this->attr('type','number');
         parent::__construct($field, $value);
