@@ -143,8 +143,10 @@ class Manager
     protected function getOnlinePlug($item)
     {
         $plug = $this->getPlug($item['name']);
+        $version = $plug['version'];
         $info = $plug->getInfo();
         $info = array_merge($info, $item);
+        $info['version'] = $version;
         $info['online'] = true;
         $plug->setInfo($info);
         return $plug;
