@@ -180,6 +180,7 @@ class Manager
     public function upload($data, $update = false)
     {
         $data['update'] = $update;
+        $this->setInfo($data['name'],['version'],$data['version']);
         $path = $this->getPlug($data['name'])->getPath();
         $zip = new \ZipArchive();
         $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
