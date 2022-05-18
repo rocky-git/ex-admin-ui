@@ -35,7 +35,7 @@ class Manager
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://laravel.test/api/',
+            'base_uri' => 'https://ui.ex-admin.com/api/',
             'verify' => false,
         ]);
         $this->initialize();
@@ -120,7 +120,7 @@ class Manager
                     $plug = new Plugin();
                     $plug->init($item['name'], $this->basePath . '/' . $item['name'], $this);
                     $info = $plug->getInfo();
-                    $info = array_merge($info,$item);
+                    $info = array_merge($info, $item);
                     $info['status'] = false;
                     $info['online'] = true;
                     $plug->setInfo($info);
@@ -134,6 +134,7 @@ class Manager
             'total' => $content['data']['total'],
         ];
     }
+
     /**
      * @param $item
      * @param $plug
@@ -143,12 +144,40 @@ class Manager
     {
         $plug = $this->getPlug($item['name']);
         $info = $plug->getInfo();
-        $info = array_merge($info,$item);
+        $info = array_merge($info, $item);
         $info['online'] = true;
         $plug->setInfo($info);
         return $plug;
     }
-    public function upload($data,$update = false)
+
+    /**
+     * 下载插件
+     * @param string $name 插件名
+     * @param string $version 版本号
+     * @return bool|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function download($name, $version = null)
+    {
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $name . '-' . $version . '.zip';
+        $response = $this->client->get('plugin/download', [
+            'headers' => [
+                'Authorization' => $this->token(),
+                'Accept' => 'application/json'
+            ],
+            'query' => [
+                'name' => $name,
+                'version' => $version,
+            ],
+            'sink' => $path
+        ]);
+        if (!file_exists($path)) {
+            return false;
+        }
+        return $path;
+    }
+
+    public function upload($data, $update = false)
     {
         $data['update'] = $update;
         $path = $this->getPlug($data['name'])->getPath();
@@ -163,7 +192,7 @@ class Manager
                 $response = $this->client->post('plugin/upload', [
                     'headers' => [
                         'Authorization' => $this->token(),
-                        'Accept'=>'application/json'
+                        'Accept' => 'application/json'
                     ],
                     'multipart' => [
                         [
@@ -178,8 +207,8 @@ class Manager
                     ]
                 ]);
 
-            }catch (ClientException $e){
-                if($e->getCode() == 401){
+            } catch (ClientException $e) {
+                if ($e->getCode() == 401) {
                     return '登录身份失效，请重新登录';
                 }
                 return $e->getMessage();
@@ -200,20 +229,21 @@ class Manager
      * 获取登陆token
      * @return string|null
      */
-    public function token(bool $isUid=false)
+    public function token(bool $isUid = false)
     {
 
         $token = null;
-        if(!empty($_COOKIE['plugin_token'])){
-            $data = json_decode($_COOKIE['plugin_token'],true);
-            if($isUid){
+        if (!empty($_COOKIE['plugin_token'])) {
+            $data = json_decode($_COOKIE['plugin_token'], true);
+            if ($isUid) {
                 $token = $data['uid'];
-            }else{
-                $token = 'Bearer '.$data['token'];
+            } else {
+                $token = 'Bearer ' . $data['token'];
             }
         }
         return $token;
     }
+
     /**
      * 登陆
      * @param string $username 账号

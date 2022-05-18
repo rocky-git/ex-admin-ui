@@ -19,7 +19,6 @@ use ExAdmin\ui\component\grid\timeline\TimeLine;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\component\navigation\dropdown\Dropdown;
 use ExAdmin\ui\response\Response;
-use GuzzleHttp\Client;
 
 class Controller
 {
@@ -112,7 +111,7 @@ class Controller
                 if (!$data->installed()) {
                     foreach ($data['versions'] as $item) {
                         $dropdown->item($item['version'])
-                            ->ajax([$this, 'onlineInstall'], ['url' => $item['url']])
+                            ->ajax([$this, 'onlineInstall'], ['name' => $data['name'],'version'=>$item['version']])
                             ->gridRefresh();
                     }
                 }
@@ -261,19 +260,18 @@ class Controller
 
     /**
      * 在线安装
-     * @param $url
+     * @param $name
+     * @param $version
      * @return \ExAdmin\ui\response\Message
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function onlineInstall($url)
+    public function onlineInstall($name,$version)
     {
         if(!plugin()->token()){
             return message_error('请登录后操作！');
         }
-        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename($url);
-        $client = new Client(['verify' => false]);
-        $response = $client->get($url, ['sink' => $path]);
-        if (!file_exists($path)) {
+        $path = plugin()->download($name,$version);
+        if ($path === false) {
             return message_error('文件下载失败');
         }
         return $this->install($path);

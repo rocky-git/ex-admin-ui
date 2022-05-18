@@ -1,1 +1,0 @@
-import{s}from"./index.651dbde8.js";import"./vue.a928b16e.js";import{r as a}from"./@vue.a7cd1c69.js";const l=function(){const t=a(!1);return{loading:t,http:function(r){return new Promise((n,o)=>{t.value=!0,s(r).then(e=>{n(e)}).catch(e=>{o(e)}).finally(()=>{t.value=!1})})}}};export{l as u};
