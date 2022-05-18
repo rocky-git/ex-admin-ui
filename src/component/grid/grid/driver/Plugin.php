@@ -17,7 +17,18 @@ class Plugin extends GridAbstract
      */
     public function update(array $ids, array $data): Message
     {
-        // TODO: Implement update() method.
+        if(isset($data['status'])){
+            $status = $data['status'];
+            foreach ($ids as $name){
+                $plug = plugin()->getPlug($name);
+                if ($status) {
+                    $plug->enable();
+                } else {
+                    $plug->disable();
+                }
+            }
+        }
+        return message_success(admin_trans('grid.update_success'));
     }
 
     /**

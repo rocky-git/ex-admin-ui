@@ -6,6 +6,7 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
 
 
+
 /**
  * 开关
  * Class Switches
@@ -25,7 +26,7 @@ use ExAdmin\ui\component\form\Field;
  */
 class Switches extends Field
 {
-   
+
 
     /**
      * 组件名称
@@ -49,11 +50,19 @@ class Switches extends Field
      */
     public function options($data = [[1 => ''], [0 => '']])
     {
-        list($on, $off) = $data;
-        $this->checkedChildren(current($on));
-        $this->checkedValue(key($on));
-        $this->unCheckedChildren(current($off));
-        $this->unCheckedValue(key($off));
+        if(isset($data['on']) && isset($data['off'])){
+            $this->checkedChildren($data['on']['text']);
+            $this->checkedValue($data['on']['value']);
+            $this->unCheckedChildren($data['off']['text']);
+            $this->unCheckedValue($data['off']['value']);
+        }else{
+            list($on, $off) = $data;
+            $this->checkedChildren(current($on));
+            $this->checkedValue(key($on));
+            $this->unCheckedChildren(current($off));
+            $this->unCheckedValue(key($off));
+        }
+       
         return $this;
     }
 }

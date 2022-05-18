@@ -10,6 +10,7 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\badge\Badge;
 use ExAdmin\ui\component\grid\card\Card;
 use ExAdmin\ui\component\grid\grid\Actions;
+use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\tabs\Tabs;
@@ -36,122 +37,133 @@ class Controller
 
     public function grid($type = 0, $cate_id = 0)
     {
-        $grid = Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin());
-        $grid->column('title', '名称')->display(function ($val, $data) {
-            return Html::div()->content([
-                Image::create()
-                    ->style(['width' => '60px', 'height' => '60px', 'marginRight' => '10px', "borderRadius" => '5px'])
-                    ->src($data->getLogo())
-                    ->whenShow($data->getLogo()),
-                Html::div()->content([
-                    Html::div()->when(empty($data['authorized']), function (Html $html) use ($data) {
-                        $html->content(Badge::create()->content(
-                            Tag::create($data['title'])->color('#1890ff')
-                        )->count('未授权')->type('danger')
-                        );
-                    }, function (Html $html) use ($data) {
-                        $html->content(Tag::create($data['title'])->color('#1890ff'));
-                    }),
-                    Html::div()->content($data['name']),
-                    Html::div()->content($data['description'])
-                ])
-            ])->style(['display' => 'flex', 'alignItems' => 'center', 'alignContent' => 'center']);
-        });
-        $grid->column('price', '价格')->display(function ($val, $data) {
-            if (!isset($data['is_free'])) {
-                return '--';
-            } elseif (empty($data['is_free'])) {
-                return Html::create('￥' . $data['price'])->style(['color' => 'red']);
-            } else {
-                return '免费';
-            }
-        });
-        $grid->column('version', '版本')
-            ->header(ToolTip::create(
-                Html::create('版本')
-                    ->content(
-                        Icon::create('QuestionCircleOutlined')->style(['marginLeft' => '5px'])
-                    )
-            )->title('点击查看历史版本'))
-            ->display(function ($val, $data) {
-                $tag = Tag::create($val);
-                if (!empty($data['versions'])) {
-                    $timeLine = TimeLine::create();
-                    foreach ($data['versions'] as $item) {
-                        $timeLine->item(Html::div()->content([
-                            TypographyText::create()->type('secondary')->content($item['version']),
-                            Html::div()->content($item['version_content']),
-                        ]));
-                    }
-                    $tag = $tag->modal()
-                        ->title('历史版本')
-                        ->content($timeLine);
-                }
-                return $tag;
+        return Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin(),function (Grid  $grid){
+            $grid->driver()->setPk('name');
+            $grid->column('title', '名称')->display(function ($val, $data) {
+                return Html::div()->content([
+                    Image::create()
+                        ->style(['width' => '60px', 'height' => '60px', 'marginRight' => '10px', "borderRadius" => '5px'])
+                        ->src($data->getLogo())
+                        ->whenShow($data->getLogo()),
+                    Html::div()->content([
+                        Html::div()->when(empty($data['authorized']), function (Html $html) use ($data) {
+                            $html->content(Badge::create()->content(
+                                Tag::create($data['title'])->color('#1890ff')
+                            )->count('未授权')->type('danger')
+                            );
+                        }, function (Html $html) use ($data) {
+                            $html->content(Tag::create($data['title'])->color('#1890ff'));
+                        }),
+                        Html::div()->content($data['name']),
+                        Html::div()->content($data['description'])
+                    ])
+                ])->style(['display' => 'flex', 'alignItems' => 'center', 'alignContent' => 'center']);
             });
-        $grid->actions(function (Actions $actions, $data) {
-            $actions->hideDel();
-            $dropdown = Dropdown::create(
-                Button::create(
-                    [
-                        '安装',
-                        Icon::create('DownOutlined')->style(['marginRight' => '5px'])
-                    ]
-                )
-            )->trigger(['click'])->whenShow(!$data->installed());
-            if (!$data->installed()) {
-                foreach ($data['versions'] as $item) {
-                    $dropdown->item($item['version'])
-                        ->confirm('确认安装？', [$this, 'onlineInstall'], ['url' => $item['url']])
-                        ->gridRefresh();
+            $grid->column('price', '价格')->display(function ($val, $data) {
+                if (!isset($data['is_free'])) {
+                    return '--';
+                } elseif (empty($data['is_free'])) {
+                    return Html::create('￥' . $data['price'])->style(['color' => 'red']);
+                } else {
+                    return '免费';
                 }
-            }
-            $actions->append([
-                Button::create('上传到插件市场')
-                    ->modal($this->uploadForm($data->getInfo()))
-                    ->width('70%')
-                    ->whenShow(empty($data['online']) && plugin()->token()),
-                Button::create('设置')
-                    ->whenShow(method_exists($data, 'setting'))
-                    ->when(method_exists($data, 'setting'), function ($button) use ($data) {
-                        return $button->modal($data->setting())->width('50%');
-                    }),
-                Button::create($data->enabled() ? '禁用' : '启用')
-                    ->when(!$data->enabled(), function ($button) {
-                        $button->type('primary');
-                    })
-                    ->confirm($data->enabled() ? '确认禁用？' : '确认启用？', [$this, 'enable'], ['name' => $data['name'], 'status' => !$data['status']])
-                    ->whenShow($data->installed())
-                    ->gridRefresh(),
-                Button::create('卸载')
-                    ->type('danger')
-                    ->confirm('确认卸载？', [$this, 'uninstall'], ['name' => $data['name']])
-                    ->whenShow($data->installed())
-                    ->gridRefresh(),
-                $dropdown
+            });
+            $grid->column('version', '版本')
+                ->header(ToolTip::create(
+                    Html::create('版本')
+                        ->content(
+                            Icon::create('QuestionCircleOutlined')->style(['marginLeft' => '5px'])
+                        )
+                )->title('点击查看历史版本'))
+                ->display(function ($val, $data) {
+                    $tag = Tag::create($val);
+                    if (!empty($data['versions'])) {
+                        $timeLine = TimeLine::create();
+                        foreach ($data['versions'] as $item) {
+                            $timeLine->item(Html::div()->content([
+                                TypographyText::create()->type('secondary')->content($item['version']),
+                                Html::create($item['version_content'])->tag('pre'),
+                            ]));
+                        }
+                        $tag = $tag->modal()
+                            ->title('历史版本')
+                            ->content($timeLine);
+                    }
+                    return $tag;
+                });
+            $grid->column('status')->when(function ($val,$data){
+                return $data->installed();
+            },function (Column $column){
+                $column->switch([
+                    'on'  => ['value' => true, 'text' => '打开'],
+                    'off' => ['value' => false, 'text' => '关闭'],
+                ]);
+            });
+            $grid->actions(function (Actions $actions, $data) {
+                $actions->hideDel();
+                $dropdown = Dropdown::create(
+                    Button::create(
+                        [
+                            '安装',
+                            Icon::create('DownOutlined')->style(['marginRight' => '5px'])
+                        ]
+                    )
+                )->trigger(['click'])->whenShow(!$data->installed());
+                if (!$data->installed()) {
+                    foreach ($data['versions'] as $item) {
+                        $dropdown->item($item['version'])
+                            ->ajax([$this, 'onlineInstall'], ['url' => $item['url']])
+                            ->gridRefresh();
+                    }
+                }
+                $actions->append([
+                    Button::create('上传到插件市场')
+                        ->modal($this->uploadForm($data->getInfo()))
+                        ->width('70%')
+                        ->whenShow(empty($data['online']) && plugin()->token()),
+                    Button::create('更新到插件市场')
+                        ->modal($this->uploadForm($data->getInfo(),1))
+                        ->width('70%')
+                        ->whenShow($data->installed() && !empty($data['online']) && plugin()->token() && plugin()->token(true) == $data['uid']),
+                    Button::create('设置')
+                        ->whenShow(method_exists($data, 'setting'))
+                        ->when(method_exists($data, 'setting'), function ($button) use ($data) {
+                            return $button->modal($data->setting())->width('50%');
+                        }),
+                   
+                    Button::create('卸载')
+                        ->type('danger')
+                        ->confirm([
+                            Html::div()->content('确认卸载《'.$data['title'].'》?'),
+                            Html::div()->content('卸载将会删除所有插件文件且不可找回')->style(['color'=>'red'])
+                        ], [$this, 'uninstall'], ['name' => $data['name']])
+                        ->whenShow($data->installed())
+                        ->gridRefresh(),
+                    $dropdown
 
+                ]);
+            });
+            $grid->quickSearch();
+            $grid->tools([
+                Button::create('创建插件')
+                    ->modal($this->create()),
+                Button::create('生成IDE')->ajax([$this, 'ide']),
+                Button::create('本地安装')
+                    ->upload([$this,'localInstall'])
+                    ->style(['margin'=>'0 8px']),
+                Button::create('登陆')
+                    ->type('primary')
+                    ->modal([$this,'login'])
+                    ->whenShow(!plugin()->token()),
+                Button::create('退出登陆')
+                    ->whenShow(plugin()->token())
+                    ->ajax([$this,'logout'])
+                    ->gridRefresh(),
             ]);
+            $grid->hideDelete();
+            $grid->hideSelection();
         });
-        $grid->quickSearch();
-        $grid->tools([
-            Button::create('创建插件')
-                ->modal($this->create()),
-            Button::create('生成IDE')->ajax([$this, 'ide']),
-            Button::create('本地安装')
-                ->upload([$this,'localInstall'])
-                ->style(['margin'=>'0 8px']),
-            Button::create('登陆')
-                ->type('primary')
-                ->modal([$this,'login'])
-                ->whenShow(!plugin()->token()),
-            Button::create('退出登陆')
-                ->whenShow(plugin()->token())
-                ->ajax([$this,'logout'])
-                ->gridRefresh(),
-        ]);
-        $grid->hideDelete();
-        $grid->hideSelection();
-        return $grid;
+
     }
 
     /**
@@ -189,9 +201,9 @@ class Controller
      * @param $data
      * @return Form
      */
-    public function uploadForm($data)
+    public function uploadForm($data,$update=0)
     {
-        return Form::create($data, function (Form $form) {
+        return Form::create($data, function (Form $form) use($update) {
             $form->select('cate_id', '分类')
                 ->options(array_column(plugin()->getCate(), 'name', 'id'))
                 ->required();
@@ -217,8 +229,8 @@ class Controller
             $form->editor('content', '介绍内容');
             $form->text('version', '版本号');
             $form->textarea('version_content', '版本说明')->rows(5);
-            $form->saved(function (Form $form) {
-                $result = plugin()->upload($form->input());
+            $form->saved(function (Form $form) use($update){
+                $result = plugin()->upload($form->input(),(bool)$update);
                 if ($result !== true) {
                     return message_error($result);
                 }
@@ -293,22 +305,7 @@ class Controller
         return message_success('操作完成');
     }
 
-    /**
-     * 禁用/启用
-     * @param $name
-     * @param $status
-     * @return \ExAdmin\ui\response\Message
-     */
-    public function enable($name, $status)
-    {
-        $plug = plugin()->getPlug($name);
-        if ($status) {
-            $plug->enable();
-        } else {
-            $plug->disable();
-        }
-        return message_success('操作完成');
-    }
+
 
     /**
      * 生成ide

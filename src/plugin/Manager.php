@@ -7,8 +7,10 @@ use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Str;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+
 
 class Manager
 {
@@ -106,38 +108,21 @@ class Manager
             foreach ($plugs as $name => &$plug) {
                 foreach ($content['data']['data'] as $item) {
                     if ($name == $item['name']) {
-                        $plug = $this->getPlug($item['name']);
-                        $plug['price'] = $item['price'];
-                        $plug['is_free'] = $item['is_free'];
-                        $plug['online'] = true;
-                        $plug['versions'] = $item['versions'];
+                        $plug = $this->getOnlinePlug($item);
                     }
                 }
             }
         } else {
             foreach ($content['data']['data'] as $item) {
                 if (array_key_exists($item['name'], $this->plug)) {
-                    $plug = $this->getPlug($item['name']);
-                    $plug['price'] = $item['price'];
-                    $plug['is_free'] = $item['is_free'];
-                    $plug['versions'] = $item['versions'];
-                    $plug['online'] = true;
+                    $plug = $this->getOnlinePlug($item);
                 } else {
                     $plug = new Plugin();
                     $plug->init($item['name'], $this->basePath . '/' . $item['name'], $this);
-                    $info = [
-                        "name" => $item['name'],
-                        "title" => $item['title'],
-                        "description" => $item['description'],
-                        "price" => $item['price'],
-                        "is_free" => $item['is_free'],
-                        "status" => false,
-                        "online" => true,
-                        "version" => $item['version'],
-                        "versions" => $item['versions'],
-                        "author" => $item['author'],
-                        "namespace" => "plugin\\" . $item['name']
-                    ];
+                    $info = $plug->getInfo();
+                    $info = array_merge($info,$item);
+                    $info['status'] = false;
+                    $info['online'] = true;
                     $plug->setInfo($info);
                 }
                 $plugs[] = $plug;
@@ -149,9 +134,23 @@ class Manager
             'total' => $content['data']['total'],
         ];
     }
-
-    public function upload($data)
+    /**
+     * @param $item
+     * @param $plug
+     * @return array|Plugin
+     */
+    protected function getOnlinePlug($item)
     {
+        $plug = $this->getPlug($item['name']);
+        $info = $plug->getInfo();
+        $info = array_merge($info,$item);
+        $info['online'] = true;
+        $plug->setInfo($info);
+        return $plug;
+    }
+    public function upload($data,$update = false)
+    {
+        $data['update'] = $update;
         $path = $this->getPlug($data['name'])->getPath();
         $zip = new \ZipArchive();
         $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
@@ -160,22 +159,31 @@ class Manager
                 $zip->addFile($file->getRealPath(), $file->getRelativePathname());
             }
             $zip->close();
-            $response = $this->client->post('plugin/upload', [
-                'headers' => [
-                    'Authorization' => $this->token()
-                ],
-                'multipart' => [
-                    [
-                        'name' => 'file',
-                        'contents' => fopen($zipPath, 'r'),
-                        'filename' => basename($zipPath)
+            try {
+                $response = $this->client->post('plugin/upload', [
+                    'headers' => [
+                        'Authorization' => $this->token(),
+                        'Accept'=>'application/json'
                     ],
-                    [
-                        'name' => 'data',
-                        'contents' => json_encode($data),
-                    ],
-                ]
-            ]);
+                    'multipart' => [
+                        [
+                            'name' => 'file',
+                            'contents' => fopen($zipPath, 'r'),
+                            'filename' => basename($zipPath)
+                        ],
+                        [
+                            'name' => 'data',
+                            'contents' => json_encode($data),
+                        ],
+                    ]
+                ]);
+
+            }catch (ClientException $e){
+                if($e->getCode() == 401){
+                    return '登录身份失效，请重新登录';
+                }
+                return $e->getMessage();
+            }
             $content = $response->getBody()->getContents();
             $content = json_decode($content, true);
             unlink($zipPath);
@@ -192,15 +200,20 @@ class Manager
      * 获取登陆token
      * @return string|null
      */
-    public function token()
+    public function token(bool $isUid=false)
     {
+
         $token = null;
         if(!empty($_COOKIE['plugin_token'])){
-            $token = 'Bearer '.$_COOKIE['plugin_token'];
+            $data = json_decode($_COOKIE['plugin_token'],true);
+            if($isUid){
+                $token = $data['uid'];
+            }else{
+                $token = 'Bearer '.$data['token'];
+            }
         }
         return $token;
     }
-
     /**
      * 登陆
      * @param string $username 账号
@@ -219,7 +232,7 @@ class Manager
         $content = $response->getBody()->getContents();
         $content = json_decode($content, true);
         if ($content['code'] === 0) {
-            setcookie('plugin_token', $content['data'], time() + 3600 * 24);
+            setcookie('plugin_token', json_encode($content['data']), time() + 3600 * 24);
             return true;
         }
         return $content['message'];
@@ -448,6 +461,7 @@ PHP;
      */
     public function install($fileZip)
     {
+
         $zip = new \ZipArchive();
         if ($zip->open($fileZip) === true) {
             $info = $zip->getFromName('info.json');
@@ -460,6 +474,8 @@ PHP;
             $zip->close();
             $this->buildIde();
             $this->getPlug($info['name'])->install();
+
+
             return true;
         }
         return '解压插件失败';
@@ -478,4 +494,6 @@ PHP;
         $this->buildIde();
         return $result;
     }
+
+
 }
