@@ -94,8 +94,8 @@ class Controller
                 return $data->installed();
             },function (Column $column){
                 $column->switch([
-                    'on'  => ['value' => true, 'text' => '打开'],
-                    'off' => ['value' => false, 'text' => '关闭'],
+                    'on'  => ['value' => true, 'text' => '启用'],
+                    'off' => ['value' => false, 'text' => '禁用'],
                 ]);
             });
             $grid->actions(function (Actions $actions, $data) {
