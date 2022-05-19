@@ -129,7 +129,7 @@ class Controller
                         ->when(method_exists($data, 'setting'), function ($button) use ($data) {
                             return $button->modal($data->setting())->width('50%');
                         }),
-                   
+
                     Button::create('卸载')
                         ->type('danger')
                         ->confirm([
@@ -267,6 +267,7 @@ class Controller
      */
     public function onlineInstall($name,$version)
     {
+       
         if(!plugin()->token()){
             return message_error('请登录后操作！');
         }

@@ -8,6 +8,8 @@ use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Str;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -162,6 +164,9 @@ class Manager
     public function download($name, $version = null)
     {
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $name . '-' . $version . '.zip';
+        $output = new ConsoleOutput();
+        $progressBar = new ProgressBar($output);
+        $progressBar->setFormat('very_verbose');
         $response = $this->client->get('plugin/download', [
             'headers' => [
                 'Authorization' => $this->token(),
@@ -171,7 +176,20 @@ class Manager
                 'name' => $name,
                 'version' => $version,
             ],
-            'sink' => $path
+            'sink' => $path,
+            'progress' => function ($totalDownload, $downloaded) use ($progressBar) {
+                if ($progressBar) {
+                    if ($totalDownload > 0 && $downloaded > 0 && !$progressBar->getMaxSteps()) {
+                        $progressBar->setMaxSteps($totalDownload);
+                        $progressBar->start();
+                    }
+                    $progressBar->setProgress($downloaded);
+                    if ($progressBar && $downloaded > 0 && $totalDownload === $downloaded) {
+                        $progressBar->finish();
+                        $progressBar = null;
+                    }
+                }
+            }
         ]);
         if (!file_exists($path)) {
             return false;
@@ -182,7 +200,7 @@ class Manager
     public function upload($data, $update = false)
     {
         $data['update'] = $update;
-        $this->setInfo($data['name'],['version'=>$data['version']]);
+        $this->setInfo($data['name'], ['version' => $data['version']]);
         $path = $this->getPlug($data['name'])->getPath();
         $zip = new \ZipArchive();
         $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
@@ -319,6 +337,7 @@ class Manager
         $info['version'] = $version;
         $info['author'] = $author;
         $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
+        $info['require'] = [];
         $this->setInfo($name, $info);
         $path = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
         $file = new Filesystem();
