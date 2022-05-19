@@ -39,23 +39,23 @@ class Collapse extends Component
     /**
      * 添加一个子项
      * @param mixed $header 折叠面板标题
-     * @param mixed $value 折叠面板值
+     * @param mixed $content 折叠面板内容
      * @param bool $showArrow 是否显示箭头
      * @param string|int $key 对应 activeKey
-     * @return $this
+     * @return CollapsePanel
      */
-    public function item($header, $value, bool $showArrow = true, $key = '')
+    public function item($header, $content, bool $showArrow = true, $key = '')
     {
         if (empty($key)) {
             $key = ++$this->key;
         }
         $item = new CollapsePanel();
         $item->header($header)
-             ->content($value)
+             ->content($content)
              ->showArrow($showArrow)
              ->key($key);
         $this->content($item);
-        return $this;
+        return $item;
     }
 
     /**

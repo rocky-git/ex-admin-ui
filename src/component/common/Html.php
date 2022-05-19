@@ -31,6 +31,7 @@ class Html extends Component
             $this->content($content);
         }
     }
+
     public static function __callStatic($name, $arguments)
     {
         if ($name == 'div') {
@@ -40,6 +41,7 @@ class Html extends Component
         }
         return parent::__callStatic($name, $arguments);
     }
+
     /**
      * 自定义元素标签
      * @param string $tag 元素标签
@@ -48,5 +50,10 @@ class Html extends Component
     {
         $this->attr('data-tag', $tag);
         return $this;
+    }
+
+    public static function code($content, $lang = 'php')
+    {
+        return self::div()->directive('prism', $content, ['lang' => $lang])->attr('class','language-'.$lang);
     }
 }

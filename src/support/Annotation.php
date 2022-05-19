@@ -23,6 +23,7 @@ class Annotation
         foreach ($comments as $comment){
             $param = [];
             $comment = ltrim($comment);
+            self::parseMatch(['group','sort','auth'],$comment,$data);
             if (preg_match('/^@param/i', $comment)) {
                 $arr = explode(' ',$comment);
                 array_shift($arr);
@@ -61,23 +62,39 @@ class Annotation
                 }
                 $param['desc'] = $desc;
                 $data['header'][] = $param;
-            }elseif (preg_match('/^@group/i', $comment)){
+            }elseif (preg_match('/^@method/i', $comment)){
+                $methods = [];
                 $arr = explode(' ',$comment);
-                if(isset($arr[1])){
-                    $data['group'] = trim($arr[1]);
+                array_shift($arr);
+                $methods['return'] = $arr[0];
+                array_shift($arr);
+                $comment = implode(' ',$arr);
+                preg_match('/(.+)\((.+)\)\s(.+)/u', $comment,$matchs);
+                $methods['function'] = $matchs[1];
+                $methods['text'] = trim($matchs[3]);
+                $index = strpos($matchs[2],'=');
+                if($index !== false){
+                    $methods['default'] = trim(substr($matchs[2],$index+1));
                 }
-            }elseif (preg_match('/^@sort/i', $comment)){
-                $arr = explode(' ',$comment);
-                if(isset($arr[1])){
-                    $data['sort'] = trim($arr[1]);
+                $arr = explode(' ',$matchs[2]);
+                if(strpos($arr[0],'$') === false){
+                    $methods['type'] = $arr[0];
                 }
-            }elseif (preg_match('/^@auth/i', $comment)){
-                $arr = explode(' ',$comment);
-                if(isset($arr[1])){
-                    $data['auth'] = trim($arr[1]);
-                }
+                $data['method'][] = $methods;
             }
         }
         return $data;
+    }
+    protected static function parseMatch($name,$comment,&$data){
+        if(is_array($name)){
+            foreach ($name as $item){
+                self::parseMatch($item,$comment,$data);
+            }
+        }elseif (preg_match('/^@'.$name.'/i', $comment)){
+            $arr = explode(' ',$comment);
+            if(isset($arr[1])){
+                $data[$name] = trim($arr[1]);
+            }
+        }
     }
 }

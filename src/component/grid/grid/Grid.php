@@ -331,6 +331,15 @@ class Grid extends Table
         return $column;
     }
 
+    /**
+     * 纯表格
+     */
+    public function table(){
+        $this->hideTools();
+        $this->hideSelection();
+        $this->hidePage();
+        $this->hideAction();
+    }
     public function getColumn()
     {
         return $this->column;
@@ -550,7 +559,7 @@ class Grid extends Table
                 ->type('primary')
                 ->icon('<plus-outlined />');
         }
-       
+
         $page = Request::input('ex_admin_page', 1);
         $size = Request::input('ex_admin_size', $this->pagination->attr('pageSize'));
 
@@ -561,7 +570,7 @@ class Grid extends Table
         $data = $this->driver->data($page, $size, $this->attr('hidePage') ? true : false);
         $total = $this->driver->getTotal();
         $this->pagination->total($total);
-        
+
         $data = $this->parseColumn($data);
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');

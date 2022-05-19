@@ -28,7 +28,7 @@ class Row extends Component
      * 添加列
      * @param mixed $content 内容
      * @param int $span 栅格占据的列数,占满一行24,默认24
-     * @return Column
+     * @return Col
      */
     public function column($content,int $span = 24){
         $column = Col::create();

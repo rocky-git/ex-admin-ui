@@ -177,7 +177,7 @@ class Manager
                 'version' => $version,
             ],
             'sink' => $path,
-            'progress' => function ($totalDownload, $downloaded) use ($progressBar) {
+            'progress' => function ($totalDownload, $downloaded) use ($progressBar,$output) {
                 if ($progressBar) {
                     if ($totalDownload > 0 && $downloaded > 0 && !$progressBar->getMaxSteps()) {
                         $progressBar->setMaxSteps($totalDownload);
@@ -187,6 +187,7 @@ class Manager
                     if ($progressBar && $downloaded > 0 && $totalDownload === $downloaded) {
                         $progressBar->finish();
                         $progressBar = null;
+                        $output->write(PHP_EOL);
                     }
                 }
             }
