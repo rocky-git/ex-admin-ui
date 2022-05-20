@@ -25,7 +25,7 @@ if (!function_exists('admin_config')) {
             return $config->set($name, $value);
         }
         if($name == '*'){
-            $sysmteConfig = $config->get('admin');
+            $sysmteConfig = $config->get('ui');
             $sysmteConfig['locale'] = admin_trans('antd');
             return $sysmteConfig;
         }
