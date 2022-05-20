@@ -146,6 +146,7 @@ class Manager
     {
         $plug = $this->getPlug($item['name']);
         $version = $plug['version'];
+        $version = $plug['version'];
         $info = $plug->getInfo();
         $info = array_merge($info, $item);
         $info['version'] = $version;
@@ -200,14 +201,17 @@ class Manager
 
     public function upload($data, $update = false)
     {
+
         $data['update'] = $update;
         $this->setInfo($data['name'], ['version' => $data['version']]);
         $path = $this->getPlug($data['name'])->getPath();
+
         $zip = new \ZipArchive();
         $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
         if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
             foreach (Finder::create()->in($path)->files() as $file) {
-                $zip->addFile($file->getRealPath(), $file->getRelativePathname());
+                $localname = str_replace('\\','/',$file->getRelativePathname());
+                $zip->addFile($file->getRealPath(),$localname);
             }
             $zip->close();
             try {
