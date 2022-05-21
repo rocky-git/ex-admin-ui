@@ -514,9 +514,10 @@ PHP;
     /**
      * 安装
      * @param string $fileZip 插件压缩包
+     * @param bool $force 强制
      * @return bool|string
      */
-    public function install($fileZip)
+    public function install($fileZip,$force=false)
     {
 
         $zip = new \ZipArchive();
@@ -524,15 +525,13 @@ PHP;
             $info = $zip->getFromName('info.json');
             $info = json_decode($info, true);
             $path = $this->basePath . '/' . $info['name'];
-            if (is_dir($path)) {
+            if (is_dir($path) && !$force) {
                 return '请删除插件目录下的' . $info['name'] . '目录再进行安装';
             }
             $zip->extractTo($path);
             $zip->close();
             $this->buildIde();
             $this->getPlug($info['name'])->install();
-
-
             return true;
         }
         return '解压插件失败';

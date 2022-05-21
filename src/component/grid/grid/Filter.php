@@ -83,7 +83,7 @@ class Filter
                 call_user_func($arguments[0], $this);
             }
         } elseif (isset($this->formComponent[$name])) {
-            if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange'])) {
+            if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange','numberRange'])) {
                 array_unshift($arguments, $arguments[0]);
             }
             if (!is_null($form)) {

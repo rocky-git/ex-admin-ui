@@ -1,8 +1,6 @@
 <?php
 
-namespace ExAdmin\ui\component\form\field\dateTimePicker;
-
-use ExAdmin\ui\component\form\Field;
+namespace ExAdmin\ui\component\form;
 
 class RangeField extends Field
 {
