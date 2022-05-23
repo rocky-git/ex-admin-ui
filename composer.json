@@ -23,6 +23,7 @@
     "symfony/filesystem": "<=6",
     "symfony/console": "<=6",
     "symfony/http-foundation": "<=6",
+    "hisune/echarts-php": "^1.1",
     "phpoffice/phpspreadsheet": "^1.1"
   },
   "autoload": {
