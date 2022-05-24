@@ -87,13 +87,7 @@ class LineChart extends Echart
      */
     public function data($name, $data)
     {
-        if ($data instanceof \Closure) {
-            $call = $data;
-            $data = [];
-            foreach (array_keys($this->xAxis) as $item) {
-                $data[] = call_user_func($call, $item);
-            }
-        }
+        $data = $this->series($data);
         $this->echart->series[] = array(
             'name' => $name,
             'type' => 'line',
@@ -101,5 +95,15 @@ class LineChart extends Echart
             'data' => $data
         );
         return $this;
+    }
+    protected function series($data){
+        if ($data instanceof \Closure) {
+            $call = $data;
+            $data = [];
+            foreach (array_keys($this->xAxis) as $item) {
+                $data[] = call_user_func($call, $item);
+            }
+        }
+        return $data;
     }
 }

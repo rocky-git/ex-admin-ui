@@ -15,7 +15,7 @@ use Hisune\EchartsPHP\ECharts;
  * Class Echart
  * @package ExAdmin\ui\component\echart
  * @method $this width(string $width)  宽度
- * @method $this height(string $height)  宽度
+ * @method $this height(string $height = '350px')  高度
  */
 class Echart extends Component
 {
@@ -33,13 +33,16 @@ class Echart extends Component
 
     /**
      * 选项参数
-     * @param array|\Closure $options
+     * @param mixed $options
      * @return $this
      */
     public function options($options){
         if($options instanceof \Closure){
             call_user_func($options,$this->echart);
             $options = $this->echart->getOption();
+        }elseif (is_string($options)){
+            $options = preg_replace(["/([a-zA-Z_]+[a-zA-Z0-9_]*)\s*:/", "/:\s*'(.*?)'/"], ['"\1":', ': "\1"'], $options);
+            $options = json_decode($options,true);
         }
         $this->echart->_options = array_merge($this->echart->_options,$options);
         return $this;
