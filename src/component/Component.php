@@ -377,7 +377,7 @@ abstract class Component implements \JsonSerializable
 
     /**
      * Modal 对话框
-     * @param string|Component $url
+     * @param mixed $url
      * @param array $params
      * @param string $method
      * @return Modal

@@ -43,6 +43,7 @@ class CheckboxGroup extends Field
         $this->column = $number;
         return $this;
     }
+    
     /**
      * 设置选项
      * @param array $data 数据源 $data = [1 =>'选项1', 2=>'选项2'];

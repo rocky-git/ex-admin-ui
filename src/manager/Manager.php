@@ -7,11 +7,13 @@ abstract class Manager
     protected $driver = null;
     function __construct($repository,$component){
         $this->setDriver($repository,$component);
-        $this->driver->initialize($component,$repository);
+        if($this->driver){
+            $this->driver->initialize($component,$repository);
+        }
     }
-    
+
     abstract public function setDriver($repository,$component);
-    
+
     final public function getDriver()
     {
         return $this->driver;

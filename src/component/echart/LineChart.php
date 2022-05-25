@@ -14,12 +14,11 @@ use Carbon\Carbon;
  * 折线图
  * Class LineChart
  * @package ExAdmin\ui\component\echart
- * @method static $this create(string|array $xAxis) 创建
  */
 class LineChart extends Echart
 {
-    protected $xAxis = [];
-    public function __construct($xAxis)
+    public $xAxisData = [];
+    public function __construct()
     {
         parent::__construct();
         $this->echart->tooltip->trigger = 'axis';
@@ -32,9 +31,18 @@ class LineChart extends Echart
         $this->echart->yAxis[] = array(
             'type' => 'value'
         );
-        $this->xAxis = $xAxis;
+        $this->xAxis($this->dateDefault);
+    }
+
+    /**
+     * 设置x轴数据
+     * @param string|array $xAxis
+     * @return $this
+     */
+    public function xAxis($xAxis = 'today'){
+        $this->xAxisData = $xAxis;
         if(is_string($xAxis)){
-            $this->xAxis = [];
+            $this->xAxisData = [];
             switch ($xAxis) {
                 case 'yesterday':
                 case 'today':
@@ -44,7 +52,7 @@ class LineChart extends Echart
                         $date = date('Y-m-d 00:00');
                     }
                     for ($i = 0; $i < 24; $i++) {
-                        $this->xAxis[Carbon::parse($date)->addHours($i)->toDateTimeString()] =
+                        $this->xAxisData[Carbon::parse($date)->addHours($i)->toDateTimeString()] =
                             "{$i}".admin_trans('echart.dian').admin_trans('echart.to').($i+1).admin_trans('echart.dian');
                     }
                     break;
@@ -52,7 +60,7 @@ class LineChart extends Echart
                     $start_week = Carbon::now()->startOfWeek()->addDays(-1)->toDateString();
                     for ($i = 0; $i <= 6; $i++) {
                         $week = Carbon::make($start_week)->addDays($i)->toDateString();
-                        $this->xAxis[$week] = $week;
+                        $this->xAxisData[$week] = $week;
                     }
                     break;
                 case 'month':
@@ -60,14 +68,14 @@ class LineChart extends Echart
                     $months = Carbon::parse($now->firstOfMonth()->toDateString())->daysUntil($now->endOfMonth()->toDateString())->toArray();
                     foreach ($months as $month) {
                         $data = $month->toDateString();
-                        $this->xAxis[$data] = $data;
+                        $this->xAxisData[$data] = $data;
                     }
                     break;
                 case 'year':
                     $now = Carbon::today();
                     for ($i = 1; $i <= 12; $i++) {
                         $date = Carbon::parse($now)->firstOfYear()->addMonths($i-1)->format('Y-m');
-                        $this->xAxis[$date] =  $i . admin_trans('echart.month');
+                        $this->xAxisData[$date] =  $i . admin_trans('echart.month');
                     }
                     break;
             }
@@ -75,19 +83,18 @@ class LineChart extends Echart
         $this->echart->xAxis = [
             'type' => 'category',
             'boundaryGap' => false,
-            'data' => array_values($this->xAxis)
+            'data' => array_values($this->xAxisData)
         ];
     }
 
     /**
      * 添加数据
      * @param $name
-     * @param array|\Closure $data
+     * @param array $data
      * @return $this
      */
     public function data($name, $data)
     {
-        $data = $this->series($data);
         $this->echart->series[] = array(
             'name' => $name,
             'type' => 'line',
@@ -95,15 +102,5 @@ class LineChart extends Echart
             'data' => $data
         );
         return $this;
-    }
-    protected function series($data){
-        if ($data instanceof \Closure) {
-            $call = $data;
-            $data = [];
-            foreach (array_keys($this->xAxis) as $item) {
-                $data[] = call_user_func($call, $item);
-            }
-        }
-        return $data;
     }
 }

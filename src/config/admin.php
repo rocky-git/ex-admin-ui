@@ -24,7 +24,10 @@ return [
         //ExAdmin\ui\contract\UploaderAbstract
         'uploader'=>'',
     ],
-    
+    'echart' => [
+        //ExAdmin\ui\Manager
+        'manager' => \ExAdmin\ui\manager\EchartManager::class,
+    ],
     //扫描权限目录
     'auth_scan' => [],
     
