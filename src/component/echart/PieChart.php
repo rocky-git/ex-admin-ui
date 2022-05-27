@@ -12,15 +12,15 @@ namespace ExAdmin\ui\component\echart;
  * 饼图
  * Class PieChart
  * @package ExAdmin\ui\component\echart
- * @method static $this create(string $name) 创建
+ * @method static $this create(string $name = '') 创建
  */
 class PieChart extends Echart
 {
-    protected $data = [];
+   
     protected $seriesName;
     protected $ring = false;
 
-    public function __construct($name)
+    public function __construct($name='')
     {
         parent::__construct();
         $this->echart->tooltip->trigger = 'item';

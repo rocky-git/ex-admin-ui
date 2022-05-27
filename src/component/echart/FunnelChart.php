@@ -17,9 +17,7 @@ namespace ExAdmin\ui\component\echart;
 class FunnelChart extends Echart
 {
     protected $seriesName;
-
-    protected $data = [];
-
+    
     public function __construct($name)
     {
         parent::__construct();

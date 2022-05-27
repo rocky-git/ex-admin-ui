@@ -579,7 +579,9 @@ class Grid extends Table
             $this->attr('addButton', $this->addButton->action());
         }
 
-        if (Request::input('grid_request_data') && Request::input('ex_admin_class') == $this->call['class'] && Request::input('ex_admin_function') == $this->call['function']) {
+        if (Request::input('grid_request_data') 
+            && Request::input('ex_admin_class') == $this->call['class'] 
+            && Request::input('ex_admin_function') == $this->call['function']) {
             return [
                 'data' => $data,
                 'header' => $this->attr('header'),

@@ -2,6 +2,8 @@
 
 namespace ExAdmin\ui\traits;
 
+
+
 trait CallProvide
 {
     protected $call = [];
@@ -9,13 +11,14 @@ trait CallProvide
     public function parseCallMethod($reset = false)
     {
         if (count($this->call) == 0 || $reset = true) {
-            $backtraces = debug_backtrace(1, 6);
+            $backtraces = debug_backtrace(1);
             foreach ($backtraces as $key => $backtrace) {
                 if ($backtrace['function'] == '__callStatic' && isset($backtraces[$key+1])) {
                     $backtrace = $backtraces[$key+1];
                     break;
                 }
             }
+
             $backtraceClass = $backtrace['class'] ?? '';
             $this->call = [
                 'class' => str_replace('\\', '-', $backtraceClass),

@@ -31,7 +31,7 @@ class LineChart extends Echart
         $this->echart->yAxis[] = array(
             'type' => 'value'
         );
-        $this->xAxis($this->dateDefault);
+        $this->xAxis($this->dateFilterValue);
     }
 
     /**
@@ -52,30 +52,54 @@ class LineChart extends Echart
                         $date = date('Y-m-d 00:00');
                     }
                     for ($i = 0; $i < 24; $i++) {
-                        $this->xAxisData[Carbon::parse($date)->addHours($i)->toDateTimeString()] =
-                            "{$i}".admin_trans('echart.dian').admin_trans('echart.to').($i+1).admin_trans('echart.dian');
+                        $hour = $i < 10 ? '0' . $i : $i;
+                        $this->xAxisData[] = [
+                          'value'=>[
+                              Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:00:00"),
+                              Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:59:59"),
+                          ],
+                          'label'=>"{$i}".admin_trans('echart.dian').admin_trans('echart.to').($i+1).admin_trans('echart.dian')
+                        ];
                     }
                     break;
                 case 'week':
                     $start_week = Carbon::now()->startOfWeek()->addDays(-1)->toDateString();
                     for ($i = 0; $i <= 6; $i++) {
-                        $week = Carbon::make($start_week)->addDays($i)->toDateString();
-                        $this->xAxisData[$week] = $week;
+                        $day = Carbon::make($start_week)->addDays($i)->toDateString();
+                        $this->xAxisData[] = [
+                            'value'=>[
+                                Carbon::parse($day)->format("Y-m-d 00:00:00"),
+                                Carbon::parse($day)->format("Y-m-d 23:59:59"),
+                            ],
+                            'label'=>$day,
+                        ];
                     }
                     break;
                 case 'month':
                     $now = Carbon::today();
                     $months = Carbon::parse($now->firstOfMonth()->toDateString())->daysUntil($now->endOfMonth()->toDateString())->toArray();
                     foreach ($months as $month) {
-                        $data = $month->toDateString();
-                        $this->xAxisData[$data] = $data;
+                        $day = $month->toDateString();
+                        $this->xAxisData[] = [
+                            'value'=>[
+                                Carbon::parse($day)->format("Y-m-d 00:00:00"),
+                                Carbon::parse($day)->format("Y-m-d 23:59:59"),
+                            ],
+                            'label'=>$day,
+                        ];
                     }
                     break;
                 case 'year':
                     $now = Carbon::today();
                     for ($i = 1; $i <= 12; $i++) {
-                        $date = Carbon::parse($now)->firstOfYear()->addMonths($i-1)->format('Y-m');
-                        $this->xAxisData[$date] =  $i . admin_trans('echart.month');
+                        $day = Carbon::parse($now)->firstOfYear()->addMonths($i-1)->format('Y-m');
+                        $this->xAxisData[] = [
+                            'value'=>[
+                                Carbon::parse($day)->format("Y-m-d 00:00:00"),
+                                Carbon::parse($day)->endOfMonth()->format("Y-m-d 23:59:59"),
+                            ],
+                            'label'=> $i . admin_trans('echart.month')
+                        ];
                     }
                     break;
             }
@@ -83,7 +107,7 @@ class LineChart extends Echart
         $this->echart->xAxis = [
             'type' => 'category',
             'boundaryGap' => false,
-            'data' => array_values($this->xAxisData)
+            'data' => array_column($this->xAxisData,'label')
         ];
     }
 
@@ -95,6 +119,7 @@ class LineChart extends Echart
      */
     public function data($name, $data)
     {
+        $this->data[$name] = $data;
         $this->echart->series[] = array(
             'name' => $name,
             'type' => 'line',
