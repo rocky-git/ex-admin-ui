@@ -20,6 +20,8 @@ use ExAdmin\ui\component\form\Field;
  * @method $this showSelectAll(bool $show = true) 是否展示全选勾选框														boolean
  * @method $this targetKeys(array $focus = []) 显示在右侧框数据的 key 集合													string[]
  * @method $this titles(array $focus = ['', '']) 标题集合，顺序从左至右													string[]
+ * @method $this dataSource(array $data) 数据源
+ * @method $this footer(mixed $content) 底部内容
  * @package ExAdmin\ui\component\form\field
  */
 class Transfer extends Field
@@ -30,11 +32,37 @@ class Transfer extends Field
      */
 	protected $name = 'ATransfer';
 
-    /**
-     * 数据源，其中的数据将会被渲染到左边一栏中，targetKeys 中指定的除外。#TODO
-     */
-    public function dataSource()
-    {
+    protected $slot = [
+        'footer'
+    ];
+    protected $vModel = 'targetKeys';
 
+    public function __construct($field = null, $value = [])
+    {
+        parent::__construct($field, $value);
+        $this->bindFunction('render',"return item.label;",['item']);
+        $this->bindFunction('rowKey',"return record.id;",['record']);
+    }
+    
+    /**
+     * 数据选项
+     * @param array $data
+     * @return $this
+     */
+    public function options($data)
+    {
+        if(count($data) == count($data,1)){
+            foreach ($data as $id => $label) {
+                $options[] = [
+                    'id' => $id,
+                    'label' => $label,
+                    'disabled' => false,
+                ];
+            }
+        }else{
+            $options = $data;
+        }
+        $this->dataSource($options);
+        return $this;
     }
 }
