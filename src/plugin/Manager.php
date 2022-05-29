@@ -490,7 +490,7 @@ PHP;
     {
         $loader = include dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'autoload.php';
         $info = $this->getInfo($name);
-        if ($info['status']) {
+        if ($info['status'] && $this->authorization($name)) {
             $namespace = $info['namespace'] . '\\';
             $loader->addPsr4($namespace, $path);
             $ServiceProvider = $namespace . "ServiceProvider";
