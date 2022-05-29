@@ -1,4 +1,6 @@
 <?php
+const EX_ADMIN_VERSION = '1.0.0';
+
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;
 
@@ -9,7 +11,6 @@ if (extension_loaded('zlib')) {
 }
 
 \ExAdmin\ui\support\Container::getInstance()->make(\ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
-
 
 if (!function_exists('admin_config')) {
     /**
@@ -200,6 +201,16 @@ if (!function_exists('plugin')) {
     function plugin()
     {
         return \ExAdmin\ui\support\Container::getInstance()->plugin;
+    }
+}
+if (!function_exists('ex_admin_version')) {
+    /**
+     * 获取版本号
+     * @return string
+     */
+    function ex_admin_version()
+    {
+        return EX_ADMIN_VERSION;
     }
 }
 

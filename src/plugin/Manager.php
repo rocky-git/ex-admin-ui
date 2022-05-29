@@ -221,6 +221,7 @@ class Manager
             'query' => [
                 'name' => $name,
                 'version' => $version,
+                'ex_admin_version' => ex_admin_version(),
             ],
             'sink' => $path,
             'progress' => function ($totalDownload, $downloaded) use ($progressBar, $output) {
@@ -385,6 +386,7 @@ class Manager
         $info = compact('name', 'title', 'description');
         $info['status'] = true;
         $info['version'] = $version;
+        $info['ex_admin_version'] = '>='.ex_admin_version();
         $info['author'] = $author;
         $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
         $info['plugin'] = [];
