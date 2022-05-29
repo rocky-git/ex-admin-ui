@@ -17,7 +17,6 @@ class Request
     public function __construct()
     {
         $this->request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-
     }
 
     protected function getInputData(): array

@@ -5,6 +5,7 @@ namespace ExAdmin\ui\plugin;
 
 use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Container;
+use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -37,7 +38,7 @@ class Manager
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'https://ui.ex-admin.com/api/',
+            'base_uri' => 'https://ui.ex-admin.com/api/plugin/',
             'verify' => false,
         ]);
         $this->initialize();
@@ -95,7 +96,7 @@ class Manager
             }
             $names = array_keys($this->getPlug());
         }
-        $response = $this->client->get("plugin/list", [
+        $response = $this->client->get("list", [
             'query' => [
                 'cate_id' => $cate_id,
                 'page' => $page,
@@ -125,6 +126,7 @@ class Manager
                     $info = array_merge($info, $item);
                     $info['status'] = false;
                     $info['online'] = true;
+                    $info['authorized'] = $this->authorization($item['name']);
                     $plug->setInfo($info);
                 }
                 $plugs[] = $plug;
@@ -135,6 +137,48 @@ class Manager
             'data' => $plugs,
             'total' => $content['data']['total'],
         ];
+    }
+    /**
+     * 验证插件授权，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
+     */
+    protected function verify(){
+        $date = null;
+        $file = $this->basePath.'/license';
+        if(is_file($file)){
+            $date = date('Y-m-d',filemtime($file));
+        }
+        if($date != date('Y-m-d')){
+            try {
+                $domain = Request::getHost();
+                $response = $this->client->post('verify', [
+                    'form_params' => [
+                        'domain' => $domain,
+                        'plugin' => array_keys($this->plug),
+                    ]
+                ]);
+                $content = $response->getBody()->getContents();
+                $content = json_decode($content, true);
+                foreach (array_keys($this->plug) as $name){
+                    @file_put_contents($this->licensePath($name),'');
+                }
+                foreach ($content['data'] as $name){
+                    @unlink($this->licensePath($name));
+                }
+            }catch (\Exception $exception){
+
+            }
+            @file_put_contents($file,'');
+        }
+    }
+    /**
+     * 验证插件授权，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
+     */
+    protected function authorization($name)
+    {
+        if (is_file($this->licensePath($name))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -151,6 +195,7 @@ class Manager
         $info = array_merge($info, $item);
         $info['version'] = $version;
         $info['online'] = true;
+        $info['authorized'] = $this->authorization($item['name']);
         $plug->setInfo($info);
         return $plug;
     }
@@ -168,7 +213,7 @@ class Manager
         $output = new ConsoleOutput();
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('very_verbose');
-        $response = $this->client->get('plugin/download', [
+        $response = $this->client->get('download', [
             'headers' => [
                 'Authorization' => $this->token(),
                 'Accept' => 'application/json'
@@ -178,7 +223,7 @@ class Manager
                 'version' => $version,
             ],
             'sink' => $path,
-            'progress' => function ($totalDownload, $downloaded) use ($progressBar,$output) {
+            'progress' => function ($totalDownload, $downloaded) use ($progressBar, $output) {
                 if ($progressBar) {
                     if ($totalDownload > 0 && $downloaded > 0 && !$progressBar->getMaxSteps()) {
                         $progressBar->setMaxSteps($totalDownload);
@@ -210,12 +255,12 @@ class Manager
         $zipPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $data['name'] . '-' . $data['version'] . '.zip';
         if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
             foreach (Finder::create()->in($path)->files() as $file) {
-                $localname = str_replace('\\','/',$file->getRelativePathname());
-                $zip->addFile($file->getRealPath(),$localname);
+                $localname = str_replace('\\', '/', $file->getRelativePathname());
+                $zip->addFile($file->getRealPath(), $localname);
             }
             $zip->close();
             try {
-                $response = $this->client->post('plugin/upload', [
+                $response = $this->client->post('upload', [
                     'headers' => [
                         'Authorization' => $this->token(),
                         'Accept' => 'application/json'
@@ -279,7 +324,7 @@ class Manager
      */
     public function login($username, $password)
     {
-        $response = $this->client->post('plugin/login', [
+        $response = $this->client->post('login', [
             'form_params' => [
                 'username' => $username,
                 'password' => $password,
@@ -301,7 +346,7 @@ class Manager
      */
     public function getCate()
     {
-        $response = $this->client->get("plugin/cate");
+        $response = $this->client->get("cate");
         $content = $response->getBody()->getContents();
         $content = json_decode($content, true);
         return $content['data'];
@@ -342,6 +387,7 @@ class Manager
         $info['version'] = $version;
         $info['author'] = $author;
         $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
+        $info['plugin'] = [];
         $info['require'] = [];
         $this->setInfo($name, $info);
         $path = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
@@ -360,6 +406,7 @@ class Manager
         $content = file_get_contents(__DIR__ . '/stub/ServiceProvider.stub');
         $content = str_replace('{%namespace%}', $info['namespace'], $content);
         $file->dumpFile($path . 'ServiceProvider.php', $content);
+        $file->dumpFile($path . 'license', '');
         $this->loadPlugin($name, $path);
         //config文件
         return $file->dumpFile($path . 'config.php', '<?php return [];');
@@ -428,7 +475,7 @@ PHP;
      */
     public function register()
     {
-
+        $this->verify();
         foreach ($this->plugPath as $name => $path) {
             $this->loadPlugin($name, $path);
         }
@@ -436,7 +483,7 @@ PHP;
 
     protected function loadPlugin($name, $path)
     {
-        $loader = include __DIR__ . '/../../../../autoload.php';
+        $loader = include dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'autoload.php';
         $info = $this->getInfo($name);
         if ($info['status']) {
             $namespace = $info['namespace'] . '\\';
@@ -489,6 +536,16 @@ PHP;
     }
 
     /**
+     * 返回许可文件路径
+     * @param string $name 插件名称
+     * @return string
+     */
+    public function licensePath($name)
+    {
+        return $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'license';
+    }
+
+    /**
      * 返回插件info文件路径
      * @param string $name 插件名称
      * @return string
@@ -517,7 +574,7 @@ PHP;
      * @param bool $force 强制
      * @return bool|string
      */
-    public function install($fileZip,$force=false)
+    public function install($fileZip, $force = false)
     {
 
         $zip = new \ZipArchive();
