@@ -138,16 +138,18 @@ class Manager
             'total' => $content['data']['total'],
         ];
     }
+
     /**
      * 验证插件授权，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
      */
-    protected function verify(){
+    protected function verify()
+    {
         $date = null;
-        $file = $this->basePath.'/license';
-        if(is_file($file)){
-            $date = date('Y-m-d',filemtime($file));
+        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'license';
+        if (is_file($file)) {
+            $date = date('Y-m-d', filemtime($file));
         }
-        if($date != date('Y-m-d')){
+        if ($date != date('Y-m-d')) {
             try {
                 $domain = Request::getHost();
                 $response = $this->client->post('verify', [
@@ -158,18 +160,19 @@ class Manager
                 ]);
                 $content = $response->getBody()->getContents();
                 $content = json_decode($content, true);
-                foreach (array_keys($this->plug) as $name){
-                    @file_put_contents($this->licensePath($name),'');
+                foreach (array_keys($this->plug) as $name) {
+                    @file_put_contents($this->licensePath($name), '');
                 }
-                foreach ($content['data'] as $name){
+                foreach ($content['data'] as $name) {
                     @unlink($this->licensePath($name));
                 }
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
 
             }
-            @file_put_contents($file,'');
+            @file_put_contents($file, '');
         }
     }
+
     /**
      * 验证插件授权，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
      */
@@ -386,7 +389,7 @@ class Manager
         $info = compact('name', 'title', 'description');
         $info['status'] = true;
         $info['version'] = $version;
-        $info['ex_admin_version'] = '>='.ex_admin_version();
+        $info['ex_admin_version'] = '>=' . ex_admin_version();
         $info['author'] = $author;
         $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
         $info['plugin'] = [];
