@@ -216,6 +216,13 @@ class Manager
         $output = new ConsoleOutput();
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('very_verbose');
+        $plugin = [];
+        foreach ($this->plug as $name=>$plug){
+            $plugin[] = [
+              'name'=>$name,  
+              'version'=>$plugin->version(),  
+            ];
+        }
         $response = $this->client->get('download', [
             'headers' => [
                 'Authorization' => $this->token(),
@@ -224,6 +231,7 @@ class Manager
             'query' => [
                 'name' => $name,
                 'version' => $version,
+                'plugin' => $plugin,
                 'ex_admin_version' => ex_admin_version(),
             ],
             'sink' => $path,

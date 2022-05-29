@@ -36,7 +36,14 @@ class Plugin implements \ArrayAccess
         $this->info = $this->manager->getInfo($name);
     }
 
-
+    /**
+     * 获取版本号
+     * @return string
+     */
+    final public function version()
+    {
+        return $this->info['version'];
+    }
 
     /**
      * 判断是否启用.
