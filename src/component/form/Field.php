@@ -35,6 +35,7 @@ class Field extends Component
 
     public function __construct($field = null, $value = '')
     {
+        $this->attr('data-tag', 'component');
         $this->vModel($this->vModel, $field, $value);
         $this->field = $this->bindAttr($this->vModel);
         $this->value = $value;

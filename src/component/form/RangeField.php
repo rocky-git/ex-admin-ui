@@ -47,18 +47,7 @@ class RangeField extends Field
      */
     public function default($value)
     {
-        if (count($value) == 0) {
-            $value = [null, null];
-        }
-        if (count($value) != 2) {
-            throw new \Exception('传递数组参数至少2个元素');
-        }
-        [$startValue, $endValue] = $value;
-        $this->formItem->form()->inputDefault($this->field, $value);
-        $this->formItem->form()->inputDefault($this->startField, $startValue);
-        $this->formItem->form()->inputDefault($this->endField, $endValue);
-        return $this;
-
+        return $this->setValueArg('inputDefault',$value);
     }
 
     /**
@@ -68,6 +57,9 @@ class RangeField extends Field
      */
     public function value($value)
     {
+        return $this->setValueArg('input',$value);
+    }
+    protected function setValueArg($method,$value){
         if (count($value) == 0) {
             $value = [null, null];
         }
@@ -75,9 +67,9 @@ class RangeField extends Field
             throw new \Exception('传递数组参数至少2个元素');
         }
         [$startValue, $endValue] = $value;
-        $this->formItem->form()->input($this->field, $value);
-        $this->formItem->form()->input($this->startField, $startValue);
-        $this->formItem->form()->input($this->endField, $endValue);
+        $this->formItem->form()->$method($this->field, $value);
+        $this->formItem->form()->$method($this->startField, $startValue);
+        $this->formItem->form()->$method($this->endField, $endValue);
         return $this;
     }
 }

@@ -190,6 +190,9 @@ if (!function_exists('admin_view')) {
      */
     function admin_view($content)
     {
+        if(is_file($content)){
+            $content = file_get_contents($content);
+        }
         return Html::create($content)->tag('component');
     }
 }

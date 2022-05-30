@@ -82,7 +82,7 @@ class Filter
             if (isset($arguments[0]) && $arguments[0] instanceof \Closure) {
                 call_user_func($arguments[0], $this);
             }
-        } elseif (isset($this->formComponent[$name])) {
+        } elseif (isset(self::$formComponent[$name])) {
             if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange','numberRange'])) {
                 array_unshift($arguments, $arguments[0]);
             }

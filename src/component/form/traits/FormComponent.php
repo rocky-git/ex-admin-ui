@@ -85,7 +85,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  */
 trait FormComponent
 {
-    protected $formComponent = [
+    protected static $formComponent = [
         'text'          => Input::class,
         'number'        => InputNumber::class,
         'numberRange'        => NumberRange::class,

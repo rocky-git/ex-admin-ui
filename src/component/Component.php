@@ -21,7 +21,7 @@ abstract class Component implements \JsonSerializable
     use Where, ForMap, Event, Directive, CallProvide;
 
     //组件名称
-    protected $name;
+    protected $name = 'html';
     //属性
     protected $attribute = [];
     //内容
