@@ -217,10 +217,10 @@ class Manager
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('very_verbose');
         $plugin = [];
-        foreach ($this->plug as $name=>$plug){
+        foreach ($this->plug as $id=>$plug){
             $plugin[] = [
-              'name'=>$name,  
-              'version'=>$plugin->version(),  
+              'name'=>$id,  
+              'version'=>$plug->version(),  
             ];
         }
         $response = $this->client->get('download', [
@@ -595,11 +595,13 @@ PHP;
             $info = $zip->getFromName('info.json');
             $info = json_decode($info, true);
             $path = $this->basePath . '/' . $info['name'];
+           
             if (is_dir($path) && !$force) {
                 return '请删除插件目录下的' . $info['name'] . '目录再进行安装';
             }
             $zip->extractTo($path);
             $zip->close();
+            file_put_contents($this->licensePath($info['name']),'');
             $this->buildIde();
             $this->getPlug($info['name'])->install();
             return true;
@@ -617,6 +619,7 @@ PHP;
         $this->getPlug($name)->uninstall();
         $file = new Filesystem();
         $result = $file->remove($this->plugPath[$name]);
+        admin_menu()->delete($name);
         $this->buildIde();
         return $result;
     }

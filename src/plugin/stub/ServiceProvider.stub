@@ -14,7 +14,14 @@ class ServiceProvider extends Plugin
     {
         //
     }
-
+    /**
+     * 菜单
+     * @return array
+     */
+    public function menu(): array
+    {
+        return [];
+    }
     /**
      * 设置
      * @return Form

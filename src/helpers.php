@@ -196,6 +196,17 @@ if (!function_exists('admin_view')) {
         return Html::create($content)->tag('component');
     }
 }
+if (!function_exists('admin_menu')) {
+    /**
+     * 菜单
+     * @return \ExAdmin\ui\contract\MenuAbstract
+     */
+    function admin_menu()
+    {
+        $menu = admin_config('admin.menu');
+        return new $menu;
+    }
+}
 if (!function_exists('plugin')) {
     /**
      * 插件管理

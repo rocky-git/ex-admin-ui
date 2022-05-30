@@ -38,4 +38,7 @@ return [
         //插件命名空间
         'namespace'=>'plugin'
     ],
+    //菜单
+    //ExAdmin\ui\contract\MenuAbstract
+    'menu'=>'',
 ];

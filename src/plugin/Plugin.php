@@ -99,6 +99,7 @@ class Plugin implements \ArrayAccess
      */
     public function enable()
     {
+        admin_menu()->enable($this->name);
         return $this->manager->setInfo($this->name, ['status' => true]) !== false;
     }
 
@@ -109,6 +110,7 @@ class Plugin implements \ArrayAccess
      */
     public function disable()
     {
+        admin_menu()->disable($this->name);
         return $this->manager->setInfo($this->name, ['status' => false]) !== false;
     }
 
@@ -158,6 +160,17 @@ class Plugin implements \ArrayAccess
         return $this->info['namespace'] . '\\';
     }
 
+    /**
+     * 插入菜单
+     */
+    final public function addMenu(){
+       if(method_exists($this,'menu')){
+           $menu = $this->menu();
+           if(!empty($menu)){
+               admin_menu()->create($menu,$this->name);
+           }
+       }
+    }
     /**
      * 获取或保存配置.
      * @param string $key
