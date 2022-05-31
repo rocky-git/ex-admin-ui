@@ -36,7 +36,7 @@ trait Directive
      */
     public function ajax($url, array $params = [],string $method = 'POST')
     {
-        $url = $this->parseUrl($url);
+        $url = admin_url($url);
         return new Ajax($this,[
             'url' => $url,
             'data' => $params,

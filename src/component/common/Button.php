@@ -74,7 +74,7 @@ class Button extends Component
      * @return Component
      */
     public function upload($url,array $params = []){
-        $url = $this->parseUrl($url);
+        $url = admin_url($url);
         return Upload::create()
             ->content($this)
             ->chunk(false)

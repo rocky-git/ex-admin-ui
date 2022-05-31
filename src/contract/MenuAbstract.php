@@ -13,10 +13,9 @@ abstract class MenuAbstract
     /**
      * 创建菜单
      * @param array $data
-     * @param $plugin
-     * @return mixed
+     * @return int
      */
-    abstract public function create(array $data,$plugin);
+    abstract public function create(array $data):int;
 
     /**
      * 启用菜单

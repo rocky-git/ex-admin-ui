@@ -267,7 +267,7 @@ class Controller
      */
     public function onlineInstall($name,$version)
     {
-       
+
         if(!plugin()->token()){
             return message_error('请登录后操作！');
         }
@@ -289,7 +289,7 @@ class Controller
         $result = plugin()->install($path);
         unlink($path);
         if ($result === true) {
-            return message_success('安装完成');
+            return message_success('安装完成')->refreshMenu();
         }
         return message_error($result);
     }
@@ -301,7 +301,7 @@ class Controller
     public function uninstall($name)
     {
         $plug = plugin()->uninstall($name);
-        return message_success('操作完成');
+        return message_success('操作完成')->refreshMenu();
     }
 
 

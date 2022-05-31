@@ -132,16 +132,19 @@ class Plugin implements \ArrayAccess
      * 已安装
      * @return bool
      */
-    final public function installed(){
-        return is_dir($this->path) ? true:false;
+    final public function installed()
+    {
+        return is_dir($this->path) ? true : false;
     }
+
     /**
      * @param $data
      */
     final public function setInfo($data)
     {
-        $this->info  = $data;
+        $this->info = $data;
     }
+
     /**
      * 获取插件信息
      * @return array
@@ -163,14 +166,29 @@ class Plugin implements \ArrayAccess
     /**
      * 插入菜单
      */
-    final public function addMenu(){
-       if(method_exists($this,'menu')){
-           $menu = $this->menu();
-           if(!empty($menu)){
-               admin_menu()->create($menu,$this->name);
-           }
-       }
+    final public function addMenu()
+    {
+        if (method_exists($this, 'menu')) {
+            $menu = $this->menu();
+            if (!empty($menu)) {
+                $this->parseMenu($menu);
+            }
+        }
     }
+
+    private function parseMenu($menu, $pid = 0)
+    {
+        foreach ($menu as $item) {
+            $item['pid'] = $pid;
+            $item['plugin'] = $this->name;
+            $item['url'] = admin_url($item['url']);
+            $subPid = admin_menu()->create($item);
+            if (isset($item['children'])) {
+                $this->parseMenu($item['children'],$subPid);
+            }
+        }
+    }
+
     /**
      * 获取或保存配置.
      * @param string $key
@@ -217,13 +235,14 @@ PHP;
     {
         unset($this->info, $offset);
     }
+
     public function __call($method, $arguments)
     {
         foreach (glob($this->path . '/service/*.php') as $file) {
-            $name = str_replace('.php','',basename($file));
-            if(strtolower($method) == strtolower($name)){
-               $class = '\\'.$this->getNamespace().'service\\'.$name;
-               return new $class($name,$arguments);
+            $name = str_replace('.php', '', basename($file));
+            if (strtolower($method) == strtolower($name)) {
+                $class = '\\' . $this->getNamespace() . 'service\\' . $name;
+                return new $class($name, $arguments);
             }
         }
         return null;

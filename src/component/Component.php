@@ -403,7 +403,7 @@ abstract class Component implements \JsonSerializable
     private function modalParse($component, $url = '', $params = [], $method = 'POST')
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
-        $url = $this->parseUrl($url);
+        $url = admin_url($url);
         $modal = $component::create($this);
         $modal->destroyOnClose();
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
@@ -419,7 +419,7 @@ abstract class Component implements \JsonSerializable
      */
     public function confirm($message, $url = '', array $params = [], string $method = 'POST')
     {
-        $url = $this->parseUrl($url);
+        $url = admin_url($url);
         return Confirm::create($this)
             ->method($method)
             ->title(admin_trans('antd.Confirm.title'))

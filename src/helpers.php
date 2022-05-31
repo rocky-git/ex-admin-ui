@@ -10,13 +10,13 @@ if (extension_loaded('zlib')) {
     }
 }
 
-\ExAdmin\ui\support\Container::getInstance()->make(\ExAdmin\ui\support\Config::class,[__DIR__.'/config/']);
+\ExAdmin\ui\support\Container::getInstance()->make(\ExAdmin\ui\support\Config::class, [__DIR__ . '/config/']);
 
 if (!function_exists('admin_config')) {
     /**
      * 获取和设置配置参数
-     * @param string|array $name  参数名
-     * @param mixed        $value 参数值
+     * @param string|array $name 参数名
+     * @param mixed $value 参数值
      * @return mixed
      */
     function admin_config($name = '', $value = null)
@@ -25,7 +25,7 @@ if (!function_exists('admin_config')) {
         if (is_array($name)) {
             return $config->set($name, $value);
         }
-        if($name == '*'){
+        if ($name == '*') {
             $sysmteConfig = $config->get('ui');
             $sysmteConfig['locale'] = admin_trans('antd');
             return $sysmteConfig;
@@ -42,9 +42,9 @@ if (!function_exists('admin_trans')) {
      * @param null $locale 语言
      * @return string
      */
-    function admin_trans($name,$default = null, array $parameters = [], $locale = null)
+    function admin_trans($name, $default = null, array $parameters = [], $locale = null)
     {
-        return \ExAdmin\ui\support\Container::getInstance()->translator->tran($name,$default,$parameters,$locale);
+        return \ExAdmin\ui\support\Container::getInstance()->translator->tran($name, $default, $parameters, $locale);
 
     }
 }
@@ -56,10 +56,10 @@ if (!function_exists('message_success')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function message_success($message,$config=[])
+    function message_success($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->make(\ExAdmin\ui\response\Message::class, $config)
             ->success($message);
     }
 }
@@ -70,10 +70,10 @@ if (!function_exists('message_error')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function message_error($message,$config=[])
+    function message_error($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->make(\ExAdmin\ui\response\Message::class, $config)
             ->error($message);
     }
 }
@@ -84,10 +84,10 @@ if (!function_exists('message_info')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function message_info($message,$config=[])
+    function message_info($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->make(\ExAdmin\ui\response\Message::class, $config)
             ->info($message);
     }
 }
@@ -98,10 +98,10 @@ if (!function_exists('message_warning')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function message_warning($message,$config=[])
+    function message_warning($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->make(\ExAdmin\ui\response\Message::class, $config)
             ->warning($message);
     }
 }
@@ -112,14 +112,13 @@ if (!function_exists('message_loading')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function message_loading($message,$config=[])
+    function message_loading($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class,$config)
+            ->make(\ExAdmin\ui\response\Message::class, $config)
             ->warning($message);
     }
 }
-
 
 
 if (!function_exists('notification_success')) {
@@ -130,11 +129,11 @@ if (!function_exists('notification_success')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function notification_success($message,$description,$config=[])
+    function notification_success($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class,$config)
-            ->success($message,$description);
+            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->success($message, $description);
     }
 }
 if (!function_exists('notification_error')) {
@@ -145,11 +144,11 @@ if (!function_exists('notification_error')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function notification_error($message,$description,$config=[])
+    function notification_error($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class,$config)
-            ->error($message,$description);
+            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->error($message, $description);
     }
 }
 if (!function_exists('notification_info')) {
@@ -160,11 +159,11 @@ if (!function_exists('notification_info')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function notification_info($message,$description,$config=[])
+    function notification_info($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class,$config)
-            ->info($message,$description);
+            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->info($message, $description);
     }
 }
 if (!function_exists('notification_warning')) {
@@ -175,11 +174,11 @@ if (!function_exists('notification_warning')) {
      * @param array $config 配置
      * @return \ExAdmin\ui\response\Message
      */
-    function notification_warning($message,$description,$config=[])
+    function notification_warning($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class,$config)
-            ->warning($message,$description);
+            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->warning($message, $description);
     }
 }
 if (!function_exists('admin_view')) {
@@ -190,7 +189,7 @@ if (!function_exists('admin_view')) {
      */
     function admin_view($content)
     {
-        if(is_file($content)){
+        if (is_file($content)) {
             $content = file_get_contents($content);
         }
         return Html::create($content)->tag('component');
@@ -215,6 +214,26 @@ if (!function_exists('plugin')) {
     function plugin()
     {
         return \ExAdmin\ui\support\Container::getInstance()->plugin;
+    }
+}
+if (!function_exists('admin_url')) {
+    /**
+     * url生成
+     * @return string
+     */
+    function admin_url($url, $params = [])
+    {
+        if (is_array($url)) {
+            list($class, $function) = $url;
+            if (is_object($class)) {
+                $class = get_class($class);
+            }
+            $url = 'ex-admin/' . str_replace('\\', '-', $class) . '/' . $function;
+        }
+        if (count($params) > 0) {
+            $url .= '?' . http_build_query($params);
+        }
+        return $url;
     }
 }
 if (!function_exists('ex_admin_version')) {

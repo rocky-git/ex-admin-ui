@@ -28,7 +28,7 @@ class Plugin extends GridAbstract
                 }
             }
         }
-        return message_success(admin_trans('grid.update_success'));
+        return message_success(admin_trans('grid.update_success'))->refreshMenu();
     }
 
     /**
