@@ -502,7 +502,7 @@ PHP;
             $namespace = $info['namespace'] . '\\';
             $loader->addPsr4($namespace, $path);
             $ServiceProvider = $namespace . "ServiceProvider";
-            Container::getInstance()->translator->load($path . DIRECTORY_SEPARATOR . 'lang');
+            Container::getInstance()->translator->load($path . DIRECTORY_SEPARATOR . 'lang',$name);
             $this->plug[$name] = new $ServiceProvider();
             $this->plug[$name]->init($name, $path, $this);
             $this->plug[$name]->register();

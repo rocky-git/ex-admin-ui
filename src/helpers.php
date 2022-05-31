@@ -42,8 +42,9 @@ if (!function_exists('admin_trans')) {
      * @param null $locale 语言
      * @return string
      */
-    function admin_trans($name, $default = null, array $parameters = [], $locale = null)
+    function admin_trans($name, $default = null, array $parameters = [], $locale = null, $module = 'ex_admin_ui')
     {
+        $name = $module . '-' . $name;
         return \ExAdmin\ui\support\Container::getInstance()->translator->tran($name, $default, $parameters, $locale);
 
     }

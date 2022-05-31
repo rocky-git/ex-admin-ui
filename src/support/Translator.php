@@ -12,10 +12,10 @@ class Translator extends \Symfony\Component\Translation\Translator
 
         parent::__construct($locale);
         $this->addLoader('array', new ArrayLoader());
-        $this->load(__DIR__.'/../lang');
+        $this->load(__DIR__.'/../lang','ex_admin_ui');
 
     }
-    public function load($path){
+    public function load($path,$name){
         $path = rtrim($path,'/');
         foreach (glob($path.'/*') as $item){
             if(is_dir($item)){
@@ -25,7 +25,7 @@ class Translator extends \Symfony\Component\Translation\Translator
 
                     $domain = str_replace('.php','',basename($file));
 
-                    $this->addResource('array',$resource,$locale,$domain);
+                    $this->addResource('array',$resource,$locale,$name.'-'.$domain);
                 }
             }
         }

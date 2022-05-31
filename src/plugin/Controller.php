@@ -45,7 +45,7 @@ class Controller
                         ->src($data->getLogo())
                         ->whenShow($data->getLogo()),
                     Html::div()->content([
-                        Html::div()->when(empty($data['authorized']), function (Html $html) use ($data) {
+                        Html::div()->when(empty($data['authorized']) && $data->installed(), function (Html $html) use ($data) {
                             $html->content(Badge::create()->content(
                                 Tag::create($data['title'])->color('#1890ff')
                             )->count('未授权')->type('danger')

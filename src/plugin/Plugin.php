@@ -188,7 +188,17 @@ class Plugin implements \ArrayAccess
             }
         }
     }
-
+    /**
+     * 翻译
+     * @param string $name 语言变量名
+     * @param mixed $default 默认值
+     * @param array $parameters 替换参数
+     * @param null $locale 语言
+     * @return string
+     */
+    final public function trans($name, $default = null, array $parameters = [], $locale = null){
+        return admin_trans($name,$default,$parameters,$locale,$this->name);
+    }
     /**
      * 获取或保存配置.
      * @param string $key
