@@ -12,7 +12,7 @@ use ExAdmin\ui\component\Component;
  * @method $this orientation(string $orientation = 'center') 分割线标题的位置												string
  * @method $this type(string $type = 'horizontal') 水平还是垂直类型														string
  * @method $this plain(bool $plain = false) 文字是否显示为普通正文样式														boolean
- * @package ExAdmin\ui\component\form\field
+ * @method static $this create($content = '') 创建
  */
 class Divider extends Component
 {
@@ -22,5 +22,11 @@ class Divider extends Component
      */
 	protected $name = 'ADivider';
 
-	
+	public function __construct($content='')
+    {
+        parent::__construct();
+        if (!empty($content) || is_numeric($content)) {
+            $this->content($content);
+        }
+    }
 }

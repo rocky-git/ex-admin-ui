@@ -62,13 +62,13 @@ class Arrays extends GridAbstract
 
     public function deleteAll(): Message
     {
-        $result = $this->dispatchEvent('deling',[$ids]);
+        $result = $this->dispatchEvent('deling',[true]);
         if($result instanceof Message){
             return $result;
         }
 
 
-        $deletedResult = $this->dispatchEvent('deleted',[$ids]);
+        $deletedResult = $this->dispatchEvent('deleted',[true]);
         if($deletedResult instanceof Message){
             return $deletedResult;
         }

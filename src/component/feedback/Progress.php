@@ -6,7 +6,7 @@ use ExAdmin\ui\component\Component;
 
 /**
  * 进度条
- * Class Process
+ * Class Progress
  * @link    https://next.antdv.com/components/progress-cn 进度条组件
  * 公共属性
  * @method $this percent(int $percent = 0) 百分比                                       									number
@@ -29,7 +29,7 @@ use ExAdmin\ui\component\Component;
  * @method $this gapPosition(string $gapDegree = 'bottom') 仪表盘进度条缺口位置											top | bottom | left | right
  * @package ExAdmin\ui\component\form\field
  */
-class Process extends Component
+class Progress extends Component
 {
     /**
      * 组件名称

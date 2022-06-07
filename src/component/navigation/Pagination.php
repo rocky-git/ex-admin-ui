@@ -8,7 +8,6 @@ use ExAdmin\ui\component\Component;
  * 分页
  * Class Pagination
  * @link    https://next.antdv.com/components/pagination-cn 分页组件
- * @method $this current(int $current) 当前页数                                                        					number
  * @method $this pageSize(int $pageSize) 每页条数                                                        				number
  * @method $this disabled(bool $disabled) 禁用分页                                                        				boolean
  * @method $this hideOnSinglePage(bool $hideOnSinglePage = true) 只有一页时是否隐藏分页器                                 boolean

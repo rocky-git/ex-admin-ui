@@ -8,7 +8,6 @@ use ExAdmin\ui\component\Component;
  * 头像
  * Class Avatar
  * @link    https://next.antdv.com/components/avatar-cn 头像组件
- * @method $this icon(mixed $icon) 设置头像的图标类型，可设为 Icon 的 type 或 VNode                                         VNode | slot
  * @method $this shape(string $shape = 'circle') 指定头像的形状                                                        	circle | square
  * @method $this size(mixed $size = 'default') 设置头像的大小                                                        		number | large | small | default | { xs: number, sm: number, ...}
  * @method $this src(string $src) 图片类头像的资源地址                                                        			string

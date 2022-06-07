@@ -12,7 +12,7 @@ trait Event
      * @param $name 事件名称
      * @param $type 类型
      */
-    public function removeEvent($name,$type)
+    public function removeEvent($name, $type)
     {
         $name = ucfirst($name);
         unset($this->event[$name][$type]);
@@ -32,9 +32,9 @@ trait Event
         if (is_null($component)) {
             $component = $this;
         }
-        if($component instanceof Component){
+        if ($component instanceof Component) {
             $field = $component->ref();
-        }else{
+        } else {
             $field = $component;
         }
         return $this->event($name, ['function' => $function, 'params' => $params, 'ref' => $field], 'function');
@@ -53,6 +53,19 @@ trait Event
     }
 
     /**
+     * 触发自定义函数
+     * @param string $name  事件名称 例如点击直接click
+     * @param string $function 函数方法代码
+     * @param array $params 函数方法参数
+     * @return Component
+     */
+    public function eventCustomFunction(string $name, string $function, array $params = [])
+    {
+        array_push($params, $function);
+        return $this->eventCustom($name, 'Function',$params);
+    }
+
+    /**
      * 触发事件
      * @param string $name 事件名称 例如点击直接click
      * @param array $value
@@ -65,10 +78,14 @@ trait Event
         $this->event[$name][$type][] = $value;
         return $this;
     }
-    public function getEvent($name,$type){
+
+    public function getEvent($name, $type)
+    {
         return $this->event[$name][$type];
     }
-    public function setEvent($name,$type,$event){
+
+    public function setEvent($name, $type, $event)
+    {
         $this->event[$name][$type] = $event;
     }
 }

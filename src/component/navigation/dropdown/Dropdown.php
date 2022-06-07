@@ -16,11 +16,9 @@ use ExAdmin\ui\component\navigation\menu\MenuItem;
  * @method $this disabled(bool $value=true) 菜单是否禁用                                                                    boolean
  * @method $this overlayClassName(string $overlayClassName) 下拉根元素的类名称                                                string
  * @method $this overlayStyle(mixed $overlayStyle) 下拉根元素的样式                                                        object
- * @method $this overlay(mixed $menu)
- * @method $this placement(string $placement = 'bottomLeft') 菜单弹出位置：
- *                                              bottomLeft bottomCenter bottomRight topLeft topCenter topRight          string
- * @method $this trigger(mixed $trigger = ['hover']) 触发下拉的行为, 移动端不支持 hover                                        Array<click|hover|contextmenu>
- * @method $this visible(bool $visible) 菜单是否显示                                                                        boolean
+ * @method $this placement(string $placement = 'bottomLeft') 菜单弹出位置：bottomLeft bottomCenter bottomRight topLeft topCenter topRight          string
+ * @method $this trigger(mixed $trigger = ['hover']) 触发下拉的行为, 移动端不支持 hover                                       [click|hover|contextmenu]
+ * @method $this visible(bool $visible=true) 菜单是否显示                                                                        boolean
  * @method static $this create($content) 创建
  * @package ExAdmin\ui\component\form\field
  */
@@ -42,6 +40,9 @@ class Dropdown extends Component
     public function __construct($content)
     {
         $this->menu = Menu::create();
+        if(is_string($content)){
+            $content = Html::create($content);
+        }
         $this->content($content);
     }
 

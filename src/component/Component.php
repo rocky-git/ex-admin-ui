@@ -187,11 +187,13 @@ abstract class Component implements \JsonSerializable
      * @param string $attr 属性
      * @param string $function 函数体js
      * @param array $params 函数参数定义
+     * @return $this
      */
     public function bindFunction(string $attr, string $function, array $params = [])
     {
         array_push($params, $function);
         $this->bindFunction[$attr] = $params;
+        return $this;
     }
 
     /**

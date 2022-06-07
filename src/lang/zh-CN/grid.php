@@ -9,6 +9,11 @@ return [
     'confim_delete' => '确认删除？',
     'confim_restore' => '确认恢复？',
     'restore' => '恢复数据',
+    'update_success' => '更新成功',
+    'delete_success' => '删除成功',
+    'restore_success' => '恢复成功',
+    'delete_error' => '删除失败',
+    'sort_success' => '排序成功',
     'pagination'=>[
         'total' => '共 {total} 条',
     ]

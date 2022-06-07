@@ -6,7 +6,7 @@ use ExAdmin\ui\component\common\Button;
 use ExAdmin\ui\component\common\DownloadFile;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Video;
-use ExAdmin\ui\component\feedback\Process;
+use ExAdmin\ui\component\feedback\Progress;
 use ExAdmin\ui\component\form\field\Rate;
 use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\grid\badge\Badge;
@@ -228,10 +228,10 @@ trait Display
      * @param string $trailColor 未完成的分段的颜色
      * @return $this
      */
-    public function process(string $type = 'line', int $width = 80, string $status = 'normal', $strokeColor = '', string $trailColor = '')
+    public function progress(string $type = 'line', int $width = 80, string $status = 'normal', $strokeColor = '', string $trailColor = '')
     {
         return $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
-            $process = Process::create()
+            $process = Progress::create()
                               ->percent($value)
                               ->type($type)
                               ->width($width)

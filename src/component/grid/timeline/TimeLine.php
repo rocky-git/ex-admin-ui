@@ -38,7 +38,7 @@ class TimeLine extends Component
      * @param string $position 位置仅在mode=alternate生效  left | right
      * @return $this
      */
-	public function item($value, string $color = 'blue', string $position = 'left')
+	public function item($value, string $color = 'blue', string $position = '')
     {
         $item = new TimeLineItem();
         $item->content($value)

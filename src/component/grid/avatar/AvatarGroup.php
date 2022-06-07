@@ -11,6 +11,7 @@ use ExAdmin\ui\component\Component;
  * @method $this maxCount(int $number) 设置头像的图标类型，可设为 Icon 的 type 或 VNode                                     number
  * @method $this maxPopoverPlacement(string $maxPopoverPlacement = 'top') 指定头像的形状                                  top | bottom
  * @method $this size(mixed $size = 'default') 设置头像的大小                                                        		number | large | small | default | { xs: number, sm: number, ...}
+ * @method static $this create($content='') 创建
  * @package ExAdmin\ui\component\form\field
  */
 class AvatarGroup extends Component
@@ -21,5 +22,11 @@ class AvatarGroup extends Component
      */
 	protected $name = 'AAvatarGroup';
 
-	
+    public function __construct($content='')
+    {
+        parent::__construct();
+        if($content){
+            $this->content($content);
+        }
+    }
 }

@@ -18,6 +18,7 @@ use ExAdmin\ui\component\Component;
  * @method $this text(string $text = '') 在设置了 status 的前提下有效，设置状态点的文本                                      string
  * @method $this numberStyle(mixed $numberStyle) 设置状态点的样式                                        					object
  * @method $this title(string $title = 'count') 设置鼠标放在状态点上时显示的文字                                        	string
+ * @method static $this create($content='') 创建
  * @package ExAdmin\ui\component\form\field
  */
 class Badge extends Component
@@ -29,4 +30,11 @@ class Badge extends Component
      * @var string
      */
 	protected $name = 'ABadge';
+    public function __construct($content='')
+    {
+        parent::__construct();
+        if($content){
+            $this->content($content);
+        }
+    }
 }

@@ -16,9 +16,7 @@ use ExAdmin\ui\component\Component;
  * @method $this extra(mixed $extra) 卡片右上角的操作区域                                                                    string|slot
  * @method $this hoverable(bool $hoverable = true) 鼠标移过时可浮起                                                        boolean
  * @method $this loading(bool $loading = true) 当卡片内容还在加载中时，可以用 loading 展示一个占位                          boolean
- * @method $this tabList(mixed $tabList) 页签标题列表, 可以通过 customTab(v3.0) 插槽自定义 tab                              Array<{
-key: string, tab: any
-}>
+ * @method $this tabList(mixed $tabList) 页签标题列表, 可以通过 customTab(v3.0) 插槽自定义 tab                              {key: string, tab: any}
  * @method $this size(string $size = 'default') card 的尺寸                                                                default | small
  * @method $this title(mixed $title) 卡片标题                                                                            string|slot
  * @method $this type(string $type) 卡片类型，可设置为 inner 或 不设置                                                        string
