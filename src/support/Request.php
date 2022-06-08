@@ -7,6 +7,7 @@ namespace ExAdmin\ui\support;
  * @method static input($name = null, $default = null)
  * @method static has($name)
  * @method static file($name)
+ * @method static header($name)
  * @method static getMethod() 获取请求方式
  * @see \Symfony\Component\HttpFoundation\Request
  */
@@ -42,6 +43,8 @@ class Request
             return is_null($self->param(...$arguments)) ? false : true;
         } elseif ($name == 'file') {
             return $self->request->files->get(...$arguments);
+        } elseif ($name == 'header') {
+            return $self->request->headers->get(...$arguments);
         }else{
             return call_user_func_array([$self->request,$name],$arguments);
         }

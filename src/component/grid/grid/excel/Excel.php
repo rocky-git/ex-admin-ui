@@ -12,12 +12,12 @@ class Excel extends AbstractExporter
     protected $maxRow = 1048576;
 
     protected $spreadsheet;
-
+    /**
+     * @var Worksheet
+     */
     protected $sheet;
-
-
-
-    public function __construct()
+    
+    public function init()
     {
         $this->spreadsheet = new Spreadsheet();
         $this->sheet = $this->spreadsheet->getActiveSheet();
@@ -43,10 +43,9 @@ class Excel extends AbstractExporter
     /**
      * 写入数据
      * @param array $data
-     * @param \Closure $progress 进度百分比
      * @param \Closure $finish 完成
      */
-    public function write(array $data,\Closure $progress = null,\Closure $finish = null){
+    public function write(array $data,\Closure $finish = null){
         //写入数据
         $fields = array_keys($this->getColumns());
         foreach ($data as $row){
@@ -63,11 +62,22 @@ class Excel extends AbstractExporter
                         'vertical' => Alignment::VERTICAL_CENTER
                     ],
                 ]);
-                if($progress){
-                    call_user_func($progress, $this->progress());
-                }
-                if($finish && $this->currentRow > $this->count){
-                    call_user_func($finish,$this);
+                $this->cache->set([
+                    'status' => 0,
+                    'progress' => $this->progress()
+                ]);
+                $this->cache->expiresAfter(60);
+                $this->filesystemAdapter->save($this->cache);
+                if($this->currentRow > $this->count){
+                    if($finish){
+                        $result = call_user_func($finish,$this);
+                        $this->cache->set([
+                            'status' => 1,
+                            'url' => $result
+                        ]);
+                        $this->cache->expiresAfter(60);
+                        $this->filesystemAdapter->save($this->cache);
+                    }
                 }
             }
         }
@@ -85,4 +95,5 @@ class Excel extends AbstractExporter
         $writer->save($filename);
         return $filename;
     }
+   
 }

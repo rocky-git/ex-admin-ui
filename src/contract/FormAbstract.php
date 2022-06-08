@@ -105,7 +105,7 @@ abstract class FormAbstract
     public function dispatchEvent($name,$eventArgs)
     {
         if (isset($this->event[$name])) {
-            call_user_func_array($this->event[$name],$eventArgs);
+            return call_user_func_array($this->event[$name],$eventArgs);
         }
     }
 }

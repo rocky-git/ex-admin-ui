@@ -3,6 +3,8 @@
 namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\response\Response;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 abstract class SystemAbstract
 {
@@ -46,7 +48,12 @@ abstract class SystemAbstract
      * @param $key
      * @return Response
      */
-    abstract public function exportProgress($key): Response;
+    public function exportProgress($key): Response
+    {
+        $cache = new FilesystemAdapter();
+        $data = $cache->getItem($key)->get();
+        return Response::success($data??[]);
+    }
 
     final public function info(): Response
     {
@@ -69,6 +76,14 @@ abstract class SystemAbstract
         return Response::success(admin_config('*'));
     }
 
+    /**
+     * 下载文件
+     * @param $file 文件路径
+     * @return BinaryFileResponse
+     */
+    public function download($file){
+        return (new BinaryFileResponse($file))->setContentDisposition('attachment');
+    }
     /**
      * 上传写入数据库
      * @param $data 上传入库数据

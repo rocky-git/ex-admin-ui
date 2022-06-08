@@ -2,6 +2,10 @@
 
 namespace ExAdmin\ui\component\grid\grid\excel;
 
+use ExAdmin\ui\response\Response;
+use ExAdmin\ui\support\Request;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
 abstract class AbstractExporter
 {
     protected $only = [];
@@ -19,6 +23,32 @@ abstract class AbstractExporter
     protected $currentRow = 1;
 
     protected $count = 1;
+    
+    protected $cache;
+
+    protected $progressKey;
+    /**
+     * @var FilesystemAdapter
+     */
+    protected $filesystemAdapter;
+    
+  
+    public function __construct()
+    {
+        $this->filesystemAdapter= new FilesystemAdapter();
+        $this->init();
+    }
+
+    /**
+     * 设置进度缓存key
+     * @param $value
+     * @return $this
+     */
+    public function setProgressKey($value){
+        $this->progressKey = $value;
+        $this->cache = $this->filesystemAdapter->getItem($value);
+        return $this;
+    }
     /**
      * 设置文件名称
      * @param $filename
@@ -150,9 +180,14 @@ abstract class AbstractExporter
     }
 
     /**
+     * 初始化
+     * @return mixed
+     */
+    abstract public function init();
+    /**
      * 返回百分比
      */
-    public function progress()
+    protected function progress()
     {
         return floor( $this->currentRow / $this->count * 100);
     }
@@ -162,7 +197,7 @@ abstract class AbstractExporter
      * @param \Closure $progress 进度百分比
      * @param \Closure $finish 完成
      */
-    abstract public function write(array $data,\Closure $progress = null,\Closure $finish = null);
+    abstract public function write(array $data,\Closure $finish = null);
 
     /**
      * 保存
@@ -170,4 +205,18 @@ abstract class AbstractExporter
      * @return string|bool
      */
     abstract public function save(string $path);
+    
+    public function exportError(){
+        $this->cache->set([
+            'status' => 2,
+        ]);
+        $this->cache->expiresAfter(60);
+        $this->filesystemAdapter->save($this->cache);
+    }
+    /**
+     * @return Response
+     */
+    public function export(){
+        return Response::success(['key' => $this->progressKey]);
+    }
 }

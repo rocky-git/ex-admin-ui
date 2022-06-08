@@ -12,10 +12,12 @@ use ExAdmin\laravel\Grid\Event\Deleted;
 use ExAdmin\laravel\Grid\Event\Deling;
 use ExAdmin\laravel\Grid\Event\Updated;
 use ExAdmin\laravel\Grid\Event\Updateing;
+use ExAdmin\ui\component\grid\grid\Export;
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\contract\GridAbstract;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
+use ExAdmin\ui\support\Request;
 use Illuminate\Support\Facades\Event;
 
 
@@ -133,7 +135,27 @@ class Arrays extends GridAbstract
 
     public function export(array $selectIds, array $columns, bool $all): Response
     {
-        return Response::success();
+        $export = $this->grid->getExport();
+        $export->setProgressKey(uniqid());
+        $columns = array_column($columns, 'title', 'dataIndex');
+       
+        if($all){
+            $data = $this->repository;
+        }else{
+            $data = array_filter($this->repository,function ($item) use($selectIds){
+               if(in_array($item[$this->getPk()],$selectIds)){
+                   return true;
+               }
+               return false;
+            });
+        }
+        $data = $this->grid->parseColumn($data, true);
+        $export->columns($columns)->count(count($data));
+        $export->write($data,function ($export){
+            $filename = $export->save(sys_get_temp_dir());
+            return Request::getSchemeAndHttpHost().'/ex-admin/system/download?App-Name='.Request::header('App-Name').'&file='.$filename;
+        });
+        return $export->export();
     }
 
     public function filter(array $rule)
