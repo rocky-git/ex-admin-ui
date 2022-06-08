@@ -23,7 +23,7 @@ class Annotation
         foreach ($comments as $comment){
             $param = [];
             $comment = ltrim($comment);
-            self::parseMatch(['group','sort','auth'],$comment,$data);
+            self::parseMatch(['group','sort','auth','link'],$comment,$data);
             if (preg_match('/^@param/i', $comment)) {
                 $arr = explode(' ',$comment);
                 array_shift($arr);

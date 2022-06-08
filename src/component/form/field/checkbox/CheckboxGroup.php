@@ -27,6 +27,8 @@ class CheckboxGroup extends Field
 
     protected $column;
 
+    protected $disabledValue = [];
+
     protected $optionsClosure = null;
 
     public function __construct($field = null, $value = [])
@@ -43,10 +45,21 @@ class CheckboxGroup extends Field
         $this->column = $number;
         return $this;
     }
+
+    /**
+     * 禁用选项
+     * @param array $data
+     * @return $this
+     */
+    public function disabledValue(array $data)
+    {
+        $this->disabledValue = $data;
+        return $this;
+    }
     
     /**
      * 设置选项
-     * @param array $data 数据源 $data = [1 =>'选项1', 2=>'选项2'];
+     * @param array $data 数据源
      * @return $this
      */
     public function options(array $data)
@@ -54,6 +67,10 @@ class CheckboxGroup extends Field
         $this->optionsClosure = function () use($data){
             $row = Row::create();
             foreach ($data as $key => $value) {
+                $disabled = false;
+                if (in_array($key, $this->disabledValue)) {
+                    $disabled = true;
+                }
                 if($this->column){
                     $row->column(
                         Checkbox::create()
@@ -64,6 +81,7 @@ class CheckboxGroup extends Field
                     $this->options[] = [
                         'label' => $value,
                         'value' => $key,
+                        'disabled' => $disabled,
                     ];
                 }
             }

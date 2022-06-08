@@ -72,7 +72,7 @@ class AutoComplete extends Field
 
     /**
      * 选项
-     * @param array $data
+     * @param array $data 数据
      * @return $this
      */
     public function options(array $data)
