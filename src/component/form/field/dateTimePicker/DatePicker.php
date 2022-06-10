@@ -29,10 +29,15 @@ use ExAdmin\ui\component\form\field\dateTimePicker\date\YearPicker;
  * @method $this size(string $size) 输入框大小，large 高度为 40px，small 为 24px，默认是 32px								large | middle | small
  * @method $this valueFormat(string $format) 可选，绑定值的格式，对 value、defaultValue、defaultPickerValue 起作用。不指定则绑定值为 dayjs 对象
  * @method $this defaultPickerValue(string $value) 默认面板日期
- * @method $this format(string $format = 'YYYY-MM-DD') 置日期格式，为数组时支持多格式匹配，展示以第一个为准。配置参考 dayjs，支持自定义格式 string | (value: dayjs) => string | (string | (value: dayjs) => string)[]
+ * @method $this format(mixed $format = 'YYYY-MM-DD') 置日期格式，为数组时支持多格式匹配，展示以第一个为准。配置参考 dayjs，支持自定义格式 string | (value: dayjs) => string | (string | (value: dayjs) => string)[]
  * @method $this showNow(bool $show) 当设定了 showTime 的时候，面板是否显示“此刻”按钮										boolean
  * @method $this showTime(mixed $show) 增加时间选择功能																	Object | boolean
  * @method $this showToday(bool $show = true) 是否展示“今天”按钮															boolean
+ * @method $this nextIcon(mixed $nextIcon) 自定义下一个图标                                                                slot
+ * @method $this prevIcon(mixed $nextIcon) 自定义上一个图标                                                                slot
+ * @method $this suffixIcon(mixed $suffixIcon) 自定义的选择框后缀图标                                                                slot
+ * @method $this superNextIcon(mixed $superNextIcon) 自定义 << 切换图标                                                                slot
+ * @method $this superPrevIcon(mixed $superPrevIcon) 自定义 >> 切换图标                                                                slot
  * @package ExAdmin\ui\component\form\field
  */
 class DatePicker extends Field
@@ -42,10 +47,23 @@ class DatePicker extends Field
      * @var string
      */
 	protected $name = 'ADatePicker';
+
+    /**
+     * 插槽
+     * @var array
+     */
+    protected $slot = [
+        'nextIcon',
+        'prevIcon',
+        'suffixIcon',
+        'superNextIcon',
+        'superPrevIcon',
+    ];
+
     public function __construct($field = null, $value = '')
     {
         $this->valueFormat('YYYY-MM-DD');
         parent::__construct($field, $value);
     }
-    
+
 }

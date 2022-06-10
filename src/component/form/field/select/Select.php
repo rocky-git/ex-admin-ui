@@ -42,6 +42,10 @@ use Illuminate\Support\Facades\Log;
  * @method $this value(mixed $value) 指定当前选中的条目                                                                    string|string[]|number|number[]
  * @method $this defaultOpen(bool $open) 是否默认展开下拉菜单                                                                boolean
  * @method $this open(bool $open) 是否展开下拉菜单                                                                        boolean
+ * @method $this clearIcon(mixed $clearIcon) 自定义的多选框清空图标                                                        VNode | slot
+ * @method $this menuItemSelectedIcon(mixed $menuItemSelectedIcon) 自定义当前选中的条目图标                                 VNode | slot
+ * @method $this removeIcon(mixed $removeIcon) 自定义的多选框清除图标                                                       VNode | slot
+ * @method $this suffixIcon(mixed $suffixIcon) 自定义的选择框后缀图标                                                       VNode | slot
  * @package ExAdmin\ui\component\form\field
  */
 class Select extends Field
@@ -52,6 +56,10 @@ class Select extends Field
      */
     protected $slot = [
         'notFoundContent',
+        'clearIcon',
+        'menuItemSelectedIcon',
+        'removeIcon',
+        'suffixIcon',
     ];
 
     /**

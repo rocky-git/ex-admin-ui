@@ -27,10 +27,11 @@ use ExAdmin\ui\component\form\RangeField;
  * @method $this valueFormat(string $format) 可选，绑定值的格式，对 value、defaultValue、defaultPickerValue 起作用。不指定则绑定值为 dayjs 对象
  * @method $this allowEmpty(array $allowEmpty = [false, false]) 允许起始项部分为空                                        [boolean, boolean]
  * @method $this defaultPickerValue(mixed $value) 默认面板日期
- * @method $this format(string $format = 'YYYY-MM-DD HH:mm:ss') 展示的日期格式
+ * @method $this format(mixed $format = 'YYYY-MM-DD HH:mm:ss') 展示的日期格式
  * @method $this separator(mixed $separator) 设置分隔符                                                                    string | v-slot:separator
  * @method $this showTime(mixed $format) 增加时间选择功能                                                                    Object|boolean
  * @method static $this create($startField, $endField, $value = []) 创建
+ * @method $this suffixIcon(mixed $suffixIcon) 自定义的选择框后缀图标                                                                slot
  * @package ExAdmin\ui\component\form\field
  */
 class RangePicker extends RangeField
@@ -41,9 +42,10 @@ class RangePicker extends RangeField
      */
     protected $slot = [
         'separator',
+        'suffixIcon',
     ];
 
-   
+
     /**
      * 组件名称
      * @var string

@@ -330,7 +330,6 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        //   $bindField = $this->getBindField($field);
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
@@ -438,7 +437,7 @@ class Form extends Component
      * @param string|Component $label label 标签的文本
      * @return FormItem
      */
-    public function item($name = [], $label = '')
+    public function item(array $name = [], $label = '')
     {
         $item = FormItem::create($this)
             ->label($label)

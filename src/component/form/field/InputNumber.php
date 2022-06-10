@@ -26,6 +26,7 @@ use ExAdmin\ui\component\form\Field;
  * @method $this controls(bool $controls = true) 是否显示增减按钮															boolean
  * @method $this keyboard(bool $keyboard = true) 是否启用键盘快捷行为														boolean
  * @method $this stringMode(bool $stringMode = false) 字符值模式，开启后支持高精度小数。同时 change 事件将返回 string 类型	boolean
+ * @method $this prefix(mixed $prefix) 带有前缀图标的 input                                                                slot
  * @package ExAdmin\ui\component\form\field
  */
 class InputNumber extends Field

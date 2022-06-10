@@ -12,18 +12,17 @@ namespace ExAdmin\ui\component\echart;
  * 地图
  * Class MapChart
  * @package ExAdmin\ui\component\echart
- * @method static $this create(string $name) 创建
  */
 class MapChart extends Echart
 {
-    protected $seriesName;
+   
 
     protected $data = [];
 
-    public function __construct($name)
+    public function __construct()
     {
         parent::__construct();
-        $this->seriesName = $name;
+      
         $this->options([
             'tooltip' => [
                 'trigger' => 'item',
@@ -51,8 +50,8 @@ class MapChart extends Echart
 
     /**
      * 添加数据
-     * @param $name
-     * @param int|\Closure $value
+     * @param string $name 地区名称
+     * @param int|\Closure $value 数值
      * @return $this
      */
     public function data($name, $value)
@@ -68,7 +67,6 @@ class MapChart extends Echart
     {
 
         $this->echart->series[] = [
-            'name' => $this->seriesName,
             'type' => 'map',
             'map' => 'china',
             'zoom' => 1.1,

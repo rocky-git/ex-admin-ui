@@ -34,7 +34,7 @@ use ExAdmin\ui\traits\Display;
  */
 class Column extends Component
 {
-    use Display, FormComponent;
+    use Display;
 
     protected $name = 'ATableColumn';
 

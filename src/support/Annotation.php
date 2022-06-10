@@ -69,7 +69,7 @@ class Annotation
                 $methods['return'] = $arr[0];
                 array_shift($arr);
                 $comment = implode(' ',$arr);
-                preg_match('/(.+)\((.+)\)\s(.+)/u', $comment,$matchs);
+                preg_match('/(.+)\((.*)\)\s(.+)/u', $comment,$matchs);
                 $methods['function'] = $matchs[1];
                 $methods['text'] = trim($matchs[3]);
                 $index = strpos($matchs[2],'=');

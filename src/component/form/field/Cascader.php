@@ -12,6 +12,8 @@ use ExAdmin\ui\support\Arr;
  * @link   https://next.antdv.com/components/cascader-cn 级联组件
  * @method $this allowClear(bool $clear = true) 是否支持清除                                                            boolean
  * @method $this autofocus(bool $focus = true) 自动获取焦点                                                                boolean
+ * @method $this bordered(bool $bordered = true) 是否有边框                                                              boolean
+ * @method $this clearIcon(mixed $clearIcon) 自定义的选择框清空图标                                                           slot
  * @method $this changeOnSelect(bool $change = true) 当此项为 true 时，点选每级菜单选项值都会发生变化，具体见上面的演示        boolean
  * @method $this defaultValue(mixed $value = [])    默认的选中项                                                            string[] | number[]
  * @method $this disabled(bool $disabled = true) 禁用                                                                    boolean
@@ -25,10 +27,13 @@ use ExAdmin\ui\support\Arr;
  * @method $this value(mixed $value) 指定选中项                                                                            string[] | number[]
  * @method $this expandIcon(mixed $value = true) 自定义次级菜单展开图标                                                    slot
  * @method $this maxTagCount(mixed $num) 最多显示多少个 tag，响应式模式会对性能产生损耗                                        number | responsive
+ * @method $this maxTagPlaceholder(mixed $maxTagPlaceholder) 隐藏 tag 时显示的内容
  * @method $this dropdownClassName(string $name) 自定义浮层类名                                                            string
  * @method $this open(bool $show) 控制浮层显隐                                                                            boolean
  * @method $this placement(string $placement = 'bottomLeft') 浮层预设位置：bottomLeft bottomRight topLeft topRight        string
+ * @method $this removeIcon(mixed $removeIcon) 自定义的多选框清除图标                                                      slot
  * @method $this searchValue(mixed $value) 设置搜索的值，需要与 showSearch 配合使用                                        string
+ * @method $this tagRender(mixed $tagRender) 自定义 tag 内容，多选时生效                                                    slot
  * @package ExAdmin\ui\component\form\field
  */
 class Cascader extends Field
@@ -38,7 +43,12 @@ class Cascader extends Field
      * @var string[]
      */
     protected $slot = [
+        'clearIcon',
         'expandIcon',
+        'maxTagPlaceholder',
+        'removeIcon',
+        'suffixIcon',
+        'tagRender',
     ];
 
     /**

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 trait Display
 {
     public $using = [];
+
     /**
      * 星级
      * @param int $count star总数
@@ -35,11 +36,11 @@ trait Display
     {
         return $this->display(function ($value) use ($count, $allowHalf, $character, $toolTips) {
             return Rate::create(null, $value)
-                       ->disabled()
-                       ->tooltips($toolTips)
-                       ->count($count)
-                       ->allowHalf(true)
-                       ->character($character);
+                ->disabled()
+                ->tooltips($toolTips)
+                ->count($count)
+                ->allowHalf(true)
+                ->character($character);
         });
     }
 
@@ -58,15 +59,15 @@ trait Display
                 Html::create($value)
                     ->tag('div')
                     ->style([
-                        'width'        => "{$width} px",
+                        'width' => "{$width} px",
                         'textOverflow' => 'ellipsis',
-                        'overflow'     => 'hidden',
-                        'whiteSpace'   => 'nowrap',
+                        'overflow' => 'hidden',
+                        'whiteSpace' => 'nowrap',
                     ]))
-                          ->title($value)
-                          ->placement($placement)
-                          ->trigger($trigger)
-                          ->color($color);
+                ->title($value)
+                ->placement($placement)
+                ->trigger($trigger)
+                ->color($color);
         })->width($width);
     }
 
@@ -75,60 +76,32 @@ trait Display
      * @param string $color 标签颜色
      * @param mixed $icon 图标
      */
-    public function tag($color = '#2db7f5', $icon = '')
+    public function tag($color = 'blue', $icon = '')
     {
         return $this->display(function ($value) use ($color, $icon) {
-            return $this->getTag($value, $color, $icon);
+            return $this->getTag($this->getArrayValue($value), $color, $icon);
         });
     }
 
-
-    /**
-     * 多个标签
-     * @param string $field 指定字段
-     * @param string $color 颜色
-     * @param string $icon 图标
-     * @return $this
-     */
-    public function tags($field = '', $color = '#2db7f5', $icon = '')
-    {
-        return $this->display(function ($value, $data) use ($field, $color, $icon) {
-            $valueData = $this->getAssignValue($value, $data, $field);
-            if (empty($valueData)) return '';
-            $valueData = $this->getArrayValue($valueData);
-            return $this->getTags($valueData, $color, $icon);
-        });
-    }
-
-    /**
-     * 标签组组装
-     * @param array $value 数据
-     * @param string $color 标签颜色
-     * @param mixed $icon 图标
-     * @param array $style 样式
-     * @return Html
-     */
-    public function getTags(array $dataSource = [], string $color = '#2db7f5', string $icon = '')
-    {
-        $html = [];
-        foreach ($dataSource as $data) {
-            $html[] = $this->getTag($data, $color, $icon);
-        }
-        return Html::create($html)
-                   ->tag('div')
-                   ->style(['display' => 'flex', 'flexWrap' => 'wrap']);
-    }
 
     /**
      * 获取标签
      * @param string $color 标签颜色
      * @param mixed $icon 图标
      */
-    protected function getTag($value, string $color, string $icon = '')
+    protected function getTag($value, string $color = '', string $icon = '')
     {
-        return Tag::create($value)
-                  ->color($color)
-                  ->icon($icon);
+        if (is_array($value)) {
+            $tags = [];
+            foreach ($value as $item) {
+                $tags[] = $this->getTag($item, $color, $icon);
+            }
+            return $tags;
+        } else {
+            return Tag::create($value)
+                ->color($color)
+                ->icon($icon);
+        }
     }
 
     /**
@@ -140,13 +113,13 @@ trait Display
      * @param bool $preview 预览参数
      * @return $this
      */
-    protected function commonImage(string $value, int $width = 80, int $height = 80 , string $alt = '', bool $preview = true)
+    protected function commonImage(string $value, int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
         $image = Image::create()
-                      ->src($value)
-                      ->height("{$height}px")
-                      ->width("{$width}px")
-                      ->alt($alt ?: $this->attr('title'));
+            ->src($value)
+            ->height("{$height}px")
+            ->width("{$width}px")
+            ->alt($alt ?: $this->attr('title'));
         if ($preview) $image->preview($preview);
         return $image;
     }
@@ -194,16 +167,18 @@ trait Display
 
     /**
      * 音频显示
-     * @return $this
+     * @param int $width 宽度
+     * @param int $height 高度
+     * @return mixed
      */
     public function audio($width = 300, $height = 54)
     {
         return $this->display(function ($value) use ($width, $height) {
             return Html::create('您的浏览器不支持 audio 标签。')
-                       ->attr('src', $value)
-                       ->attr('controls', true)
-                       ->tag('audio')
-                       ->style(["width" => "{$width}px", 'height' => "{$height}px"]);
+                ->attr('src', $value)
+                ->attr('controls', true)
+                ->tag('audio')
+                ->style(["width" => "{$width}px", 'height' => "{$height}px"]);
         });
     }
 
@@ -215,13 +190,14 @@ trait Display
      */
     public function video($width = 200, $height = 100)
     {
-        return $this->display(function ($value) use ($width, $height)  {
-           return Video::create()->url($value)->size($width, $height);
+        return $this->display(function ($value) use ($width, $height) {
+            return Video::create()->url($value)->size($width, $height);
         })->width($width);
     }
+
     /**
      * 进度条
-     * @param string $type  line(线形) circle(圆形) dashboard(仪表盘)
+     * @param string $type line(线形) circle(圆形) dashboard(仪表盘)
      * @param int $width 宽度
      * @param string $status success exception normal active(仅限 line)
      * @param string[]|string $strokeColor 进度条的色彩，渐变设置 ['0%' => '#108ee9', '100%' => '#87d068']
@@ -232,10 +208,10 @@ trait Display
     {
         return $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
             $process = Progress::create()
-                              ->percent($value)
-                              ->type($type)
-                              ->width($width)
-                              ->status($status);
+                ->percent($value)
+                ->type($type)
+                ->width($width)
+                ->status($status);
             if (!empty($strokeColor)) $process->strokeColor($strokeColor);
             if (!empty($trailColor) && !is_array($strokeColor)) $process->trailColor($trailColor);
             return $process;
@@ -254,9 +230,9 @@ trait Display
     {
         return $this->display(function ($value) use ($precision, $prefix, $suffix, $groupSeparator) {
             $statistic = Statistic::create()
-                                  ->value($value)
-                                  ->precision($precision)
-                                  ->groupSeparator($groupSeparator);
+                ->value($value)
+                ->precision($precision)
+                ->groupSeparator($groupSeparator);
             if (!empty($prefix)) $statistic->prefix($prefix);
             if (!empty($suffix)) $statistic->suffix($suffix);
             return $statistic;
@@ -274,9 +250,9 @@ trait Display
         return $this->display(function ($value, $data) use ($field, $target) {
             $href = $this->getAssignValue($value, $data, $field);
             return Html::create($href)
-                       ->attr('href', $href)
-                       ->attr('target', $target)
-                       ->tag('a');
+                ->attr('href', $href)
+                ->attr('target', $target)
+                ->tag('a');
         });
     }
 
@@ -296,10 +272,10 @@ trait Display
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             return Popover::create(Button::create($label))
-                          ->content($this->getTags($value))
-                          ->width($width)
-                          ->trigger($tigger)
-                          ->placement($placement);
+                ->content($this->getTag($value))
+                ->width($width)
+                ->trigger($tigger)
+                ->placement($placement);
         });
     }
 
@@ -310,7 +286,7 @@ trait Display
     public function file()
     {
         return $this->display(function ($value) {
-            if(empty($value)){
+            if (empty($value)) {
                 return $value;
             }
             if (is_string($value)) {
@@ -326,7 +302,7 @@ trait Display
 
     /**
      * 追加前面
-     * @param mixed $prepend
+     * @param mixed $prepend 内容
      * @return $this
      */
     public function prepend($prepend)
@@ -338,7 +314,7 @@ trait Display
 
     /**
      * 追加末尾
-     * @param mixed $append
+     * @param mixed $append 内容
      * @return $this
      */
     public function append($append)
@@ -358,7 +334,33 @@ trait Display
     {
         $this->using = $usings;
         return $this->display(function ($value) use ($usings, $color) {
-            return $this->getTag($usings[$value], $color[$value] ?? '');
+            if (isset($usings[$value])) {
+                $value = $usings[$value];
+            }
+            if (count($color) > 0) {
+                return $this->getTag($value, $color[$value] ?? '');
+            }
+            return $value;
+        });
+
+    }
+
+    /**
+     * 复制
+     * @param string $content 复制内容
+     * @return mixed
+     */
+    public function copy($content = null)
+    {
+        return $this->display(function ($value) use ($content) {
+            $value = is_null($content) ? $value : $content;
+            return Html::div()->content([
+                $value,
+                Html::create()
+                    ->copy($value)
+                    ->tag('i')
+                    ->attr('class', ['far fa-copy', 'editable-cell-icon'])
+            ])->attr('class', 'ex-admin-editable-cell');
         });
 
     }

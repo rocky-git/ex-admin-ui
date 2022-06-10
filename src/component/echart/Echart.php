@@ -19,7 +19,7 @@ use Hisune\EchartsPHP\ECharts;
 /**
  * Class Echart
  * @package ExAdmin\ui\component\echart
- * @method static $this create($source = [],string $dateField = 'created_at') 创建
+ * @method static $this create() 创建
  * @method $this width(string $width)  宽度
  * @method $this height(string $height = '350px')  高度
  * @method $this card()  卡片风格
@@ -88,12 +88,12 @@ class Echart extends Component
     }
     /**
      * 选项参数
-     * @param mixed $options
+     * @param mixed $options 选项参数
      * @return $this
      */
     public function options($options){
         if($options instanceof \Closure){
-            call_user_func($options,$this->echart);
+            call_user_func_array($options,[$this->echart,$this]);
             $options = $this->echart->getOption();
         }elseif (is_string($options)){
             $options = preg_replace(["/([a-zA-Z_]+[a-zA-Z0-9_]*)\s*:/", "/:\s*'(.*?)'/", "/'(.*?)'/"], ['"\1":', ': "\1"', '"\1"'], $options);
@@ -126,16 +126,7 @@ class Echart extends Component
         call_user_func($callback, $this->filter);
         return $this;
     }
-    /**
-     * 添加数据
-     * @param string $name
-     * @param mixed $data
-     * @return $this
-     */
-    public function data($name, $data)
-    {
-        return $this;
-    }
+
     public function __call($name, $arguments)
     {
         if($arguments){

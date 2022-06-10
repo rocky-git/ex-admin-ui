@@ -19,10 +19,9 @@ use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 
 
-
 /**
  * Class Grid
- * @method static $this create($data = [], \Closure $closure=null) 创建
+ * @method static $this create($data = [], \Closure $closure = null) 创建
  * @method $this hideAdd(bool $bool = true) 隐藏添加按钮
  * @method $this hideDelete(bool $bool = true) 隐藏清空按钮
  * @method $this hideDeleteSelection(bool $bool = true) 隐藏删除选中按钮
@@ -334,12 +333,14 @@ class Grid extends Table
     /**
      * 纯表格
      */
-    public function table(){
+    public function table()
+    {
         $this->hideTools();
         $this->hideSelection();
         $this->hidePage();
         $this->hideAction();
     }
+
     public function getColumn()
     {
         return $this->column;
@@ -452,6 +453,7 @@ class Grid extends Table
         $this->setForm = new ActionButton();
         return $this->setForm;
     }
+
     /**
      * 设置详情
      * @return ActionButton
@@ -461,6 +463,7 @@ class Grid extends Table
         $this->setDetail = new ActionButton();
         return $this->setDetail;
     }
+
     /**
      * 当前是否回收站请求
      * @return mixed
@@ -513,7 +516,7 @@ class Grid extends Table
      * @param string $customStyle card
      * @return Lists
      */
-    public function custom(\Closure $closure, $container = 'div',$customStyle=null)
+    public function custom(\Closure $closure, $container = 'div', $customStyle = null)
     {
         $this->customClosure = $closure;
         $list = Lists::create();
@@ -525,8 +528,8 @@ class Grid extends Table
 
     public function jsonSerialize()
     {
-        if($this->exec){
-            call_user_func($this->exec,$this);
+        if ($this->exec) {
+            call_user_func($this->exec, $this);
         }
         if ($this->filter) {
             if ($this->filter->isHide()) {
@@ -546,7 +549,9 @@ class Grid extends Table
         }
         //添加编辑表单
         if ($this->setForm) {
-            $this->addButton = clone $this->setForm;
+            if (!$this->addButton) {
+                $this->addButton = clone $this->setForm;
+            }
             $this->actionColumn->setEditButton($this->setForm);
         }
         //详情
@@ -579,8 +584,8 @@ class Grid extends Table
             $this->attr('addButton', $this->addButton->action());
         }
 
-        if (Request::input('grid_request_data') 
-            && Request::input('ex_admin_class') == $this->call['class'] 
+        if (Request::input('grid_request_data')
+            && Request::input('ex_admin_class') == $this->call['class']
             && Request::input('ex_admin_function') == $this->call['function']) {
             return [
                 'data' => $data,
