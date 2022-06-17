@@ -14,6 +14,7 @@ use ExAdmin\ui\traits\CallProvide;
  * Class Component
  * @package Eadmin\component
  * @method $this style(array $value) 样式
+ * @method $this class(string|array $value) class
  * @method static $this create() 创建
  */
 abstract class Component implements \JsonSerializable
@@ -272,7 +273,9 @@ abstract class Component implements \JsonSerializable
             return new static(...$arguments);
         }
     }
-
+    public function setContent($content){
+        $this->content = $content;
+    }
     public function getContent($name = null)
     {
         if (is_null($name)) {
@@ -363,7 +366,7 @@ abstract class Component implements \JsonSerializable
     }
 
     /**
-     * @param $url
+     * @param $component
      * @param $params
      * @return array
      */
@@ -374,6 +377,7 @@ abstract class Component implements \JsonSerializable
             $component = "ex-admin/{$call['class']}/{$call['function']}";
             $params = array_merge($call['params'], $params);
         }
+        $component = admin_url($component);
         return array($component, $params);
     }
 
@@ -405,7 +409,6 @@ abstract class Component implements \JsonSerializable
     private function modalParse($component, $url = '', $params = [], $method = 'POST')
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
-        $url = admin_url($url);
         $modal = $component::create($this);
         $modal->destroyOnClose();
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);

@@ -69,15 +69,7 @@ class FormAction extends FormItem
     {
         $this->componentVisible = !$bool;
     }
-
-    /**
-     * 隐藏取消按钮
-     */
-    public function hideCancelButton($bool = true)
-    {
-        $this->hideCancelButton = $bool;
-    }
-
+    
     /**
      * 隐藏提交按钮
      */

@@ -137,24 +137,36 @@ class Actions
         $this->closure = $closure;
     }
 
-    /**
-     * 设置编辑按钮
-     * @param ActionButton $actionButton
-     */
-    public function setEditButton(ActionButton $actionButton)
-    {
-        $this->editButton = $actionButton;
-    }
+    public function edit(){
+        if(!$this->editButton){
+            $this->editButton = new ActionButton();
+            $this->editButton->button()
 
-    /**
-     * 设置详情按钮
-     * @param ActionButton $actionButton
-     */
-    public function setDetailButton(ActionButton $actionButton)
-    {
-        $this->detailButton = $actionButton;
+                ->when($this->icon,function ($button){
+                    $button->size('small')->shape('circle');
+                },function ($button){
+                    $button->content(admin_trans('grid.edit'));
+                })
+                ->type('primary')
+                ->icon('<EditFilled />');
+        }
+        return $this->editButton;
     }
-
+    
+    public function detail(){
+        if(!$this->detailButton){
+            $this->detailButton = new ActionButton();
+            $this->detailButton->button()
+                ->when($this->icon,function ($button){
+                    $button->size('small')->shape('circle');
+                },function ($button){
+                    $button->content(admin_trans('grid.detail'));
+                })
+                ->icon('<InfoCircleFilled />');
+        }
+        return $this->detailButton;
+    }
+    
     protected function setActionParams(ActionButton $actionButton, $id)
     {
         if ($actionButton->action() instanceof Modal || $actionButton->action() instanceof Drawer) {
@@ -197,26 +209,10 @@ class Actions
         }
         if ($this->detailButton) {
             $this->detailButton->dropdown($this->dropdown?true:false);
-            $this->detailButton->button()
-                ->when($this->icon,function ($button){
-                    $button->size('small')->shape('circle');
-                },function ($button){
-                    $button->content(admin_trans('grid.detail'));
-                })
-                ->icon('<InfoCircleFilled />');
             $this->setActionParams($this->detailButton, $this->id);
         }
         if ($this->editButton) {
             $this->editButton->dropdown($this->dropdown?true:false);
-            $this->editButton->button()
-
-                ->when($this->icon,function ($button){
-                    $button->size('small')->shape('circle');
-                },function ($button){
-                    $button->content(admin_trans('grid.edit'));
-                })
-                ->type('primary')
-                ->icon('<EditFilled />');
             $this->setActionParams($this->editButton, $this->id);
         }
         $this->delButton = new ActionButton;

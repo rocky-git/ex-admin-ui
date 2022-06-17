@@ -45,7 +45,7 @@ trait Directive
     }
     /**
      * 跳转路径
-     * @param string $url
+     * @param mixed $url
      * @param array $params
      * @return $this
      */

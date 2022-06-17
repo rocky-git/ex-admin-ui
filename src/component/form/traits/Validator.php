@@ -31,7 +31,7 @@ use ExAdmin\ui\support\Str;
  */
 trait Validator
 {
-    protected static $regex = [
+    public static $regex = [
         'email' => '^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$',
         'url' => '^((https|http)?://)',
         'integer' => '^-?\d+$',
@@ -49,8 +49,14 @@ trait Validator
     ];
 
 
-    protected static $regexMsg = [];
+    public static $regexMsg = [];
 
+    /**
+     * 扩展前端验证
+     * @param string $type 扩展名称
+     * @param $pattern 正则
+     * @param $trans 验证提示文本
+     */
     public static function extend(string $type, $pattern, $trans)
     {
         static::$regex[$type] = $pattern;

@@ -7,7 +7,7 @@ use ExAdmin\ui\component\form\FormItem;
 
 /**
  * 富文本
- * @method $this disk(string $value)
+ * @method $this disk(string $value) 磁盘
  * @method $this height(int $value) 高度
  * @method $this width(int $value) 宽度
  * @method $this options(array $value) tinymce配置选项

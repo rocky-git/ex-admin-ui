@@ -18,11 +18,12 @@ class SelectTable extends Field
     protected $custom;
     /**
      * 渲染实例
-     * @param Grid|string $grid
+     * @param mixed $grid
+     * @param array $params
      * @return $this
      */
-    public function grid($grid){
-        list($url, $params) = $this->parseComponentCall($grid);
+    public function grid($grid, $params = []){
+        list($url, $params) = $this->parseComponentCall($grid, $params = []);
         $this->attr('gridUrl',$url);
         $this->attr('params',$params);
         return $this;

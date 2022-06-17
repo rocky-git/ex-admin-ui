@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\form\Watch;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
 
@@ -51,6 +52,25 @@ abstract class FormAbstract
         return $simpleUploader->upload();
     }
 
+    /**
+     * watch监听
+     * @param array $data 表单数据
+     * @param $field 监听字段
+     * @param $newValue 新值
+     * @param $oldValue 旧值
+     * @return mixed
+     */
+    public function watch(array $data,$field,$newValue,$oldValue){
+        $watch   = new Watch($data);
+        $closure = $this->form->getWatch()[$field];
+        $watch->set($field,$newValue);
+        call_user_func_array($closure, [$newValue, $watch, $oldValue]);
+        return Response::success([
+            'data'      => $watch->get(),
+            'showField' => $watch->getShowField(),
+            'hideField' => $watch->getHideField(),
+        ]);
+    }
     /**
      * 数据保存
      * @param array $data

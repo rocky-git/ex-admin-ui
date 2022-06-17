@@ -61,6 +61,8 @@ class Button extends Component
     {
         if ($name == 'default') {
             $this->content['default'] = [Html::create($content)];
+        }elseif ($name == 'icon') {
+            $this->content['icon'] = [$content];
         } else {
             parent::content($content, $name);
         }

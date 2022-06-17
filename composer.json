@@ -25,7 +25,7 @@
     "symfony/http-foundation": "<=6",
     "symfony/cache": "<=6",
     "hisune/echarts-php": "^1.1",
-    "phpoffice/phpspreadsheet": "^1.1"
+    "phpoffice/phpspreadsheet": "^1.23"
   },
   "autoload": {
     "psr-4": {

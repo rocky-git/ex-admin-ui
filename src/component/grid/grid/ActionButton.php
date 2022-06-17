@@ -58,6 +58,10 @@ class ActionButton
 
     public function dropdown($bool=true)
     {
+        if($bool){
+            $this->menuItem->attrs($this->button->getAttrs());
+            $this->menuItem->setContent($this->button->getContent());
+        }
         $this->dropdown = $bool;
     }
 

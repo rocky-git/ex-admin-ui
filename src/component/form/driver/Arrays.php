@@ -34,8 +34,13 @@ class Arrays extends FormAbstract
      * @param mixed $id
      * @return Message
      */
-    public function save(array $data, $id = null): Message
+    public function save(array $data, $id = null)
     {
+        //验证数据
+        $result = $this->form->validator()->check($data, !is_null($id));
+        if ($result instanceof Response) {
+            return $result;
+        }
         $this->form->input($data);
         if($this->saving){
             $savedResult= call_user_func($this->saving,$this->form);

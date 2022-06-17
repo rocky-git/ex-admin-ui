@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
  * @method $this params(array $params) 附加请求参数
  * @method $this headers(array $headers) 设置上传的请求头部
  * @method $this type(string $value) 类型：file文件 image图片
- * @method $this disk(string $value)
+ * @method $this disk(string $value) 磁盘
  * @method $this directory(string $value) 指定保存目录
  * @method $this driver(string $value) 上传驱动：local本地 oss阿里云 qiniu七牛云
  * @method $this accept(string $value) 接受上传的文件类型

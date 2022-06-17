@@ -75,14 +75,9 @@ class Grid extends Table
      * @var Actions
      */
     protected $actionColumn;
-    /**
-     * @var ActionButton
-     */
-    protected $setForm;
-    /**
-     * @var ActionButton
-     */
-    protected $setDetail;
+
+    protected $setForm = false;
+
     /**
      * @var Filter
      */
@@ -126,6 +121,7 @@ class Grid extends Table
         $this->actionColumn = new Actions($this);
         $this->rowKey('ex_admin_id');
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
+        $this->params([]);
         $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
         $callParams = array_merge($callParams, $this->call['params']);
         $this->attr('callParams', $callParams);
@@ -441,6 +437,9 @@ class Grid extends Table
     public function addButton()
     {
         $this->addButton = new ActionButton();
+        $this->addButton->button()->content(admin_trans('grid.add'))
+        ->type('primary')
+        ->icon('<plus-outlined />');
         return $this->addButton;
     }
 
@@ -450,8 +449,8 @@ class Grid extends Table
      */
     public function setForm()
     {
-        $this->setForm = new ActionButton();
-        return $this->setForm;
+        $this->setForm = true;
+        return $this->actionColumn->edit();
     }
 
     /**
@@ -460,8 +459,7 @@ class Grid extends Table
      */
     public function setDetail()
     {
-        $this->setDetail = new ActionButton();
-        return $this->setDetail;
+        return $this->actionColumn->detail();
     }
 
     /**
@@ -550,19 +548,11 @@ class Grid extends Table
         //添加编辑表单
         if ($this->setForm) {
             if (!$this->addButton) {
-                $this->addButton = clone $this->setForm;
+                $this->addButton = clone $this->actionColumn->edit();
+                $this->addButton->button()->content(admin_trans('grid.add'))
+                    ->type('primary')
+                    ->icon('<plus-outlined />');
             }
-            $this->actionColumn->setEditButton($this->setForm);
-        }
-        //详情
-        if ($this->setDetail) {
-            $this->actionColumn->setDetailButton($this->setDetail);
-        }
-        //添加按钮
-        if ($this->addButton) {
-            $this->addButton->button()->content(admin_trans('grid.add'))
-                ->type('primary')
-                ->icon('<plus-outlined />');
         }
 
         $page = Request::input('ex_admin_page', 1);

@@ -14,6 +14,7 @@ use ExAdmin\ui\component\form\field\select\SelectTable;
 use ExAdmin\ui\component\form\field\upload\Image;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\form\traits\Step;
+use ExAdmin\ui\component\form\traits\WatchForm;
 use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
@@ -60,7 +61,7 @@ use ExAdmin\ui\support\Request;
  */
 class Form extends Component
 {
-    use FormComponent, FormEvent, Step;
+    use FormComponent, FormEvent, Step, WatchForm;
 
     //是否编辑表单
     protected $isEdit = false;
@@ -112,6 +113,7 @@ class Form extends Component
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
+        $this->attr('formField',$this->getModel());
         //验证绑定提示
         $this->validateBindField = $this->getModel() . 'Validate';
         $this->vModel('validateField', $this->validateBindField, '', true);
@@ -443,6 +445,11 @@ class Form extends Component
             ->label($label)
             ->name($name)
             ->attr('validateFormField', $this->validateBindField);
+        if (count($this->manyField) == 0) {
+            $ifField = str_replace('.','_',$this->getBindField(implode('_',$name).'Show'));
+            $this->bind($ifField, 1);
+            $item->where($ifField,1);
+        }
         $this->push($item);
         return $item;
     }

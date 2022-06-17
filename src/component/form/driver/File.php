@@ -31,6 +31,11 @@ class File extends FormAbstract
      */
     public function save(array $data, $id = null)
     {
+        //验证数据
+        $result = $this->form->validator()->check($data, !is_null($id));
+        if ($result instanceof Response) {
+            return $result;
+        }
         $data = array_merge($this->data,$data);
         $content = var_export($data, true);
         $content = <<<PHP

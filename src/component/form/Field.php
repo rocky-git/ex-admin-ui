@@ -128,12 +128,12 @@ class Field extends Component
         if (strrpos($name, 'rule') === 0) {
             $name = substr($name, 4);
             $name = Str::camel($name);
-            if (isset(static::$regex[$name])) {
+            if (isset(Validator::$regex[$name])) {
                 $trans = $name;
-                if (isset(static::$regexMsg[$name])) {
-                    $trans = static::$regexMsg[$name];
+                if (isset(Validator::$regexMsg[$name])) {
+                    $trans = Validator::$regexMsg[$name];
                 }
-                return $this->rulePattern(static::$regex[$name], $trans);
+                return $this->rulePattern(Validator::$regex[$name], $trans);
             }
         }
         return parent::__call($name, $arguments);
