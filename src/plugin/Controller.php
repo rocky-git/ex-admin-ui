@@ -271,7 +271,11 @@ class Controller
         if(!plugin()->token()){
             return message_error('请登录后操作！');
         }
-        $path = plugin()->download($name,$version);
+        try{
+            $path = plugin()->download($name,$version);
+        }catch (PluginException $exception){
+            return message_error($exception->getMessage());
+        }
         if ($path === false) {
             return message_error('文件下载失败');
         }

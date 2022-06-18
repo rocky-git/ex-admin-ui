@@ -1,5 +1,6 @@
 <?php
 return [
+    'list' => 'List',
     'add'=>'Add',
     'edit' => 'Edit',
     'detail' => 'Detail',
@@ -13,6 +14,7 @@ return [
     'restore_success' => 'Restore successfully',
     'delete_error' => 'Delete failed',
     'sort_success' => 'Sorting succeeded',
+    'user_info' => 'Member info',
     'pagination'=>[
         'total' => 'Total {total}',
     ]

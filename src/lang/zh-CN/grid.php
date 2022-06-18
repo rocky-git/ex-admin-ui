@@ -1,5 +1,6 @@
 <?php
 return [
+    'list' => '列表',
     'add'=>'添加',
     'edit' => '编辑',
     'detail' => '详情',
@@ -14,6 +15,7 @@ return [
     'restore_success' => '恢复成功',
     'delete_error' => '删除失败',
     'sort_success' => '排序成功',
+    'user_info' => '用户信息',
     'pagination'=>[
         'total' => '共 {total} 条',
     ]

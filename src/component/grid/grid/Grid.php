@@ -128,7 +128,7 @@ class Grid extends Table
         $this->scroll(['x' => 'max-content']);
         $this->hideTrashed(!$this->driver->trashed());
         $this->hideExport();
-        $this->description(admin_trans('admin.list'));
+        $this->description(admin_trans('grid.list'));
     }
 
     public function title($title)
@@ -225,7 +225,7 @@ class Grid extends Table
     public function userInfo($avatar = 'avatar', $nickname = 'nickname', $label = null)
     {
         if (is_null($label)) {
-            $label = admin_trans('admin.user_info');
+            $label = admin_trans('grid.user_info');
         }
         $column = $this->column($nickname, $label);
         return $column->display(function ($val, $data) use ($column, $avatar) {

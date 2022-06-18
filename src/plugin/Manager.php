@@ -250,9 +250,17 @@ class Manager
                 }
             }
         ]);
-        if (!file_exists($path)) {
+        if(in_array('application/json',$response->getHeader('Content-Type'))){
+            $content = $response->getBody()->getContents();
+            $content = json_decode($content, true);
+
+            throw new PluginException($content['message']);
+        }
+        $zip = new \ZipArchive();
+        if ($zip->open($path) !== true) {
             return false;
         }
+        $zip->close();
         return $path;
     }
 
