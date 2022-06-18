@@ -52,6 +52,7 @@ class FormItem extends Component
 
     public function __construct(Form $form = null)
     {
+       
         parent::__construct();
         $this->form = $form;
     }
