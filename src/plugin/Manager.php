@@ -151,10 +151,12 @@ class Manager
         }
         if ($date != date('Y-m-d')) {
             try {
+                app()->runningInConsole()
                 $domain = Request::getHost();
                 $response = $this->client->post('verify', [
                     'form_params' => [
                         'domain' => $domain,
+                        'cli' => PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg',
                         'plugin' => array_keys($this->plug),
                     ]
                 ]);
@@ -217,10 +219,10 @@ class Manager
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('very_verbose');
         $plugin = [];
-        foreach ($this->plug as $id=>$plug){
+        foreach ($this->plug as $id => $plug) {
             $plugin[] = [
-              'name'=>$id,
-              'version'=>$plug->version(),
+                'name' => $id,
+                'version' => $plug->version(),
             ];
         }
         $response = $this->client->get('download', [
@@ -250,7 +252,7 @@ class Manager
                 }
             }
         ]);
-        if(in_array('application/json',$response->getHeader('Content-Type'))){
+        if (in_array('application/json', $response->getHeader('Content-Type'))) {
             $content = $response->getBody()->getContents();
             $content = json_decode($content, true);
 
@@ -510,7 +512,7 @@ PHP;
             $namespace = $info['namespace'] . '\\';
             $loader->addPsr4($namespace, $path);
             $ServiceProvider = $namespace . "ServiceProvider";
-            Container::getInstance()->translator->load($path . DIRECTORY_SEPARATOR . 'lang',$name);
+            Container::getInstance()->translator->load($path . DIRECTORY_SEPARATOR . 'lang', $name);
             $this->plug[$name] = new $ServiceProvider();
             $this->plug[$name]->init($name, $path, $this);
             $this->plug[$name]->register();
@@ -609,7 +611,7 @@ PHP;
             }
             $zip->extractTo($path);
             $zip->close();
-            file_put_contents($this->licensePath($info['name']),'');
+            file_put_contents($this->licensePath($info['name']), '');
             $this->buildIde();
             $plugin = $this->getPlug($info['name']);
             $plugin->install();
