@@ -151,7 +151,6 @@ class Manager
         }
         if ($date != date('Y-m-d')) {
             try {
-                app()->runningInConsole()
                 $domain = Request::getHost();
                 $response = $this->client->post('verify', [
                     'form_params' => [

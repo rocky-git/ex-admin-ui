@@ -20,6 +20,11 @@ abstract class SystemAbstract
      */
     abstract public function logo(): ?string;
     /**
+     * 网站logo跳转地址
+     * @return string
+     */
+    abstract public function logoHref(): ?string;
+    /**
      * 头部导航右侧
      * @return array
      */
@@ -60,6 +65,7 @@ abstract class SystemAbstract
         return Response::success([
             'name'=>$this->name(),
             'logo'=>$this->logo(),
+            'logo_href'=>$this->logoHref(),
             'adminDropdown' => $this->adminDropdown(),
             'navbarRight' => $this->navbarRight(),
             'menu' => $this->menu(),
