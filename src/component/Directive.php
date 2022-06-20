@@ -37,6 +37,7 @@ trait Directive
     public function ajax($url, array $params = [],string $method = 'POST')
     {
         $url = admin_url($url);
+        $this->whenShow(admin_check_permissions($url,$method));
         return new Ajax($this,[
             'url' => $url,
             'data' => $params,
@@ -52,6 +53,7 @@ trait Directive
     public function redirect($url, $params = [])
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
+        $this->whenShow(admin_check_permissions($url,'GET'));
         $url = $url . '?' . http_build_query($params);
         $style = $this->attr('style') ?? [];
         $style = array_merge($style, ['cursor' => 'pointer']);

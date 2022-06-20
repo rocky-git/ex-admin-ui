@@ -19,7 +19,7 @@ class Node
      */
     public function all(bool $tree = false)
     {
-        $calss = $this->scan(admin_config('admin.auth_scan',[]));
+        $calss = $this->scan(admin_config('admin.auth_scan', []));
         $this->parse($calss);
         if ($tree) {
             return Arr::tree($this->node);
@@ -64,9 +64,9 @@ class Node
                 $title = $doc['title'];
             }
             $nodes[] = [
-                'id' =>$class,
+                'id' => $class,
                 'pid' => 0,
-                'url'=>'',
+                'url' => '',
                 'title' => $title,
                 'children' => [],
             ];
@@ -80,35 +80,35 @@ class Node
                     }
                     if (isset($doc['auth']) && $doc['auth'] === 'true') {
                         $returnType = $method->getReturnType();
-                        $requestMethod = 'get';
-                        $idPrefix = $class . '\\' . $action.'\\';
+                        $idPrefix = $class . '\\' . $action . '-';
                         $node = [
-                            'id' => $idPrefix.$requestMethod,
+                            'id' => $class . '\\' . $action,
                             'pid' => $class,
                             'action' => $action,
-                            'method' => $requestMethod,
-                            'url'=>'ex-admin/'.str_replace('\\', '-', $class).'/'.$action,
+                            'method' => '',
+                            'url' => 'ex-admin/' . str_replace('\\', '-', $class) . '/' . $action,
                             'title' => $title,
                         ];
                         $nodes[] = $node;
-                        if($returnType){
-                            if($returnType->getName() === 'ExAdmin\ui\component\grid\grid\Grid'){
+                        if ($returnType) {
+                            if ($returnType->getName() === 'ExAdmin\ui\component\grid\grid\Grid') {
                                 array_pop($nodes);
-                                $node['title'] = $title.'列表';
+                                $node['title'] = $title . '列表';
+                                $node['method'] = 'get';
                                 $nodes[] = $node;
                                 $node['method'] = 'delete';
-                                $node['id'] = $idPrefix. $node['method'] ;
-                                $node['title'] = $title.'删除';
+                                $node['id'] = $idPrefix . $node['method'];
+                                $node['title'] = $title . '删除';
                                 $nodes[] = $node;
-                            }elseif ($returnType->getName() === 'ExAdmin\ui\component\form\Form'){
+                            } elseif ($returnType->getName() === 'ExAdmin\ui\component\form\Form') {
                                 array_pop($nodes);
                                 $node['method'] = 'post';
-                                $node['id'] = $idPrefix. $node['method'] ;
-                                $node['title'] = $title.'添加';
+                                $node['id'] = $idPrefix . $node['method'];
+                                $node['title'] = $title . '添加';
                                 $nodes[] = $node;
                                 $node['method'] = 'put';
-                                $node['id'] = $idPrefix. $node['method'] ;
-                                $node['title'] = $title.'修改';
+                                $node['id'] = $idPrefix . $node['method'];
+                                $node['title'] = $title . '修改';
                                 $nodes[] = $node;
                             }
                         }

@@ -552,6 +552,7 @@ class Grid extends Table
                 $this->addButton->button()->content(admin_trans('grid.add'))
                     ->type('primary')
                     ->icon('<plus-outlined />');
+               $this->actionColumn->setActionParams($this->addButton,null,'post');
             }
         }
 

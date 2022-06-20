@@ -49,9 +49,9 @@ class Tree extends Field
      * 组件名称
      * @var string
      */
-	protected $name = 'ATree';
+	protected $name = 'ExTree';
 
-    protected $vModel = 'checkedKeys';
+    protected $vModel = 'value';
     public function __construct($field = null, $value = [])
     {
         $this->defaultExpandAll();

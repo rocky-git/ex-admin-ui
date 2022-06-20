@@ -26,6 +26,7 @@ use ExAdmin\ui\component\form\traits\FormComponent;
  * @method MonthRangePicker monthRange(string $filed, string $label = '') 月份范围选择框
  * @method WeekRangePicker weekRange(string $filed, string $label = '') 星期范围选择框
  * @method QuarterRangePicker quarterRange(string $filed, string $label = '') 季度范围选择框
+ * @method NumberRange numberRange(string $filed, string $label = '') 数字范围输入框
  * @mixin FormComponent
  */
 

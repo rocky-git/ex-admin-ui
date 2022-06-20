@@ -167,7 +167,7 @@ class Actions
         return $this->detailButton;
     }
     
-    protected function setActionParams(ActionButton $actionButton, $id)
+    public function setActionParams(ActionButton $actionButton, $id,$method)
     {
         if ($actionButton->action() instanceof Modal || $actionButton->action() instanceof Drawer) {
             $reference = $actionButton->action()->attr('reference');
@@ -175,9 +175,11 @@ class Actions
             foreach ($event as &$item) {
                 if ($item['type'] == 'Modal') {
                     $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->driver()->getPk() => $id]);
+                    $item['params']['method'] = $method;
                     $actionButton->action()->removeBind($actionButton->action()->getModel());
                     $actionButton->action()->vModel('visible', null, false);
                     $item['params']['modal'] = $actionButton->action()->getModel();
+                    $actionButton->whenShow(admin_check_permissions($item['params']['url'],$method));
                 }
             }
             $reference->setEvent('Click', 'custom', $event);
@@ -192,6 +194,7 @@ class Actions
                     }
                     $params = array_merge($params, [$this->grid->driver()->getPk() => $id]);
                     $item['value'] = $parse['path'] . '?' . http_build_query($params);
+                    $actionButton->action()->whenShow(admin_check_permissions($parse['path'],$method));
                 }
             }
             $actionButton->action()->setDirective($directive);
@@ -209,11 +212,11 @@ class Actions
         }
         if ($this->detailButton) {
             $this->detailButton->dropdown($this->dropdown?true:false);
-            $this->setActionParams($this->detailButton, $this->id);
+            $this->setActionParams($this->detailButton, $this->id,'get');
         }
         if ($this->editButton) {
             $this->editButton->dropdown($this->dropdown?true:false);
-            $this->setActionParams($this->editButton, $this->id);
+            $this->setActionParams($this->editButton, $this->id,'put');
         }
         $this->delButton = new ActionButton;
         $this->delButton->dropdown($this->dropdown?true:false);

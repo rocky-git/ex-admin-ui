@@ -96,4 +96,13 @@ abstract class SystemAbstract
      * @return Response
      */
     abstract public function upload($data): Response;
+
+    /**
+     * 验证权限
+     * @param $class 类名
+     * @param $function 方法
+     * @param $method 请求method
+     * @return bool
+     */
+    abstract public function checkPermissions($class, $function, $method):bool;
 }

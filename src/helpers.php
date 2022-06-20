@@ -207,6 +207,27 @@ if (!function_exists('admin_menu')) {
         return new $menu;
     }
 }
+if (!function_exists('admin_check_permissions')) {
+    /**
+     * 验证权限
+     * @param $url
+     * @param $method 请求method
+     * @return bool
+     */
+    function admin_check_permissions($url, $method)
+    {
+        $index = strrpos($url,'ex-admin/');
+        if($index > -1){
+            $url = substr($url,$index+9);
+            list($class,$function) = explode('/',$url);
+            $class = str_replace('-','\\',$class);
+            return \ExAdmin\ui\support\Container::getInstance()
+                ->make(admin_config('admin.request_interface.system'))
+                ->checkPermissions($class, $function, $method);
+        }
+        return true;
+    }
+}
 if (!function_exists('plugin')) {
     /**
      * 插件管理

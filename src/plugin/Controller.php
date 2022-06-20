@@ -36,7 +36,7 @@ class Controller
 
     public function grid($type = 0, $cate_id = 0)
     {
-        return Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin(),function (Grid  $grid){
+        return Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin(), function (Grid $grid) {
             $grid->driver()->setPk('name');
             $grid->column('title', '名称')->display(function ($val, $data) {
                 return Html::div()->content([
@@ -80,7 +80,14 @@ class Controller
                         $timeLine = TimeLine::create();
                         foreach ($data['versions'] as $item) {
                             $timeLine->item(Html::div()->content([
-                                TypographyText::create()->type('secondary')->content($item['version']),
+                                ToolTip::create(
+                                    Tag::create($item['version'])
+                                        ->style(['cursor' => 'pointer'])
+                                        ->modal()
+                                        ->width('80%')
+                                        ->title($item['version'].' 介绍说明')
+                                        ->content(Html::markdown($item['content'])),
+                                 )->title('查看介绍说明'),
                                 Html::create($item['version_content'])->tag('pre'),
                             ]));
                         }
@@ -90,11 +97,11 @@ class Controller
                     }
                     return $tag;
                 });
-            $grid->column('status')->when(function ($val,$data){
+            $grid->column('status')->when(function ($val, $data) {
                 return $data->installed();
-            },function (Column $column){
+            }, function (Column $column) {
                 $column->switch([
-                    'on'  => ['value' => true, 'text' => '启用'],
+                    'on' => ['value' => true, 'text' => '启用'],
                     'off' => ['value' => false, 'text' => '禁用'],
                 ]);
             });
@@ -111,7 +118,7 @@ class Controller
                 if (!$data->installed()) {
                     foreach ($data['versions'] as $item) {
                         $dropdown->item($item['version'])
-                            ->ajax([$this, 'onlineInstall'], ['name' => $data['name'],'version'=>$item['version']])
+                            ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
                             ->gridRefresh();
                     }
                 }
@@ -121,7 +128,7 @@ class Controller
                         ->width('70%')
                         ->whenShow(empty($data['online']) && plugin()->token()),
                     Button::create('更新到插件市场')
-                        ->modal($this->uploadForm($data->getInfo(),1))
+                        ->modal($this->uploadForm($data->getInfo(), 1))
                         ->width('70%')
                         ->whenShow($data->installed() && !empty($data['online']) && plugin()->token() && plugin()->token(true) == $data['uid']),
                     Button::create('设置')
@@ -133,8 +140,8 @@ class Controller
                     Button::create('卸载')
                         ->type('danger')
                         ->confirm([
-                            Html::div()->content('确认卸载《'.$data['title'].'》?'),
-                            Html::div()->content('卸载将会删除所有插件文件且不可找回')->style(['color'=>'red'])
+                            Html::div()->content('确认卸载《' . $data['title'] . '》?'),
+                            Html::div()->content('卸载将会删除所有插件文件且不可找回')->style(['color' => 'red'])
                         ], [$this, 'uninstall'], ['name' => $data['name']])
                         ->whenShow($data->installed())
                         ->gridRefresh(),
@@ -148,15 +155,15 @@ class Controller
                     ->modal($this->create()),
                 Button::create('生成IDE')->ajax([$this, 'ide']),
                 Button::create('本地安装')
-                    ->upload([$this,'localInstall'])
-                    ->style(['margin'=>'0 8px']),
+                    ->upload([$this, 'localInstall'])
+                    ->style(['margin' => '0 8px']),
                 Button::create('登陆')
                     ->type('primary')
-                    ->modal([$this,'login'])
+                    ->modal([$this, 'login'])
                     ->whenShow(!plugin()->token()),
                 Button::create('退出登陆')
                     ->whenShow(plugin()->token())
-                    ->ajax([$this,'logout'])
+                    ->ajax([$this, 'logout'])
                     ->gridRefresh(),
             ]);
             $grid->hideDelete();
@@ -169,15 +176,18 @@ class Controller
      * 退出登陆
      * @return \ExAdmin\ui\response\Message
      */
-    public function logout(){
-        setcookie('plugin_token','',time()-3600);
+    public function logout()
+    {
+        setcookie('plugin_token', '', time() - 3600);
         return message_success('已退出登陆');
     }
+
     /**
      * 登陆
      * @return Form
      */
-    public function login(){
+    public function login()
+    {
         return Form::create([], function (Form $form) {
             $form->removeAttr('labelCol');
             $form->text('username')
@@ -186,23 +196,24 @@ class Controller
             $form->password('password')
                 ->prefix(Icon::create('fas fa-key'))
                 ->placeholder('你的密码');
-            $form->saved(function (Form $form){
-                $result = plugin()->login($form->input('username'),$form->input('password'));
-                if($result !== true){
+            $form->saved(function (Form $form) {
+                $result = plugin()->login($form->input('username'), $form->input('password'));
+                if ($result !== true) {
                     return message_error($result);
                 }
                 return message_success('登陆成功');
             });
         });
     }
+
     /**
      * 上传到插件市场
      * @param $data
      * @return Form
      */
-    public function uploadForm($data,$update=0)
+    public function uploadForm($data, $update = 0)
     {
-        return Form::create($data, function (Form $form) use($update) {
+        return Form::create($data, function (Form $form) use ($update) {
             $form->select('cate_id', '分类')
                 ->options(array_column(plugin()->getCate(), 'name', 'id'))
                 ->required();
@@ -225,11 +236,11 @@ class Controller
                         $form->number('high_price', '售价')->required();
                     }, '高级授权');
                 });
-            $form->editor('content', '介绍内容');
+            $form->mdEditor('content', '介绍内容');
             $form->text('version', '版本号');
             $form->textarea('version_content', '版本说明')->rows(5);
-            $form->saved(function (Form $form) use($update){
-                $result = plugin()->upload($form->input(),(bool)$update);
+            $form->saved(function (Form $form) use ($update) {
+                $result = plugin()->upload($form->input(), (bool)$update);
                 if ($result !== true) {
                     return message_error($result);
                 }
@@ -265,15 +276,15 @@ class Controller
      * @return \ExAdmin\ui\response\Message
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function onlineInstall($name,$version)
+    public function onlineInstall($name, $version)
     {
 
-        if(!plugin()->token()){
+        if (!plugin()->token()) {
             return message_error('请登录后操作！');
         }
-        try{
-            $path = plugin()->download($name,$version);
-        }catch (PluginException $exception){
+        try {
+            $path = plugin()->download($name, $version);
+        } catch (PluginException $exception) {
             return message_error($exception->getMessage());
         }
         if ($path === false) {
@@ -285,11 +296,13 @@ class Controller
     /**
      * 本地安装
      */
-    public function localInstall(){
+    public function localInstall()
+    {
         return $this->install($_FILES['file']['tmp_name']);
     }
 
-    protected function install($path){
+    protected function install($path)
+    {
         $result = plugin()->install($path);
         unlink($path);
         if ($result === true) {
@@ -297,6 +310,7 @@ class Controller
         }
         return message_error($result);
     }
+
     /**
      * 卸载
      * @param $name
@@ -307,7 +321,6 @@ class Controller
         $plug = plugin()->uninstall($name);
         return message_success('操作完成')->refreshMenu();
     }
-
 
 
     /**

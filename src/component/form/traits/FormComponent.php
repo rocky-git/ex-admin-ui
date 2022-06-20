@@ -27,6 +27,7 @@ use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\InputNumber;
 use ExAdmin\ui\component\form\field\input\Password;
 use ExAdmin\ui\component\form\field\input\TextArea;
+use ExAdmin\ui\component\form\field\MdEditor;
 use ExAdmin\ui\component\form\field\mentions\Mentions;
 use ExAdmin\ui\component\form\field\NumberRange;
 use ExAdmin\ui\component\form\field\radio\RadioGroup;
@@ -80,6 +81,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method SelectIcon icon(string $field, string $label = '') 图标选择器
  * @method SelectTable selectTable(string $field, string $label = '') 表格选择器
  * @method ColorPicker color(string $field, string $label = '') 颜色选择器
+ * @method MdEditor mdEditor($field, $label = '') md编辑器
  * #TODO 规格组件
  */
 trait FormComponent
@@ -123,5 +125,6 @@ trait FormComponent
         'icon'  => SelectIcon::class,
         'selectTable'  => SelectTable::class,
         'color'  => ColorPicker::class,
+        'mdEditor'  => MdEditor::class,
     ];
 }

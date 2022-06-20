@@ -410,6 +410,7 @@ abstract class Component implements \JsonSerializable
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
         $modal = $component::create($this);
+        $modal->whenShow(admin_check_permissions($url,$method));
         $modal->destroyOnClose();
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
@@ -432,19 +433,7 @@ abstract class Component implements \JsonSerializable
             ->url($url)
             ->params($params);
     }
-
-    protected function parseUrl($url)
-    {
-        if (is_array($url)) {
-            list($class, $function) = $url;
-            if (is_object($class)) {
-                $class = get_class($class);
-            }
-            $url = 'ex-admin/' . str_replace('\\', '-', $class) . '/' . $function;
-        }
-        return $url;
-    }
-
+    
     public function getName()
     {
         return $this->name;
