@@ -45,6 +45,9 @@ class Ajax extends Component
     
     public function jsonSerialize()
     {
+        if(!$this->componentVisible){
+            $this->component->whenShow($this->componentVisible);
+        }
         $this->component->directive('ajax', $this->options, $this->arg);
         return $this->component;
     }

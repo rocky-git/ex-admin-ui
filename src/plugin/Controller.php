@@ -162,8 +162,8 @@ class Controller
                     ->modal([$this, 'login'])
                     ->whenShow(!plugin()->token()),
                 Button::create('退出登陆')
-                    ->whenShow(plugin()->token())
                     ->ajax([$this, 'logout'])
+                    ->whenShow(plugin()->token())
                     ->gridRefresh(),
             ]);
             $grid->hideDelete();
@@ -278,7 +278,6 @@ class Controller
      */
     public function onlineInstall($name, $version)
     {
-
         if (!plugin()->token()) {
             return message_error('请登录后操作！');
         }

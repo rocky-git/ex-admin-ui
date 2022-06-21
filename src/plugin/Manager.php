@@ -388,6 +388,7 @@ class Manager
 
     public function __get($name)
     {
+        $name = Str::snake($name,'-');
         return $this->plug[$name];
     }
 
@@ -408,7 +409,7 @@ class Manager
         $info['version'] = $version;
         $info['ex_admin_version'] = '>=' . ex_admin_version();
         $info['author'] = $author;
-        $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . $name;
+        $info['namespace'] = admin_config('admin.plugin.namespace', 'plugin') . '\\' . Str::camel($name);
         $info['plugin'] = [];
         $info['require'] = [];
         $this->setInfo($name, $info);
@@ -450,6 +451,7 @@ class Manager
             if ($plug->disabled()) {
                 continue;
             }
+            $name =  Str::camel($name);
             $title = $plug['title'];
             $namespace = $plug['namespace'];
             $doc .= " * @property \\{$namespace}\\ServiceProvider \$$name $title";
