@@ -1,5 +1,5 @@
-<div align="center">
-    <img src="https://www.ex-admin.com/storage/logo.png" height="80"> 
+<div align="center" style="display:flex;justify-content:center">
+    <img src="https://www.ex-admin.com/cms/logo.png" height="80"><h1 style="margin-left:10px">Ex-Admin</h3>
 </div>
 <br>
 <p><code>Ex-Admin</code>是一个基于<a href="https://www.antdv.com/docs/vue/introduce-cn/" target="_blank">Ant Design of Vue</a>开发而成后台系统构建工具，无需关注页面模板JavaScript，只用php代码即可快速构建出一个功能完善的后台系统。。</p>

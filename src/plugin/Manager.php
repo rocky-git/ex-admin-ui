@@ -38,7 +38,7 @@ class Manager
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'https://ui.ex-admin.com/api/plugin/',
+            'base_uri' => 'https://www.ex-admin.com/api/plugin/',
             'verify' => false,
         ]);
         $this->initialize();
