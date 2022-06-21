@@ -7,6 +7,7 @@ use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\common\typography\TypographyText;
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\form\FormAction;
 use ExAdmin\ui\component\grid\badge\Badge;
 use ExAdmin\ui\component\grid\card\Card;
 use ExAdmin\ui\component\grid\grid\Actions;
@@ -190,9 +191,17 @@ class Controller
     {
         return Form::create([], function (Form $form) {
             $form->removeAttr('labelCol');
+            $form->push(
+                TypographyText::create()
+                    ->type('secondary')
+                    ->style(['marginBottom'=>'10px','display'=>'flex','justify-content'=>'flex-end'])
+                    ->content('还未注册？')
+                    ->redirect('https://www.ex-admin.com/register')
+            );
             $form->text('username')
                 ->prefix(Icon::create('fas fa-user-alt'))
-                ->placeholder('你的手机号、用户名或邮箱');
+                ->placeholder('你的手机号、邮箱')
+               ;
             $form->password('password')
                 ->prefix(Icon::create('fas fa-key'))
                 ->placeholder('你的密码');
