@@ -152,7 +152,7 @@ class Manager
         if ($date != date('Y-m-d')) {
             try {
                 $domain = Request::getHost();
-                $response = $this->client->post('verify', [
+                $response = $this->client->post('verifyAuthorization', [
                     'form_params' => [
                         'domain' => $domain,
                         'cli' => PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg',
