@@ -388,7 +388,9 @@ class Manager
 
     public function __get($name)
     {
-        $name = Str::snake($name,'-');
+        if(!isset($this->plug[$name])){
+            $name = Str::snake($name,'-');
+        }
         return $this->plug[$name];
     }
 
