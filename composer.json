@@ -24,7 +24,7 @@
     "symfony/console": "<=6",
     "symfony/http-foundation": "<=6",
     "symfony/cache": "<=6",
-    "guzzlehttp/guzzle": "<=6",
+    "guzzlehttp/guzzle":  "^5.0 || ^6.0 || ^7.0",
     "hisune/echarts-php": "^1.1",
     "phpoffice/phpspreadsheet": "^1.23"
   },
