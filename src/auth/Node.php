@@ -63,8 +63,9 @@ class Node
             if (is_array($doc)) {
                 $title = $doc['title'];
             }
+            $pid = $class.'-';
             $nodes[] = [
-                'id' => $class,
+                'id' => $pid,
                 'pid' => 0,
                 'url' => '',
                 'title' => $title,
@@ -83,7 +84,7 @@ class Node
                         $idPrefix = $class . '\\' . $action . '-';
                         $node = [
                             'id' => $class . '\\' . $action,
-                            'pid' => $class,
+                            'pid' => $pid,
                             'action' => $action,
                             'method' => '',
                             'url' => 'ex-admin/' . str_replace('\\', '-', $class) . '/' . $action,

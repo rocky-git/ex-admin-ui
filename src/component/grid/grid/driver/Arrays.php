@@ -32,14 +32,14 @@ class Arrays extends GridAbstract
      */
     public function update(array $ids, array $data): Message
     {
-        $result = $this->dispatchEvent('updateing',[$ids,$data]);
-        if($result instanceof Message){
+        $result = $this->dispatchEvent('updateing', [$ids, $data]);
+        if ($result instanceof Message) {
             return $result;
         }
 
 
-        $deletedResult = $this->dispatchEvent('updated',[$ids,$data]);
-        if($deletedResult instanceof Message){
+        $deletedResult = $this->dispatchEvent('updated', [$ids, $data]);
+        if ($deletedResult instanceof Message) {
             return $deletedResult;
         }
 
@@ -47,42 +47,28 @@ class Arrays extends GridAbstract
     }
 
 
-    public function delete(array $ids): Message
+    public function delete(array $ids, bool $all = false): Message
     {
-        $result = $this->dispatchEvent('deling',[$ids]);
-        if($result instanceof Message){
+        $arg = $all ? $all : $ids;
+        $result = $this->dispatchEvent('deling', [$arg]);
+        if ($result instanceof Message) {
             return $result;
         }
 
 
-        $deletedResult = $this->dispatchEvent('deleted',[$ids]);
-        if($deletedResult instanceof Message){
+        $deletedResult = $this->dispatchEvent('deleted', [$arg]);
+        if ($deletedResult instanceof Message) {
             return $deletedResult;
         }
         return message_success(admin_trans('grid.delete_success'));
     }
-
-    public function deleteAll(): Message
-    {
-        $result = $this->dispatchEvent('deling',[true]);
-        if($result instanceof Message){
-            return $result;
-        }
-
-
-        $deletedResult = $this->dispatchEvent('deleted',[true]);
-        if($deletedResult instanceof Message){
-            return $deletedResult;
-        }
-        return message_success(admin_trans('grid.delete_success'));
-    }
-
-    public function dragSort($id, int $sort,string $field): Message
+    
+    public function dragSort($id, int $sort, string $field): Message
     {
         return message_success(admin_trans('grid.sort_success'));
     }
 
-    public function inputSort($id, int $sort,string $field): Message
+    public function inputSort($id, int $sort, string $field): Message
     {
         return message_success(admin_trans('grid.sort_success'));
     }
@@ -98,10 +84,11 @@ class Arrays extends GridAbstract
      * @param string|array|\Closure $search
      * @return mixed
      */
-    public function quickSearch($keyword,$search)
+    public function quickSearch($keyword, $search)
     {
         // TODO: Implement quickSearch() method.
     }
+
     /**
      * 是否有回收站
      * @return bool
@@ -118,13 +105,13 @@ class Arrays extends GridAbstract
      * @param bool $hidePage 是否分页
      * @return mixed
      */
-    public function data(int $page, int $size,bool $hidePage)
+    public function data(int $page, int $size, bool $hidePage)
     {
-        if($hidePage){
+        if ($hidePage) {
             return $this->repository;
-        }else{
+        } else {
             $page = ($page - 1) * $size;
-            return array_slice($this->repository,$page,$size);
+            return array_slice($this->repository, $page, $size);
         }
     }
 
@@ -138,22 +125,22 @@ class Arrays extends GridAbstract
         $export = $this->grid->getExport();
         $export->setProgressKey(uniqid());
         $columns = array_column($columns, 'title', 'dataIndex');
-       
-        if($all){
+
+        if ($all) {
             $data = $this->repository;
-        }else{
-            $data = array_filter($this->repository,function ($item) use($selectIds){
-               if(in_array($item[$this->getPk()],$selectIds)){
-                   return true;
-               }
-               return false;
+        } else {
+            $data = array_filter($this->repository, function ($item) use ($selectIds) {
+                if (in_array($item[$this->getPk()], $selectIds)) {
+                    return true;
+                }
+                return false;
             });
         }
         $data = $this->grid->parseColumn($data, true);
         $export->columns($columns)->count(count($data));
-        $export->write($data,function ($export){
+        $export->write($data, function ($export) {
             $filename = $export->save(sys_get_temp_dir());
-            return Request::getSchemeAndHttpHost().'/ex-admin/system/download?App-Name='.Request::header('App-Name').'&file='.$filename;
+            return Request::getSchemeAndHttpHost() . '/ex-admin/system/download?App-Name=' . Request::header('App-Name') . '&file=' . $filename;
         });
         return $export->export();
     }
@@ -173,7 +160,6 @@ class Arrays extends GridAbstract
     {
         // TODO: Implement restore() method.
     }
-
 
 
     public function model()

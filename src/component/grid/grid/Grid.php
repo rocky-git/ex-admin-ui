@@ -13,6 +13,7 @@ use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridAbstract;
+use ExAdmin\ui\response\Response;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
@@ -129,6 +130,7 @@ class Grid extends Table
         $this->hideTrashed(!$this->driver->trashed());
         $this->hideExport();
         $this->description(admin_trans('grid.list'));
+        
     }
 
     public function title($title)
@@ -523,7 +525,15 @@ class Grid extends Table
         $list->attr('container', $container);
         return $list;
     }
-
+    protected function editableDispatch($action){
+        if($action == 'update' && $this->driver->getForm()){
+           $response =  $this->driver->getForm()->validator()->check(Request::input('data'),true);
+           if($response instanceof Response){
+               return $response;
+           }
+        }
+        return $this->dispatch($action);
+    }
     public function jsonSerialize()
     {
         if ($this->exec) {
@@ -568,6 +578,9 @@ class Grid extends Table
         $this->pagination->total($total);
 
         $data = $this->parseColumn($data);
+        if (Request::has('ex_admin_form_action')) {
+            return $this->editableDispatch(Request::input('ex_admin_form_action'));
+        }
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
         }

@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\contract;
 
+use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
@@ -20,6 +21,8 @@ abstract class GridAbstract
 
     protected $event = [];
 
+    protected $form;
+    
     /**
      * 初始化
      * @param Grid $grid
@@ -32,7 +35,10 @@ abstract class GridAbstract
 
         $this->repository = $repository;
     }
-    
+    public function getRepository()
+    {
+        return $this->repository;
+    }
     /**
      * 返回主键名称
      * @return string
@@ -50,7 +56,36 @@ abstract class GridAbstract
     {
         $this->pk = $name;
     }
+    public function setForm(Form $form){
+        $this->form = $form;
+    }
 
+    /**
+     * @return Form
+     */
+    public function getForm(){
+        return $this->form;
+    }
+    /**
+     * selectTable组件
+     * @return Response
+     */
+    public function selectTable(): Response
+    {
+        $result = $this->form->getSelectTableComponent()->handle();
+        return Response::success($result);
+    }
+
+    /**
+     * 上传文件 file|image组件上传接口
+     * @return Response
+     */
+    public function upload(): Response{
+        $class = admin_config('admin.form.uploader');
+        $simpleUploader = new $class;
+        $simpleUploader->setForm($this->form);
+        return $simpleUploader->upload();
+    }
     /**
      * 更新
      * @param array $ids 更新条件id集合
@@ -62,9 +97,10 @@ abstract class GridAbstract
     /**
      * 删除
      * @param array $ids 删除id
+     * @param bool $all 是否删除全部
      * @return Message
      */
-    abstract public function delete(array $ids): Message;
+    abstract public function delete(array $ids,bool $all = false): Message;
 
     /**
      * 恢复数据
@@ -72,13 +108,7 @@ abstract class GridAbstract
      * @return Message
      */
     abstract public function restore(array $ids): Message;
-
-    /**
-     * 删除全部
-     * @return Message
-     */
-    abstract public function deleteAll(): Message;
-
+    
     /**
      * 拖拽排序
      * @param int $id 排序id

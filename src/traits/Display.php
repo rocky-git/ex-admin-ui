@@ -115,6 +115,9 @@ trait Display
      */
     protected function commonImage(string $value, int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
+        if(empty($value)){
+            return $value;
+        }
         $image = Image::create()
             ->src($value)
             ->height("{$height}px")

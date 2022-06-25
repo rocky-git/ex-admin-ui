@@ -63,7 +63,7 @@ class SelectTable extends Field
         $this->closure  = $closure;
         $this->custom  = $custom;
         $this->attr('submitUrl',$this->formItem->form()->attr('url'));
-        $this->attr('submitParams',$this->formItem->form()->call['params']+['ex_admin_action'=>'selectTable','ex_admin_select_field'=>$this->selectField]);
+        $this->attr('submitParams',$this->formItem->form()->call['params']+['ex_admin_form_action'=>'selectTable','ex_admin_select_field'=>$this->selectField]);
         return $this;
     }
     public function setFormItem(FormItem $formItem)

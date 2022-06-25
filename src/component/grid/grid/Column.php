@@ -22,6 +22,7 @@ use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\Request;
 use ExAdmin\ui\traits\ColumnFilter;
 use ExAdmin\ui\traits\Display;
 
@@ -281,11 +282,15 @@ class Column extends Component
             $form->url($this->grid->attr('url'));
             $form->method('PUT');
             $form->params($this->grid->getCall()['params'] + [
-                    'ex_admin_action' => 'update',
+                    'ex_form_id'=>$data[$this->grid->driver()->getPk()],
+                    'ex_admin_form_action' => 'update',
                     'ids' => [$data[$this->grid->driver()->getPk()]],
                 ]);
+            if(Request::input('ex_form_id') == $data[$this->grid->driver()->getPk()]){
+                $this->grid->driver()->setForm($form);
+            }
             if (is_null($editable)) {
-                $editable = Editable::text()->allowClear(false);
+                $editable = Editable::text();
             }
             foreach ($editable->getCall() as $key => $item) {
                 $arguments = $item['arguments'];
@@ -320,7 +325,9 @@ class Column extends Component
             } else {
                 $component->default($value);
                 return Html::div()->content([
-                    Html::create($html),
+                    Html::create($html)->when($html==='',function ($html){
+                        $html->style(['width'=>'30px','height'=>'30px']);
+                    }),
                     Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
                         ->trigger('click')
                         ->content($form)

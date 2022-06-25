@@ -157,17 +157,23 @@ abstract class UploaderAbstract
     /**
      * 写入文件
      * @param string $filename
-     * @param string|UploadedFile $stream
+     * @param string|UploadedFile $content
      * @return false|mixed
      */
     public function putFile(string $filename,$content){
         if($content instanceof UploadedFile){
             $content = fopen($content->getRealPath(), 'r');
         }
-        $result = $this->put($filename,$content);
-        if (is_resource($content)) {
-            fclose($content);
+        if (is_resource($content)){
+            $resource = $content;
+            $content = '';
+            while (!feof($resource)) {
+                $content .= fread($resource, 1024);
+            }
+            fclose($resource);
+
         }
+        $result = $this->put($filename,$content);
         return $result ? $filename : false;
     }
 

@@ -14,6 +14,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\range\WeekRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\YearRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimeRangePicker;
+use ExAdmin\ui\component\form\field\NumberRange;
 use ExAdmin\ui\component\form\traits\FormComponent;
 
 /**

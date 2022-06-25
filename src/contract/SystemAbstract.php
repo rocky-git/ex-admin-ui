@@ -63,13 +63,13 @@ abstract class SystemAbstract
     final public function info(): Response
     {
         return Response::success([
+            'user_info' => $this->userInfo(),
             'name'=>$this->name(),
             'logo'=>$this->logo(),
             'logo_href'=>$this->logoHref(),
             'adminDropdown' => $this->adminDropdown(),
             'navbarRight' => $this->navbarRight(),
             'menu' => $this->menu(),
-            'user_info' => $this->userInfo(),
         ]);
     }
 

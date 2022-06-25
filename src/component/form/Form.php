@@ -21,6 +21,7 @@ use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\contract\FormEventInterface;
+use ExAdmin\ui\contract\ValidatorAbstract;
 use ExAdmin\ui\contract\ValidatorForm;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
@@ -124,6 +125,7 @@ class Form extends Component
             $this->attr('editId', $id);
             $this->method('PUT');
             $this->isEdit = true;
+            $this->input($pk,$id);
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
@@ -139,7 +141,7 @@ class Form extends Component
         return $this->driver;
     }
     /**
-     * @return ValidatorForm
+     * @return ValidatorAbstract
      */
     public function validator()
     {
@@ -510,8 +512,8 @@ class Form extends Component
         if($this->exec){
             call_user_func($this->exec,$this);
         }
-        if (Request::has('ex_admin_action')) {
-            return $this->dispatch(Request::input('ex_admin_action'));
+        if (Request::has('ex_admin_form_action')) {
+            return $this->dispatch(Request::input('ex_admin_form_action'));
         }
         $this->content($this->formItem);
         $this->content($this->actions, 'footer');

@@ -36,7 +36,7 @@ class Plugin extends GridAbstract
      * @param array $ids 删除id
      * @return Message
      */
-    public function delete(array $ids): Message
+    public function delete(array $ids,bool $all = false): Message
     {
         // TODO: Implement delete() method.
     }
@@ -51,14 +51,6 @@ class Plugin extends GridAbstract
         // TODO: Implement restore() method.
     }
 
-    /**
-     * 删除全部
-     * @return Message
-     */
-    public function deleteAll(): Message
-    {
-        // TODO: Implement deleteAll() method.
-    }
 
     /**
      * 拖拽排序
