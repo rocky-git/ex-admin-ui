@@ -539,6 +539,10 @@ class Grid extends Table
         if ($this->exec) {
             call_user_func($this->exec, $this);
         }
+
+        if (Request::has('ex_admin_action')) {
+            return $this->dispatch(Request::input('ex_admin_action'));
+        }
         if ($this->filter) {
             if ($this->filter->isHide()) {
                 $this->hideFilter();
@@ -548,9 +552,6 @@ class Grid extends Table
 
         $this->driver->filter($this->getFilter()->getRule());
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
-        if (Request::has('ex_admin_action')) {
-            return $this->dispatch(Request::input('ex_admin_action'));
-        }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();
