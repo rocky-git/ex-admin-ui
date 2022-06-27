@@ -34,6 +34,8 @@ class Filter
     protected $form;
 
     protected $item;
+    //合并参数
+    protected $mergeParams = false;
 
     protected $filterType = [
         'eq',
@@ -96,7 +98,10 @@ class Filter
             $formComponent = call_user_func_array([$form, $name], $arguments);
             list($fields) = Arr::formItem($formComponent, $arguments);
             $params = [];
-            $input = Request::input();
+            $input = Request::input('ex_admin_filter',[]);
+            if($this->mergeParams){
+                $input = array_merge(Request::input(),$input);
+            }
             $type = 'normal';
             if ($formComponent instanceof Cascader) {
                 if (Request::has($formComponent->getRelation())) {
@@ -109,6 +114,9 @@ class Filter
             }
             foreach ($fields as $field) {
                 $value = Arr::get($input, $field);
+                if(!is_null($value)){
+                    $formComponent->default($value);
+                }
                 if ($type == 'cascader') {
                     foreach ($value as &$item) {
                         $row = [];
@@ -142,7 +150,9 @@ class Filter
         $relation = implode('.', $relation);
         return [$relation, $field];
     }
-
+    public function mergeParams(){
+        $this->mergeParams =  true;
+    }
     public function getRule()
     {
         return $this->rules;

@@ -124,7 +124,7 @@ class Grid extends Table
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params([]);
         $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-        $callParams = array_merge($callParams, $this->call['params']);
+        $callParams = array_merge($callParams, $this->call['params'],Request::input());
         $this->attr('callParams', $callParams);
         $this->scroll(['x' => 'max-content']);
         $this->hideTrashed(!$this->driver->trashed());
@@ -539,19 +539,19 @@ class Grid extends Table
         if ($this->exec) {
             call_user_func($this->exec, $this);
         }
-
-        if (Request::has('ex_admin_action')) {
-            return $this->dispatch(Request::input('ex_admin_action'));
-        }
+        
         if ($this->filter) {
             if ($this->filter->isHide()) {
                 $this->hideFilter();
             }
             $this->attr('filter', $this->filter->form());
         }
-
         $this->driver->filter($this->getFilter()->getRule());
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
+        
+        if (Request::has('ex_admin_action')) {
+            return $this->dispatch(Request::input('ex_admin_action'));
+        }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();

@@ -34,7 +34,6 @@
 `Ex-Admin` 基于以下组件:
 
 + [ThinkPhP](http://www.thinkphp.cn/)
-+ [Element Plus](https://element-plus.gitee.io/)
 + [Ant Design Vue](https://www.antdv.com)
 + [Vue3](https://cn.vuejs.org/)
 + [font-awesome](http://fontawesome.io)

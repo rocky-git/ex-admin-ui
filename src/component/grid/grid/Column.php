@@ -276,7 +276,7 @@ class Column extends Component
     {
         $this->editable = function ($value,$data,$html) use($editable, $alwaysShow){
             $form = Form::create();
-            $form->style(['padding' => '0px']);
+            $form->style(['padding' => '0px','background'=>'none']);
             $form->layout('inline');
             $form->removeAttr('labelCol');
             $form->url($this->grid->attr('url'));
@@ -300,30 +300,18 @@ class Column extends Component
                     call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
+            $component->default($value);
             if ($alwaysShow) {
-                $field = $component->random();
-                $component->vModel($component->getModelField(), $field, $value === ''?null:$value);
                 if ($component instanceof Input || $component instanceof InputNumber || $component instanceof AutoComplete) {
-                    $component->style(['width'=>'100%']);
-                    $component->eventCustom('blur', 'Ajax', [
-                        'ex_admin_field' => $this->field,
-                        'url' => $this->grid->attr('url'),
-                        'data' => $this->grid->getCall()['params'] + [
-                                'ex_admin_action' => 'update',
-                                'ids' => [$data[$this->grid->driver()->getPk()]],
-                            ],
-                        'method' => 'PUT',
-                    ]);
-                } else {
-                    $component->changeAjax($this->field, $this->grid->attr('url'), $this->grid->getCall()['params'] + [
-                            'ex_admin_action' => 'update',
-                            'ids' => [$data[$this->grid->driver()->getPk()]],
-                        ], 'PUT');
+                    $event = 'blur';
+                }else{
+                    $event = 'change';
                 }
-
-                return $component;
+                $component->eventFunction($event, 'submit', [], $form);
+                $form->actions()->hide();
+                return $form;
             } else {
-                $component->default($value);
+
                 return Html::div()->content([
                     Html::create($html)->when($html==='',function ($html){
                         $html->style(['width'=>'30px','height'=>'30px']);

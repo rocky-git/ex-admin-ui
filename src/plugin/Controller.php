@@ -111,13 +111,17 @@ class Controller
                 $dropdown = Dropdown::create(
                     Button::create(
                         [
-                            '安装',
+                            $data->installed()?'更新':'安装',
                             Icon::create('DownOutlined')->style(['marginRight' => '5px'])
                         ]
                     )
-                )->trigger(['click'])->whenShow(!$data->installed());
-                if (!$data->installed()) {
-                    foreach ($data['versions'] as $item) {
+                )->trigger(['click']);
+                foreach ($data['versions'] as $item) {
+                    if($data->installed()){
+                        $dropdown->item($item['version'])
+                            ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])
+                            ->gridRefresh();
+                    }else{
                         $dropdown->item($item['version'])
                             ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
                             ->gridRefresh();
@@ -137,7 +141,7 @@ class Controller
                         ->when(method_exists($data, 'setting'), function ($button) use ($data) {
                             return $button->modal($data->setting())->width('50%');
                         }),
-
+                    $dropdown,
                     Button::create('卸载')
                         ->type('danger')
                         ->confirm([
@@ -146,12 +150,10 @@ class Controller
                         ], [$this, 'uninstall'], ['name' => $data['name']])
                         ->whenShow($data->installed())
                         ->gridRefresh(),
-                    $dropdown
-
                 ]);
             });
             $grid->quickSearch();
-            $grid->tools([
+            $grid->header([
                 Button::create('创建插件')
                     ->modal($this->create()),
                 Button::create('生成IDE')->ajax([$this, 'ide']),
@@ -280,12 +282,13 @@ class Controller
 
     /**
      * 在线安装
-     * @param $name
-     * @param $version
+     * @param string $name
+     * @param string$version
+     * @param bool $update
      * @return \ExAdmin\ui\response\Message
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function onlineInstall($name, $version)
+    public function onlineInstall($name, $version,$update = false)
     {
         if (!plugin()->token()) {
             return message_error('请登录后操作！');
@@ -297,6 +300,9 @@ class Controller
         }
         if ($path === false) {
             return message_error('文件下载失败');
+        }
+        if($update){
+            $plug = plugin()->uninstall($name);
         }
         return $this->install($path);
     }
