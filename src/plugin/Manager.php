@@ -197,6 +197,7 @@ class Manager
         $version = $plug['version'];
         $info = $plug->getInfo();
         $info = array_merge($info, $item);
+        $info['content'] = $item['versions'][0]['content'];
         $info['version'] = $version;
         $info['online'] = true;
         $info['authorized'] = $this->authorization($item['name']);

@@ -205,7 +205,7 @@ class Actions
     {
         $this->row = $data;
         $this->id = $data[$this->grid->driver()->getPk()];
-        $html = Html::create()->attr('class', $this->column->attr('dataIndex'));
+        $html = Html::div()->attr('class', $this->column->attr('dataIndex'));
         //自定义内容显示处理
         if (!is_null($this->closure)) {
             call_user_func_array($this->closure, [$this, $this->row]);

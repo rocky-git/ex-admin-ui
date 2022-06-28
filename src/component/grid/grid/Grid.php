@@ -543,7 +543,7 @@ class Grid extends Table
     public function jsonSerialize()
     {
         $this->exec();
-        
+
         if ($this->filter) {
             if ($this->filter->isHide()) {
                 $this->hideFilter();
@@ -606,6 +606,10 @@ class Grid extends Table
                 'code' => 200,
             ];
         } else {
+            if(!admin_check_permissions($this->attr('url'),'delete')){
+                $this->hideDeleteSelection();
+                $this->hideDelete();
+            }
             $this->attr('pagination', $this->pagination);
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));

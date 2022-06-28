@@ -297,7 +297,7 @@ class Column extends Component
                 if ($key == 0) {
                     $component = call_user_func_array([$form, $item['name']], [$this->field]);
                 } else {
-                    call_user_func_array([$component, $item['name']], $arguments);
+                    $component = call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
             $component->default($value);

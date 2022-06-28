@@ -59,6 +59,7 @@ class Controller
                     ])
                 ])->style(['display' => 'flex', 'alignItems' => 'center', 'alignContent' => 'center']);
             });
+            $grid->column('author','作者');
             $grid->column('price', '价格')->display(function ($val, $data) {
                 if (!isset($data['is_free'])) {
                     return '--';
