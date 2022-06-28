@@ -3,7 +3,6 @@
 namespace ExAdmin\ui\plugin;
 
 use ExAdmin\ui\support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class Plugin implements \ArrayAccess
 {

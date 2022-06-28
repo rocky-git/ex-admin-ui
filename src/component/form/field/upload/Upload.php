@@ -5,7 +5,6 @@ namespace ExAdmin\ui\component\form\field\upload;
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\component\form\FormItem;
 use ExAdmin\ui\component\grid\grid\Grid;
-use Illuminate\Support\Facades\Log;
 
 /**
  * 上传组件

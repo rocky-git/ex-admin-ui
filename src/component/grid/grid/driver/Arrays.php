@@ -18,7 +18,6 @@ use ExAdmin\ui\contract\GridAbstract;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
 use ExAdmin\ui\support\Request;
-use Illuminate\Support\Facades\Event;
 
 
 class Arrays extends GridAbstract

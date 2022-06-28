@@ -5,7 +5,6 @@ namespace ExAdmin\ui\component\form\field;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\support\Arr;
-use Illuminate\Support\Facades\Log;
 
 /**
  * 级联选择

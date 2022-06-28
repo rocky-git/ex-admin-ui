@@ -534,11 +534,15 @@ class Grid extends Table
         }
         return $this->dispatch($action);
     }
-    public function jsonSerialize()
-    {
+    public function exec(){
         if ($this->exec) {
             call_user_func($this->exec, $this);
+            $this->exec = null;
         }
+    }
+    public function jsonSerialize()
+    {
+        $this->exec();
         
         if ($this->filter) {
             if ($this->filter->isHide()) {

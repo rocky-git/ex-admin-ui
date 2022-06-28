@@ -5,7 +5,6 @@ namespace ExAdmin\ui\component\form\field\select;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
-use Illuminate\Support\Facades\Log;
 
 /**
  * 选择器

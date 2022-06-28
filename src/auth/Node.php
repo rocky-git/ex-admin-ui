@@ -4,7 +4,6 @@ namespace ExAdmin\ui\auth;
 
 use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Finder\Finder;
 use function Composer\Autoload\includeFile;
 
@@ -36,6 +35,7 @@ class Node
     {
         $class = [];
         foreach ($path as $dir) {
+            if(!is_dir($dir)) continue;
             foreach (Finder::create()->files()->in($dir)->name('*.php') as $file) {
                 if (preg_match('/namespace (.*);/u', $file->getContents(), $arr)) {
                     $namespace = $arr[1];

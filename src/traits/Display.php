@@ -18,7 +18,6 @@ use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
-use Illuminate\Support\Facades\Log;
 
 trait Display
 {

@@ -238,6 +238,19 @@ if (!function_exists('plugin')) {
         return \ExAdmin\ui\support\Container::getInstance()->plugin;
     }
 }
+if (!function_exists('admin_component')) {
+    /**
+     * 解析组件
+     * @param array $call
+     * @param array $params 参数
+     * @return string
+     */
+    function admin_component(array $call, $params = [])
+    {
+        list($class,$function) = $call;
+        return Container::getInstance()->route->invokeMethod($class,$function,$params);
+    }
+}
 if (!function_exists('admin_url')) {
     /**
      * url生成

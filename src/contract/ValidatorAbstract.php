@@ -4,7 +4,6 @@ namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\support\Request;
-use Illuminate\Support\Facades\Log;
 
 abstract class ValidatorAbstract
 {

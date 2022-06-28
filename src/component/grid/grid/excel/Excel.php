@@ -2,7 +2,6 @@
 
 namespace ExAdmin\ui\component\grid\grid\excel;
 
-use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
