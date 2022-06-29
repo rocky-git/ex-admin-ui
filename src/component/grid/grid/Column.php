@@ -46,8 +46,10 @@ class Column extends Component
     protected $exportClosure = null;
 
     protected $editable = null;
-
-    protected $when = null;
+    /**
+     * @var ColumnWhen
+     */
+    protected $when;
 
     protected $hide = false;
 
@@ -67,6 +69,7 @@ class Column extends Component
                 Html::create($label)->attr('class', 'ex_admin_table_th_' . $this->attr('dataIndex'))
             );
         }
+        $this->when = new ColumnWhen($this);
     }
 
     public function getField()
@@ -99,19 +102,7 @@ class Column extends Component
         }
         $resetClosure = [$this->editable,$this->closure,$this->exportClosure];
         //条件显示
-        if (!is_null($this->when)) {
-            list($condition, $closure, $other) = $this->when;
-            if($condition instanceof \Closure){
-                $condition = call_user_func_array($condition, [$originValue, $data]);
-            }
-            if ($condition) {
-                call_user_func_array($closure, [$this]);
-            } else {
-                if ($other instanceof \Closure) {
-                    call_user_func_array($other, [$this]);
-                }
-            }
-        }
+        $this->when->exec($originValue, $data);
         //自定义内容显示处理
         if (!is_null($this->closure)) {
             $value = call_user_func_array($this->closure, [$originValue, $data]);
@@ -255,17 +246,24 @@ class Column extends Component
     }
     /**
      * 条件执行
-     * @param $condition
+     * @param $condition|\Closure
      * @param \Closure $closure
      * @param \Closure|null $other
      * @return $this
      */
     public function when($condition, \Closure $closure, $other = null)
     {
-        $this->when = [$condition,$closure,$other];
-        return $this;
+        return $this->when->if($condition)->then($closure)->else($other)->end();
     }
 
+    /**
+     * 条件执行
+     * @param $condition|\Closure
+     * @return ColumnWhen
+     */
+    public function if($condition){
+        return $this->when->if($condition);
+    }
     /**
      * 可编辑
      * @param Field $editable
@@ -296,6 +294,7 @@ class Column extends Component
                 $arguments = $item['arguments'];
                 if ($key == 0) {
                     $component = call_user_func_array([$form, $item['name']], [$this->field]);
+
                 } else {
                     $component = call_user_func_array([$component, $item['name']], $arguments);
                 }
@@ -303,6 +302,8 @@ class Column extends Component
             $component->default($value);
             if ($alwaysShow) {
                 if ($component instanceof Input || $component instanceof InputNumber || $component instanceof AutoComplete) {
+                    $component->allowClear(false);
+                    $component->getFormItem()->style(['width'=>'100%']);
                     $event = 'blur';
                 }else{
                     $event = 'change';

@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.0.1';
+const EX_ADMIN_VERSION = '1.0.3';
 
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;
@@ -269,6 +269,25 @@ if (!function_exists('admin_url')) {
             $url .= '?' . http_build_query($params);
         }
         return $url;
+    }
+}
+if (!function_exists('php_frame')) {
+    /**
+     * 获取框架
+     * @return string
+     */
+    function php_frame()
+    {
+        /**
+         * @var $loader \Composer\Autoload\ClassLoader
+         */
+        $loader = include dirname(__DIR__, 3) . '/autoload.php';
+        $psr4 = $loader->getPrefixesPsr4();
+        if (array_key_exists('Illuminate\\', $psr4)) {
+            return 'laravel';
+        } elseif (array_key_exists('think\\', $psr4)) {
+            return 'thinkphp';
+        }
     }
 }
 if (!function_exists('ex_admin_version')) {

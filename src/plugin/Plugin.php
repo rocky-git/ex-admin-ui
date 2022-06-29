@@ -27,6 +27,8 @@ class Plugin implements \ArrayAccess
      */
     protected $info;
 
+    protected static $service = [];
+
     public function init($name, $path, Manager $manager)
     {
         $this->name = $name;
@@ -251,7 +253,11 @@ PHP;
             $name = str_replace('.php', '', basename($file));
             if (strtolower($method) == strtolower($name)) {
                 $class = '\\' . $this->getNamespace() . 'service\\' . $name;
-                return new $class($name, $arguments);
+                if(isset(self::$service[$class])){
+                    return self::$service[$class];
+                }
+                self::$service[$class] = new $class($name, $arguments);
+                return self::$service[$class];
             }
         }
         return null;

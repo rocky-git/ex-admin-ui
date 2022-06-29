@@ -229,6 +229,14 @@ class Controller
             $form->select('cate_id', '分类')
                 ->options(array_column(plugin()->getCate(), 'name', 'id'))
                 ->required();
+            $form->select('frame', '支持框架')
+                ->options([
+                    'thinkphp'=>'thinkphp',
+                    'laravel'=>'laravel',
+                ])
+                ->default([php_frame()])
+                ->multiple()
+                ->required();
             $form->text('name', '扩展标识')
                 ->ruleAlphaDash()
                 ->required();

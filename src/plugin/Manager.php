@@ -103,6 +103,7 @@ class Manager
                 'size' => $size,
                 'search' => $search,
                 'names' => $names,
+                'frame' => php_frame(),
             ]
         ]);
         $content = $response->getBody()->getContents();
@@ -198,6 +199,7 @@ class Manager
         $info = $plug->getInfo();
         $info = array_merge($info, $item);
         $info['content'] = $item['versions'][0]['content'];
+        $info['frame'] = $item['versions'][0]['frame'];
         $info['version'] = $version;
         $info['online'] = true;
         $info['authorized'] = $this->authorization($item['name']);
@@ -233,6 +235,7 @@ class Manager
             'query' => [
                 'name' => $name,
                 'version' => $version,
+                'frame' => php_frame(),
                 'plugin' => $plugin,
                 'ex_admin_version' => ex_admin_version(),
             ],
@@ -389,8 +392,8 @@ class Manager
 
     public function __get($name)
     {
-        if(!isset($this->plug[$name])){
-            $name = Str::snake($name,'-');
+        if (!isset($this->plug[$name])) {
+            $name = Str::snake($name, '-');
         }
         return $this->plug[$name];
     }
@@ -454,7 +457,7 @@ class Manager
             if ($plug->disabled()) {
                 continue;
             }
-            $name =  Str::camel($name);
+            $name = Str::camel($name);
             $title = $plug['title'];
             $namespace = $plug['namespace'];
             $doc .= " * @property \\{$namespace}\\ServiceProvider \$$name $title";
