@@ -65,7 +65,7 @@ trait Directive
     /**
      * 拷贝
      * @param string $content 复制文本
-     * @return Component
+     * @return $this
      */
     public function copy(string $content){
         return $this->directive('copy', $content);

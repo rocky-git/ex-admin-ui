@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\traits;
 
 use ExAdmin\ui\component\common\Button;
+use ExAdmin\ui\component\common\Copy;
 use ExAdmin\ui\component\common\DownloadFile;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Video;
@@ -355,13 +356,10 @@ trait Display
     public function copy($content = null)
     {
         return $this->display(function ($value) use ($content) {
-            $value = is_null($content) ? $value : $content;
+            $content = is_null($content) ? $value : $content;
             return Html::div()->content([
                 $value,
-                Html::create()
-                    ->copy($value)
-                    ->tag('i')
-                    ->attr('class', ['far fa-copy', 'editable-cell-icon'])
+                Copy::create($content)
             ])->attr('class', 'ex-admin-editable-cell');
         });
 

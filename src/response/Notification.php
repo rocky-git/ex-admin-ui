@@ -1,5 +1,7 @@
 <?php
 namespace ExAdmin\ui\response;
+use ExAdmin\ui\support\Container;
+
 /**
  * Message 响应提示
  * @method $this success(string $message) 成功

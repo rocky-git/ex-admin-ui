@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\plugin;
 
 use ExAdmin\ui\component\common\Button;
+use ExAdmin\ui\component\common\Copy;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\common\typography\TypographyText;
@@ -34,7 +35,6 @@ class Controller
         }
         return Card::create($tabs)->attr('ex_admin_title', '插件管理');
     }
-
     public function grid($type = 0, $cate_id = 0)
     {
         return Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin(), function (Grid $grid) {
@@ -109,23 +109,27 @@ class Controller
             });
             $grid->actions(function (Actions $actions, $data) {
                 $actions->hideDel();
-                $dropdown = Dropdown::create(
-                    Button::create(
-                        [
-                            $data->installed()?'更新':'安装',
-                            Icon::create('DownOutlined')->style(['marginRight' => '5px'])
-                        ]
-                    )
-                )->trigger(['click']);
-                foreach ($data['versions'] as $item) {
-                    if($data->installed()){
-                        $dropdown->item($item['version'])
-                            ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])
-                            ->gridRefresh();
-                    }else{
-                        $dropdown->item($item['version'])
-                            ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
-                            ->gridRefresh();
+                $dropdown = null;
+                if(!empty($data['versions'])){
+                    $dropdown = Dropdown::create(
+                        Button::create(
+                            [
+                                $data->installed()?'更新':'安装',
+                                Icon::create('DownOutlined')->style(['marginRight' => '5px'])
+                            ]
+                        )
+                    )->trigger(['click']);
+                    foreach ($data['versions'] as $item) {
+                        if($data->installed()){
+                            $dropdown->item($item['version'])
+                                ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])
+                                ->gridRefresh();
+                        }else{
+                            $dropdown->item($item['version'])
+                                ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
+                                ->gridRefresh();
+                        }
+
                     }
                 }
                 $actions->append([
@@ -149,7 +153,7 @@ class Controller
                             Html::div()->content('确认卸载《' . $data['title'] . '》?'),
                             Html::div()->content('卸载将会删除所有插件文件且不可找回')->style(['color' => 'red'])
                         ], [$this, 'uninstall'], ['name' => $data['name']])
-                        ->whenShow($data->installed())
+                        ->whenShow($data->installed() && $data['name'] != php_frame())
                         ->gridRefresh(),
                 ]);
             });
@@ -175,7 +179,9 @@ class Controller
         });
 
     }
-
+    public function intallView($name,$version){
+        return admin_view(__DIR__.'/view/install.vue');
+    }
     /**
      * 退出登陆
      * @return \ExAdmin\ui\response\Message
@@ -310,10 +316,14 @@ class Controller
         if ($path === false) {
             return message_error('文件下载失败');
         }
-        if($update){
+        $force = false;
+        if($name == php_frame()){
+            $force = true;
+        }
+        if($update && !$force){
             $plug = plugin()->uninstall($name);
         }
-        return $this->install($path);
+        return $this->install($path,$force);
     }
 
     /**
@@ -324,12 +334,21 @@ class Controller
         return $this->install($_FILES['file']['tmp_name']);
     }
 
-    protected function install($path)
+    protected function install($path,$force)
     {
-        $result = plugin()->install($path);
+        $result = plugin()->install($path,$force);
         unlink($path);
         if ($result === true) {
-            return message_success('安装完成')->refreshMenu();
+            if(php_frame() == 'laravel'){
+                $cmd = 'php artisan plugin:composer';
+            }elseif (php_frame() == 'thinkphp'){
+                $cmd = 'php think plugin:composer';
+            }
+            return notification_success('安装完成',Html::div()->content([
+                Html::div()->content('安装插件依赖请手动执行命令'),
+                Html::create($cmd)->style(['color'=>'red']),
+                Copy::create($cmd) ->style(['cursor'=>'pointer','marginLeft'=>'5px'])
+            ]),['duration'=>10])->refreshMenu();
         }
         return message_error($result);
     }

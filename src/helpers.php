@@ -60,7 +60,7 @@ if (!function_exists('message_success')) {
     function message_success($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, $config)
+            ->make(\ExAdmin\ui\response\Message::class, [$config])
             ->success($message);
     }
 }
@@ -74,7 +74,7 @@ if (!function_exists('message_error')) {
     function message_error($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, $config)
+            ->make(\ExAdmin\ui\response\Message::class, [$config])
             ->error($message);
     }
 }
@@ -88,7 +88,7 @@ if (!function_exists('message_info')) {
     function message_info($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, $config)
+            ->make(\ExAdmin\ui\response\Message::class, [$config])
             ->info($message);
     }
 }
@@ -102,7 +102,7 @@ if (!function_exists('message_warning')) {
     function message_warning($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, $config)
+            ->make(\ExAdmin\ui\response\Message::class, [$config])
             ->warning($message);
     }
 }
@@ -116,7 +116,7 @@ if (!function_exists('message_loading')) {
     function message_loading($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, $config)
+            ->make(\ExAdmin\ui\response\Message::class, [$config])
             ->warning($message);
     }
 }
@@ -128,12 +128,12 @@ if (!function_exists('notification_success')) {
      * @param string $message 标题
      * @param string $description 内容
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Notification
      */
     function notification_success($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->make(\ExAdmin\ui\response\Notification::class, [$config])
             ->success($message, $description);
     }
 }
@@ -143,12 +143,12 @@ if (!function_exists('notification_error')) {
      * @param string $message 标题
      * @param string $description 内容
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Notification
      */
     function notification_error($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->make(\ExAdmin\ui\response\Notification::class, [$config])
             ->error($message, $description);
     }
 }
@@ -158,12 +158,12 @@ if (!function_exists('notification_info')) {
      * @param string $message 标题
      * @param string $description 内容
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Notification
      */
     function notification_info($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->make(\ExAdmin\ui\response\Notification::class, [$config])
             ->info($message, $description);
     }
 }
@@ -173,12 +173,12 @@ if (!function_exists('notification_warning')) {
      * @param string $message 标题
      * @param string $description 内容
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Notification
      */
     function notification_warning($message, $description, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Notification::class, $config)
+            ->make(\ExAdmin\ui\response\Notification::class, [$config])
             ->warning($message, $description);
     }
 }
