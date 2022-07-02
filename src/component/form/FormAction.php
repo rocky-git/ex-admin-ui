@@ -37,7 +37,7 @@ class FormAction extends FormItem
             ->bindExpose('loading','loading',$form)
             ->type('primary');
         $this->resetButton = Button::create(admin_trans('form.reset'))
-            ->eventFunction('click', 'form.resetFields', [], $this->form);
+            ->eventFunction('click', 'reset', [], $this->form);
         $this->a =$form;
         $this->colon(false);
         parent::__construct($form);

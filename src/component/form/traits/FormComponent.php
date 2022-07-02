@@ -6,6 +6,7 @@ use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\CascaderMultiple;
 use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
+use ExAdmin\ui\component\form\field\CheckboxTag;
 use ExAdmin\ui\component\form\field\ColorPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\DateTimeRangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\range\MonthRangePicker;
@@ -21,6 +22,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\date\YearPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimeRangePicker;
+use ExAdmin\ui\component\form\field\DynamicTag;
 use ExAdmin\ui\component\form\field\Editor;
 use ExAdmin\ui\component\form\field\input\Hidden;
 use ExAdmin\ui\component\form\field\input\Input;
@@ -82,7 +84,8 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method SelectTable selectTable(string $field, string $label = '') 表格选择器
  * @method ColorPicker color(string $field, string $label = '') 颜色选择器
  * @method MdEditor mdEditor($field, $label = '') md编辑器
- * #TODO 规格组件
+ * @method CheckboxTag checkboxTag($field, $label = '') 多选标签
+ * @method DynamicTag dynamicTag($field, $label = '') 动态标签
  */
 trait FormComponent
 {
@@ -126,5 +129,7 @@ trait FormComponent
         'selectTable'  => SelectTable::class,
         'color'  => ColorPicker::class,
         'mdEditor'  => MdEditor::class,
+        'checkboxTag'  => CheckboxTag::class,
+        'dynamicTag'  => DynamicTag::class,
     ];
 }

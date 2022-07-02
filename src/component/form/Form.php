@@ -29,8 +29,6 @@ use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 
 
-
-
 /**
  * 表单
  * Class Form
@@ -52,7 +50,7 @@ use ExAdmin\ui\support\Request;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用                                                        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = true) 为 true 时不带样式，作为纯字段控件使用                                            boolean
- * @method static $this create($data = [], \Closure $closure = null,$bindField = null) 创建
+ * @method static $this create($data = [], \Closure $closure = null, $bindField = null) 创建
  * @package ExAdmin\ui\component\form
  */
 class Form extends Component
@@ -96,19 +94,20 @@ class Form extends Component
     protected $vModel = 'model';
 
     protected $exec;
+
     /**
      * @param array $data 初始数据
      * @param \Closure $closure
      * @param string $bindField 绑定字段
      */
-    public function __construct($data = [],\Closure $closure=null, $bindField = null)
+    public function __construct($data = [], \Closure $closure = null, $bindField = null)
     {
         parent::__construct();
         $this->exec = $closure;
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
-        $this->attr('formField',$this->getModel());
+        $this->attr('formField', $this->getModel());
         //验证绑定提示
         $this->validateBindField = $this->getModel() . 'Validate';
         $this->vModel('validateField', $this->validateBindField, '', true);
@@ -125,7 +124,7 @@ class Form extends Component
             $this->attr('editId', $id);
             $this->method('PUT');
             $this->isEdit = true;
-            $this->input($pk,$id);
+            $this->input($pk, $id);
         }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
@@ -133,6 +132,7 @@ class Form extends Component
         $this->validator = new $validator($this);
 
     }
+
     /**
      * @return FormAbstract
      */
@@ -140,6 +140,7 @@ class Form extends Component
     {
         return $this->driver;
     }
+
     /**
      * @return ValidatorAbstract
      */
@@ -147,6 +148,7 @@ class Form extends Component
     {
         return $this->validator;
     }
+
     /**
      * 是否编辑
      * @return bool
@@ -193,6 +195,7 @@ class Form extends Component
         }
         return $component;
     }
+
     public static function extend($name, $component)
     {
         self::$formComponent[$name] = $component;
@@ -256,6 +259,10 @@ class Form extends Component
      */
     public function input($field = null, $value = null)
     {
+        if (is_array($value) && is_null($field)) {
+            $this->data = $value;
+            return;
+        }
         if (is_null($field)) {
             return $this->data;
         }
@@ -320,6 +327,14 @@ class Form extends Component
         return $bindField;
     }
 
+    public function setManyField($field)
+    {
+        $this->manyField[$field] = $field;
+    }
+    public function unsetManyField($field)
+    {
+        unset($this->manyField[$field]);
+    }
     /**
      * 一对多添加
      * @param string $field
@@ -443,9 +458,9 @@ class Form extends Component
             ->name($name)
             ->attr('validateFormField', $this->validateBindField);
         if (count($this->manyField) == 0) {
-            $ifField = str_replace('.','_',$this->getBindField(implode('_',$name).'Show'));
+            $ifField = str_replace('.', '_', $this->getBindField(implode('_', $name) . 'Show'));
             $this->bind($ifField, 1);
-            $item->where($ifField,1);
+            $item->where($ifField, 1);
         }
         $this->push($item);
         return $item;
@@ -509,8 +524,8 @@ class Form extends Component
 
     public function jsonSerialize()
     {
-        if($this->exec){
-            call_user_func($this->exec,$this);
+        if ($this->exec) {
+            call_user_func($this->exec, $this);
         }
         if (Request::has('ex_admin_form_action')) {
             return $this->dispatch(Request::input('ex_admin_form_action'));
