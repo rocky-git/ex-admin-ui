@@ -2,8 +2,6 @@
 
 namespace ExAdmin\ui\traits;
 
-
-
 trait CallProvide
 {
     protected $call = [];
@@ -28,6 +26,7 @@ trait CallProvide
             if($backtraceClass && strpos($this->call['function'],'{closure}') === false){
                 $class = new \ReflectionClass($backtraceClass);
                 $params = $class->getMethod($this->call['function'])->getParameters();
+               
                 foreach ($params as $key => $param) {
                     $name = $param->getName();
                     $this->call['params'][$name] = isset($backtrace['args'][$key]) ? $backtrace['args'][$key] : $param->getDefaultValue();

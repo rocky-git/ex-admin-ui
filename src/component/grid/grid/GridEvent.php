@@ -38,4 +38,12 @@ trait GridEvent
     {
         $this->driver->updated($closure);
     }
+    /**
+     * 排序前
+     * @param \Closure $closure
+     */
+    public function sorting(\Closure $closure)
+    {
+        $this->driver->sorting($closure);
+    }
 }

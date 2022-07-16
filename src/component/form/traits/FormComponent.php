@@ -47,6 +47,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
 
 /**
  * @method Input text(string $field, string $label = '') 文本输入框
+ * @method Hidden hidden(string $field) 隐藏域
  * @method InputNumber number(string $field, string $label = '') 数字输入框
  * @method NumberRange numberRange(string $startFiled, string $endField, string $label = '') 数字范围输入框
  * @method Password password(string $field, string $label = '') 密码输入框
@@ -91,6 +92,7 @@ trait FormComponent
 {
     protected static $formComponent = [
         'text'          => Input::class,
+        'hidden'          => Hidden::class,
         'number'        => InputNumber::class,
         'numberRange'        => NumberRange::class,
         'password'      => Password::class,

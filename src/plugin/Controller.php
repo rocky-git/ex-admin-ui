@@ -120,6 +120,9 @@ class Controller
                         )
                     )->trigger(['click']);
                     foreach ($data['versions'] as $item) {
+                        if($item['version'] == 'dev' && plugin()->token() && plugin()->token(true) != $data['uid']){
+                            continue;
+                        }
                         if($data->installed()){
                             $dropdown->item($item['version'])
                                 ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])
@@ -263,9 +266,17 @@ class Controller
                     }, '高级授权');
                 });
             $form->mdEditor('content', '介绍内容');
-            $form->text('version', '版本号');
+            $form->radio('public_type','发布环境')
+                ->options([1=>'测试',2=>'正式'])
+                ->default(1)
+                ->when(2,function (Form $form){
+                    $form->text('version', '版本号');
+                });
             $form->textarea('version_content', '版本说明')->rows(5);
             $form->saved(function (Form $form) use ($update) {
+                if($form->input('public_type') == 1){
+                    $form->input('version','dev');
+                }
                 $result = plugin()->upload($form->input(), (bool)$update);
                 if ($result !== true) {
                     return message_error($result);

@@ -17,18 +17,28 @@ abstract class FormAbstract
     protected $repository;
 
     protected $data = [];
-    
+
     protected $event = [];
+
     /**
      * 初始化
      * @param Form $form
      * @param $repository
      */
-    public function initialize(Form $form,$repository){
+    public function initialize(Form $form, $repository)
+    {
 
         $this->form = $form;
 
         $this->repository = $repository;
+    }
+
+    public function changeLoadOptions($value, $optionsField): Response
+    {
+        $result = $this->form->getCallbackComponent()->handle($value);
+        return Response::success([
+            $optionsField => $result
+        ]);
     }
 
     /**
@@ -37,7 +47,7 @@ abstract class FormAbstract
      */
     public function selectTable(): Response
     {
-        $result = $this->form->getSelectTableComponent()->handle();
+        $result = $this->form->getCallbackComponent()->handle(Request::input('ex_eadmin_select_id', []));
         return Response::success($result);
     }
 
@@ -45,7 +55,8 @@ abstract class FormAbstract
      * 上传文件 file|image组件上传接口
      * @return Response
      */
-    public function upload(): Response{
+    public function upload(): Response
+    {
         $class = admin_config('admin.form.uploader');
         $simpleUploader = new $class;
         $simpleUploader->setForm($this->form);
@@ -55,22 +66,24 @@ abstract class FormAbstract
     /**
      * watch监听
      * @param array $data 表单数据
-     * @param $field 监听字段
+     * @param $ex_field 监听字段
      * @param $newValue 新值
      * @param $oldValue 旧值
      * @return mixed
      */
-    public function watch(array $data,$field,$newValue,$oldValue){
-        $watch   = new Watch($data);
-        $closure = $this->form->getWatch()[$field];
-        $watch->set($field,$newValue);
+    public function watch(array $data, $ex_field, $newValue, $oldValue)
+    {
+        $watch = new Watch($data);
+        $closure = $this->form->getWatch()[$ex_field];
+        $watch->set($ex_field, $newValue);
         call_user_func_array($closure, [$newValue, $watch, $oldValue]);
         return Response::success([
-            'data'      => $watch->get(),
+            'data' => $watch->get(),
             'showField' => $watch->getShowField(),
             'hideField' => $watch->getHideField(),
         ]);
     }
+
     /**
      * 数据保存
      * @param array $data
@@ -105,7 +118,8 @@ abstract class FormAbstract
      * @param \Closure $closure
      * @return mixed
      */
-    public function saving(\Closure $closure){
+    public function saving(\Closure $closure)
+    {
         $this->event[__FUNCTION__] = $closure;
     }
 
@@ -114,18 +128,20 @@ abstract class FormAbstract
      * @param \Closure $closure
      * @return mixed
      */
-    public function saved(\Closure $closure){
+    public function saved(\Closure $closure)
+    {
         $this->event[__FUNCTION__] = $closure;
     }
+
     /**
      * 触发事件
      * @param $name 事件名称
      * @param $eventArgs 事件参数
      */
-    public function dispatchEvent($name,$eventArgs)
+    public function dispatchEvent($name, $eventArgs)
     {
         if (isset($this->event[$name])) {
-            return call_user_func_array($this->event[$name],$eventArgs);
+            return call_user_func_array($this->event[$name], $eventArgs);
         }
     }
 }

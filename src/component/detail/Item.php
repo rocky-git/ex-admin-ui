@@ -21,10 +21,13 @@ class Item extends DescriptionsItem
     {
         $this->data = $data;
         $this->field = $field;
+        $this->attr('title',$label);
         $this->label($label);
         parent::__construct();
     }
-
+    public function getField(){
+        return $this->field;
+    }
     /**
      * 设置缺失值
      * @param $value

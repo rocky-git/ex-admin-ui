@@ -16,7 +16,19 @@ abstract class MenuAbstract
      * @return int
      */
     abstract public function create(array $data):int;
-
+    /**
+     * 获取菜单
+     * @param array $data
+     * @return array
+     */
+    abstract public function get($id);
+    /**
+     * 更新菜单
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
+    abstract public function update($id,array $data);
     /**
      * 启用菜单
      * @param $plugin

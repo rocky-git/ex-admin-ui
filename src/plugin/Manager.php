@@ -4,6 +4,7 @@ namespace ExAdmin\ui\plugin;
 
 
 use ExAdmin\ui\support\Annotation;
+use ExAdmin\ui\support\Composer;
 use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
@@ -513,11 +514,10 @@ PHP;
 
     protected function loadPlugin($name, $path)
     {
-        $loader = include dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'autoload.php';
         $info = $this->getInfo($name);
         if ($info['status'] && $this->authorization($name)) {
             $namespace = $info['namespace'] . '\\';
-            $loader->addPsr4($namespace, $path);
+            Composer::loader()->addPsr4($namespace, $path);
             $ServiceProvider = $namespace . "ServiceProvider";
             Container::getInstance()->translator->load($path . DIRECTORY_SEPARATOR . 'lang', $name);
             $this->plug[$name] = new $ServiceProvider();

@@ -64,11 +64,19 @@ class Arrays extends GridAbstract
     
     public function dragSort($id, int $sort, string $field): Message
     {
+        $result = $this->dispatchEvent('sorting', [$id,$sort,$field]);
+        if ($result instanceof Message) {
+            return $result;
+        }
         return message_success(admin_trans('grid.sort_success'));
     }
 
     public function inputSort($id, int $sort, string $field): Message
     {
+        $result = $this->dispatchEvent('sorting', [$id,$sort,$field]);
+        if ($result instanceof Message) {
+            return $result;
+        }
         return message_success(admin_trans('grid.sort_success'));
     }
 

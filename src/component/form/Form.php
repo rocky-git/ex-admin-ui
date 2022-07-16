@@ -7,6 +7,7 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
+use ExAdmin\ui\component\form\field\input\Hidden;
 use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
@@ -72,7 +73,7 @@ class Form extends Component
 
     protected $imageComponent;
 
-    protected $selectTableComponent;
+    protected $callbackComponent;
     //数据源
     protected $data = [];
 
@@ -103,10 +104,14 @@ class Form extends Component
     public function __construct($data = [], \Closure $closure = null, $bindField = null)
     {
         parent::__construct();
+        if($data instanceof \Closure){
+            $closure = $data;
+            $this->source([],$bindField);
+        }else{
+            $this->source($data,$bindField);
+        }
         $this->exec = $closure;
-        $manager = admin_config('admin.form.manager');
-        $this->driver = (new $manager($data, $this))->getDriver();
-        $this->vModel($this->vModel, $bindField, $data);
+
         $this->attr('formField', $this->getModel());
         //验证绑定提示
         $this->validateBindField = $this->getModel() . 'Validate';
@@ -117,22 +122,41 @@ class Form extends Component
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
         $this->eventCustom('success', 'GridRefresh');
-        $pk = $this->driver->getPk();
-        if (Request::input($pk)) {
-            $id = Request::input($pk);
-            $this->driver->edit($id);
-            $this->attr('editId', $id);
-            $this->method('PUT');
-            $this->isEdit = true;
-            $this->input($pk, $id);
-        }
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
-
+        $this->size('default');
+        $this->except('ex_admin_id');
     }
 
+    /**
+     * 设置源
+     * @param mixed $data
+     */
+    public function source($data,$bindField=null){
+        $manager = admin_config('admin.form.manager');
+        $this->driver = (new $manager($data, $this))->getDriver();
+        $this->vModel($this->vModel, $bindField, $data);
+        $pk = $this->driver->getPk();
+        $this->attr('pk', $pk);
+        if (Request::input($pk)) {
+            $id = Request::input($pk);
+            $this->driver->edit($id);
+            $this->attr('editId', $id);
+            $this->attr('pk', $pk);
+            $this->method('PUT');
+            $this->isEdit = true;
+            $this->input($pk, $id);
+        }
+    }
+    /**
+     * 设置表单内组件大小
+     * @param string $size large default small
+     */
+    public function size(string $size){
+        $this->attr('size',$size);
+    }
     /**
      * @return FormAbstract
      */
@@ -190,8 +214,17 @@ class Form extends Component
         $component->modelValue();
         if ($component instanceof Image && $component->uploadField == Request::input('upload_field')) {
             $this->imageComponent = $component;
-        } elseif ($component instanceof SelectTable && $component->selectField == Request::input('ex_admin_select_field')) {
-            $this->selectTableComponent = $component;
+        } elseif ((
+                $component instanceof SelectTable
+                || $component instanceof Select 
+                
+            )
+            && $component->callbackField == Request::input('ex_admin_callback_field')
+        ) {
+            $this->callbackComponent = $component;
+        }
+        if($this->attr('size')){
+            $component->attr('size',$this->attr('size'));
         }
         return $component;
     }
@@ -207,10 +240,10 @@ class Form extends Component
         return $this->imageComponent;
     }
 
-    public function getSelectTableComponent()
+    public function getCallbackComponent()
     {
 
-        return $this->selectTableComponent;
+        return $this->callbackComponent;
     }
 
     public function getFormItem()
@@ -331,10 +364,12 @@ class Form extends Component
     {
         $this->manyField[$field] = $field;
     }
+
     public function unsetManyField($field)
     {
         unset($this->manyField[$field]);
     }
+
     /**
      * 一对多添加
      * @param string $field
@@ -371,10 +406,14 @@ class Form extends Component
         foreach ($formItems as $item) {
             if ($item instanceof FormItem) {
                 $formItem = clone $item;
+                $component = $formItem->content['default'][0];
+                if($component instanceof Hidden){
+                    continue;
+                }
                 $columns[] = [
-                    'header' => Html::create($formItem->content['label']),
+                    'header' => Html::create($formItem->content['label'] ?? ''),
                     'dataIndex' => $formItem->attr('name'),
-                    'component' => $formItem
+                    'component' => $formItem,
                 ];
                 unset($formItem->content['label']);
                 $formItem->removeAttr('label');
@@ -405,7 +444,7 @@ class Form extends Component
      * 添加一行布局
      * @param \Closure $closure
      * @param string $title 标题
-     * @return $this
+     * @return Row
      */
     public function row(\Closure $closure, $title = '')
     {
@@ -418,7 +457,8 @@ class Form extends Component
             if ($item instanceof Col) {
                 $row->content($item);
             } elseif ($item instanceof FormItem && $item->attr('span')) {
-                $row->column($item, $item->attr('span'));
+                $column = $row->column($item, $item->attr('span'));
+                $column->where = $item->where;
             } else {
                 $row->content(Col::create()->content($item));
             }

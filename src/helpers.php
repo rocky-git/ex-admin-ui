@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.0.3';
+const EX_ADMIN_VERSION = '1.0.4';
 
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;
@@ -278,11 +278,7 @@ if (!function_exists('php_frame')) {
      */
     function php_frame()
     {
-        /**
-         * @var $loader \Composer\Autoload\ClassLoader
-         */
-        $loader = include dirname(__DIR__, 3) . '/autoload.php';
-        $psr4 = $loader->getPrefixesPsr4();
+        $psr4 = \ExAdmin\ui\support\Composer::loader()->getPrefixesPsr4();
         if (array_key_exists('Illuminate\\', $psr4)) {
             return 'laravel';
         } elseif (array_key_exists('think\\', $psr4)) {

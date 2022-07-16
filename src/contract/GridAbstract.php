@@ -238,11 +238,18 @@ abstract class GridAbstract
     {
         $this->event[__FUNCTION__] = $closure;
     }
-
+    /**
+     * 排序前
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function sorting(\Closure $closure){
+        $this->event[__FUNCTION__] = $closure;
+    }
     /**
      * 触发事件
-     * @param $name 事件名称
-     * @param $eventArgs 事件参数
+     * @param string $name 事件名称
+     * @param array $eventArgs 事件参数
      */
     public function dispatchEvent($name,$eventArgs)
     {
@@ -250,7 +257,7 @@ abstract class GridAbstract
             return call_user_func_array($this->event[$name],$eventArgs);
         }
     }
-
+    
     /**
      *
      * @return mixed

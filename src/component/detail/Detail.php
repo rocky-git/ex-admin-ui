@@ -9,7 +9,7 @@ use ExAdmin\ui\support\Arr;
 
 /**
  * Class Detail
- * @method static $this create($data,\Closure $closure = null) 创建
+ * @method static $this create($data = [],\Closure $closure = null) 创建
  */
 class Detail extends Descriptions
 {
@@ -25,14 +25,24 @@ class Detail extends Descriptions
 
     protected $exec;
 
-    public function __construct($data,\Closure $closure = null)
+    public function __construct($data = [],\Closure $closure = null)
     {
+        if($data instanceof \Closure){
+            $closure = $data;
+        }
         $this->exec = $closure;
         $this->data = $data;
-        $this->column(['xxl'=> 4, 'xl'=> 3, 'lg'=> 3, 'md'=> 3, 'sm'=> 2, 'xs'=> 1]);
+        $this->attr('data',$data);
+       // $this->column(['xxl'=> 4, 'xl'=> 3, 'lg'=> 3, 'md'=> 3, 'sm'=> 2, 'xs'=> 1]);
         parent::__construct();
     }
-
+    /**
+     * 设置源
+     * @param array $data
+     */
+    public function source($data){
+        $this->data = $data;
+    }
     /**
      * 添加一个item
      * @param string $field 字段
@@ -45,7 +55,9 @@ class Detail extends Descriptions
         $this->item[] = $item;
         return $item;
     }
-
+    public function getItems(){
+        return $this->item;
+    }
     /**
      * 获取数据
      * @param string|null $field 字段

@@ -31,7 +31,13 @@ use ExAdmin\ui\traits\Display;
  * Class Column
  * @method $this dataIndex(string $value) 对应列内容的字段名
  * @method $this header(string $value)    自定义内容
+ * @method $this align(string $value) 设置列的对齐方式 left | right | center
  * @method $this width(int $width) 宽度
+ * @method $this ellipsis(bool $value) 超过宽度将自动省略
+ * @method $this fixed(mixed $value) 列是否固定，可选 true(等效于 left) 'left' 'right'
+ * @method $this resizable(bool $value) 是否可拖动调整宽度，此时 width 必须是 number 类型
+ * @method $this minWidth(int $width) 拖动列最大宽度，会受到表格自动调整分配宽度影响
+ * @method $this maxWidth(int $width) 拖动列最小宽度，会受到表格自动调整分配宽度影响
  */
 class Column extends Component
 {

@@ -94,7 +94,9 @@ class Sidebar extends Component
                 ->shape('circle')
                 ->size('small')
                 ->icon('<edit-outlined />')
-                ->modal($form,[$this->driver->getPk()=>0,'GridRefreshOff'=>true])->title(admin_trans('form.edit'));
+                ->modal($form,[$form->driver()->getPk()=>0,'GridRefreshOff'=>true])
+                ->attr('pk',$form->driver()->getPk())
+                ->title(admin_trans('form.edit'));
         $tools['del'] =
             Button::create()
                 ->shape('circle')

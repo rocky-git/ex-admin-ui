@@ -114,9 +114,13 @@ class Grid extends Table
     public function __construct($data = [], \Closure $closure = null)
     {
         parent::__construct();
+        if($data instanceof \Closure){
+            $closure = $data;
+            $this->source([]);
+        }else{
+            $this->source($data);
+        }
         $this->exec = $closure;
-        $manager = admin_config('admin.grid.manager');
-        $this->driver = (new $manager($data, $this))->getDriver();
         $this->pagination = Pagination::create();
         //操作列
         $this->actionColumn = new Actions($this);
@@ -124,15 +128,23 @@ class Grid extends Table
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params([]);
         $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-        $callParams = array_merge($callParams, $this->call['params'],Request::input());
+        $callParams = array_merge($callParams, $this->call['params'], Request::input());
         $this->attr('callParams', $callParams);
         $this->scroll(['x' => 'max-content']);
-        $this->hideTrashed(!$this->driver->trashed());
         $this->hideExport();
         $this->description(admin_trans('grid.list'));
-        
+       
     }
 
+    /**
+     * 设置源
+     * @param mixed $data
+     */
+    public function source($data){
+        $manager = admin_config('admin.grid.manager');
+        $this->driver = (new $manager($data, $this))->getDriver();
+        $this->hideTrashed(!$this->driver->trashed());
+    }
     public function title($title)
     {
         return $this->attr('ex_admin_title', $title);
@@ -157,31 +169,34 @@ class Grid extends Table
     /**
      * 头部
      * @param mixed $content
+     * @param bool $asynRefresh ajax动态刷新
      */
-    public function header($content)
+    public function header($content,$asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
     }
 
     /**
      * 工具栏
      * @param mixed $content
+     * @param bool $asynRefresh ajax动态刷新
      */
-    public function tools($content)
+    public function tools($content,$asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
     }
 
     /**
      * 尾部
      * @param mixed $content
+     * @param bool $asynRefresh ajax动态刷新
      */
-    public function footer($content)
+    public function footer($content,$asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__);
+        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
     }
 
-    protected function arrayComponent($content, $name)
+    protected function arrayComponent($content, $name,$asynRefresh)
     {
         if ($content instanceof Component || is_string($content)) {
             $content = [$content];
@@ -191,6 +206,7 @@ class Grid extends Table
                 $item = Html::create($item);
             }
         }
+        $this->attr($name.'_refresh',$asynRefresh);
         $this->attr($name, $content);
     }
 
@@ -324,10 +340,18 @@ class Grid extends Table
         } else {
             $column = new Column($field, $label, $this);
         }
-        $this->column[] = $column;
+        $this->column[$field] = $column;
         return $column;
     }
 
+    /**
+     * 获取对应列
+     * @param $field
+     * @return Column
+     */
+    public function getColumn($field){
+        return $this->column[$field];
+    }
     /**
      * 纯表格
      */
@@ -339,7 +363,7 @@ class Grid extends Table
         $this->hideAction();
     }
 
-    public function getColumn()
+    public function getColumns()
     {
         return $this->column;
     }
@@ -440,8 +464,8 @@ class Grid extends Table
     {
         $this->addButton = new ActionButton();
         $this->addButton->button()->content(admin_trans('grid.add'))
-        ->type('primary')
-        ->icon('<plus-outlined />');
+            ->type('primary')
+            ->icon('<plus-outlined />');
         return $this->addButton;
     }
 
@@ -525,21 +549,26 @@ class Grid extends Table
         $list->attr('container', $container);
         return $list;
     }
-    protected function editableDispatch($action){
-        if($action == 'update' && $this->driver->getForm()){
-           $response =  $this->driver->getForm()->validator()->check(Request::input('data'),true);
-           if($response instanceof Response){
-               return $response;
-           }
+
+    protected function editableDispatch($action)
+    {
+        if ($action == 'update' && $this->driver->getForm()) {
+            $response = $this->driver->getForm()->validator()->check(Request::input('data'), true);
+            if ($response instanceof Response) {
+                return $response;
+            }
         }
         return $this->dispatch($action);
     }
-    public function exec(){
+
+    public function exec()
+    {
         if ($this->exec) {
             call_user_func($this->exec, $this);
             $this->exec = null;
         }
     }
+
     public function jsonSerialize()
     {
         $this->exec();
@@ -552,7 +581,7 @@ class Grid extends Table
         }
         $this->driver->filter($this->getFilter()->getRule());
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
-        
+
         if (Request::has('ex_admin_action')) {
             return $this->dispatch(Request::input('ex_admin_action'));
         }
@@ -567,7 +596,7 @@ class Grid extends Table
                 $this->addButton->button()->content(admin_trans('grid.add'))
                     ->type('primary')
                     ->icon('<plus-outlined />');
-               $this->actionColumn->setActionParams($this->addButton,null,'post');
+                $this->actionColumn->setActionParams($this->addButton, null, 'post');
             }
         }
 
@@ -606,11 +635,15 @@ class Grid extends Table
                 'code' => 200,
             ];
         } else {
-            if(!admin_check_permissions($this->attr('url'),'delete')){
+            if (!admin_check_permissions($this->attr('url'), 'delete')) {
                 $this->hideDeleteSelection();
                 $this->hideDelete();
             }
             $this->attr('pagination', $this->pagination);
+            if ($this->sidebar && isset($this->sidebar->attribute['default'])) {
+                //侧边栏默认default，避免数据渲染
+                $data = [];
+            }
             $this->attr('dataSource', $data);
             $this->attr('columns', array_column($this->column, 'attribute'));
             return parent::jsonSerialize(); // TODO: Change the autogenerated stub

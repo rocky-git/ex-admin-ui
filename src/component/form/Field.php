@@ -19,12 +19,15 @@ use ExAdmin\ui\support\Str;
 
 /**
  * @property FormItem $formItem
+ * @property Form $form
  * @method static $this create($bindField = null, $value = '') 创建
  */
 class Field extends Component
 {
     use Validator, When;
 
+    protected $form;
+    
     protected $formItem;
 
     protected $vModel = 'value';
@@ -71,25 +74,7 @@ class Field extends Component
         return $this->field;
     }
 
-    /**
-     * 改变值触发请求ajax
-     * @param string $field 请求值字段
-     * @param $url 请求url
-     * @param array $params 请求参数
-     * @param string $method 请求方式
-     * @return $this
-     */
-    public function changeAjax(string $field,$url, array $params = [], string $method = 'POST')
-    {
-        $this->attr('changeAjax',[
-            'ex_admin_field'=>$field,
-            'url' => $url,
-            'data' => $params,
-            'method' => $method,
-        ]);
-        return $this;
-    }
-
+    
     /**
      * 设置缺省默认值
      * @param mixed $value
@@ -190,6 +175,8 @@ class Field extends Component
     public function setFormItem(FormItem $formItem)
     {
         $this->formItem = $formItem;
+        
+        $this->form = $formItem->form();
     }
 
     public function getFormItem()

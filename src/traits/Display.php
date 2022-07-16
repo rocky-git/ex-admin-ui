@@ -337,11 +337,12 @@ trait Display
     {
         $this->using = $usings;
         return $this->display(function ($value) use ($usings, $color) {
-            if (isset($usings[$value])) {
-                $value = $usings[$value];
+            $key = $value;
+            if (isset($usings[$key])) {
+                $value = $usings[$key];
             }
             if (count($color) > 0) {
-                return $this->getTag($value, $color[$value] ?? '');
+                return $this->getTag($value, $color[$key] ?? '');
             }
             return $value;
         });
