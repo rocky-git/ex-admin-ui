@@ -2,9 +2,11 @@
 
 namespace ExAdmin\ui\component\grid\grid\excel;
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class Excel extends AbstractExporter
 {
@@ -54,7 +56,7 @@ class Excel extends AbstractExporter
                 if ($this->mapCallback instanceof \Closure) {
                     $value = call_user_func($this->mapCallback, $value, $this->sheet);
                 }
-                $this->sheet->setCellValueByColumnAndRow($index+1, $this->currentRow,$value);
+                $this->sheet->setCellValueExplicitByColumnAndRow($index+1, $this->currentRow,$value,DataType::TYPE_STRING);
                 $this->sheet->getStyleByColumnAndRow($index+1,$this->currentRow)->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_LEFT,

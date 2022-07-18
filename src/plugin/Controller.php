@@ -120,9 +120,6 @@ class Controller
                         )
                     )->trigger(['click']);
                     foreach ($data['versions'] as $item) {
-                        if($item['version'] == 'dev' && plugin()->token() && plugin()->token(true) != $data['uid']){
-                            continue;
-                        }
                         if($data->installed()){
                             $dropdown->item($item['version'])
                                 ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])

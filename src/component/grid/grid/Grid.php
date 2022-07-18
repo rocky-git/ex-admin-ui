@@ -333,6 +333,7 @@ class Grid extends Table
         if ($field instanceof \Closure) {
             $childrenColumns = $this->collectColumns($field);
             $column = new Column(null, $label, $this);
+            $field = $this->random();
             $column->attr('children', array_column($childrenColumns, 'attribute'));
             foreach ($childrenColumns as $childrenColumn) {
                 $this->childrenColumn[] = $childrenColumn;

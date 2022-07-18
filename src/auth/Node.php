@@ -5,7 +5,7 @@ namespace ExAdmin\ui\auth;
 use ExAdmin\ui\support\Annotation;
 use ExAdmin\ui\support\Arr;
 use Symfony\Component\Finder\Finder;
-use function Composer\Autoload\includeFile;
+
 
 class Node
 {
@@ -18,7 +18,14 @@ class Node
      */
     public function all(bool $tree = false)
     {
-        $calss = $this->scan(admin_config('admin.auth_scan', []));
+        $dirs = admin_config('admin.auth_scan', []);
+        $dir = dirname(__DIR__,5).'/plugin';
+        if(is_dir($dir)){
+            foreach (Finder::create()->directories()->in($dir)->name('controller') as $file) {
+                array_push($dirs,$file->getPathname());
+            }
+        }
+        $calss = $this->scan($dirs);
         $this->parse($calss);
         if ($tree) {
             return Arr::tree($this->node);
