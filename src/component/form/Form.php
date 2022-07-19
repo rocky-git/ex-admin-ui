@@ -73,6 +73,7 @@ class Form extends Component
 
     protected $imageComponent;
 
+    protected $callbackComponents = [];
     protected $callbackComponent;
     //数据源
     protected $data = [];
@@ -216,12 +217,11 @@ class Form extends Component
             $this->imageComponent = $component;
         } elseif ((
                 $component instanceof SelectTable
-                || $component instanceof Select 
-                
+                || $component instanceof Select
+
             )
-            && $component->callbackField == Request::input('ex_admin_callback_field')
         ) {
-            $this->callbackComponent = $component;
+            $this->callbackComponents[] = $component;
         }
         if($this->attr('size')){
             $component->attr('size',$this->attr('size'));
@@ -566,6 +566,11 @@ class Form extends Component
     {
         if ($this->exec) {
             call_user_func($this->exec, $this);
+        }
+        foreach ($this->callbackComponents as $callbackComponent){
+            if($callbackComponent->isCallback()){
+                $this->callbackComponent = $callbackComponent;
+            }
         }
         if (Request::has('ex_admin_form_action')) {
             return $this->dispatch(Request::input('ex_admin_form_action'));

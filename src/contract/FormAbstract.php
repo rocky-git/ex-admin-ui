@@ -33,6 +33,20 @@ abstract class FormAbstract
         $this->repository = $repository;
     }
 
+    /**
+     * select远程options
+     * @param $value
+     */
+    public function remoteOptions($value){
+        $result = $this->form->getCallbackComponent()->handle($value);
+        return Response::success($result);
+    }
+    /**
+     * select change options
+     * @param string $value 改变值
+     * @param string $optionsField bind绑定字段
+     * @return Response
+     */
     public function changeLoadOptions($value, $optionsField): Response
     {
         $result = $this->form->getCallbackComponent()->handle($value);

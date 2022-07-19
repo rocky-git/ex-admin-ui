@@ -274,12 +274,16 @@ class Column extends Component
      * 可编辑
      * @param Field $editable
      * @param bool $alwaysShow 总是显示
+     * @param bool $gridRefresh 成功是否刷新grid
      * @return $this
      */
-    public function editable($editable = null, $alwaysShow = false)
+    public function editable($editable = null, $alwaysShow = false,$gridRefresh = true)
     {
-        $this->editable = function ($value,$data,$html) use($editable, $alwaysShow){
+        $this->editable = function ($value,$data,$html) use($editable, $alwaysShow,$gridRefresh){
             $form = Form::create();
+            if(!$gridRefresh){
+                $form->removeEvent('success','custom');
+            }
             $form->style(['padding' => '0px','background'=>'none']);
             $form->layout('inline');
             $form->removeAttr('labelCol');

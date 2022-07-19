@@ -58,10 +58,9 @@ class SelectTable extends Field
         });
     }
     protected function selectRequest(\Closure $closure,\Closure $custom){
-        $this->callbackClosure  = $closure;
-        $this->callbackCustom  = $custom;
+        $callbackField = $this->setCallback($closure,$custom);
         $this->attr('submitUrl',$this->formItem->form()->attr('url'));
-        $this->attr('submitParams',$this->formItem->form()->call['params']+['ex_admin_form_action'=>'selectTable','ex_admin_callback_field'=>$this->callbackField]);
+        $this->attr('submitParams',$this->formItem->form()->call['params']+['ex_admin_form_action'=>'selectTable','ex_admin_callback_field'=>$callbackField]);
         return $this;
     }
     

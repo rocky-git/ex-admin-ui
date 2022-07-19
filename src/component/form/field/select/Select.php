@@ -224,29 +224,32 @@ class Select extends Field
     /**
      * 联动select options
      * @param Select $component select组件
-     * @param \Closure $callback 回调options
+     * @param string|\Closure $callback options闭包回调或者url
      * @return $this
      */
-    public function load(Field $component,\Closure $callback){
-        $this->callbackClosure = $callback;
-        $this->callbackCustom = function ($data){
-            $options = [];
-            foreach ($data as $key => $value) {
-                $options[] = [
-                    'value' => $key,
-                    'label' => $value
-                ];
-            }
-            return $options;
-        };
-
+    public function load(Field $component, $callback){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback,function ($data){
+                $options = [];
+                foreach ($data as $key => $value) {
+                    $options[] = [
+                        'value' => $key,
+                        'label' => $value
+                    ];
+                }
+                return $options;
+            }); 
+        }
+       
         $field = $component->vModel('options',null,[],false);
         $this->form->except($field);
         $params  = [
-            'url' => $this->formItem->form()->attr('url'),
+            'url' => $url,
             'data' => [
                 'ex_admin_form_action'=>'changeLoadOptions',
-                'ex_admin_callback_field'=>$this->callbackField,
+                'ex_admin_callback_field'=>$callbackField,
                 'optionsField'=>$field,
             ],
             'method' => 'POST',
@@ -259,6 +262,45 @@ class Select extends Field
             $this->attr('changeLoadOptions',[$params]);
         }
         $this->eventCustom('change','ChangeLoadOptions',$params);
+        return $this;
+    }
+
+    /**
+     * 远程加载options
+     * @param string|\Closure $callback 闭包回调或者url
+     */
+    public function remoteOptions($callback){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback,function ($data){
+                $options = [];
+                foreach ($data as $key => $value) {
+                    $options[] = [
+                        'value' => $key,
+                        'label' => $value
+                    ];
+                }
+                return $options;
+            });
+        }else{
+            $url = $callback;
+        }
+        $field = $this->vModel('options',null,[],true);
+        $this->form->except($field);
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+                'optionsField'=> $field,
+            ],
+            'method' => 'POST',
+        ];
+
+        $this->attr('remote',$params);
+        $this->filterOption(false);
+        $this->showSearch();
         return $this;
     }
 }
