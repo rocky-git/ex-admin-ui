@@ -11,7 +11,7 @@ namespace ExAdmin\ui\component\form\field;
 
 use ExAdmin\ui\component\form\FormItem;
 use ExAdmin\ui\support\Request;
-use Illuminate\Support\Facades\Log;
+
 
 
 trait CallbackDefinition
@@ -44,9 +44,7 @@ trait CallbackDefinition
 
     public function handle($value)
     {
-        Log::error(123);
         $data = call_user_func($this->callback['callback'], $value);
-        Log::error('fff');
         return call_user_func($this->callback['custom'], $data);
     }
 }
