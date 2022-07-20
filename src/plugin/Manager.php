@@ -244,7 +244,7 @@ class Manager
             'progress' => function ($totalDownload, $downloaded) use ($progressBar, $output) {
                 if ($progressBar) {
                     if ($totalDownload > 0 && $downloaded > 0 && !$progressBar->getMaxSteps()) {
-                        $progressBar->start($totalDownload$totalDownload);
+                        $progressBar->start($totalDownload);
                     }
                     $progressBar->setProgress($downloaded);
                     if ($progressBar && $downloaded > 0 && $totalDownload === $downloaded) {

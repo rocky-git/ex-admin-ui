@@ -88,7 +88,8 @@ class LineChart extends Echart
                     break;
                 case 'month':
                     $now = Carbon::today();
-                    $months = Carbon::parse($now->firstOfMonth()->toDateString())->daysUntil($now->endOfMonth()->toDateString())->toArray();
+                    $period =  new CarbonPeriod($now->firstOfMonth()->toDateString(), '1 day',$now->endOfMonth()->toDateString());
+                    $months =  $period->toArray();
                     foreach ($months as $month) {
                         $day = $month->toDateString();
                         $this->xAxisData[] = [
