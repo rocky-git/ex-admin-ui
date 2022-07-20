@@ -18,15 +18,18 @@ class Node
      */
     public function all(bool $tree = false)
     {
-        $dirs = admin_config('admin.auth_scan', []);
-        $dir = dirname(__DIR__,5).'/plugin';
-        if(is_dir($dir)){
-            foreach (Finder::create()->directories()->in($dir)->name('controller') as $file) {
-                array_push($dirs,$file->getPathname());
+        if(empty($this->node)){
+            $dirs = admin_config('admin.auth_scan', []);
+            $dir = dirname(__DIR__,5).'/plugin';
+            if(is_dir($dir)){
+                foreach (Finder::create()->directories()->in($dir)->name('controller') as $file) {
+                    array_push($dirs,$file->getPathname());
+                }
             }
+
+            $calss = $this->scan($dirs);
+            $this->parse($calss);
         }
-        $calss = $this->scan($dirs);
-        $this->parse($calss);
         if ($tree) {
             return Arr::tree($this->node);
         }
