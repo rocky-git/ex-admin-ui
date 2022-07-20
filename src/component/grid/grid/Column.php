@@ -101,10 +101,16 @@ class Column extends Component
     public function row($data, $export = false)
     {
         $originValue = Arr::get($data, $this->field);
+        
         if (is_null($originValue)) {
             $value = $this->default;
         } else {
-            $value = $originValue;
+            if(is_object($data) && method_exists($data,'toArray')){
+                $dataArray = $data->toArray();
+                $value = Arr::get($dataArray, $this->field);
+            }else{
+                $value = $originValue;
+            }
         }
         $resetClosure = [$this->editable,$this->closure,$this->exportClosure];
         //条件显示

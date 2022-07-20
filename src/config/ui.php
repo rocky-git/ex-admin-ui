@@ -45,11 +45,4 @@ return [
     'commonRoutePrefix' => 'common/',
     //后台渲染路由前缀
     'adminRoutePrefix' => '',
-    //主题css
-    'theme_css'=>[
-
-        'light'=>file_get_contents(__DIR__.'/../../theme/antd.min.css'),
-
-        'dark'=>file_get_contents(__DIR__.'/../../theme/antd.dark.min.css'),
-    ]
 ];
