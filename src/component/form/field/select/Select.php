@@ -241,6 +241,8 @@ class Select extends Field
                 }
                 return $options;
             }); 
+        }else{
+            $url = $callback;
         }
        
         $field = $component->vModel('options',null,[],false);
