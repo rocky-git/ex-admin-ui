@@ -316,16 +316,42 @@ class Column extends Component
                 }
             }
             $component->default($value);
+            //去除条件，减少vue性能消耗
+            $component->getFormItem()->removeBind(true)->setWhere([]);
+
+
+
             if ($alwaysShow) {
                 if ($component instanceof Input || $component instanceof InputNumber || $component instanceof AutoComplete) {
                     $component->allowClear(false);
                     $component->getFormItem()->style(['width'=>'100%']);
                     $event = 'blur';
+
                 }else{
                     $event = 'change';
                 }
-                $component->eventFunction($event, 'submit', [], $form);
-                $form->actions()->hide();
+                if($component->getFormItem()->attr('rules') || $form->validator()->hasRule()){
+                    $component->eventFunction($event, 'submit', [], $form);
+                    $form->actions()->hide();
+                }else{
+                    //没验证规则不需要渲染表单，只渲染组件
+                    $bindField  = $component->random();
+                    $component->vModel($component->getModelField(),$bindField,$value);
+                    $component->eventCustom($event,'GridEditable',[
+                        'bindField'=>$bindField,
+                        'ex_admin_success'=>$gridRefresh,
+                        'ex_admin_field'=>$this->field,
+                        'ajax'=>[
+                            'url' => $this->grid->attr('url'),
+                            'data' => $this->grid->getCall()['params']+[
+                                    'ex_admin_action'=>'update',
+                                    'ids' => [$data[$this->grid->driver()->getPk()]],
+                                ],
+                            'method' => 'PUT',
+                        ]
+                    ]);
+                    $form = $component;
+                }
                 return $form;
             } else {
 

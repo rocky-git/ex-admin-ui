@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.0.7';
+const EX_ADMIN_VERSION = '1.0.8';
 
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;

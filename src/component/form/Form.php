@@ -23,7 +23,6 @@ use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\contract\FormEventInterface;
 use ExAdmin\ui\contract\ValidatorAbstract;
-use ExAdmin\ui\contract\ValidatorForm;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Container;
@@ -63,7 +62,7 @@ class Form extends Component
 
     protected $formItem = [];
     /**
-     * @var ValidatorForm
+     * @var ValidatorAbstract
      */
     protected $validator;
     /**
@@ -499,8 +498,7 @@ class Form extends Component
             ->attr('validateFormField', $this->validateBindField);
         if (count($this->manyField) == 0) {
             $ifField = str_replace('.', '_', $this->getBindField(implode('_', $name) . 'Show'));
-            $this->bind($ifField, 1);
-            $item->where($ifField, 1);
+            $item->bind($ifField, 1)->where($ifField, 1);
         }
         $this->push($item);
         return $item;

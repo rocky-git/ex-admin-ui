@@ -19,6 +19,7 @@ use ExAdmin\ui\support\Request;
  * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideAll(bool $bool = true) 隐藏侧边栏全部
  * @method $this default($value) 默认选中值
+ * @method $this span(int $value) 侧边栏包含列的数量
  */
 class Sidebar extends Component
 {
@@ -41,6 +42,7 @@ class Sidebar extends Component
             'title' => $label,
             'key' => $id,
         ]);
+        $this->span(5);
     }
     /**
      * @return GridAbstract

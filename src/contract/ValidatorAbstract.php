@@ -91,6 +91,19 @@ abstract class ValidatorAbstract
     }
 
     /**
+     * 是否已设置规则
+     * @return bool
+     */
+    public function hasRule(){
+        if(count($this->createRule) > 0){
+            return true;
+        }
+        if(count($this->updateRule) > 0){
+            return true;
+        }
+        return false;
+    }
+    /**
      * 验证
      * @param array $data 表单数据
      * @param bool $edit true更新，false新增

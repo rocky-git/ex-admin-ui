@@ -22,14 +22,15 @@ trait Where
         return $this;
     }
 
-    protected function getWhere()
+    public function getWhere()
     {
         return $this->where;
     }
 
-    protected function setWhere($where)
+    public function setWhere($where)
     {
-        return $this->where = $where;
+        $this->where = $where;
+        return $this;
     }
     /**
      * v-show指定AND查询条件
