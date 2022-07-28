@@ -46,7 +46,7 @@ class Actions
 
     protected $icon = false;
 
-    protected $closure = null;
+    protected $closure = [];
     /**
      * @var Dropdown
      */
@@ -134,7 +134,7 @@ class Actions
 
     public function setClosure(\Closure $closure)
     {
-        $this->closure = $closure;
+        $this->closure[] = $closure;
     }
 
     public function edit(){
@@ -196,8 +196,8 @@ class Actions
         $this->id = $data[$this->grid->driver()->getPk()];
         $html = Html::div()->attr('class', $this->column->attr('dataIndex'))->style(['display'=>'inline-block']);
         //自定义内容显示处理
-        if (!is_null($this->closure)) {
-            call_user_func_array($this->closure, [$this, $this->row]);
+        foreach ($this->closure as $closure){
+            call_user_func_array($closure, [$this, $this->row]);
         }
         if ($this->detailButton) {
             $this->detailButton->dropdown($this->dropdown?true:false);

@@ -46,6 +46,7 @@ use ExAdmin\ui\support\Request;
  * @method $this selectionLimit(int $number) 选中数量限制
  * @method $this selectionField(string $string) 选中字段
  * @method $this selection(array $data) 选中项
+ * @method $this autoHeight(bool $bool = true) 自适应高度
  */
 class Grid extends Table
 {
@@ -133,7 +134,7 @@ class Grid extends Table
         $this->scroll(['x' => 'max-content']);
         $this->hideExport();
         $this->description(admin_trans('grid.list'));
-       
+
     }
 
     /**

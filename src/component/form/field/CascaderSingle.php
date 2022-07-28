@@ -1,15 +1,13 @@
 <?php
 
 namespace ExAdmin\ui\component\form\field;
-
-use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
+use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\FormItem;
-use ExAdmin\ui\support\Arr;
 
 /**
  * 级联选择
- * Class Cascade
+ * Class CascaderSingle
  * @link   https://next.antdv.com/components/cascader-cn 级联组件
  * @method $this allowClear(bool $clear = true) 是否支持清除                                                            boolean
  * @method $this autofocus(bool $focus = true) 自动获取焦点                                                                boolean
@@ -37,7 +35,7 @@ use ExAdmin\ui\support\Arr;
  * @method $this tagRender(mixed $tagRender) 自定义 tag 内容，多选时生效                                                    slot
  * @package ExAdmin\ui\component\form\field
  */
-class Cascader extends Field
+class CascaderSingle extends Field
 {
     use CascadeTrait;
     /**
@@ -57,7 +55,7 @@ class Cascader extends Field
      * 组件名称
      * @var string
      */
-    protected $name = 'ACascader';
+    protected $name = 'ExCascader';
 
 
     /**
@@ -66,50 +64,9 @@ class Cascader extends Field
      */
     protected $disabledValue = [];
 
-    public function modelValue()
+    public function __construct($field = null, $value = '')
     {
-        parent::modelValue();
-        if ($this->formItem) {
-            $form = $this->formItem->form();
-            $form->except($this->field);
-            $fields = [];
-            foreach ($this->attr('fields') as $bindField) {
-                $this->formItem->form()->inputDefault($bindField);
-                $bindField = $form->getBindField($bindField);
-                $fields[] = $bindField;
-            }
-        }
-        $this->attr('bindField', $fields);
-    }
-    /**
-     * 多选
-     * @param string $relation 关联方法
-     * @return CascaderMultiple
-     */
-    public function multiple($relation = null)
-    {
-        $cascader = $this;
-        $cascader->attr('relation', $relation);
-        $cascader->attr('multiple', true);
-        $attribute = $cascader->attribute;
-        $form = $this->formItem->form();
-        $form->popItem();
-        $fields = $this->attr('fields');
-        $relation = $this->getRelation($relation);
-        array_unshift($fields, $relation);
-        array_push($fields, $this->formItem->attr('label'));
-        $cascader = $form->cascaderMultiple(...$fields);
-        $cascader->attribute = array_merge($attribute, $cascader->attribute);
-        $cascader->setField($this->getField());
-        return $cascader;
-    }
-
-    public function getRelation($relation = null)
-    {
-        if (!$relation) {
-            $relation = 'cascader' . md5(implode(',', $this->attr('fields')));
-        }
-        return $relation;
+        parent::__construct($field, $value);
     }
     public function setFormItem(FormItem $formItem)
     {
@@ -117,5 +74,14 @@ class Cascader extends Field
         if($this->form->attr('layout') == 'inline'){
             $this->style(['minWidth'=>'200px']);
         }
+    }
+    /**
+     * 多选
+     * @return $this
+     */
+    public function multiple()
+    {
+        $this->modelValueArray();
+        return $this->attr('multiple',true);
     }
 }

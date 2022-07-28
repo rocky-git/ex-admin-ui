@@ -5,6 +5,7 @@ namespace ExAdmin\ui\component\form;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\Cascader;
+use ExAdmin\ui\component\form\field\CascaderSingle;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Hidden;
@@ -328,9 +329,7 @@ class Form extends Component
         $placeholder = '';
         if ($component instanceof Input) {
             $placeholder = 'please_enter';
-        } elseif ($component instanceof Select) {
-            $placeholder = 'please_select';
-        } elseif ($component instanceof Cascader) {
+        } elseif ($component instanceof Select || $component instanceof Cascader || $component instanceof CascaderSingle) {
             $placeholder = 'please_select';
         }
         if (!empty($placeholder) && is_string($label)) {

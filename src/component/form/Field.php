@@ -70,6 +70,10 @@ class Field extends Component
             $this->bindAttr($this->vModel, $field, true);
         }
     }
+    public function setField($value){
+        $this->field = $value;
+        return $this;
+    }
     public function getField(){
         return $this->field;
     }
