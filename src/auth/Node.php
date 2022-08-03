@@ -50,6 +50,9 @@ class Node
                 if (preg_match('/namespace (.*);/u', $file->getContents(), $arr)) {
                     $namespace = $arr[1];
                     $className = str_replace('.php', '', $file->getFilename());
+                    if(!class_exists("$namespace\\$className")) {
+                        continue;
+                    }
                     $class[] = "$namespace\\$className";
                 }
             }
