@@ -239,6 +239,7 @@ class Controller
                 ->options([
                     'thinkphp'=>'thinkphp',
                     'laravel'=>'laravel',
+                    'hyperf'=>'hyperf',
                 ])
                 ->default([php_frame()])
                 ->multiple()

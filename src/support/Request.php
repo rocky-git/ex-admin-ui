@@ -14,12 +14,29 @@ namespace ExAdmin\ui\support;
 class Request
 {
     protected $request;
-
+    protected static $init = null;
     public function __construct()
     {
         $this->request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        if(self::$init){
+            call_user_func(self::$init,$this->request);
+        }
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getRequest(){
+        return $this->request;
+    }
+    /**
+     * 初始化
+     * @param \Closure $closure
+     */
+    public static function init($closure)
+    {
+        self::$init = $closure;
+    }
     protected function getInputData(): array
     {
         if (false !== strpos($this->request->getContentType(), 'json')) {

@@ -15,6 +15,8 @@ use ExAdmin\ui\support\Str;
  */
 class Route
 {
+    public static $objectParamAfter = null;
+
     protected $contract = [
         'system' => SystemAbstract::class,
         'login' => LoginAbstract::class,
@@ -29,8 +31,8 @@ class Route
     public function invokeArgs($class, $function)
     {
         $vars = Request::input();
-      
-        if ($_SERVER['REQUEST_METHOD'] != 'OPTIONS') {
+
+        if (Request::getMethod() != 'OPTIONS') {
 
             $class = str_replace('-', '\\', $class);
             if (array_key_exists($class, $this->contract)) {
@@ -51,16 +53,19 @@ class Route
             }
         }
     }
-    protected function isAbstract($reflect){
+
+    protected function isAbstract($reflect)
+    {
         $instance = $reflect->newInstance();
-        foreach ($this->contract as $contract){
-            if($instance instanceof $contract){
+        foreach ($this->contract as $contract) {
+            if ($instance instanceof $contract) {
                 return true;
             }
         }
         return false;
 
     }
+
     /**
      * 绑定参数
      * @access protected
@@ -68,7 +73,7 @@ class Route
      * @param array $vars 参数
      * @return array
      */
-    public static function bindParams(\ReflectionFunctionAbstract $reflect, array $vars = []): array
+    public function bindParams(\ReflectionFunctionAbstract $reflect, array $vars = []): array
     {
         if ($reflect->getNumberOfParameters() == 0) {
             return [];
@@ -85,7 +90,7 @@ class Route
             $reflectionType = $param->getType();
 
             if ($reflectionType && $reflectionType->isBuiltin() === false) {
-
+                $args[] = $this->getObjectParam($reflectionType->getName(), $vars);
             } elseif (1 == $type && !empty($vars)) {
                 $args[] = array_shift($vars);
             } elseif (0 == $type && array_key_exists($name, $vars)) {
@@ -101,6 +106,79 @@ class Route
         return $args;
     }
 
+    /**
+     * 设置对象参数闭包
+     * @param \Closure $closure
+     * @return void
+     */
+    public static function setObjectParamAfter(\Closure $closure)
+    {
+        self::$objectParamAfter = $closure;
+    }
+
+    /**
+     * 获取对象类型的参数值
+     * @access protected
+     * @param string $className 类名
+     * @param array $vars 参数
+     * @return mixed
+     */
+    protected function getObjectParam(string $className, array &$vars)
+    {
+        $array = $vars;
+        $value = array_shift($array);
+        $result = null;
+        if (self::$objectParamAfter) {
+            $result = call_user_func(self::$objectParamAfter, $className);
+        }
+        if (!$result) {
+            if ($value instanceof $className) {
+                $result = $value;
+                array_shift($vars);
+            } else {
+                $result = $this->make($className);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 创建类的实例 已经存在则直接获取
+     * @access public
+     * @param string $abstract 类名或者标识
+     * @param array $vars 变量
+     * @return mixed
+     */
+    public function make(string $abstract, array $vars = [])
+    {
+        $object = $this->invokeClass($abstract, $vars);
+
+        return $object;
+    }
+
+    /**
+     * 调用反射执行类的实例化 支持依赖注入
+     * @access public
+     * @param string $class 类名
+     * @param array $vars 参数
+     * @return mixed
+     */
+    public function invokeClass(string $class, array $vars = [])
+    {
+        try {
+            $reflect = new \ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            throw new ClassNotFoundException('class not exists: ' . $class, $class, $e);
+        }
+
+        $constructor = $reflect->getConstructor();
+
+        $args = $constructor ? $this->bindParams($constructor, $vars) : [];
+
+        $object = $reflect->newInstanceArgs($args);
+
+        return $object;
+    }
 
     public function invokeMethod($class, $function, $vars = [])
     {

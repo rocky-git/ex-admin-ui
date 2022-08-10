@@ -28,6 +28,11 @@ class Token
     // 调用实际类的方法
     public static function __callStatic($method, $params)
     {
-        return call_user_func_array([Container::getInstance()->make(TokenManger::class), $method], $params);
+        if(PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg'){
+            $class = new TokenManger;
+        }else{
+            $class = Container::getInstance()->make(TokenManger::class);
+        }
+        return call_user_func_array([$class, $method], $params);
     }
 }

@@ -17,7 +17,7 @@ abstract class UploaderAbstract
         $this->filename = Request::input('filename');
         $this->directory = Request::input('directory');
         $this->type = Request::input('type');
-        $this->disk = Request::input('disk');
+        $this->disk = Request::input('disk','local');
         $this->file = Request::file('file');
         $this->extension = pathinfo($this->filename, PATHINFO_EXTENSION);
         $this->identifier = Request::input('identifier') . '.' . $this->extension;

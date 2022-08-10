@@ -49,11 +49,12 @@ class Node
             foreach (Finder::create()->files()->in($dir)->name('*.php') as $file) {
                 if (preg_match('/namespace (.*);/u', $file->getContents(), $arr)) {
                     $namespace = $arr[1];
-                    $className = str_replace('.php', '', $file->getFilename());
-                    if(!class_exists("$namespace\\$className")) {
+                    $name = str_replace('.php', '', $file->getFilename());
+                    $className = "$namespace\\$name";
+                    if(!class_exists($className)) {
                         continue;
                     }
-                    $class[] = "$namespace\\$className";
+                    $class[] = $className;
                 }
             }
         }

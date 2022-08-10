@@ -10,6 +10,7 @@ use ExAdmin\ui\support\Request;
 use ExAdmin\ui\support\Str;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Filesystem;
@@ -36,6 +37,10 @@ class Manager
 
     protected $client;
 
+    protected $tokenCache;
+
+    protected $filesystemAdapter;
+
     public function __construct()
     {
         $this->client = new Client([
@@ -43,6 +48,8 @@ class Manager
             'verify' => false,
         ]);
         $this->initialize();
+        $this->filesystemAdapter = new FilesystemAdapter();
+        $this->tokenCache = $this->filesystemAdapter->getItem('plugin_token');
     }
 
     protected function initialize()
@@ -329,8 +336,8 @@ class Manager
     {
 
         $token = null;
-        if (!empty($_COOKIE['plugin_token'])) {
-            $data = json_decode($_COOKIE['plugin_token'], true);
+        $data = $this->tokenCache->get();
+        if (!empty($data)) {
             if ($isUid) {
                 $token = $data['uid'];
             } else {
@@ -358,7 +365,9 @@ class Manager
         $content = $response->getBody()->getContents();
         $content = json_decode($content, true);
         if ($content['code'] === 0) {
-            setcookie('plugin_token', json_encode($content['data']), time() + 3600 * 24);
+            $this->tokenCache->set($content['data']);
+            $this->tokenCache->expiresAfter(time() + 3600 * 24);
+            $this->filesystemAdapter->save($this->tokenCache);
             return true;
         }
         return $content['message'];
