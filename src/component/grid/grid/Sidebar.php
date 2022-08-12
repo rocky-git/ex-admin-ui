@@ -20,6 +20,7 @@ use ExAdmin\ui\support\Request;
  * @method $this hideAll(bool $bool = true) 隐藏侧边栏全部
  * @method $this default($value) 默认选中值
  * @method $this span(int $value) 侧边栏包含列的数量
+ * @method $this selectedField(string $value) 选中字段
  */
 class Sidebar extends Component
 {
@@ -33,7 +34,7 @@ class Sidebar extends Component
     {
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $grid))->getDriver();
-        
+
         $this->grid = $grid;
         $this->attr('url',$this->grid->attr('url'));
         $this->attr('params',$this->grid->attr('callParams')+['ex_admin_sidebar'=>true,'ex_admin_action'=>'data','page'=>1,'size'=>20,'hidePage'=>true]);

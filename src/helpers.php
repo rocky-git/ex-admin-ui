@@ -296,5 +296,18 @@ if (!function_exists('ex_admin_version')) {
         return EX_ADMIN_VERSION;
     }
 }
+if (!function_exists('message_abort')) {
+    /**
+     * 异常响应失败提示
+     * @param string $message 提示文本
+     * @param array $config 配置
+     * @throws  \ExAdmin\ui\exception\MessageResponseException
+     */
+    function message_abort($message, $config = [])
+    {
+        $response = message_error($message,$config);
+        throw new \ExAdmin\ui\exception\MessageResponseException($response);
+    }
+}
 
 
