@@ -283,6 +283,8 @@ if (!function_exists('php_frame')) {
             return 'laravel';
         } elseif (array_key_exists('think\\', $psr4)) {
             return 'thinkphp';
+        } elseif (array_key_exists('Hyperf\\Framework\\', $psr4)) {
+            return 'hyperf';
         }
     }
 }
