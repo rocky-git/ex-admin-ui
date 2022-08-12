@@ -256,7 +256,7 @@ PHP;
                 if(isset(self::$service[$class])){
                     return self::$service[$class];
                 }
-                self::$service[$class] = new $class($name, $arguments);
+                self::$service[$class] = new $class($arguments);
                 return self::$service[$class];
             }
         }
