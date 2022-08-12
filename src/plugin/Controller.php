@@ -352,6 +352,8 @@ class Controller
                 $cmd = 'php artisan plugin:composer';
             }elseif (php_frame() == 'thinkphp'){
                 $cmd = 'php think plugin:composer';
+            }elseif (php_frame() == 'hyperf'){
+                $cmd = 'php bin/hyperf.php plugin:composer';
             }
             return notification_success('安装完成',Html::div()->content([
                 Html::div()->content('安装插件依赖请手动执行命令'),
