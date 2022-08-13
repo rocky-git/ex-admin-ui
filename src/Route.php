@@ -179,18 +179,11 @@ class Route
 
         return $object;
     }
-
     public function invokeMethod($class, $function, $vars = [])
     {
-        $reflect = new \ReflectionClass($class);
-        if (is_object($class)) {
-            $object = $class;
-        } else {
-            $object = $reflect->newInstanceArgs();
-        }
-        $method = $reflect->getMethod($function);
-        $args = $this->bindParams($method, $vars);
-        return $method->invokeArgs($object, $args);
+        $class = is_object($class) ? $class : $this->invokeClass($class);
+        $reflect = new \ReflectionMethod($class, $function);
+        $args = $this->bindParams($reflect, $vars);
+        return $reflect->invokeArgs($class , $args);
     }
-
 }
