@@ -188,7 +188,7 @@ class Controller
      */
     public function logout()
     {
-        setcookie('plugin_token', '', time() - 3600);
+        plugin()->logout();
         return message_success('已退出登陆');
     }
 

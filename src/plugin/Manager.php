@@ -36,7 +36,8 @@ class Manager
     protected $plug = [];
 
     protected $client;
-
+    
+    protected $loginCacheKey = 'plugin_token';
     protected $tokenCache;
 
     protected $filesystemAdapter;
@@ -49,7 +50,7 @@ class Manager
         ]);
         $this->initialize();
         $this->filesystemAdapter = new FilesystemAdapter();
-        $this->tokenCache = $this->filesystemAdapter->getItem('plugin_token');
+        $this->tokenCache = $this->filesystemAdapter->getItem($this->loginCacheKey);
     }
 
     protected function initialize()
@@ -373,6 +374,14 @@ class Manager
         return $content['message'];
     }
 
+    /**
+     * 退出登录
+     * @return bool
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function logout(){
+        return $this->filesystemAdapter->delete($this->loginCacheKey);
+    }
     /**
      * 获取插件分类
      * @return mixed
