@@ -35,6 +35,7 @@ class Controller
         }
         return Card::create($tabs)->attr('ex_admin_title', '插件管理');
     }
+
     public function grid($type = 0, $cate_id = 0)
     {
         return Grid::create(new \ExAdmin\ui\component\grid\grid\driver\Plugin(), function (Grid $grid) {
@@ -59,7 +60,7 @@ class Controller
                     ])
                 ])->style(['display' => 'flex', 'alignItems' => 'center', 'alignContent' => 'center']);
             });
-            $grid->column('author','作者');
+            $grid->column('author', '作者');
             $grid->column('price', '价格')->display(function ($val, $data) {
                 if (!isset($data['is_free'])) {
                     return '--';
@@ -75,21 +76,25 @@ class Controller
                         ->content(
                             Icon::create('QuestionCircleOutlined')->style(['marginLeft' => '5px'])
                         )
-                )->title('点击查看历史版本'))
+                )->title('点击版本标签查看历史版本'))
                 ->display(function ($val, $data) {
                     $tag = Tag::create($val);
+                    $content = '';
                     if (!empty($data['versions'])) {
                         $timeLine = TimeLine::create();
                         foreach ($data['versions'] as $item) {
+                            if ($val == $item['version']) {
+                                $content = $item['content'];
+                            }
                             $timeLine->item(Html::div()->content([
                                 ToolTip::create(
                                     Tag::create($item['version'])
                                         ->style(['cursor' => 'pointer'])
                                         ->modal()
                                         ->width('80%')
-                                        ->title($item['version'].' 介绍说明')
+                                        ->title($item['version'] . ' 介绍说明')
                                         ->content(Html::markdown($item['content'])),
-                                 )->title('查看介绍说明'),
+                                )->title('查看介绍说明'),
                                 Html::create($item['version_content'])->tag('pre'),
                             ]));
                         }
@@ -97,9 +102,19 @@ class Controller
                             ->title('历史版本')
                             ->content($timeLine);
                     }
-                    return $tag;
+                    return [
+                        Html::div()->content($tag),
+                        Html::div()->content('查看说明')
+                            ->tag('a')
+                            ->style(['marginTop' => '5px','display'=>'block'])
+                            ->modal()
+                            ->width('80%')
+                            ->title($val . ' 介绍说明')
+                            ->content(Html::markdown($content))
+                            ->whenShow($data->installed() && $content)
+                    ];
                 });
-            $grid->column('status')->when(function ($val, $data) {
+            $grid->column('status', '状态')->when(function ($val, $data) {
                 return $data->installed();
             }, function (Column $column) {
                 $column->switch([
@@ -110,21 +125,21 @@ class Controller
             $grid->actions(function (Actions $actions, $data) {
                 $actions->hideDel();
                 $dropdown = null;
-                if(!empty($data['versions'])){
+                if (!empty($data['versions'])) {
                     $dropdown = Dropdown::create(
                         Button::create(
                             [
-                                $data->installed()?'更新':'安装',
+                                $data->installed() ? '更新' : '安装',
                                 Icon::create('DownOutlined')->style(['marginRight' => '5px'])
                             ]
                         )
                     )->trigger(['click']);
                     foreach ($data['versions'] as $item) {
-                        if($data->installed()){
+                        if ($data->installed()) {
                             $dropdown->item($item['version'])
-                                ->confirm('更新版本可能会覆盖数据，请谨慎操作',[$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'],'update'=>true])
+                                ->confirm('更新版本可能会覆盖数据，请谨慎操作', [$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'], 'update' => true])
                                 ->gridRefresh();
-                        }else{
+                        } else {
                             $dropdown->item($item['version'])
                                 ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
                                 ->gridRefresh();
@@ -179,9 +194,12 @@ class Controller
         });
 
     }
-    public function intallView($name,$version){
-        return admin_view(__DIR__.'/view/install.vue');
+
+    public function intallView($name, $version)
+    {
+        return admin_view(__DIR__ . '/view/install.vue');
     }
+
     /**
      * 退出登陆
      * @return \ExAdmin\ui\response\Message
@@ -203,14 +221,13 @@ class Controller
             $form->push(
                 TypographyText::create()
                     ->type('secondary')
-                    ->style(['marginBottom'=>'10px','display'=>'flex','justify-content'=>'flex-end'])
+                    ->style(['marginBottom' => '10px', 'display' => 'flex', 'justify-content' => 'flex-end'])
                     ->content('还未注册？')
                     ->redirect('https://www.ex-admin.com/register')
             );
             $form->text('username')
                 ->prefix(Icon::create('fas fa-user-alt'))
-                ->placeholder('你的手机号、邮箱')
-               ;
+                ->placeholder('你的手机号、邮箱');
             $form->password('password')
                 ->prefix(Icon::create('fas fa-key'))
                 ->placeholder('你的密码');
@@ -237,9 +254,9 @@ class Controller
                 ->required();
             $form->select('frame', '支持框架')
                 ->options([
-                    'thinkphp'=>'thinkphp',
-                    'laravel'=>'laravel',
-                    'hyperf'=>'hyperf',
+                    'thinkphp' => 'thinkphp',
+                    'laravel' => 'laravel',
+                    'hyperf' => 'hyperf',
                 ])
                 ->default([php_frame()])
                 ->multiple()
@@ -264,16 +281,16 @@ class Controller
                     }, '高级授权');
                 });
             $form->mdEditor('content', '介绍内容');
-            $form->radio('public_type','发布环境')
-                ->options([1=>'测试',2=>'正式'])
+            $form->radio('public_type', '发布环境')
+                ->options([1 => '测试', 2 => '正式'])
                 ->default(1)
-                ->when(2,function (Form $form){
+                ->when(2, function (Form $form) {
                     $form->text('version', '版本号');
                 });
             $form->textarea('version_content', '版本说明')->rows(5);
             $form->saved(function (Form $form) use ($update) {
-                if($form->input('public_type') == 1){
-                    $form->input('version','dev');
+                if ($form->input('public_type') == 1) {
+                    $form->input('version', 'dev');
                 }
                 $result = plugin()->upload($form->input(), (bool)$update);
                 if ($result !== true) {
@@ -307,12 +324,12 @@ class Controller
     /**
      * 在线安装
      * @param string $name
-     * @param string$version
+     * @param string $version
      * @param bool $update
      * @return \ExAdmin\ui\response\Message
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function onlineInstall($name, $version,$update = false)
+    public function onlineInstall($name, $version, $update = false)
     {
         if (!plugin()->token()) {
             return message_error('请登录后操作！');
@@ -326,13 +343,13 @@ class Controller
             return message_error('文件下载失败');
         }
         $force = false;
-        if($name == php_frame()){
+        if ($name == php_frame()) {
             $force = true;
         }
-        if($update && !$force){
+        if ($update && !$force) {
             $plug = plugin()->uninstall($name);
         }
-        return $this->install($path,$force);
+        return $this->install($path, $force);
     }
 
     /**
@@ -343,23 +360,23 @@ class Controller
         return $this->install($_FILES['file']['tmp_name']);
     }
 
-    protected function install($path,$force)
+    protected function install($path, $force)
     {
-        $result = plugin()->install($path,$force);
+        $result = plugin()->install($path, $force);
         unlink($path);
         if ($result === true) {
-            if(php_frame() == 'laravel'){
+            if (php_frame() == 'laravel') {
                 $cmd = 'php artisan plugin:composer';
-            }elseif (php_frame() == 'thinkphp'){
+            } elseif (php_frame() == 'thinkphp') {
                 $cmd = 'php think plugin:composer';
-            }elseif (php_frame() == 'hyperf'){
+            } elseif (php_frame() == 'hyperf') {
                 $cmd = 'php bin/hyperf.php plugin:composer';
             }
-            return notification_success('安装完成',Html::div()->content([
+            return notification_success('安装完成', Html::div()->content([
                 Html::div()->content('安装插件依赖请手动执行命令'),
-                Html::create($cmd)->style(['color'=>'red']),
-                Copy::create($cmd) ->style(['cursor'=>'pointer','marginLeft'=>'5px'])
-            ]),['duration'=>10])->refreshMenu();
+                Html::create($cmd)->style(['color' => 'red']),
+                Copy::create($cmd)->style(['cursor' => 'pointer', 'marginLeft' => '5px'])
+            ]), ['duration' => 10])->refreshMenu();
         }
         return message_error($result);
     }
