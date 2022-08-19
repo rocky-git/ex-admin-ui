@@ -106,7 +106,7 @@ class Controller
                         Html::div()->content($tag),
                         Html::div()->content('查看说明')
                             ->tag('a')
-                            ->style(['marginTop' => '5px','display'=>'block'])
+                            ->style(['marginTop' => '5px', 'display' => 'block'])
                             ->modal()
                             ->width('80%')
                             ->title($val . ' 介绍说明')
@@ -137,12 +137,20 @@ class Controller
                     foreach ($data['versions'] as $item) {
                         if ($data->installed()) {
                             $dropdown->item($item['version'])
-                                ->confirm('更新版本可能会覆盖数据，请谨慎操作', [$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'], 'update' => true])
-                                ->gridRefresh();
+                                ->when(plugin()->token(), function ($dropdown) {
+                                    return $dropdown->confirm('更新版本可能会覆盖数据，请谨慎操作', [$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'], 'update' => true])
+                                        ->gridRefresh();
+                                }, function ($dropdown) use($data,$item) {
+                                    return $dropdown->modal($this->login())->title('登录');
+                                });
                         } else {
                             $dropdown->item($item['version'])
-                                ->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
-                                ->gridRefresh();
+                                ->when(plugin()->token(), function ($dropdown) use($data) {
+                                    return $dropdown->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
+                                        ->gridRefresh();
+                                }, function ($dropdown)use($data,$item)  {
+                                    return $dropdown->modal($this->login())->title('登录');
+                                });
                         }
 
                     }

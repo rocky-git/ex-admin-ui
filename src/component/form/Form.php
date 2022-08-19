@@ -14,6 +14,7 @@ use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\field\select\SelectTable;
 use ExAdmin\ui\component\form\field\upload\Image;
+use ExAdmin\ui\component\form\field\upload\Upload;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\form\traits\Step;
 use ExAdmin\ui\component\form\traits\WatchForm;
@@ -71,7 +72,7 @@ class Form extends Component
      */
     protected $actions;
 
-    protected $imageComponent;
+    protected $uploadComponent;
 
     protected $callbackComponents = [];
     protected $callbackComponent;
@@ -213,8 +214,8 @@ class Form extends Component
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
-        if ($component instanceof Image && $component->uploadField == Request::input('upload_field')) {
-            $this->imageComponent = $component;
+        if ($component instanceof Upload && $component->uploadField == Request::input('ex_upload_field')) {
+            $this->uploadComponent = $component;
         } elseif ((
                 $component instanceof SelectTable
                 || $component instanceof Select
@@ -234,10 +235,10 @@ class Form extends Component
         self::$formComponent[$name] = $component;
     }
 
-    public function getImageComponent()
+    public function getUploadComponent()
     {
 
-        return $this->imageComponent;
+        return $this->uploadComponent;
     }
 
     public function getCallbackComponent()

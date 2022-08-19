@@ -21,7 +21,7 @@ class File extends Upload
         $this->action($this->formItem->form()->attr('url'));
         $this->uploadField = $this->getValidateField();
         $params = $this->formItem->form()->getCall()['params'];
-        $params = array_merge($params,$this->formItem->form()->attr('params') ?? [],['upload_field' => $this->uploadField, 'ex_admin_form_action' => 'upload']);
+        $params = array_merge($params,$this->formItem->form()->attr('params') ?? [],['ex_upload_field' => $this->uploadField, 'ex_admin_form_action' => 'upload']);
        
         $this->params($params);
     }
