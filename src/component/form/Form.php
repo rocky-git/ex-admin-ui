@@ -13,6 +13,7 @@ use ExAdmin\ui\component\form\field\input\Input;
 use ExAdmin\ui\component\form\field\input\InputGroup;
 use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\field\select\SelectTable;
+use ExAdmin\ui\component\form\field\TreeSelect;
 use ExAdmin\ui\component\form\field\upload\Image;
 use ExAdmin\ui\component\form\field\upload\Upload;
 use ExAdmin\ui\component\form\traits\FormComponent;
@@ -219,7 +220,6 @@ class Form extends Component
         } elseif ((
                 $component instanceof SelectTable
                 || $component instanceof Select
-
             )
         ) {
             $this->callbackComponents[] = $component;
@@ -330,7 +330,7 @@ class Form extends Component
         $placeholder = '';
         if ($component instanceof Input) {
             $placeholder = 'please_enter';
-        } elseif ($component instanceof Select || $component instanceof Cascader || $component instanceof CascaderSingle) {
+        } elseif ($component instanceof Select || $component instanceof Cascader || $component instanceof CascaderSingle || $component instanceof TreeSelect) {
             $placeholder = 'please_select';
         }
         if (!empty($placeholder) && is_string($label)) {
@@ -496,6 +496,9 @@ class Form extends Component
             ->label($label)
             ->name($name)
             ->attr('validateFormField', $this->validateBindField);
+        if($this->attr('labelCol')){
+            $item->labelCol($this->attr('labelCol'));
+        }
         if (count($this->manyField) == 0) {
             $ifField = str_replace('.', '_', $this->getBindField(implode('_', $name) . 'Show'));
             $item->bind($ifField, 1)->where($ifField, 1);

@@ -20,7 +20,6 @@ use ExAdmin\ui\support\Arr;
  * @method $this labelInValue(bool $in = true) 是否把每个选项的 label 包装到 value 中，会把 value
  * 类型从 string 变为 {value: string, label: VNode, halfChecked(treeCheckStrictly 时有效): string[] } 的格式               boolean
  * @method $this maxTagCount(int $num) 最多显示多少个 tag                                                                    number
- * @method $this multiple(bool $clear = true) 支持多选（当设置 treeCheckable 时自动变为 true）                                boolean
  * @method $this placeholder(mixed $placeholder) 选择框默认文字                                                            string|slot
  * @method $this searchPlaceholder(mixed $placeholder) 搜索框默认文字                                                        string|slot
  * @method $this searchValue(string $value) 搜索框的值，可以通过 search 事件获取用户输入                                        string
@@ -53,7 +52,6 @@ class TreeSelect extends Field
      * @var string[]
      */
     protected $slot = [
-        'placeholder',
         'searchPlaceholder',
         'title',
     ];
@@ -70,7 +68,15 @@ class TreeSelect extends Field
         $this->treeDefaultExpandAll(true);
         parent::__construct($field, $value);
     }
-
+    /**
+     * 多选
+     * @return $this
+     */
+    public function multiple()
+    {
+        $this->modelValueArray();
+        return $this->treeCheckable();
+    }
     /**
      * 设置选项
      * @param mixed $data 数据源
@@ -89,6 +95,7 @@ class TreeSelect extends Field
             'value'    => $id
         ]);
         $this->treeData($treeData);
+        $this->treeNodeFilterProp($label);
         return $this;
     }
 }

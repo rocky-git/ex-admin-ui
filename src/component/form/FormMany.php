@@ -17,6 +17,7 @@ use ExAdmin\ui\component\Component;
  * @method $this table(bool $value=true) 表格模式
  * @method $this disabled(bool $disabled = true) 是否禁用状态								 	boolean
  * @method $this limit(int $value) 限制数量
+ * @method $this sortField(string $value) 排序字段
  * @package ExAdmin\ui\component\form
  */
 class FormMany extends Field

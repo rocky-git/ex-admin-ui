@@ -37,6 +37,7 @@ class Editor extends Field
             'menubar' => false,
             'toolbar' => false,
             'statusbar' => false,
+            'forced_root_block'=>''
         ]);
         return $this;
     }
