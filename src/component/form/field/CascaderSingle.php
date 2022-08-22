@@ -58,11 +58,7 @@ class CascaderSingle extends Field
     protected $name = 'ExCascader';
 
 
-    /**
-     * 禁用的选项
-     * @var array
-     */
-    protected $disabledValue = [];
+    
 
     public function __construct($field = null, $value = '')
     {

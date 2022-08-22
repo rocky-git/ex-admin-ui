@@ -60,24 +60,34 @@ class Cascader extends Field
     protected $name = 'ACascader';
 
 
-    /**
-     * 禁用的选项
-     * @var array
-     */
-    protected $disabledValue = [];
+    public function __construct($field = null, $value = [])
+    {
+        parent::__construct(null, $value);
+        $this->allowClear();
+        $this->attr('fields', $field);
+        $this->expandTrigger('hover');
 
+    }
     public function modelValue()
     {
         parent::modelValue();
         if ($this->formItem) {
+
             $form = $this->formItem->form();
             $form->except($this->field);
             $fields = [];
+            $values = [];
             foreach ($this->attr('fields') as $bindField) {
-                $this->formItem->form()->inputDefault($bindField);
+                $this->form->inputDefault($bindField);
+                $value = $this->form->input($bindField);
+                if(!is_null($value)){
+                    $values[] = $this->form->input($bindField);
+                }
                 $bindField = $form->getBindField($bindField);
                 $fields[] = $bindField;
             }
+            $this->value = $values;
+            $this->form->inputDefault($this->field, $this->value);
         }
         $this->attr('bindField', $fields);
     }

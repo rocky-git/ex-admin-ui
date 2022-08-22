@@ -26,18 +26,25 @@ class RangeField extends Field
     public function modelValue()
     {
         parent::modelValue();
-        $form = $this->formItem->form();
+        $form = $this->form;
         $form->except($this->field);
         $bindFields = [
             'startField',
             'endField',
         ];
+        $values = [];
         foreach ($bindFields as $field) {
             $bindField = $this->attr($field);
             $form->inputDefault($bindField);
+            $value = $this->form->input($bindField);
+            if(!is_null($value)){
+                $values[] = $this->form->input($bindField);
+            }
             $bindField = $form->getBindField($bindField);
             $this->attr($field, $bindField);
         }
+        $this->value = $values;
+        $this->form->inputDefault($this->field, $this->value);
     }
 
     /**

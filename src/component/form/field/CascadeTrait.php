@@ -39,18 +39,11 @@ use ExAdmin\ui\support\Arr;
 trait CascadeTrait
 {
     use OptionsClosure;
-    
-    public function __construct($field = null, $value = [])
-    {
-        parent::__construct(null, $value);
-        $this->allowClear();
-        $this->attr('fields', $field);
-        $this->expandTrigger('hover');
-      
-    }
-
-   
-
+    /**
+     * 禁用的选项
+     * @var array
+     */
+    protected $disabledValue = [];
     /**
      * 禁用选项
      * @param array $data
@@ -63,7 +56,7 @@ trait CascadeTrait
     }
 
 
-   
+
 
     /**
      * 设置选项
