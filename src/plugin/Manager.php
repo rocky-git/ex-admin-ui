@@ -36,7 +36,7 @@ class Manager
     protected $plug = [];
 
     protected $client;
-    
+
     protected $loginCacheKey = 'plugin_token';
     protected $tokenCache;
 
@@ -49,8 +49,7 @@ class Manager
             'verify' => false,
         ]);
         $this->initialize();
-        $this->filesystemAdapter = new FilesystemAdapter();
-        $this->tokenCache = $this->filesystemAdapter->getItem($this->loginCacheKey);
+
     }
 
     protected function initialize()
@@ -337,7 +336,7 @@ class Manager
     {
 
         $token = null;
-        $data = $this->tokenCache->get();
+        $data = Container::getInstance()->cache->get($this->loginCacheKey);
         if (!empty($data)) {
             if ($isUid) {
                 $token = $data['uid'];
@@ -366,9 +365,8 @@ class Manager
         $content = $response->getBody()->getContents();
         $content = json_decode($content, true);
         if ($content['code'] === 0) {
-            $this->tokenCache->set($content['data']);
-            $this->tokenCache->expiresAfter(time() + 3600 * 24);
-            $this->filesystemAdapter->save($this->tokenCache);
+            $this->filesystemAdapter = new FilesystemAdapter('ex_admin_cache',0,sys_get_temp_dir());
+            Container::getInstance()->cache->set($this->loginCacheKey,$content['data'],3600 * 24);
             return true;
         }
         return $content['message'];
@@ -380,7 +378,7 @@ class Manager
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function logout(){
-        return $this->filesystemAdapter->delete($this->loginCacheKey);
+        return Container::getInstance()->cache->delete($this->loginCacheKey);
     }
     /**
      * 获取插件分类

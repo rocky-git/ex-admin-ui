@@ -20,6 +20,7 @@ use ExAdmin\ui\Route;
  * @property Captcha $captcha
  * @property Route $route
  * @property Manager $plugin
+ * @property Cache $cache
  */
 class Container
 {
@@ -31,6 +32,7 @@ class Container
         'captcha'=>Captcha::class,
         'route'=>Route::class,
         'plugin'=>Manager::class,
+        'cache'=>Cache::class,
     ];
     protected $instances = [];
 

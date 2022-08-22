@@ -137,18 +137,18 @@ class Controller
                     foreach ($data['versions'] as $item) {
                         if ($data->installed()) {
                             $dropdown->item($item['version'])
-                                ->when(plugin()->token(), function ($dropdown) {
+                                ->when(plugin()->token(), function ($dropdown) use($data,$item) {
                                     return $dropdown->confirm('更新版本可能会覆盖数据，请谨慎操作', [$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'], 'update' => true])
                                         ->gridRefresh();
-                                }, function ($dropdown) use($data,$item) {
+                                }, function ($dropdown) use ($data, $item) {
                                     return $dropdown->modal($this->login())->title('登录');
                                 });
                         } else {
                             $dropdown->item($item['version'])
-                                ->when(plugin()->token(), function ($dropdown) use($data) {
+                                ->when(plugin()->token(), function ($dropdown) use ($data, $item) {
                                     return $dropdown->ajax([$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version']])
                                         ->gridRefresh();
-                                }, function ($dropdown)use($data,$item)  {
+                                }, function ($dropdown) use ($data, $item) {
                                     return $dropdown->modal($this->login())->title('登录');
                                 });
                         }
