@@ -35,27 +35,17 @@ use ExAdmin\ui\component\grid\grid\Grid;
 class Upload extends Field
 {
     protected $name = 'ExUploader';
-    
-    protected $before = null;
-    
+
+
+
     public function __construct($field = null, $value = '')
     {
         parent::__construct($field, $value);
         $disk = admin_config('admin.upload.disk', 'local');
         $this->disk($disk);
     }
-    /**
-     * 上传文件保存前
-     * @param \Closure $closure
-     * @return $this
-     */
-    public function before(\Closure $closure){
-        $this->before = $closure;
-        return $this;
-    }
-    public function getBefore(){
-        return $this->before;
-    }
+
+
     /**
      * 是否支持多选文件
      */
@@ -108,7 +98,7 @@ class Upload extends Field
         $this->accept($accept);
         return $this;
     }
-   
+
     public function jsonSerialize()
     {
         $type = $this->attr('type') ?? 'file';

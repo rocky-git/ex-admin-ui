@@ -73,7 +73,7 @@ class Form extends Component
      */
     protected $actions;
 
-    protected $uploadComponent;
+    protected $imageComponent;
 
     protected $callbackComponents = [];
     protected $callbackComponent;
@@ -215,9 +215,9 @@ class Form extends Component
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
         $component->modelValue();
-        if ($component instanceof Upload && $component->uploadField == Request::input('ex_upload_field')) {
-            $this->uploadComponent = $component;
-        } elseif ((
+        if ($component instanceof Image && $component->uploadField == Request::input('ex_upload_field')) {
+            $this->imageComponent = $component;
+        }  elseif ((
                 $component instanceof SelectTable
                 || $component instanceof Select
             )
@@ -235,10 +235,10 @@ class Form extends Component
         self::$formComponent[$name] = $component;
     }
 
-    public function getUploadComponent()
+    public function getImageComponent()
     {
 
-        return $this->uploadComponent;
+        return $this->imageComponent;
     }
 
     public function getCallbackComponent()
