@@ -58,10 +58,11 @@ class CascaderSingle extends Field
     protected $name = 'ExCascader';
 
 
-    
+
 
     public function __construct($field = null, $value = '')
     {
+        $this->expandTrigger('hover');
         parent::__construct($field, $value);
     }
     public function setFormItem(FormItem $formItem)

@@ -28,6 +28,6 @@ class Hidden extends Input
         parent::setFormItem($formItem);
         $field = $this->random();
         $formItem->bind($field, 1);
-        $formItem->where($field, 0);
+        $formItem->whereShow($field, 0);
     }
 }

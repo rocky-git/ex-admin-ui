@@ -59,7 +59,7 @@ trait Display
                 Html::create($value)
                     ->tag('div')
                     ->style([
-                        'width' => "{$width} px",
+                        'width' => "{$width}px",
                         'textOverflow' => 'ellipsis',
                         'overflow' => 'hidden',
                         'whiteSpace' => 'nowrap',
@@ -122,6 +122,7 @@ trait Display
             ->src($value)
             ->height("{$height}px")
             ->width("{$width}px")
+            ->style(['object-fit'=>'contain'])
             ->alt($alt ?: $this->attr('title'));
         if ($preview) $image->preview($preview);
         return $image;
@@ -207,7 +208,7 @@ trait Display
      * @param string $trailColor 未完成的分段的颜色
      * @return $this
      */
-    public function progress(string $type = 'line', int $width = 80, string $status = 'normal', $strokeColor = '', string $trailColor = '')
+    public function progress(string $type = 'line', int $width = 150, string $status = 'normal', $strokeColor = '', string $trailColor = '')
     {
         return $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
             $process = Progress::create()
@@ -218,7 +219,7 @@ trait Display
             if (!empty($strokeColor)) $process->strokeColor($strokeColor);
             if (!empty($trailColor) && !is_array($strokeColor)) $process->trailColor($trailColor);
             return $process;
-        });
+        })->width($width);
     }
 
     /**
@@ -337,14 +338,23 @@ trait Display
     {
         $this->using = $usings;
         return $this->display(function ($value) use ($usings, $color) {
-            $key = $value;
-            if (isset($usings[$key])) {
-                $value = $usings[$key];
+            if(!is_array($value)){
+                $value = [$value];
             }
-            if (count($color) > 0) {
-                return $this->getTag($value, $color[$key] ?? '');
+            $renderValue = [];
+            foreach ($value as $key){
+                if (isset($usings[$key])) {
+                    $parseValue = $usings[$key];
+                    if (count($color) > 0) {
+                        $parseValue =  $this->getTag($parseValue, $color[$key] ?? '');
+                    }
+                    $renderValue[] = $parseValue;
+                }
             }
-            return $value;
+            if (count($color) == 0) {
+                $renderValue = implode('、',$renderValue);
+            }
+            return $renderValue;
         });
 
     }

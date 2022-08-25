@@ -142,7 +142,7 @@ abstract class Component implements \JsonSerializable
         if($name === true){
             $this->bind = [];
         }else{
-            unset($this->bind[$name]);  
+            unset($this->bind[$name]);
         }
         return $this;
     }
@@ -316,6 +316,10 @@ abstract class Component implements \JsonSerializable
                     $this->content[$name][] = $content;
                 }
             } else {
+                //兼容0无法渲染问题
+                if($content === 0){
+                    $content = strval($content);
+                }
                 $this->content[$name][] = $content;
             }
         }
@@ -443,7 +447,7 @@ abstract class Component implements \JsonSerializable
             ->url($url)
             ->params($params);
     }
-    
+
     public function getName()
     {
         return $this->name;

@@ -65,6 +65,7 @@ class TreeSelect extends Field
     public function __construct($field = null, $value = '')
     {
         $this->allowClear();
+        $this->showSearch();
         $this->treeDefaultExpandAll(true);
         parent::__construct($field, $value);
     }
