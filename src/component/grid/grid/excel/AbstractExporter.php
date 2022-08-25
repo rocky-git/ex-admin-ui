@@ -14,6 +14,8 @@ abstract class AbstractExporter
 
     protected $columns = [];
 
+    protected $imageColumns = [];
+
     protected $filename;
 
     protected $extension = 'xlsx';
@@ -23,7 +25,7 @@ abstract class AbstractExporter
     protected $currentRow = 1;
 
     protected $count = 1;
-    
+
     protected $cache;
 
     protected $progressKey;
@@ -31,8 +33,8 @@ abstract class AbstractExporter
      * @var FilesystemAdapter
      */
     protected $filesystemAdapter;
-    
-  
+
+
     public function __construct()
     {
         $this->filesystemAdapter= new FilesystemAdapter();
@@ -131,6 +133,15 @@ abstract class AbstractExporter
     }
 
     /**
+     * 设置图片列
+     * @param array $imageColumns
+     * @return $this
+     */
+    public function imageColumns(array $imageColumns){
+        $this->imageColumns = $imageColumns;
+        return $this;
+    }
+    /**
      * 指定列
      * @param array $columns
      * @return $this
@@ -205,7 +216,7 @@ abstract class AbstractExporter
      * @return string|bool
      */
     abstract public function save(string $path);
-    
+
     public function exportError(){
         $this->cache->set([
             'status' => 2,
