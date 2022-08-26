@@ -4,6 +4,8 @@
 namespace ExAdmin\ui\component;
 
 
+
+
 trait Where
 {
     protected $where = [];
@@ -56,7 +58,7 @@ trait Where
     /**
      * v-if指定AND查询条件
      * @access public
-     * @param string $field 查询字段
+     * @param string|\Closure $field 查询字段
      * @param mixed $op 查询表达式
      * @param mixed $condition 查询条件
      * @param string $logic AND OR
@@ -100,7 +102,7 @@ trait Where
     /**
      * v-if指定OR查询条件
      * @access public
-     * @param string $field 查询字段
+     * @param string|\Closure $field 查询字段
      * @param mixed $op 查询表达式
      * @param mixed $condition 查询条件
      * @param string $type v-if v-show

@@ -23,6 +23,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\date\YearPicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimePicker;
 use ExAdmin\ui\component\form\field\dateTimePicker\TimeRangePicker;
+use ExAdmin\ui\component\form\field\Descriptions;
 use ExAdmin\ui\component\form\field\DynamicTag;
 use ExAdmin\ui\component\form\field\Editor;
 use ExAdmin\ui\component\form\field\input\Hidden;
@@ -89,6 +90,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method MdEditor mdEditor($field, $label = '') md编辑器
  * @method CheckboxTag checkboxTag($field, $label = '') 多选标签
  * @method DynamicTag dynamicTag($field, $label = '') 动态标签
+ * @method Descriptions desc($field, $label = '') 显示html
  */
 trait FormComponent
 {
@@ -136,5 +138,6 @@ trait FormComponent
         'mdEditor'  => MdEditor::class,
         'checkboxTag'  => CheckboxTag::class,
         'dynamicTag'  => DynamicTag::class,
+        'desc'  => Descriptions::class,
     ];
 }

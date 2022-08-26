@@ -71,8 +71,7 @@ class Excel extends AbstractExporter
                 if ($this->mapCallback instanceof \Closure) {
                     $value = call_user_func($this->mapCallback, $value, $this->sheet);
                 }
-                if(in_array($field,$this->imageColumns)){
-
+                if(in_array($field,$this->imageColumns) && in_array($this->extension,['xlsx','xls'])){
                     $this->insertImage($value, Coordinate::stringFromColumnIndex($index + 1) );
                 }else{
                     if (is_array($value)) {

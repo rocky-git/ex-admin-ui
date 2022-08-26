@@ -478,7 +478,7 @@ class Grid extends Table
     public function setForm()
     {
         $this->setForm = true;
-        return $this->actionColumn->edit();
+        return $this->actionColumn->edit(false);
     }
 
     /**
@@ -487,7 +487,7 @@ class Grid extends Table
      */
     public function setDetail()
     {
-        return $this->actionColumn->detail();
+        return $this->actionColumn->detail(false);
     }
 
     /**
@@ -594,7 +594,7 @@ class Grid extends Table
         //添加编辑表单
         if ($this->setForm) {
             if (!$this->addButton) {
-                $this->addButton = clone $this->actionColumn->edit();
+                $this->addButton = clone $this->actionColumn->edit(false);
                 $this->addButton->button()->content(admin_trans('grid.add'))
                     ->type('primary')
                     ->icon('<plus-outlined />');

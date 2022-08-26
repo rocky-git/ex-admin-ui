@@ -85,8 +85,10 @@ class Select extends Field
         parent::__construct($field, $value);
         $this->allowClear();
         $this->filterOption();
+        $this->showSearch();
+        $this->optionFilterProp('label');
     }
-    
+
 
     /**
      * 多选
@@ -135,6 +137,7 @@ class Select extends Field
                 ->map($this->options,$this->optionsBindField)
                 ->mapAttr('value')
                 ->mapAttr('title','label')
+                ->mapAttr('label','label')
                 ->mapAttr('disabled')
                 ->mapAttr('slotDefault');
             $this->content($selectOption);
@@ -220,7 +223,7 @@ class Select extends Field
         $this->mode('tags');
         return $this;
     }
-    
+
     /**
      * 联动select options
      * @param Select $component select组件
@@ -240,11 +243,11 @@ class Select extends Field
                     ];
                 }
                 return $options;
-            }); 
+            });
         }else{
             $url = $callback;
         }
-       
+
         $field = $component->vModel('options',null,[],false);
         $this->form->except($field);
         $params  = [

@@ -137,8 +137,8 @@ class Actions
         $this->closure[] = $closure;
     }
 
-    public function edit(){
-        if(!$this->editButton){
+    public function edit($new = true){
+        if(!$this->editButton || $new){
             $this->editButton = new ActionButton();
             $this->editButton->button()
                 ->type('primary')
@@ -147,8 +147,8 @@ class Actions
         return $this->editButton;
     }
     
-    public function detail(){
-        if(!$this->detailButton){
+    public function detail($new = true){
+        if(!$this->detailButton || $new){
             $this->detailButton = new ActionButton();
             $this->detailButton->button()
                 ->icon('<InfoCircleFilled />');

@@ -86,10 +86,11 @@ trait Display
 
     /**
      * 获取标签
+     * @param string $value 内容
      * @param string $color 标签颜色
      * @param mixed $icon 图标
      */
-    protected function getTag($value, string $color = '', string $icon = '')
+    protected function getTag($value = '', string $color = '', string $icon = '')
     {
         if (is_array($value)) {
             $tags = [];
