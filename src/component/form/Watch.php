@@ -16,10 +16,8 @@ class Watch implements ArrayAccess
     protected $data = [];
     protected $hideField = [];
     protected $showField = [];
-    protected $init = false;
-    public function __construct($data,$init = false)
+    public function __construct($data)
     {
-        $this->init = $init;
         $this->data = $data;
     }
 
@@ -95,9 +93,7 @@ class Watch implements ArrayAccess
      */
     public function set($field, $value)
     {
-        if(!$this->init || ($this->init && empty($this->get($field) && !is_array($this->get($field))))){
-            Arr::set($this->data,$field,$value);
-        }
+        Arr::set($this->data,$field,$value);
     }
 
 
