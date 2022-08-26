@@ -73,9 +73,9 @@ abstract class ValidatorAbstract
     /**
      * 新增验证规则
      * @param string $field 验证字段
-     * @param array $rule 规则
+     * @param array|\Closure $rule 规则
      */
-    public function createRule(string $field, array $rule)
+    public function createRule(string $field,$rule)
     {
         $this->createRule[$field] = $rule;
     }
@@ -83,9 +83,9 @@ abstract class ValidatorAbstract
     /**
      * 更新验证规则
      * @param string $field 验证字段
-     * @param array $rule 规则
+     * @param array|\Closure $rule 规则
      */
-    public function updateRule(string $field, array $rule)
+    public function updateRule(string $field,$rule)
     {
         $this->updateRule[$field] = $rule;
     }

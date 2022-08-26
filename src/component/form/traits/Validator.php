@@ -158,11 +158,11 @@ trait Validator
     }
     /**
      * 表单验证规则
-     * @param array $rule 验证规则
+     * @param array|\Closure $rule 验证规则
      * @param int $type 0全部，1新增，2更新
      * @return $this
      */
-    public function rule(array $rule, $type = 0)
+    public function rule($rule, $type = 0)
     {
         $form = $this->formItem->form();
         $validator = $form->validator();
@@ -183,20 +183,20 @@ trait Validator
 
     /**
      * 表单新增验证规则
-     * @param array $rule 验证规则
+     * @param array|\Closure $rule 验证规则
      * @return \ExAdmin\ui\component\form\Field
      */
-    public function createRule(array $rule)
+    public function createRule($rule)
     {
         return $this->rule($rule, 1);
     }
 
     /**
      * 表单更新验证规则
-     * @param array $rule 验证规则
+     * @param array|\Closure $rule 验证规则
      * @return \ExAdmin\ui\component\form\Field
      */
-    public function updateRule(array $rule)
+    public function updateRule($rule)
     {
         return $this->rule($rule, 2);
     }
