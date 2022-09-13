@@ -137,7 +137,7 @@ class Controller
                     foreach ($data['versions'] as $item) {
                         if ($data->installed()) {
                             $dropdown->item($item['version'])
-                                ->when(plugin()->token(), function ($dropdown) use($data,$item) {
+                                ->when(plugin()->token(), function ($dropdown) use ($data, $item) {
                                     return $dropdown->confirm('更新版本可能会覆盖数据，请谨慎操作', [$this, 'onlineInstall'], ['name' => $data['name'], 'version' => $item['version'], 'update' => true])
                                         ->gridRefresh();
                                 }, function ($dropdown) use ($data, $item) {
@@ -351,10 +351,11 @@ class Controller
             return message_error('文件下载失败');
         }
         if ($update) {
-            return plugin()->install($path,true,function ($plugin){
-                return response_ajax([$this,'update'],['name'=>$plugin->getName()]);
+            $oldVersion = plugin()->getPlug($name)->version();
+            return plugin()->install($path, true, function ($plugin) use ($oldVersion) {
+                return response_ajax([$this, 'update'], ['oldVersion' => $oldVersion, 'name' => $plugin->getName()]);
             });
-        }else{
+        } else {
             return $this->install($path);
         }
     }
@@ -370,17 +371,20 @@ class Controller
     /**
      * 更新
      * @param $name
+     * @param $oldVersion
      * @return \ExAdmin\ui\response\Notification
      */
-    public function update($name){
-        $plugin = plugin()->getInfo($name);
-        if(method_exists($plugin,'update')){
-            $plugin->update();
+    public function update($name, $oldVersion)
+    {
+        $plugin = plugin()->getPlug($name);
+        if (method_exists($plugin, 'update')) {
+            $plugin->update($oldVersion, $plugin->version());
         }
         return $this->installResponse();
     }
 
-    private function installResponse(){
+    private function installResponse()
+    {
         if (php_frame() == 'laravel') {
             $cmd = 'php artisan plugin:composer';
         } elseif (php_frame() == 'thinkphp') {
@@ -394,6 +398,7 @@ class Controller
             Copy::create($cmd)->style(['cursor' => 'pointer', 'marginLeft' => '5px'])
         ]), ['duration' => 10])->refreshMenu();
     }
+
     protected function install($path)
     {
         $result = plugin()->install($path);
