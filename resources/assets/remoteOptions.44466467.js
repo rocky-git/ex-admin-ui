@@ -1,0 +1,1 @@
+import{q as i}from"./index.7ed09148.js";import{l as c}from"./lodash.c9cf1bdb.js";function f(e,t){const m=c.exports.debounce(a,300);function a(u){return new Promise((o,s)=>{if(e.remote){let n=e.remote;n.data.value=u,i(n).then(r=>{t.value=r.data,o(r.data)}).catch(()=>{s()})}else o(t.value)})}return{remoteOptionsDebounce:m,remoteOptions:a}}export{f as u};

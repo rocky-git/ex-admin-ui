@@ -620,17 +620,15 @@ PHP;
      * @param bool $update 更新
      * @return bool|string
      */
-    public function install($fileZip, $force = false,$update = false)
+    public function install($fileZip, $force = false,\Closure $end = null)
     {
 
         $zip = new \ZipArchive();
         if ($zip->open($fileZip) === true) {
-            $plugin = $this->getPlug($info['name']);
-            $oldVersion = $plugin->version();
+
             $info = $zip->getFromName('info.json');
             $info = json_decode($info, true);
             $path = $this->basePath . '/' . $info['name'];
-
             if (is_dir($path) && !$force) {
                 return '请删除插件目录下的' . $info['name'] . '目录再进行安装';
             }
@@ -639,12 +637,13 @@ PHP;
             file_put_contents($this->licensePath($info['name']), '');
             $this->buildIde();
             $plugin = $this->getPlug($info['name']);
-            if($update && method_exists($this,'update')){
-                $plugin->update($oldVersion,$plugin->version());
-            }else{
+            if(is_null($end)){
                 $plugin->install();
             }
             $plugin->addMenu();
+            if(!is_null($end)){
+                return call_user_func($end,$plugin);
+            }
             return true;
         }
         return '解压插件失败';

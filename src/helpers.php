@@ -1,6 +1,7 @@
 <?php
 const EX_ADMIN_VERSION = '1.1.2';
 
+use ExAdmin\ui\component\Ajax;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;
 
@@ -309,6 +310,25 @@ if (!function_exists('message_abort')) {
     {
         $response = message_error($message,$config);
         throw new \ExAdmin\ui\exception\MessageResponseException($response);
+    }
+}
+if (!function_exists('response_ajax')) {
+    /**
+     * 响应ajax请求
+     * @param string|array $url 请求url 空不请求
+     * @param array $params 请求参数
+     * @param string $method 请求方式
+     * @return \ExAdmin\ui\response\Response
+     */
+    function response_ajax($url, array $params = [],string $method = 'POST')
+    {
+        $url = admin_url($url);
+        $data = [
+            'url' => $url,
+            'data' => $params,
+            'method' => $method,
+        ];
+        return \ExAdmin\ui\response\Response::success($data,'',70000);
     }
 }
 

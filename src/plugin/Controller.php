@@ -350,11 +350,13 @@ class Controller
         if ($path === false) {
             return message_error('文件下载失败');
         }
-        $force = false;
         if ($update) {
-            $force = true;
+            return plugin()->install($path,true,function ($plugin){
+                return response_ajax([$this,'update'],['name'=>$plugin->getName()]);
+            });
+        }else{
+            return $this->install($path);
         }
-        return $this->install($path, $force,$update);
     }
 
     /**
@@ -365,23 +367,39 @@ class Controller
         return $this->install($_FILES['file']['tmp_name']);
     }
 
-    protected function install($path, $force,$update)
+    /**
+     * 更新
+     * @param $name
+     * @return \ExAdmin\ui\response\Notification
+     */
+    public function update($name){
+        $plugin = plugin()->getInfo($name);
+        if(method_exists($plugin,'update')){
+            $plugin->update();
+        }
+        return $this->installResponse();
+    }
+
+    private function installResponse(){
+        if (php_frame() == 'laravel') {
+            $cmd = 'php artisan plugin:composer';
+        } elseif (php_frame() == 'thinkphp') {
+            $cmd = 'php think plugin:composer';
+        } elseif (php_frame() == 'hyperf') {
+            $cmd = 'php bin/hyperf.php plugin:composer';
+        }
+        return notification_success('安装完成', Html::div()->content([
+            Html::div()->content('安装插件依赖请手动执行命令'),
+            Html::create($cmd)->style(['color' => 'red']),
+            Copy::create($cmd)->style(['cursor' => 'pointer', 'marginLeft' => '5px'])
+        ]), ['duration' => 10])->refreshMenu();
+    }
+    protected function install($path)
     {
-        $result = plugin()->install($path, $force,$update);
+        $result = plugin()->install($path);
         unlink($path);
         if ($result === true) {
-            if (php_frame() == 'laravel') {
-                $cmd = 'php artisan plugin:composer';
-            } elseif (php_frame() == 'thinkphp') {
-                $cmd = 'php think plugin:composer';
-            } elseif (php_frame() == 'hyperf') {
-                $cmd = 'php bin/hyperf.php plugin:composer';
-            }
-            return notification_success('安装完成', Html::div()->content([
-                Html::div()->content('安装插件依赖请手动执行命令'),
-                Html::create($cmd)->style(['color' => 'red']),
-                Copy::create($cmd)->style(['cursor' => 'pointer', 'marginLeft' => '5px'])
-            ]), ['duration' => 10])->refreshMenu();
+            return $this->installResponse();
         }
         return message_error($result);
     }
