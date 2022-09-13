@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component;
 
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\navigation\menu\MenuItem;
+use ExAdmin\ui\support\Container;
 
 trait Directive
 {
@@ -67,7 +68,22 @@ trait Directive
      * @param string $content 复制文本
      * @return $this
      */
-    public function copy(string $content){
+    public function copy($content){
         return $this->directive('copy', $content);
+    }
+
+    /**
+     * 队列进度
+     * @param string $title 标题
+     * @param string $class 队列类名
+     * @param bool $refresh 成功刷新页面
+     * @return Component
+     */
+    public function queueProgress($title, $class,$refresh = true)
+    {
+        return $this->directive('queueProgress', $title,[
+            'class'=>$class,
+            'refresh'=>$refresh
+        ]);
     }
 }

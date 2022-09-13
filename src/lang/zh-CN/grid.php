@@ -18,5 +18,6 @@ return [
     'user_info' => '用户信息',
     'pagination'=>[
         'total' => '共 {total} 条',
-    ]
+    ],
+    
 ];

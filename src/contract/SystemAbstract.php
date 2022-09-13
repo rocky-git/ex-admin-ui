@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\contract;
 
 use ExAdmin\ui\response\Response;
+use ExAdmin\ui\support\Container;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -59,7 +60,28 @@ abstract class SystemAbstract
         $data = $cache->getItem($key)->get();
         return Response::success($data??[]);
     }
-
+    /**
+     * 队列初始化
+     * @param $key
+     * @return mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function queueInit($key){
+        $key = md5($key.'queue_progress');
+        $progress = Container::getInstance()->cache->delete($key);
+        return Response::success();
+    }
+    /**
+     * 队列进度
+     * @param $key
+     * @return mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function queueProgress($key){
+        $key = md5($key.'queue_progress');
+        $progress = Container::getInstance()->cache->get($key);
+        return Response::success($progress ?? 0);
+    }
     final public function info(): Response
     {
         return Response::success([

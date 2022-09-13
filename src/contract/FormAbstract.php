@@ -38,10 +38,12 @@ abstract class FormAbstract
      * select远程options
      * @param $value
      */
-    public function remoteOptions($value){
+    public function remoteOptions($value)
+    {
         $result = $this->form->getCallbackComponent()->handle($value);
         return Response::success($result);
     }
+
     /**
      * select change options
      * @param string $value 改变值
@@ -86,7 +88,7 @@ abstract class FormAbstract
      * @param $oldValue 旧值
      * @return mixed
      */
-    public function watch(array $data, $ex_field, $newValue, $oldValue)
+    public function watch(array $data, $ex_field, $newValue = '', $oldValue = '')
     {
         $watch = new Watch($data);
         $closure = $this->form->getWatch()[$ex_field];

@@ -32,9 +32,12 @@ trait WatchForm
      * @return void
      */
     protected function initWatch(){
-        $watch   = new Watch($this->data);
+        $watch   = new Watch($this->data,true);
         foreach ($this->watch as $field=>$closure){
             $value = Arr::get($this->data,$field);
+            if(is_object($value) && method_exists($value,'toArray')){
+                $value = $value->toArray();
+            }
             call_user_func_array($closure, [$value, $watch,$value]);
         }
         $this->data = array_merge($this->data,$watch->get());

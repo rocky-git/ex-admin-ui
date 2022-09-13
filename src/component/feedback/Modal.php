@@ -62,6 +62,16 @@ class Modal extends Component
         $this->footer(false);
         parent::__construct();
     }
+
+    /**
+     * 全屏
+     * @return $this
+     */
+    public function full(){
+        $this->width('100%');
+        return $this->wrapClassName("full-modal");
+    }
+    
     public function jsonSerialize()
     {
         if(!isset($this->content['title'])){

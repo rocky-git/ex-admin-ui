@@ -60,7 +60,7 @@ class DatePicker extends Field
         'superPrevIcon',
     ];
 
-    public function __construct($field = null, $value = '')
+    public function __construct($field = null, $value = null)
     {
         $this->valueFormat('YYYY-MM-DD');
         parent::__construct($field, $value);

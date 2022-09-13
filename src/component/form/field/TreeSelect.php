@@ -62,7 +62,7 @@ class TreeSelect extends Field
      */
     protected $name = 'ATreeSelect';
 
-    public function __construct($field = null, $value = '')
+    public function __construct($field = null, $value = null)
     {
         $this->allowClear();
         $this->showSearch();

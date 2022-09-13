@@ -617,13 +617,16 @@ PHP;
      * 安装
      * @param string $fileZip 插件压缩包
      * @param bool $force 强制
+     * @param bool $update 更新
      * @return bool|string
      */
-    public function install($fileZip, $force = false)
+    public function install($fileZip, $force = false,$update = false)
     {
 
         $zip = new \ZipArchive();
         if ($zip->open($fileZip) === true) {
+            $plugin = $this->getPlug($info['name']);
+            $oldVersion = $plugin->version();
             $info = $zip->getFromName('info.json');
             $info = json_decode($info, true);
             $path = $this->basePath . '/' . $info['name'];
@@ -636,7 +639,11 @@ PHP;
             file_put_contents($this->licensePath($info['name']), '');
             $this->buildIde();
             $plugin = $this->getPlug($info['name']);
-            $plugin->install();
+            if($update && method_exists($this,'update')){
+                $plugin->update($oldVersion,$plugin->version());
+            }else{
+                $plugin->install();
+            }
             $plugin->addMenu();
             return true;
         }

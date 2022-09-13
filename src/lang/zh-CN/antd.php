@@ -303,6 +303,7 @@ return [
         'restoreSelected' => '恢复选中',
         'deleteSelected' => '删除选中',
         'selectedAction' => '请勾选操作数据',
+        'selectedTotal'=>'已选择 {total} 项'
     ],
     'SelectTable' => [
         'select' => '选择',
@@ -349,7 +350,7 @@ return [
         'header_sider' => '顶部-侧边',
         'header' => '顶部',
         'defualt' => '恢复默认配置',
-        
+
     ],
     'Sidebar' => [
         'all'=>'全部'

@@ -351,13 +351,10 @@ class Controller
             return message_error('文件下载失败');
         }
         $force = false;
-        if ($name == php_frame()) {
+        if ($update) {
             $force = true;
         }
-        if ($update && !$force) {
-            $plug = plugin()->uninstall($name);
-        }
-        return $this->install($path, $force);
+        return $this->install($path, $force,$update);
     }
 
     /**
@@ -368,9 +365,9 @@ class Controller
         return $this->install($_FILES['file']['tmp_name']);
     }
 
-    protected function install($path, $force)
+    protected function install($path, $force,$update)
     {
-        $result = plugin()->install($path, $force);
+        $result = plugin()->install($path, $force,$update);
         unlink($path);
         if ($result === true) {
             if (php_frame() == 'laravel') {

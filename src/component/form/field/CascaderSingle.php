@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component\form\field;
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\component\form\field\select\Select;
 use ExAdmin\ui\component\form\FormItem;
+use ExAdmin\ui\support\Arr;
 
 /**
  * 级联选择
@@ -37,7 +38,7 @@ use ExAdmin\ui\component\form\FormItem;
  */
 class CascaderSingle extends Field
 {
-    use CascadeTrait;
+    use CascadeTrait, CallbackDefinition;
     /**
      * 插槽
      * @var string[]
@@ -71,6 +72,54 @@ class CascaderSingle extends Field
         if($this->form->attr('layout') == 'inline'){
             $this->style(['minWidth'=>'200px']);
         }
+    }
+    /**
+     * 远程加载options
+     * @param string|\Closure $callback 闭包回调或者url
+     * @param string $label 名称
+     * @param string $id 主键
+     * @param string $pid 上级id
+     * @param string $children 下级成员
+     * @return $this
+     */
+    public function remoteOptions($callback, string $label = 'name', string $id = 'id', string $pid = 'pid', string $children = 'children'){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        $this->fieldNames([
+            'children' => $children,
+            'label' => $label,
+            'value' => $id,
+            'pid' => $pid,
+        ]);
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback,function ($data) use ($id,$pid,$children) {
+                $options = [];
+                foreach ($data as &$row){
+                    $row['disabled'] = false;
+                    if (in_array($row[$id], $this->disabledValue)) {
+                        $row['disabled'] = true;
+                    }
+                }
+                $treeData = Arr::tree($data, $id, $pid, $children);
+                return $treeData;
+            });
+        }else{
+            $url = $callback;
+        }
+        $field = $this->vModel('options',null,[],true);
+        $this->form->except($field);
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+                'optionsField'=> $field,
+            ],
+            'method' => 'POST',
+        ];
+
+        $this->attr('remote',$params);
+        return $this;
     }
     /**
      * 多选

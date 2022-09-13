@@ -21,6 +21,7 @@ use ExAdmin\ui\support\Request;
  * @method $this default($value) 默认选中值
  * @method $this span(int $value) 侧边栏包含列的数量
  * @method $this selectedField(string $value) 选中字段
+ * @method $this searchPlaceholder(string $value) 搜索提示文本
  */
 class Sidebar extends Component
 {

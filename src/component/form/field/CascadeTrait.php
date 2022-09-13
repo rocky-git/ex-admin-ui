@@ -65,11 +65,11 @@ trait CascadeTrait
      * @param string $id 主键
      * @param string $pid 上级id
      * @param string $children 下级成员
+     * @return $this
      */
     public function options($data, string $label = 'name', string $id = 'id', string $pid = 'pid', string $children = 'children')
     {
         $this->optionsClosure = function () use ($data,$label,$id,$pid,$children) {
-            $disabled = false;
             foreach ($data as &$row){
                 $row['disabled'] = false;
                 if (in_array($row[$id], $this->disabledValue)) {
@@ -81,6 +81,7 @@ trait CascadeTrait
                 'children' => $children,
                 'label' => $label,
                 'value' => $id,
+                'pid' => $pid,
             ]);
             $this->attr('options', $treeData);
         };

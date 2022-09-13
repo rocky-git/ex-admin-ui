@@ -17,7 +17,7 @@ use ExAdmin\ui\component\form\field\dateTimePicker\DatePicker;
  */
 class WeekPicker extends DatePicker
 {
-    public function __construct($field = null, $value = '')
+    public function __construct($field = null, $value = null)
     {
         parent::__construct($field, $value);
         $this->picker('week');

@@ -40,7 +40,16 @@ class ServiceProvider extends Plugin
     {
         // TODO: Implement install() method.
     }
-
+    /**
+     * 更新
+     * @param string $old_version 旧版本
+     * @param string $version 更新版本
+     * @return mixed
+     */
+    public function update(string $old_version,string $version)
+    {
+        // TODO: Implement update() method.
+    }
     /**
      * 卸载
      * @return mixed

@@ -38,7 +38,7 @@ class TimePicker extends Field
      */
 	protected $name = 'ATimePicker';
 
-	public function __construct($field = null, $value = '')
+	public function __construct($field = null, $value = null)
     {
         $this->valueFormat('HH:mm:ss');
         parent::__construct($field, $value);

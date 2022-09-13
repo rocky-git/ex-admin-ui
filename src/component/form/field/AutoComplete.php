@@ -31,7 +31,7 @@ use ExAdmin\ui\component\form\FormItem;
  */
 class AutoComplete extends Field
 {
-    use OptionsClosure;
+    use OptionsClosure,CallbackDefinition;
     /**
      * 插槽
      * @var string[]
@@ -44,7 +44,7 @@ class AutoComplete extends Field
      * 组件名称
      * @var string
      */
-    protected $name = 'AAutoComplete';
+    protected $name = 'ExAutoComplete';
 
     /**
      * 禁用的选项
@@ -143,6 +143,43 @@ class AutoComplete extends Field
             }
             $this->attr('options', $data);
         };
+        return $this;
+    }
+    /**
+     * 远程加载options
+     * @param string|\Closure $callback 闭包回调或者url
+     */
+    public function remoteOptions($callback){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback,function ($data){
+                $options = [];
+                foreach ($data as $key => $value) {
+                    $options[] = [
+                        'value' => $key,
+                        'label' => $value
+                    ];
+                }
+                return $options;
+            });
+        }else{
+            $url = $callback;
+        }
+        $field = $this->vModel('options',null,[],true);
+        $this->form->except($field);
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+                'optionsField'=> $field,
+            ],
+            'method' => 'POST',
+        ];
+
+        $this->attr('remote',$params);
+        $this->filterOption(false);
         return $this;
     }
     public function setFormItem(FormItem $formItem)

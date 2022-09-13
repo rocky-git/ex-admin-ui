@@ -187,4 +187,16 @@ class Field extends Component
     {
         return $this->formItem;
     }
+
+    /**
+     * 排除提交字段
+     * @param string $field
+     * @return void
+     */
+    protected function exceptField($field){
+        $exceptFields = $this->form->manyField;
+        array_push($exceptFields,$field);
+        $except = implode('.',$exceptFields);
+        $this->form->except($except);
+    }
 }

@@ -101,7 +101,7 @@ class Column extends Component
     public function row($data, $export = false)
     {
         $originValue = Arr::get($data, $this->field);
-        
+
         if (is_null($originValue)) {
             $value = $this->default;
         } else {

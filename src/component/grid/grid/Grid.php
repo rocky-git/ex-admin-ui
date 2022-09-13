@@ -11,6 +11,7 @@ use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
 use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
+use ExAdmin\ui\component\navigation\menu\Menu;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridAbstract;
 use ExAdmin\ui\response\Response;
@@ -115,10 +116,10 @@ class Grid extends Table
     public function __construct($data = [], \Closure $closure = null)
     {
         parent::__construct();
-        if($data instanceof \Closure){
+        if ($data instanceof \Closure) {
             $closure = $data;
             $this->source([]);
-        }else{
+        } else {
             $this->source($data);
         }
         $this->exec = $closure;
@@ -141,11 +142,13 @@ class Grid extends Table
      * 设置源
      * @param mixed $data
      */
-    public function source($data){
+    public function source($data)
+    {
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->hideTrashed(!$this->driver->trashed());
     }
+
     public function title($title)
     {
         return $this->attr('ex_admin_title', $title);
@@ -172,9 +175,9 @@ class Grid extends Table
      * @param mixed $content
      * @param bool $asynRefresh ajax动态刷新
      */
-    public function header($content,$asynRefresh = true)
+    public function header($content, $asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
+        $this->arrayComponent($content, __FUNCTION__, $asynRefresh);
     }
 
     /**
@@ -182,9 +185,9 @@ class Grid extends Table
      * @param mixed $content
      * @param bool $asynRefresh ajax动态刷新
      */
-    public function tools($content,$asynRefresh = true)
+    public function tools($content, $asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
+        $this->arrayComponent($content, __FUNCTION__, $asynRefresh);
     }
 
     /**
@@ -192,12 +195,12 @@ class Grid extends Table
      * @param mixed $content
      * @param bool $asynRefresh ajax动态刷新
      */
-    public function footer($content,$asynRefresh = true)
+    public function footer($content, $asynRefresh = true)
     {
-        $this->arrayComponent($content, __FUNCTION__,$asynRefresh);
+        $this->arrayComponent($content, __FUNCTION__, $asynRefresh);
     }
 
-    protected function arrayComponent($content, $name,$asynRefresh)
+    protected function arrayComponent($content, $name, $asynRefresh)
     {
         if ($content instanceof Component || is_string($content)) {
             $content = [$content];
@@ -207,7 +210,7 @@ class Grid extends Table
                 $item = Html::create($item);
             }
         }
-        $this->attr($name.'_refresh',$asynRefresh);
+        $this->attr($name . '_refresh', $asynRefresh);
         $this->attr($name, $content);
     }
 
@@ -292,7 +295,7 @@ class Grid extends Table
     {
         return $this->column($field, $label ?? admin_trans('grid.sort'))
             ->attr('type', 'sortDrag')
-            ->width(50)
+            ->width(60)
             ->align('center');
     }
 
@@ -351,9 +354,11 @@ class Grid extends Table
      * @param $field
      * @return Column
      */
-    public function getColumn($field){
+    public function getColumn($field)
+    {
         return $this->column[$field];
     }
+
     /**
      * 纯表格
      */
@@ -396,7 +401,7 @@ class Grid extends Table
             $pk = $this->driver->getPk();
             $rowData = ['ex_admin_id' => $row[$pk] ?? $key];
             $selectionField = $this->attr('selectionField') ?? $pk;
-            $rowData[$selectionField] = $row[$selectionField];
+            $rowData['ex_admin_selected'] = $row[$selectionField];
             if (is_null($this->customClosure)) {
                 //树形父级pid
                 if ($this->isTree) {
@@ -533,6 +538,18 @@ class Grid extends Table
         $this->sidebar->field($field);
         $this->attr('sidebar', $this->sidebar);
         return $this->sidebar;
+    }
+
+    /**
+     * 选中项操作定义
+     * @param \Closure $closure
+     * @return void
+     */
+    public function selectionActions(\Closure $closure)
+    {
+        $menu = Menu::create();
+        call_user_func($closure, $menu);
+        $this->attr('selectionActions', $menu);
     }
 
     /**

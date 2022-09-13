@@ -17,5 +17,6 @@ return [
     'user_info' => 'Member info',
     'pagination'=>[
         'total' => 'Total {total}',
-    ]
+    ],
+    
 ];

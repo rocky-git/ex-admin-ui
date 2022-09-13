@@ -50,7 +50,14 @@ class Button extends Component
         }
         parent::__construct();
     }
-
+    /**
+     * 按钮颜色
+     * @param string $color 颜色
+     * @return Button
+     */
+    public function color($color){
+        return $this->style(['background'=>$color,'color'=>'#ffffff','border-color'=>$color]);
+    }
     /**
      * 按钮文字
      * @param string $content 文字

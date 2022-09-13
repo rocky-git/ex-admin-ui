@@ -114,7 +114,10 @@ class Excel extends AbstractExporter
             $images = [$images];
         }
         foreach ($images as $index => $image) {
-            $imageContents = file_get_contents($image);
+            $imageContents = @file_get_contents($image);
+            if(empty($imageContents)){
+                continue;
+            }
             $dir = sys_get_temp_dir().$this->filename;
             $this->tmpImageDirs[] = $dir;
             if(!is_dir($dir)){

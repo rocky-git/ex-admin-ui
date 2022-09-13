@@ -31,6 +31,7 @@ use ExAdmin\ui\component\grid\grid\Grid;
  * @method $this uploadToken(string $value) 七牛云上传token
  * @method $this disabled(bool $disabled = true) 是否禁用状态                                        boolean
  * @method $this onlyShow(bool $value = true) 只显示触发按钮                                        boolean
+ * @method $this hideFinder(bool $value = true) 隐藏资源管理器                                        boolean
  */
 class Upload extends Field
 {
