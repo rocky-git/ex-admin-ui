@@ -11,7 +11,13 @@ class Cache
     public function __construct()
     {
         $frame = php_frame();
-        $this->filesystemAdapter = new FilesystemAdapter('ex_admin_cache', 0, plugin()->$frame->config('cache.directory')??sys_get_temp_dir());
+        $dir = sys_get_temp_dir();
+        try {
+            $dir = plugin()->$frame->config('cache.directory');
+        }catch (\Exception $exception){
+
+        }
+        $this->filesystemAdapter = new FilesystemAdapter('ex_admin_cache', 0, $dir);
     }
 
     /**
