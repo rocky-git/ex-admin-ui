@@ -402,6 +402,10 @@ class Grid extends Table
             $rowData = ['ex_admin_id' => $row[$pk] ?? $key];
             $selectionField = $this->attr('selectionField') ?? $pk;
             $rowData['ex_admin_selected'] = $row[$selectionField];
+            $rowArr = $row;
+            if(is_object($row) && method_exists($row,'toArray')){
+                $rowArr = $row->toArray();
+            }
             if (is_null($this->customClosure)) {
                 //树形父级pid
                 if ($this->isTree) {
@@ -410,7 +414,7 @@ class Grid extends Table
                 }
                 foreach ($columns as $column) {
                     $field = $column->attr('dataIndex');
-                    $rowData[$field] = $column->row($row, $export);
+                    $rowData[$field] = $column->row($rowArr,$row, $export);
                 }
                 if (!is_null($this->expandRow)) {
                     $expandRow = call_user_func($this->expandRow, $row);

@@ -95,39 +95,35 @@ class Column extends Component
     /**
      * 解析每行数据
      * @param array $data 数据
+     * @param mixed $originData 原始数据
      * @param bool $export 是否导出
      * @return mixed
      */
-    public function row($data, $export = false)
+    public function row($data, $originData, $export = false)
     {
-        $originValue = Arr::get($data, $this->field);
+        $originValue = Arr::get($originData, $this->field);
 
         if (is_null($originValue)) {
             $value = $this->default;
         } else {
-            if(is_object($data) && method_exists($data,'toArray')){
-                $dataArray = $data->toArray();
-                $value = Arr::get($dataArray, $this->field);
-            }else{
-                $value = $originValue;
-            }
+            $value = Arr::get($data, $this->field);
         }
-        $resetClosure = [$this->editable,$this->closure,$this->exportClosure];
+        $resetClosure = [$this->editable, $this->closure, $this->exportClosure];
         //条件显示
-        $this->when->exec($originValue, $data);
+        $this->when->exec($originValue, $originData);
         //自定义内容显示处理
         if (!is_null($this->closure)) {
-            $value = call_user_func_array($this->closure, [$originValue, $data]);
+            $value = call_user_func_array($this->closure, [$originValue, $originData]);
         }
         if (!is_null($this->editable)) {
-            $value = call_user_func_array($this->editable, [$originValue, $data,$value]);
+            $value = call_user_func_array($this->editable, [$originValue, $originData, $value]);
         }
         if ($export) {
             //自定义导出
             if (!is_null($this->exportClosure)) {
-                $value = call_user_func_array($this->exportClosure, [$originValue, $data]);
+                $value = call_user_func_array($this->exportClosure, [$originValue, $originData]);
             } elseif (!is_string($value) && !is_numeric($value)) {
-                $value =  $originValue;
+                $value = $originValue;
             }
         } else {
             $html = Html::create($value)->attr('class', 'ex_admin_table_td_' . $this->field);
@@ -138,7 +134,7 @@ class Column extends Component
             $value = $html;
         }
         //重置
-        [$this->editable,$this->closure,$this->exportClosure] = $resetClosure;
+        [$this->editable, $this->closure, $this->exportClosure] = $resetClosure;
         return $value;
     }
 
@@ -256,9 +252,10 @@ class Column extends Component
         $this->closure = $closure;
         return $this;
     }
+
     /**
      * 条件执行
-     * @param $condition|\Closure
+     * @param $condition |\Closure
      * @param \Closure $closure
      * @param \Closure|null $other
      * @return $this
@@ -270,12 +267,14 @@ class Column extends Component
 
     /**
      * 条件执行
-     * @param $condition|\Closure
+     * @param $condition |\Closure
      * @return ColumnWhen
      */
-    public function if($condition){
+    public function if($condition)
+    {
         return $this->when->if($condition);
     }
+
     /**
      * 可编辑
      * @param Field $editable
@@ -283,24 +282,24 @@ class Column extends Component
      * @param bool $gridRefresh 成功是否刷新grid
      * @return $this
      */
-    public function editable($editable = null, $alwaysShow = false,$gridRefresh = true)
+    public function editable($editable = null, $alwaysShow = false, $gridRefresh = true)
     {
-        $this->editable = function ($value,$data,$html) use($editable, $alwaysShow,$gridRefresh){
+        $this->editable = function ($value, $data, $html) use ($editable, $alwaysShow, $gridRefresh) {
             $form = Form::create();
-            if(!$gridRefresh){
-                $form->removeEvent('success','custom');
+            if (!$gridRefresh) {
+                $form->removeEvent('success', 'custom');
             }
-            $form->style(['padding' => '0px','background'=>'none']);
+            $form->style(['padding' => '0px', 'background' => 'none']);
             $form->layout('inline');
             $form->removeAttr('labelCol');
             $form->url($this->grid->attr('url'));
             $form->method('PUT');
             $form->params($this->grid->getCall()['params'] + [
-                    'ex_form_id'=>$data[$this->grid->driver()->getPk()],
+                    'ex_form_id' => $data[$this->grid->driver()->getPk()],
                     'ex_admin_form_action' => 'update',
                     'ids' => [$data[$this->grid->driver()->getPk()]],
                 ]);
-            if(Request::input('ex_form_id') == $data[$this->grid->driver()->getPk()]){
+            if (Request::input('ex_form_id') == $data[$this->grid->driver()->getPk()]) {
                 $this->grid->driver()->setForm($form);
             }
             if (is_null($editable)) {
@@ -320,31 +319,30 @@ class Column extends Component
             $component->getFormItem()->removeBind(true)->setWhere([]);
 
 
-
             if ($alwaysShow) {
                 if ($component instanceof Input || $component instanceof InputNumber || $component instanceof AutoComplete) {
                     $component->allowClear(false);
-                    $component->getFormItem()->style(['width'=>'100%']);
+                    $component->getFormItem()->style(['width' => '100%']);
                     $event = 'blur';
 
-                }else{
+                } else {
                     $event = 'change';
                 }
-                if($component->getFormItem()->attr('rules') || $form->validator()->hasRule()){
+                if ($component->getFormItem()->attr('rules') || $form->validator()->hasRule()) {
                     $component->eventFunction($event, 'submit', [], $form);
                     $form->actions()->hide();
-                }else{
+                } else {
                     //没验证规则不需要渲染表单，只渲染组件
-                    $bindField  = $component->random();
-                    $component->vModel($component->getModelField(),$bindField,$value);
-                    $component->eventCustom($event,'GridEditable',[
-                        'bindField'=>$bindField,
-                        'ex_admin_success'=>$gridRefresh,
-                        'ex_admin_field'=>$this->field,
-                        'ajax'=>[
+                    $bindField = $component->random();
+                    $component->vModel($component->getModelField(), $bindField, $value);
+                    $component->eventCustom($event, 'GridEditable', [
+                        'bindField' => $bindField,
+                        'ex_admin_success' => $gridRefresh,
+                        'ex_admin_field' => $this->field,
+                        'ajax' => [
                             'url' => $this->grid->attr('url'),
-                            'data' => $this->grid->getCall()['params']+[
-                                    'ex_admin_action'=>'update',
+                            'data' => $this->grid->getCall()['params'] + [
+                                    'ex_admin_action' => 'update',
                                     'ids' => [$data[$this->grid->driver()->getPk()]],
                                 ],
                             'method' => 'PUT',
@@ -356,8 +354,8 @@ class Column extends Component
             } else {
 
                 return Html::div()->content([
-                    Html::create($html)->when($html==='',function ($html){
-                        $html->style(['width'=>'30px','height'=>'30px']);
+                    Html::create($html)->when($html === '', function ($html) {
+                        $html->style(['width' => '30px', 'height' => '30px']);
                     }),
                     Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
                         ->trigger('click')
