@@ -68,7 +68,7 @@ class Grid extends Table
      */
     protected $pagination;
     /**
-     * @var AddButton
+     * @var ActionButton
      */
     protected $addButton;
     /**
@@ -539,7 +539,7 @@ class Grid extends Table
      */
     public function sidebar(string $field, $data, string $label = 'name', string $id = 'id')
     {
-        $this->sidebar = Sidebar::create($data, $label, $id, $this);
+        $this->sidebar = Sidebar::create($this,$data, $label, $id);
         $this->sidebar->field($field);
         $this->attr('sidebar', $this->sidebar);
         return $this->sidebar;

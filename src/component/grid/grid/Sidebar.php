@@ -11,7 +11,7 @@ use ExAdmin\ui\support\Arr;
 use ExAdmin\ui\support\Request;
 
 /**
- * @method static $this create($data, string $label = 'name', string $id = 'id') 创建
+ * @method static $this create(Grid $grid,$data, string $label = 'name', string $id = 'id') 创建
  * @method $this hideTools(bool $bool = true) 隐藏工具栏
  * @method $this hideAdd(bool $bool = true) 隐藏添加
  * @method $this hideEdit(bool $bool = true) 隐藏编辑
@@ -31,7 +31,7 @@ class Sidebar extends Component
 
     protected $tree = false;
 
-    public function __construct($data, string $label = 'name', string $id = 'id', Grid $grid)
+    public function __construct(Grid $grid,$data, string $label = 'name', string $id = 'id')
     {
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $grid))->getDriver();
