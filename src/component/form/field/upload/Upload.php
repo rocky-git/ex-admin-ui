@@ -32,6 +32,7 @@ use ExAdmin\ui\component\grid\grid\Grid;
  * @method $this disabled(bool $disabled = true) 是否禁用状态                                        boolean
  * @method $this onlyShow(bool $value = true) 只显示触发按钮                                        boolean
  * @method $this hideFinder(bool $value = true) 隐藏资源管理器                                        boolean
+ * @method $this paste(bool $value = true) 粘贴上传                                        boolean
  */
 class Upload extends Field
 {

@@ -35,6 +35,7 @@ class Image extends File
         'disabled',
         'imageWidth',
         'imageHeight',
+        'paste'
     ];
     protected $interventionCall = [];
 
