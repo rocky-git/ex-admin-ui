@@ -48,6 +48,7 @@ use ExAdmin\ui\support\Request;
  * @method $this selectionField(string $string) 选中字段
  * @method $this selection(array $data) 选中项
  * @method $this autoHeight(bool $bool = true) 自适应高度
+ * @method $this fontSize(int $size)    表格字体大小
  */
 class Grid extends Table
 {
