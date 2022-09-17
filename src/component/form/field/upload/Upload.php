@@ -50,6 +50,8 @@ class Upload extends Field
 
     /**
      * 是否支持多选文件
+     * @param bool $value
+     * @return $this
      */
     public function multiple(bool $value = true)
     {

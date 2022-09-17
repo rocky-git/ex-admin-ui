@@ -18,6 +18,8 @@ use ExAdmin\ui\component\Component;
  * @method $this disabled(bool $disabled = true) 是否禁用状态								 	boolean
  * @method $this limit(int $value) 限制数量
  * @method $this sortField(string $value) 排序字段
+ * @method $this defaultRow(int $value) 默认添加几行
+ * @method $this enterAdd(bool $enterAdd = true) 回车添加（表格模式有效）
  * @package ExAdmin\ui\component\form
  */
 class FormMany extends Field

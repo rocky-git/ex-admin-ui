@@ -54,6 +54,8 @@ use ExAdmin\ui\support\Request;
  * @method $this name(string $name) 表单名称，会作为表单字段 id 前缀使用                                                        string
  * @method $this validateTrigger(mixed $validate = 'change') 统一设置字段校验规则                                            string | string[]
  * @method $this noStyle(bool $style = true) 为 true 时不带样式，作为纯字段控件使用                                            boolean
+ * @method $this enterToTab(bool $enterToTab = true)  回车tab焦点                                           boolean
+ * @method $this focusFirst(bool $focusFirst = true)  第一个元素获取焦点                                           boolean
  * @method static $this create($data = [], \Closure $closure = null, $bindField = null) 创建
  * @package ExAdmin\ui\component\form
  */
@@ -340,10 +342,11 @@ class Form extends Component
         }
     }
 
-    public function collectFields(\Closure $closure)
+    public function collectFields(\Closure $closure,array $params = [])
     {
+        array_unshift($params,$this);
         $offset = count($this->formItem);
-        call_user_func($closure, $this);
+        call_user_func_array($closure, $params);
         $formItems = array_slice($this->formItem, $offset);
         $this->formItem = array_slice($this->formItem, 0, $offset);
         return $formItems;
@@ -385,18 +388,18 @@ class Form extends Component
         $data = $this->data;
         $this->data = [];
         $this->manyField[$field] = $field;
-        $formItems = $this->collectFields($closure);
+        $formMany = FormMany::create($field);
+        $formItems = $this->collectFields($closure,[$formMany]);
         $itemData = $this->data;
         foreach ($manyData as &$row) {
             $this->data = $row;
-            $this->collectFields($closure);
+            $this->collectFields($closure,[$formMany]);
             $row = $this->data;
         }
         unset($this->manyField[$field]);
         $this->data = $data;
         $this->input($field, $manyData);
-        $formMany = FormMany::create($field)
-            ->content($formItems)
+        $formMany->content($formItems)
             ->attr('field', $field)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
@@ -405,7 +408,7 @@ class Form extends Component
         $formMany->modelValue();
 
         $columns = [];
-        foreach ($formItems as $item) {
+        foreach ($formItems as $index => $item) {
             if ($item instanceof FormItem) {
                 $formItem = clone $item;
                 $component = $formItem->content['default'][0];
@@ -416,6 +419,7 @@ class Form extends Component
                     'header' => Html::create($formItem->content['label'] ?? ''),
                     'dataIndex' => $formItem->attr('name'),
                     'component' => $formItem,
+                    'enterAdd'=> $index == (count($formItems) -1)
                 ];
                 unset($formItem->content['label']);
                 $formItem->removeAttr('label');
