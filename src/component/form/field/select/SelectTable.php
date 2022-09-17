@@ -21,7 +21,7 @@ class SelectTable extends Field
      * @return $this
      */
     public function grid($grid, $params = []){
-        list($url, $params) = $this->parseComponentCall($grid, $params = []);
+        list($url, $params) = $this->parseComponentCall($grid,$params);
         $this->attr('gridUrl',$url);
         $this->attr('params',$params);
         return $this;
