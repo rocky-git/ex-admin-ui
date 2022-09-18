@@ -299,6 +299,7 @@ class Column extends Component
                     'ex_admin_form_action' => 'update',
                     'ids' => [$data[$this->grid->driver()->getPk()]],
                 ]);
+            $form->actions()->submitButton()->htmlType('submit');
             if (Request::input('ex_form_id') == $data[$this->grid->driver()->getPk()]) {
                 $this->grid->driver()->setForm($form);
             }
@@ -314,7 +315,7 @@ class Column extends Component
                     $component = call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
-            $component->default($value);
+            $component->default($value)->directive('focus');
             //去除条件，减少vue性能消耗
             $component->getFormItem()->removeBind(true)->setWhere([]);
 
@@ -353,18 +354,19 @@ class Column extends Component
                 return $form;
             } else {
 
+                $popover = Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
+                    ->trigger('click')
+                    ->content($form);
+                $visible = $popover->vModel('visible',null,false);
                 return Html::div()->content([
-                    Html::create($html)->when($html === '', function ($html) {
-                        $html->style(['width' => '30px', 'height' => '30px']);
-                    }),
-                    Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
-                        ->trigger('click')
-                        ->content($form)
-                ])->attr('class', 'ex-admin-editable-cell');
+                    Html::create($html),
+                    $popover
+                ])
+                    ->attr('class', 'ex-admin-editable-cell')
+                    ->event('dblclick',[$visible=>true]);
             }
         };
         return $this;
-
     }
 
     /**

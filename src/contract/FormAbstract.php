@@ -94,6 +94,7 @@ abstract class FormAbstract
         $closure = $this->form->getWatch()[$ex_field];
         $watch->set($ex_field, $newValue);
         call_user_func_array($closure, [$newValue, $watch, $oldValue]);
+        unset($watch[$ex_field]);
         return Response::success([
             'data' => $watch->get(),
             'showField' => $watch->getShowField(),
