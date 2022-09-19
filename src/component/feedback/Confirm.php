@@ -15,6 +15,7 @@ use ExAdmin\ui\component\Component;
 
 /**
  * Class Confirm
+ * @method static $this create($component) 创建
  * @method $this title(string $value) 标题
  * @method $this width(int $value) 宽度
  * @method $this icon(string $value) 图标

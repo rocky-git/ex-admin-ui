@@ -98,6 +98,8 @@ class Grid extends Table
     protected $treeId;
     //自定义列表元素
     protected $customClosure = null;
+    //ajax操作回调
+    protected $ajaxActions = [];
     /**
      * @var Sidebar
      */
@@ -572,6 +574,23 @@ class Grid extends Table
         $list->attr('customStyle', $customStyle);
         $list->attr('container', $container);
         return $list;
+    }
+
+    /**
+     * ajax根据对应input参数回调对应操作方法
+     * @param string $name 参数名称
+     * @param \Closure $closure
+     */
+    public function ajaxAction($name,\Closure $closure){
+        $this->ajaxActions[$name] = $closure;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAjaxActions(): array
+    {
+        return $this->ajaxActions;
     }
 
     protected function editableDispatch($action)

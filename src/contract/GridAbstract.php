@@ -257,10 +257,22 @@ abstract class GridAbstract
             return call_user_func_array($this->event[$name],$eventArgs);
         }
     }
-    
+
+    /**
+     * ajax操作回调
+     * @param string $ex_admin_ajax_action 参数名称
+     * @return mixed
+     */
+    public function ajaxGrid($ex_admin_ajax_action){
+        $ajaxActions = $this->grid->getAjaxActions();
+        return call_user_func($ajaxActions[$ex_admin_ajax_action],$this->grid);
+    }
+
     /**
      *
      * @return mixed
      */
     abstract public function model();
+
+
 }

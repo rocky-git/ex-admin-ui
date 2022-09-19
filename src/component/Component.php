@@ -7,6 +7,7 @@ use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
+use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\traits\CallProvide;
 
 
@@ -129,9 +130,9 @@ abstract class Component implements \JsonSerializable
 
     public function removeAttr($name)
     {
-        if($name === true){
+        if ($name === true) {
             $this->attribute = [];
-        }else{
+        } else {
             unset($this->attribute[$name]);
         }
         return $this;
@@ -139,9 +140,9 @@ abstract class Component implements \JsonSerializable
 
     public function removeBind($name)
     {
-        if($name === true){
+        if ($name === true) {
             $this->bind = [];
-        }else{
+        } else {
             unset($this->bind[$name]);
         }
         return $this;
@@ -283,9 +284,12 @@ abstract class Component implements \JsonSerializable
             return new static(...$arguments);
         }
     }
-    public function setContent($content){
+
+    public function setContent($content)
+    {
         $this->content = $content;
     }
+
     public function getContent($name = null)
     {
         if (is_null($name)) {
@@ -317,7 +321,7 @@ abstract class Component implements \JsonSerializable
                 }
             } else {
                 //兼容0无法渲染问题
-                if($content === 0){
+                if ($content === 0) {
                     $content = strval($content);
                 }
                 $this->content[$name][] = $content;
@@ -420,11 +424,29 @@ abstract class Component implements \JsonSerializable
         return $this->modalParse(Drawer::class, $url, $params, $method);
     }
 
+    /**
+     * ajax根据对应input参数回调对应操作方法
+     * @param Grid $grid
+     * @param string $name 参数名称
+     * @param \Closure $closure
+     * @param string|array|Component $confirm 确认弹窗提示内容
+     * @return $this
+     */
+    public function ajaxGrid(Grid $grid, string $name, \Closure $closure, $confirm = null): Component
+    {
+        $grid->ajaxAction($name, $closure);
+        if(is_null($confirm)){
+            return $this->ajax($grid->attr('url'), ['ex_admin_action' => 'ajaxGrid', 'ex_admin_ajax_action' => $name]);
+        }else{
+            return $this->confirm($confirm, $grid->attr('url'), ['ex_admin_action' => 'ajaxGrid', 'ex_admin_ajax_action' => $name]);
+        }
+    }
+
     private function modalParse($component, $url = '', $params = [], $method = 'POST')
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
         $modal = $component::create($this);
-        $modal->whenShow(admin_check_permissions($url,$method));
+        $modal->whenShow(admin_check_permissions($url, $method));
         $modal->destroyOnClose();
         $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
@@ -448,12 +470,12 @@ abstract class Component implements \JsonSerializable
             ->params($params);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): Component
     {
         $this->name = $name;
         return $this;
@@ -505,7 +527,7 @@ abstract class Component implements \JsonSerializable
             $this->attr('key', $this->random());
         }
         if ($this->componentVisible) {
-            $data =  [
+            $data = [
                 'name' => $this->name,
                 'where' => $this->where,
                 'map' => $this->map,
