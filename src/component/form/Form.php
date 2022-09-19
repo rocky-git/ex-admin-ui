@@ -311,7 +311,7 @@ class Form extends Component
         if (is_null($value)) {
             $value = Arr::get($this->data, $field);
             if (is_null($value) && empty($this->manyField)) {
-                return $this->driver->get($field);
+                $value = $this->driver->get($field);
             }
             return $value;
         }

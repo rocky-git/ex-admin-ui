@@ -155,6 +155,11 @@ class Filter
     }
     public function getRule()
     {
+        foreach ($this->rules as &$item){
+            if(is_null($item['value'])){
+                $item['value'] = $this->form->input($item['field']);
+            }
+        }
         return $this->rules;
     }
 
