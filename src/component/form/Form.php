@@ -309,7 +309,11 @@ class Form extends Component
             return;
         }
         if (is_null($value)) {
-            return Arr::get($this->data, $field) ?? $this->driver->get($field);
+            $value = Arr::get($this->data, $field);
+            if (is_null($value) && empty($this->manyField)) {
+                return $this->driver->get($field);
+            }
+            return $value;
         }
         $value = $this->convertNumber($value);
         Arr::set($this->data, $field, $value);
