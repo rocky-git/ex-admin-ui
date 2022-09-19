@@ -156,7 +156,7 @@ class Filter
     public function getRule()
     {
         foreach ($this->rules as &$item){
-            if(is_null($item['value'])){
+            if(is_null($item['value']) && !Request::has('ex_admin_filter')){
                 $item['value'] = $this->form->input($item['field']);
             }
         }
