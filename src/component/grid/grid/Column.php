@@ -315,7 +315,7 @@ class Column extends Component
                     $component = call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
-            $component->default($value)->directive('focus');
+            $component->default($value);
             //去除条件，减少vue性能消耗
             $component->getFormItem()->removeBind(true)->setWhere([]);
 
@@ -353,9 +353,10 @@ class Column extends Component
                 }
                 return $form;
             } else {
-
+                $component->directive('focus');
                 $popover = Popover::create(Html::create()->tag('i')->attr('class', ['far fa-edit', 'editable-cell-icon']))
                     ->trigger('click')
+                    ->destroyTooltipOnHide()
                     ->content($form);
                 $visible = $popover->vModel('visible',null,false);
                 return Html::div()->content([
