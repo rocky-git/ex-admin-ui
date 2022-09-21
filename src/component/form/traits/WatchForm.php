@@ -34,6 +34,9 @@ trait WatchForm
     protected function initWatch(){
         $watch   = new Watch($this->data,true);
         foreach ($this->watch as $field=>$closure){
+            if(strpos($field,'.*.') !== false){
+                continue;
+            }
             $value = Arr::get($this->data,$field);
             if(is_object($value) && method_exists($value,'toArray')){
                 $value = $value->toArray();
