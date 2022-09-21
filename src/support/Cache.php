@@ -14,7 +14,7 @@ class Cache
         $dir = sys_get_temp_dir();
         try {
             $dir = plugin()->$frame->config('cache.directory');
-        }catch (\Exception $exception){
+        }catch (\Throwable $exception){
 
         }
         $this->filesystemAdapter = new FilesystemAdapter('ex_admin_cache', 0, $dir);

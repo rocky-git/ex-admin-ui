@@ -149,7 +149,9 @@ class Grid extends Table
     {
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
-        $this->hideTrashed(!$this->driver->trashed());
+        if(!$this->attr('hideTrashed')){
+            $this->hideTrashed(!$this->driver->trashed());
+        }
     }
 
     public function title($title)
