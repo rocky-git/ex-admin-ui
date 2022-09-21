@@ -31,6 +31,8 @@ class Filter
 {
     use FormComponent;
 
+    protected $grid;
+
     protected $form;
 
     protected $item;
@@ -71,7 +73,11 @@ class Filter
             ->content('搜索');
 
     }
-
+    public function setGrid(Grid $grid){
+        $this->grid = $grid;
+        $this->form->url($this->grid->attr('url'));
+        $this->grid->driver()->setForm($this->form);
+    }
     public function __call($name, $arguments)
     {
         return $this->setRule($name, $arguments);
@@ -179,6 +185,7 @@ class Filter
      */
     public function form()
     {
+        $this->form->removeAttr('url');
         return $this->form;
     }
 

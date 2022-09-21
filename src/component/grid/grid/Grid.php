@@ -226,6 +226,7 @@ class Grid extends Table
     {
         if (is_null($this->filter)) {
             $this->filter = new Filter();
+            $this->filter->setGrid($this);
         }
         return $this->filter;
     }
@@ -523,14 +524,17 @@ class Grid extends Table
         $this->search = $search;
     }
 
-    protected function dispatch($method)
+    protected function dispatch($method,$object = null)
     {
         if (Request::has('ex_admin_sidebar')) {
-            $this->driver = $this->sidebar->driver();
+            $object = $this->sidebar->driver();
+        }
+        if(is_null($object)){
+            $object = $this->driver;
         }
         return Container::getInstance()
             ->make(Route::class)
-            ->invokeMethod($this->driver, $method, Request::input());
+            ->invokeMethod($object, $method, Request::input());
     }
 
     /**
@@ -595,15 +599,17 @@ class Grid extends Table
         return $this->ajaxActions;
     }
 
-    protected function editableDispatch($action)
+    protected function formDispatch($action)
     {
         if ($action == 'update' && $this->driver->getForm()) {
             $response = $this->driver->getForm()->validator()->check(Request::input('data'), true);
             if ($response instanceof Response) {
                 return $response;
             }
+            return $this->dispatch($action);
+        }else{
+            return $this->driver->getForm()->exec();
         }
-        return $this->dispatch($action);
     }
 
     public function exec()
@@ -658,7 +664,7 @@ class Grid extends Table
 
         $data = $this->parseColumn($data);
         if (Request::has('ex_admin_form_action')) {
-            return $this->editableDispatch(Request::input('ex_admin_form_action'));
+            return $this->formDispatch(Request::input('ex_admin_form_action'));
         }
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');

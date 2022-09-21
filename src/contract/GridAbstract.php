@@ -66,26 +66,7 @@ abstract class GridAbstract
     public function getForm(){
         return $this->form;
     }
-    /**
-     * selectTable组件
-     * @return Response
-     */
-    public function selectTable(): Response
-    {
-        $result = $this->form->getSelectTableComponent()->handle();
-        return Response::success($result);
-    }
 
-    /**
-     * 上传文件 file|image组件上传接口
-     * @return Response
-     */
-    public function upload(): Response{
-        $class = admin_config('admin.form.uploader');
-        $simpleUploader = new $class;
-        $simpleUploader->setForm($this->form);
-        return $simpleUploader->upload();
-    }
     /**
      * 更新
      * @param array $ids 更新条件id集合
