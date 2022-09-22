@@ -67,6 +67,7 @@ trait Where
      */
     public function where($field, $op = null, $condition = null, $logic = 'AND', $type = 'v-if')
     {
+        $logic = strtoupper($logic);
         if ($field instanceof \Closure) {
             $where = clone $this;
             $where->setWhere([
