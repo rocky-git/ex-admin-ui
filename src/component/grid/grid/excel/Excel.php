@@ -24,7 +24,7 @@ class Excel extends AbstractExporter
      * 图片存储临时目录
      * @var array
      */
-    protected $tmpImageDirs;
+    protected $tmpImageDirs = [];
     /**
      * 图片列宽度
      * @var array

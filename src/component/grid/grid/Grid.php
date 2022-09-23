@@ -122,6 +122,7 @@ class Grid extends Table
         if ($data instanceof \Closure) {
             $closure = $data;
             $this->source([]);
+            $this->removeAttr('hideTrashed');
         } else {
             $this->source($data);
         }
