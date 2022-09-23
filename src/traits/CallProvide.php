@@ -29,7 +29,11 @@ trait CallProvide
                
                 foreach ($params as $key => $param) {
                     $name = $param->getName();
-                    $this->call['params'][$name] = isset($backtrace['args'][$key]) ? $backtrace['args'][$key] : $param->getDefaultValue();
+                    try {
+                        $this->call['params'][$name] = isset($backtrace['args'][$key]) ? $backtrace['args'][$key] : $param->getDefaultValue();
+                    }catch (\Throwable $e){
+
+                    }
                 }
             }
         }
