@@ -306,16 +306,20 @@ class Column extends Component
             if (is_null($editable)) {
                 $editable = Editable::text();
             }
+            $field = $this->field;
             foreach ($editable->getCall() as $key => $item) {
                 $arguments = $item['arguments'];
                 if ($key == 0) {
-                    $component = call_user_func_array([$form, $item['name']], [$this->field]);
+                    if(isset($arguments[0])){
+                        $field = $arguments[0];
+                    }
+                    $component = call_user_func_array([$form, $item['name']], [$field]);
 
                 } else {
                     $component = call_user_func_array([$component, $item['name']], $arguments);
                 }
             }
-            $component->default($value);
+            $component->default($data[$field]);
             //去除条件，减少vue性能消耗
             $component->getFormItem()->removeBind(true)->setWhere([]);
 
@@ -335,11 +339,11 @@ class Column extends Component
                 } else {
                     //没验证规则不需要渲染表单，只渲染组件
                     $bindField = $component->random();
-                    $component->vModel($component->getModelField(), $bindField, $value);
+                    $component->vModel($component->getModelField(), $bindField, $data[$field]);
                     $component->eventCustom($event, 'GridEditable', [
                         'bindField' => $bindField,
                         'ex_admin_success' => $gridRefresh,
-                        'ex_admin_field' => $this->field,
+                        'ex_admin_field' => $field,
                         'ajax' => [
                             'url' => $this->grid->attr('url'),
                             'data' => $this->grid->getCall()['params'] + [
