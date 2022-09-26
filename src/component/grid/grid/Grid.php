@@ -48,6 +48,9 @@ use ExAdmin\ui\support\Request;
  * @method $this selectionField(string $string) 选中字段
  * @method $this selection(array $data) 选中项
  * @method $this autoHeight(bool $bool = true) 自适应高度
+ * @method $this headerRefresh(bool $bool = true) 触发ajax同时更新header
+ * @method $this footerRefresh(bool $bool = true) 触发ajax同时更新footer
+ * @method $this toolsRefresh(bool $bool = true) 触发ajax同时更新tools
  * @method $this fontSize(int $size)    表格字体大小
  */
 class Grid extends Table
@@ -216,7 +219,7 @@ class Grid extends Table
                 $item = Html::create($item);
             }
         }
-        $this->attr($name . '_refresh', $asynRefresh);
+        $this->attr($name . 'Refresh', $asynRefresh);
         $this->attr($name, $content);
     }
 
@@ -291,8 +294,18 @@ class Grid extends Table
         $this->expandRow = $closure;
         $this->attr('expandedRow', true);
         $this->defaultExpandAllRows($defaultExpandAllRow);
+        if(!$this->attr('expandedRowKeys')){
+            $this->expandedRowKeys([]);
+        }
     }
-
+    /**
+     * 默认展开的行，控制属性
+     * @param array $keys 展开id集合
+     * @return Grid|void
+     */
+    public function expandedRowKeys(array $keys){
+        $this->vModel('expandedRowKeys',null,$keys);
+    }
     /**
      * 拖拽排序
      * @param string $field 排序字段
