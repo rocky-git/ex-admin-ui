@@ -102,6 +102,8 @@ class Form extends Component
 
     protected $exec;
 
+    protected $rendered = false;
+
     /**
      * @param array $data 初始数据
      * @param \Closure $closure
@@ -110,11 +112,11 @@ class Form extends Component
     public function __construct($data = [], \Closure $closure = null, $bindField = null)
     {
         parent::__construct();
-        if($data instanceof \Closure){
+        if ($data instanceof \Closure) {
             $closure = $data;
-            $this->source([],$bindField);
-        }else{
-            $this->source($data,$bindField);
+            $this->source([], $bindField);
+        } else {
+            $this->source($data, $bindField);
         }
         $this->exec = $closure;
 
@@ -139,7 +141,8 @@ class Form extends Component
      * 设置源
      * @param mixed $data
      */
-    public function source($data,$bindField=null){
+    public function source($data, $bindField = null)
+    {
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
@@ -155,13 +158,16 @@ class Form extends Component
             $this->input($pk, $id);
         }
     }
+
     /**
      * 设置表单内组件大小
      * @param string $size large default small
      */
-    public function size(string $size){
-        $this->attr('size',$size);
+    public function size(string $size)
+    {
+        $this->attr('size', $size);
     }
+
     /**
      * @return FormAbstract
      */
@@ -219,17 +225,17 @@ class Form extends Component
         $component->modelValue();
         if ($component instanceof Image && $component->uploadField == Request::input('ex_upload_field')) {
             $this->imageComponent = $component;
-        }  elseif ((
-                $component instanceof SelectTable
-                || $component instanceof Select
-                || $component instanceof AutoComplete
-                || $component instanceof CascaderSingle
-            )
+        } elseif ((
+            $component instanceof SelectTable
+            || $component instanceof Select
+            || $component instanceof AutoComplete
+            || $component instanceof CascaderSingle
+        )
         ) {
             $this->callbackComponents[] = $component;
         }
-        if($this->attr('size')){
-            $component->attr('size',$this->attr('size'));
+        if ($this->attr('size')) {
+            $component->attr('size', $this->attr('size'));
         }
         return $component;
     }
@@ -346,9 +352,9 @@ class Form extends Component
         }
     }
 
-    public function collectFields(\Closure $closure,array $params = [])
+    public function collectFields(\Closure $closure, array $params = [])
     {
-        array_unshift($params,$this);
+        array_unshift($params, $this);
         $offset = count($this->formItem);
         call_user_func_array($closure, $params);
         $formItems = array_slice($this->formItem, $offset);
@@ -387,17 +393,17 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        $this->except($field.'.ex_admin_id');
+        $this->except($field . '.ex_admin_id');
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
         $this->manyField[$field] = $field;
         $formMany = FormMany::create($field);
-        $formItems = $this->collectFields($closure,[$formMany]);
+        $formItems = $this->collectFields($closure, [$formMany]);
         $itemData = $this->data;
         foreach ($manyData as &$row) {
             $this->data = $row;
-            $this->collectFields($closure,[$formMany]);
+            $this->collectFields($closure, [$formMany]);
             $row = $this->data;
         }
         unset($this->manyField[$field]);
@@ -416,14 +422,14 @@ class Form extends Component
             if ($item instanceof FormItem) {
                 $formItem = clone $item;
                 $component = $formItem->content['default'][0];
-                if($component instanceof Hidden){
+                if ($component instanceof Hidden) {
                     continue;
                 }
                 $columns[] = [
                     'header' => Html::create($formItem->content['label'] ?? ''),
                     'dataIndex' => $formItem->attr('name'),
                     'component' => $formItem,
-                    'enterAdd'=> $index == (count($formItems) -1)
+                    'enterAdd' => $index == (count($formItems) - 1)
                 ];
                 unset($formItem->content['label']);
                 $formItem->removeAttr('label');
@@ -502,7 +508,7 @@ class Form extends Component
             ->label($label)
             ->name($name)
             ->attr('validateFormField', $this->validateBindField);
-        if($this->attr('labelCol')){
+        if ($this->attr('labelCol')) {
             $item->labelCol($this->attr('labelCol'));
         }
         if (count($this->manyField) == 0) {
@@ -540,7 +546,7 @@ class Form extends Component
     public function actions(\Closure $closure = null)
     {
         if ($closure) {
-            call_user_func_array($closure, [$this->actions,$this]);
+            call_user_func_array($closure, [$this->actions, $this]);
         }
         return $this->actions;
     }
@@ -569,29 +575,36 @@ class Form extends Component
             ->invokeMethod($this->driver, $method, Request::input());
     }
 
-    public function exec(){
-        if ($this->exec) {
-            call_user_func($this->exec, $this);
-        }
-        foreach ($this->callbackComponents as $callbackComponent){
-            if($callbackComponent->isCallback()){
-                $this->callbackComponent = $callbackComponent;
+    public function exec()
+    {
+        if(!$this->rendered) {
+            $this->rendered = true;
+            if ($this->exec) {
+                call_user_func($this->exec, $this);
             }
+            foreach ($this->callbackComponents as $callbackComponent) {
+                if ($callbackComponent->isCallback()) {
+                    $this->callbackComponent = $callbackComponent;
+                }
+            }
+            if (Request::input('ex_admin_class') == $this->call['class']
+                && Request::input('ex_admin_function') == $this->call['function']
+                && Request::has('ex_admin_form_action')) {
+                return $this->dispatch(Request::input('ex_admin_form_action'));
+            }
+            $this->content($this->formItem);
+            $this->content($this->actions, 'footer');
+            $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
+            $callParams = array_merge($callParams, $this->call['params']);
+            $this->attr('callParams', $callParams);
+            $this->attr('form_ref', $this->bindAttr('ref'));
+            $this->attr('tabsValidateField', $this->validator->getTabField());
+            $this->initWatch();
+            $this->bind($this->getModel(), $this->data);
         }
-        if (Request::has('ex_admin_form_action')) {
-            return $this->dispatch(Request::input('ex_admin_form_action'));
-        }
-        $this->content($this->formItem);
-        $this->content($this->actions, 'footer');
-        $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-        $callParams = array_merge($callParams, $this->call['params']);
-        $this->attr('callParams', $callParams);
-        $this->attr('form_ref', $this->bindAttr('ref'));
-        $this->attr('tabsValidateField', $this->validator->getTabField());
-        $this->initWatch();
-        $this->bind($this->getModel(), $this->data);
         return parent::jsonSerialize(); // TODO: Change the autogenerated stub
     }
+
     public function jsonSerialize()
     {
         return $this->exec();
