@@ -587,9 +587,7 @@ class Form extends Component
                     $this->callbackComponent = $callbackComponent;
                 }
             }
-            if (Request::input('ex_admin_class') == $this->call['class']
-                && Request::input('ex_admin_function') == $this->call['function']
-                && Request::has('ex_admin_form_action')) {
+            if (Request::has('ex_admin_form_action')) {
                 return $this->dispatch(Request::input('ex_admin_form_action'));
             }
             $this->content($this->formItem);
