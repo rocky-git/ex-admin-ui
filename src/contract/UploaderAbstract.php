@@ -113,45 +113,49 @@ abstract class UploaderAbstract
      */
     public function upload(\Closure $complete = null, bool $exists = false)
     {
-        $path = $this->directory . $this->identifier;
-        $url = '';
-        if ($this->testChunks()) {
-            if ($this->exists($path) && $exists) {
-                //秒传
-                $url = $this->url($path);
-                return Response::success(['url' => $url,'path'=>$path]);
-            } else {
-                //已上传分片，断点续传
-                $uploaded_chunks = $this->getExistsChunk();
-                if (count($uploaded_chunks) != $this->chunks) {
-                    return Response::success(['uploaded_chunks' => $uploaded_chunks]);
-                }
-            }
-        }
-        if(in_array($this->extension,admin_config('admin.upload.disabled_ext',[]))){
-            return Response::success([],'disabled upload',500);
-        }
-        if ($this->file) {
-            $this->file->move($this->tempDirectory, $this->getChunkFileName());
-        }
-        if ($this->chunks == 1 || $this->isComplete()) {
-            $file = new UploadedFile($this->merge(), $this->filename);
-            if ($complete) {
-                $completeFile = call_user_func($complete, $file);
-                if ($completeFile === $file) {
-                    $this->putFile( $path,$file);
+        try {
+            $path = $this->directory . $this->identifier;
+            $url = '';
+            if ($this->testChunks()) {
+                if ($this->exists($path) && $exists) {
+                    //秒传
+                    $url = $this->url($path);
+                    return Response::success(['url' => $url,'path'=>$path]);
                 } else {
-                    $name = md5($completeFile);
-                    $path = $this->directory . $name . '.' . $this->extension;
-                    $this->putFile($path,$completeFile);
+                    //已上传分片，断点续传
+                    $uploaded_chunks = $this->getExistsChunk();
+                    if (count($uploaded_chunks) != $this->chunks) {
+                        return Response::success(['uploaded_chunks' => $uploaded_chunks]);
+                    }
                 }
-            } else {
-                $this->putFile($path,$file);
             }
-            unlink($file->getRealPath());
-            $url = $this->url($path);
+            if(in_array($this->extension,admin_config('admin.upload.disabled_ext',[]))){
+                return Response::success([],'disabled upload',500);
+            }
+            if ($this->file) {
+                $this->file->move($this->tempDirectory, $this->getChunkFileName());
+            }
+            if ($this->chunks == 1 || $this->isComplete()) {
+                $file = new UploadedFile($this->merge(), $this->filename);
+                if ($complete) {
+                    $completeFile = call_user_func($complete, $file);
+                    if ($completeFile === $file) {
+                        $this->putFile( $path,$file);
+                    } else {
+                        $name = md5($completeFile);
+                        $path = $this->directory . $name . '.' . $this->extension;
+                        $this->putFile($path,$completeFile);
+                    }
+                } else {
+                    $this->putFile($path,$file);
+                }
+                unlink($file->getRealPath());
+                $url = $this->url($path);
+            }
+            return Response::success(['url' => $url,'path'=>$path]);
+        }catch (\Exception $exception){
+            return Response::success([],$exception->getMessage(),500);
         }
-        return Response::success(['url' => $url,'path'=>$path]);
     }
 
     /**
