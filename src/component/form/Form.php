@@ -183,7 +183,13 @@ class Form extends Component
     {
         return $this->validator;
     }
-
+    /**
+     * 设置是否编辑
+     * @param bool $value
+     */
+    public function setEdit(bool $value = true){
+        $this->isEdit = $value;
+    }
     /**
      * 是否编辑
      * @return bool
