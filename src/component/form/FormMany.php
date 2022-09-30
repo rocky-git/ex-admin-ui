@@ -43,6 +43,7 @@ class FormMany extends Field
             'type' => 'sortDrag',
             'align' => 'center',
             'dataIndex' => 'sortDrag',
+            'fixed'=>'left'
         ]);
         $this->attr('columns',$columns);
         return $this;
@@ -55,6 +56,7 @@ class FormMany extends Field
                 'type' => 'action',
                 'width' => 70,
                 'dataIndex' => 'action',
+                'fixed' => 'right',
             ];
             $this->attr('columns',$columns);
         }
