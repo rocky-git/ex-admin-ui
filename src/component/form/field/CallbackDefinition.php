@@ -42,9 +42,9 @@ trait CallbackDefinition
         return false;
     }
 
-    public function handle($value)
+    public function handle($value,$formData)
     {
-        $data = call_user_func($this->callback['callback'], $value);
+        $data = call_user_func($this->callback['callback'], $value,$formData);
         return call_user_func($this->callback['custom'], $data);
     }
 }

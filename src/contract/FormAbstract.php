@@ -35,12 +35,13 @@ abstract class FormAbstract
     }
 
     /**
-     * select远程options
-     * @param $value
+     * 远程options
+     * @param string $search 搜索值
+     * @param array $data 表单数据
      */
-    public function remoteOptions($value)
+    public function remoteOptions($search,$data)
     {
-        $result = $this->form->getCallbackComponent()->handle($value);
+        $result = $this->form->getCallbackComponent()->handle($search,$data);
         return Response::success($result);
     }
 
@@ -48,11 +49,12 @@ abstract class FormAbstract
      * select change options
      * @param string $value 改变值
      * @param string $optionsField bind绑定字段
+     * @param array $data 表单数据
      * @return Response
      */
-    public function changeLoadOptions($value, $optionsField): Response
+    public function changeLoadOptions($value, $optionsField,$data): Response
     {
-        $result = $this->form->getCallbackComponent()->handle($value);
+        $result = $this->form->getCallbackComponent()->handle($value,$data);
         return Response::success([
             $optionsField => $result
         ]);
@@ -60,11 +62,12 @@ abstract class FormAbstract
 
     /**
      * selectTable组件
+     * @param array $data 表单数据
      * @return Response
      */
-    public function selectTable(): Response
+    public function selectTable($data): Response
     {
-        $result = $this->form->getCallbackComponent()->handle(Request::input('ex_eadmin_select_id', []));
+        $result = $this->form->getCallbackComponent()->handle(Request::input('ex_eadmin_select_id', []),$data);
         return Response::success($result);
     }
 
