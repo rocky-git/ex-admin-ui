@@ -4,6 +4,7 @@ namespace ExAdmin\ui\component\form\driver;
 
 use ExAdmin\ui\component\form\Form;
 
+use ExAdmin\ui\component\form\step\StepResult;
 use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
@@ -42,20 +43,19 @@ class Arrays extends FormAbstract
             return $result;
         }
         $this->form->input($data);
-        if($this->saving){
-            $savedResult= call_user_func($this->saving,$this->form);
-            if ($savedResult instanceof Message) {
-                return $savedResult;
-            }
+        $result = $this->dispatchEvent('saving',[$this->form]);
+        if ($result instanceof Message) {
+            return $result;
         }
-        $result =  message_success(admin_trans('form.save_success'));
-        if($this->saved){
-            $savedResult= call_user_func($this->saved,$this->form);
-            if ($savedResult instanceof Message) {
-                return $savedResult;
-            }
+        $savedResult = $this->dispatchEvent('saved',[$this->form]);
+        if ($savedResult instanceof Message) {
+            return $savedResult;
         }
-        return $result;
+        if($this->form->isStepfinish()){
+            $result = call_user_func($this->form->getSteps()->getFinish(),new StepResult($this->form,$data, $result, $id));
+            return Response::success($result,'',202);
+        }
+        return message_success(admin_trans('form.save_success'));
     }
 
 
