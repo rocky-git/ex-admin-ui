@@ -137,7 +137,7 @@ class Grid extends Table
         $this->url("/ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->params([]);
         $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-        $callParams = array_merge($callParams, $this->call['params'], Request::input());
+        $callParams = array_merge($callParams, $this->call['params']);
         $this->attr('callParams', $callParams);
         $this->scroll(['x' => 'max-content']);
         $this->hideExport();
