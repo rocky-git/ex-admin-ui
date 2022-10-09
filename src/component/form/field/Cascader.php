@@ -52,12 +52,12 @@ class Cascader extends Field
         'suffixIcon',
         'tagRender',
     ];
-
+    protected $vModel = 'cascaderValue';
     /**
      * 组件名称
      * @var string
      */
-    protected $name = 'ACascader';
+    protected $name = 'ExCascader';
 
 
     public function __construct($field = null, $value = [])

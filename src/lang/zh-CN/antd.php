@@ -310,6 +310,7 @@ return [
         'selected' => '已选中',
         'confirm' => '确定',
         'cancel' => '取消',
+        'clear' => '清空',
     ],
     'Confirm' => [
         'title' => '提示'

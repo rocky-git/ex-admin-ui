@@ -79,24 +79,6 @@ class Arrays extends FormAbstract
         return Arr::get($this->repository, $field);
     }
 
-    /**
-     * 保存前
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function saving(\Closure $closure)
-    {
-        $this->saving  = $closure;
-    }
 
-    /**
-     * 保存后
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function saved(\Closure $closure)
-    {
-        $this->saved  = $closure;
-    }
 
 }

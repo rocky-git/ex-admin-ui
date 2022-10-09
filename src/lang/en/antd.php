@@ -315,6 +315,7 @@ return [
         'selected' => 'Selected',
         'confirm' => 'OK',
         'cancel' => 'Cancel',
+        'clear' => 'Clear',
     ],
     'Confirm' => [
         'title' => 'Confirm'

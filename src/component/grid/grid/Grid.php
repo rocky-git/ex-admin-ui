@@ -9,6 +9,7 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\avatar\Avatar;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
+use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
 use ExAdmin\ui\component\navigation\menu\Menu;
@@ -262,8 +263,10 @@ class Grid extends Table
         $column = $this->column($nickname, $label);
         return $column->display(function ($val, $data) use ($column, $avatar) {
             $avatarValue = Arr::get($data, $avatar);
-            $image = Avatar::create()
-                ->size(50)
+            $image = Image::create()
+                ->width(50)
+                ->height(50)
+                ->style(['border-radius'=>'50%','objectFit'=>'cover'])
                 ->src($avatarValue);
             return Html::create()->content($image)->content("<br>{$val}");
         })->align('center');

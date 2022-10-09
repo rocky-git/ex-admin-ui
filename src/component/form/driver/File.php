@@ -42,23 +42,20 @@ class File extends FormAbstract
 <?php
 return $content;
 PHP;
-        if($this->saving){
-            $savedResult = call_user_func($this->saving,$this->form);
-            if ($savedResult instanceof Message) {
-                return $savedResult;
-            }
+        $result = $this->dispatchEvent('saving',[$this->form]);
+        if ($result instanceof Message) {
+            return $result;
         }
         $result = file_put_contents($this->repository,$content);
+
+        $savedResult = $this->dispatchEvent('saved',[$this->form]);
+        if ($savedResult instanceof Message) {
+            return $savedResult;
+        }
         if($result){
             $result = message_success(admin_trans('form.save_success'));
         }else{
             $result = message_success(admin_trans('form.save_fail'));
-        }
-        if($this->saved){
-            $savedResult = call_user_func($this->saved,$this->form);
-            if ($savedResult instanceof Message) {
-                return $savedResult;
-            }
         }
         return $result;
     }
@@ -92,24 +89,6 @@ PHP;
         // TODO: Implement edit() method.
     }
 
-    /**
-     * 保存前
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function saving(\Closure $closure)
-    {
-        $this->saving  = $closure;
-    }
 
-    /**
-     * 保存后
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function saved(\Closure $closure)
-    {
-        $this->saved  = $closure;
-    }
 
 }
