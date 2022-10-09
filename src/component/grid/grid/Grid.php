@@ -294,6 +294,16 @@ class Grid extends Table
         $this->expandRow = $closure;
         $this->attr('expandedRow', true);
         $this->defaultExpandAllRows($defaultExpandAllRow);
+
+    }
+
+    /**
+     * 是否展开所有行
+     * @param bool $defaultExpandAllRows
+     * @return Grid|void
+     */
+    public function defaultExpandAllRows($defaultExpandAllRows){
+        $this->attr('defaultExpandAllRows',$defaultExpandAllRows);
         if(!$this->attr('expandedRowKeys')){
             $this->expandedRowKeys([]);
         }

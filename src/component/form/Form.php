@@ -503,6 +503,14 @@ class Form extends Component
     }
 
     /**
+     * 添加一列（必须配合row使用）
+     * @param \Closure|Component $content
+     * @return Col
+     */
+    public function col($content){
+        return $this->column($content);
+    }
+    /**
      * 添加item
      * @param array $name
      * @param string|Component $label label 标签的文本
