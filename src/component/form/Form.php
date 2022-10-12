@@ -141,22 +141,29 @@ class Form extends Component
      * 设置源
      * @param mixed $data
      */
-    public function source($data, $bindField = null)
-    {
+    public function source($data,$bindField=null){
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $pk = $this->driver->getPk();
-        $this->attr('pk', $pk);
         if (Request::input($pk)) {
             $id = Request::input($pk);
-            $this->driver->edit($id);
-            $this->attr('editId', $id);
-            $this->attr('pk', $pk);
-            $this->method('PUT');
-            $this->isEdit = true;
-            $this->input($pk, $id);
+            $this->edit($id);
         }
+    }
+
+    /**
+     * 编辑
+     * @param int|string $id
+     */
+    public function edit($id){
+        $pk = $this->driver->getPk();
+        $this->driver->edit($id);
+        $this->attr('editId', $id);
+        $this->attr('pk', $pk);
+        $this->method('PUT');
+        $this->isEdit = true;
+        $this->input($pk, $id);
     }
 
     /**

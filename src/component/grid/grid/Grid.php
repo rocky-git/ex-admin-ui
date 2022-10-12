@@ -456,9 +456,10 @@ class Grid extends Table
             } else {
                 $rowData['custom'] = call_user_func($this->customClosure, $row);
             }
-            if (!$this->hideAction && !$export) {
+            if (!$export) {
                 $actionColumn = clone $this->actionColumn;
                 $rowData[$actionColumn->column()->attr('dataIndex')] = $actionColumn->row($row);
+                $rowData['dblclickAction']  = $actionColumn->getDblclickAction();
             }
             $tableData[] = $rowData;
         }

@@ -93,7 +93,7 @@ class Tabs extends Component
             }
             return false
 JS;
-            $this->event('change', ['function' => 'requestData', 'params' => [], 'ref' => $content->ref(),'conditionFunction'=>[
+            $this->event('change', ['function' => 'refresh', 'params' => [], 'ref' => $content->ref(),'conditionFunction'=>[
                 'activeKey',
                 $conditionFunction
             ]], 'function');

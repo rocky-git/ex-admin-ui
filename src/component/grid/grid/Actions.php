@@ -40,6 +40,11 @@ class Actions
     protected $editButton;
     //删除按钮
     protected $delButton;
+    //双击触发类型
+    protected $dblclick = null;
+    //双击操作
+    protected $dblclickAction = null;
+
     protected $prependArr = [];
 
     protected $appendArr = [];
@@ -55,6 +60,7 @@ class Actions
     protected $row = [];
 
     protected $id;
+
     public function __construct(Grid $grid)
     {
         $this->grid = $grid;
@@ -78,9 +84,12 @@ class Actions
     {
         $this->hideDelButton = $bool;
     }
-    public function icon(){
+
+    public function icon()
+    {
         $this->icon = true;
     }
+
     /**
      * 下拉菜单
      * @param string $text
@@ -95,7 +104,7 @@ class Actions
             Button::create(
                 [
                     $text,
-                    Icon::create('DownOutlined')->style(['marginRight'=>'5px'])
+                    Icon::create('DownOutlined')->style(['marginRight' => '5px'])
                 ]
             )
         )->trigger(['click']);
@@ -137,8 +146,9 @@ class Actions
         $this->closure[] = $closure;
     }
 
-    public function edit($new = true){
-        if(!$this->editButton || $new){
+    public function edit($new = true)
+    {
+        if (!$this->editButton || $new) {
             $this->editButton = new ActionButton();
             $this->editButton->button()
                 ->type('primary')
@@ -146,17 +156,18 @@ class Actions
         }
         return $this->editButton;
     }
-    
-    public function detail($new = true){
-        if(!$this->detailButton || $new){
+
+    public function detail($new = true)
+    {
+        if (!$this->detailButton || $new) {
             $this->detailButton = new ActionButton();
             $this->detailButton->button()
                 ->icon('<InfoCircleFilled />');
         }
         return $this->detailButton;
     }
-    
-    public function setActionParams(ActionButton $actionButton, $id,$method)
+
+    public function setActionParams(ActionButton $actionButton, $id, $method)
     {
         if ($actionButton->action() instanceof Modal || $actionButton->action() instanceof Drawer) {
             $reference = $actionButton->action()->attr('reference');
@@ -168,7 +179,7 @@ class Actions
                     $actionButton->action()->removeBind($actionButton->action()->getModel());
                     $actionButton->action()->vModel('visible', null, false);
                     $item['params']['modal'] = $actionButton->action()->getModel();
-                    $actionButton->whenShow(admin_check_permissions($item['params']['url'],$method));
+                    $actionButton->whenShow(admin_check_permissions($item['params']['url'], $method));
                 }
             }
             $reference->setEvent('Click', 'custom', $event);
@@ -183,54 +194,73 @@ class Actions
                     }
                     $params = array_merge($params, [$this->grid->driver()->getPk() => $id]);
                     $item['value'] = $parse['path'] . '?' . http_build_query($params);
-                    $actionButton->action()->whenShow(admin_check_permissions($parse['path'],$method));
+                    $actionButton->action()->whenShow(admin_check_permissions($parse['path'], $method));
                 }
             }
             $actionButton->action()->setDirective($directive);
         }
     }
 
+    /**
+     * 双击行触发
+     * @param string $type edit｜detail
+     */
+    public function dblclick($type)
+    {
+        $this->dblclick = $type;
+    }
+
+    public function getDblclickAction()
+    {
+        return $this->dblclickAction;
+    }
+
     public function row($data)
     {
         $this->row = $data;
         $this->id = $data[$this->grid->driver()->getPk()];
-        $html = Html::div()->attr('class', $this->column->attr('dataIndex'))->style(['display'=>'inline-block']);
+        $html = Html::div()->attr('class', $this->column->attr('dataIndex'))->style(['display' => 'inline-block']);
         //自定义内容显示处理
-        foreach ($this->closure as $closure){
+        foreach ($this->closure as $closure) {
             call_user_func_array($closure, [$this, $this->row]);
         }
         if ($this->detailButton) {
-            $this->detailButton->dropdown($this->dropdown?true:false);
-            $this->detailButton->button()->when($this->icon,function ($button){
+            $this->detailButton->dropdown($this->dropdown ? true : false);
+            $this->detailButton->button()->when($this->icon, function ($button) {
                 $button->size('small')->shape('circle');
-            },function ($button){
+            }, function ($button) {
                 $button->content(admin_trans('grid.detail'));
             });
-            $this->setActionParams($this->detailButton, $this->id,'get');
+            $this->setActionParams($this->detailButton, $this->id, 'get');
+            if ($this->dblclick == 'detail') {
+                $this->dblclickAction = $this->detailButton->action();
+            }
         }
         if ($this->editButton) {
-            $this->editButton->dropdown($this->dropdown?true:false);
-            $this->editButton->button()->when($this->icon,function ($button){
+            $this->editButton->dropdown($this->dropdown ? true : false);
+            $this->editButton->button()->when($this->icon, function ($button) {
                 $button->size('small')->shape('circle')->type('');
-            },function ($button){
+            }, function ($button) {
                 $button->content(admin_trans('grid.edit'));
             });
-            $this->setActionParams($this->editButton, $this->id,'put');
+            $this->setActionParams($this->editButton, $this->id, 'put');
+            if ($this->dblclick == 'edit') {
+                $this->dblclickAction = $this->editButton->action();
+            }
         }
         $this->delButton = new ActionButton;
-        $this->delButton->dropdown($this->dropdown?true:false);
+        $this->delButton->dropdown($this->dropdown ? true : false);
         $this->delButton
-            ->when(!$this->dropdown,function ($button){
+            ->when(!$this->dropdown, function ($button) {
                 $button->danger()->type('primary');
             })
-            ->when($this->icon,function ($button){
+            ->when($this->icon, function ($button) {
                 $button->size('small')->shape('circle')->danger(false)->type('');
-            },function ($button){
+            }, function ($button) {
                 $button->content(admin_trans('grid.delete'));
             })
-
             ->icon('<DeleteFilled />')
-            ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), $this->grid->getCall()['params']+['ex_admin_trashed'=>$this->grid->isTrashed(),'ex_admin_action' => 'delete', 'ids' => [$this->id]])
+            ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), $this->grid->getCall()['params'] + ['ex_admin_trashed' => $this->grid->isTrashed(), 'ex_admin_action' => 'delete', 'ids' => [$this->id]])
             ->method('delete')
             ->gridRefresh();
 
@@ -238,48 +268,47 @@ class Actions
         $html->content($this->prependArr);
 
         if (!$this->hideDetailButton && $this->detailButton) {
-            if($this->dropdown){
+            if ($this->dropdown) {
                 $this->dropdown->menu->content($this->detailButton->action());
-            }else{
+            } else {
                 $html->content($this->detailButton->action());
             }
         }
         if (!$this->hideEditButton && $this->editButton) {
-            if($this->dropdown){
+            if ($this->dropdown) {
                 $this->dropdown->menu->content($this->editButton->action());
-            }else{
+            } else {
                 $html->content($this->editButton->action());
             }
         }
         //恢复数据
-        if($this->grid->isTrashed() && !$this->grid->attr('hideTrashedRestore')){
+        if ($this->grid->isTrashed() && !$this->grid->attr('hideTrashedRestore')) {
             $restoreAction = new ActionButton;
-            $restoreAction->dropdown($this->dropdown?true:false);
+            $restoreAction->dropdown($this->dropdown ? true : false);
             $restoreAction
-
-                ->when($this->icon,function ($button){
+                ->when($this->icon, function ($button) {
                     $button->size('small')->shape('circle');
-                },function ($button){
+                }, function ($button) {
                     $button->content(admin_trans('grid.restore'));
                 })
                 ->icon('<diff-outlined />')
                 ->confirm(admin_trans('grid.confim_restore'), $this->grid->attr('url'), ['ex_admin_action' => 'restore', 'ids' => [$this->id]])
                 ->method('put')
                 ->gridRefresh();
-            if($this->dropdown){
+            if ($this->dropdown) {
                 $this->dropdown->menu->content($restoreAction->action());
-            }else{
+            } else {
                 $html->content($restoreAction->action());
             }
         }
         if (!$this->hideDelButton && !($this->grid->isTrashed() && $this->grid->attr('hideTrashedDelete'))) {
-            if($this->dropdown){
+            if ($this->dropdown) {
                 $this->dropdown->menu->content($this->delButton->action());
-            }else{
+            } else {
                 $html->content($this->delButton->action());
             }
         }
-        if($this->dropdown){
+        if ($this->dropdown) {
             $html->content($this->dropdown);
         }
         //追加尾部

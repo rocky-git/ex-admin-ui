@@ -9,7 +9,7 @@
 namespace ExAdmin\ui\component\echart;
 
 use Carbon\Carbon;
-
+use Carbon\CarbonPeriod;
 /**
  * 折线图
  * Class LineChart
