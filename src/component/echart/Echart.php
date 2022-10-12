@@ -110,7 +110,7 @@ class Echart extends Component
      */
     public function hideDateFilter(bool $bool=true){
         $this->hideDateFilter = true;
-        $this->dateDefault('');
+        self::dateDefault('');
         return $this;
     }
     /**

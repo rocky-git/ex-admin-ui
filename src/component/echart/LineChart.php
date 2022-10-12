@@ -117,9 +117,12 @@ class LineChart extends Echart
             }
         }else{
             $this->hideDateFilter();
-            $this->xAxisData = array_map(function ($value){
-                return ['value'=>$value,'label'=>$value];
-            },$this->xAxisData);
+            list($start_date,$end_date) = $this->xAxisData;
+            $dates = Carbon::parse($start_date)->daysUntil($end_date)->toArray();
+            foreach ($dates as $date) {
+                $data = $date->toDateString();
+                $this->xAxisData[] = ['value'=>$data,'label'=>$data];
+            }
         }
         $this->echart->xAxis = [
             'type' => 'category',
@@ -138,6 +141,7 @@ class LineChart extends Echart
     public function data($name, $data)
     {
         $this->data[$name] = $data;
+        $this->echart->legend->data[] = $name;
         $this->echart->series[] = array(
             'name' => $name,
             'type' => 'line',
