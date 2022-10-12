@@ -9,8 +9,8 @@ trait Event
 
     /**
      * 移除事件
-     * @param $name 事件名称
-     * @param $type 类型
+     * @param string $name 事件名称
+     * @param string $type 类型
      */
     public function removeEvent($name, $type)
     {
