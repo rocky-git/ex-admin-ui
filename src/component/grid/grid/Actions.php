@@ -171,7 +171,7 @@ class Actions
     {
         if ($actionButton->action() instanceof Modal || $actionButton->action() instanceof Drawer) {
             $reference = $actionButton->action()->attr('reference');
-            $event = $reference->getEvent('Click', 'custom');
+            $event = $reference->getEvent('Click.stop', 'custom');
             foreach ($event as &$item) {
                 if ($item['type'] == 'Modal') {
                     $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->driver()->getPk() => $id]);

@@ -186,14 +186,12 @@ if (!function_exists('notification_warning')) {
 if (!function_exists('admin_view')) {
     /**
      * 渲染组件
-     * @param string $content 内容
+     * @param string $path 文件路径
      * @return Html
      */
-    function admin_view($content)
+    function admin_view(string $path)
     {
-        if (is_file($content)) {
-            $content = file_get_contents($content);
-        }
+        $content = file_get_contents($path);
         return Html::create($content)->tag('component');
     }
 }
