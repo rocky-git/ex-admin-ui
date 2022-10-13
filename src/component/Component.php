@@ -448,7 +448,7 @@ abstract class Component implements \JsonSerializable
         $modal = $component::create($this);
         $modal->whenShow(admin_check_permissions($url, $method));
         $modal->destroyOnClose();
-        $this->eventCustom('click', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
+        $this->eventCustom('click.stop', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
         return $modal;
     }
 

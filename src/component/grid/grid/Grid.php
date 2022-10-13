@@ -9,6 +9,7 @@ use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\grid\avatar\Avatar;
 use ExAdmin\ui\component\grid\grid\Column;
 use ExAdmin\ui\component\grid\grid\excel\AbstractExporter;
+use ExAdmin\ui\component\grid\grid\sidebar\Sidebar;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
