@@ -121,6 +121,7 @@ class Echart extends Component
     public function filter(\Closure $callback)
     {
         $this->filter->form()
+            ->removeEvent('success','custom')
             ->style(['background'=>'none','padding'=>'0','paddingBottom'=>'20px']);
         $this->filter->form()->actions()->hideResetButton();
         call_user_func($callback, $this->filter);
