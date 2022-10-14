@@ -122,6 +122,18 @@ class Column extends Component
             //自定义导出
             if (!is_null($this->exportClosure)) {
                 $value = call_user_func_array($this->exportClosure, [$originValue, $originData]);
+            } elseif (!empty($this->using)) {
+                $value = $originValue;
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+                $renderValue = [];
+                foreach ($value as $key) {
+                    if (isset($this->using[$key])) {
+                        $renderValue[] = $this->using[$key];
+                    }
+                }
+                $value = implode('、', $renderValue);
             } elseif (!is_string($value) && !is_numeric($value)) {
                 $value = $originValue;
             }
@@ -310,7 +322,7 @@ class Column extends Component
             foreach ($editable->getCall() as $key => $item) {
                 $arguments = $item['arguments'];
                 if ($key == 0) {
-                    if(isset($arguments[0])){
+                    if (isset($arguments[0])) {
                         $field = $arguments[0];
                     }
                     $component = call_user_func_array([$form, $item['name']], [$field]);
@@ -362,13 +374,13 @@ class Column extends Component
                     ->trigger('click')
                     ->destroyTooltipOnHide()
                     ->content($form);
-                $visible = $popover->vModel('visible',null,false);
+                $visible = $popover->vModel('visible', null, false);
                 return Html::div()->content([
                     Html::create($html),
                     $popover
                 ])
                     ->attr('class', 'ex-admin-editable-cell')
-                    ->event('dblclick',[$visible=>true]);
+                    ->event('dblclick', [$visible => true]);
             }
         };
         return $this;
