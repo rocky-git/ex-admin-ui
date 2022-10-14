@@ -60,6 +60,7 @@ class Modal extends Component
         $this->attr('reference', $component);
         $this->width(600);
         $this->footer(false);
+        $this->maskClosable(false);
         parent::__construct();
     }
 

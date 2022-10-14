@@ -455,7 +455,7 @@ class Grid extends Table
                     $rowData['ExAdminExpandRow'] = Html::create($expandRow);
                 }
             } else {
-                $rowData['custom'] = call_user_func($this->customClosure, $row);
+                $rowData['custom'] = call_user_func($this->customClosure, $row,$this);
             }
             if (!$export) {
                 $actionColumn = clone $this->actionColumn;

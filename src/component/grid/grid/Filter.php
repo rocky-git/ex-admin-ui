@@ -63,7 +63,6 @@ class Filter
     public function __construct()
     {
         $this->form = Form::create([]);
-        $this->form->removeEvent('success','custom');
         $this->form
             ->removeAttr('labelCol')
             ->layout('inline')
