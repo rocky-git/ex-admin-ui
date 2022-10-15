@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.1.3';
+const EX_ADMIN_VERSION = '1.1.4';
 
 use ExAdmin\ui\component\Ajax;
 use ExAdmin\ui\component\common\Html;
