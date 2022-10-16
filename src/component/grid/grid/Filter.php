@@ -63,6 +63,8 @@ class Filter
     public function __construct()
     {
         $this->form = Form::create([]);
+        $this->form->removeEvent('success','custom')
+            ->eventCustom('success', 'GridRefresh',[true]);
         $this->form
             ->removeAttr('labelCol')
             ->layout('inline')
