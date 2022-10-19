@@ -120,8 +120,11 @@ class LineChart extends Echart
             list($start_date,$end_date) = $this->xAxisData;
             $dates = Carbon::parse($start_date)->daysUntil($end_date)->toArray();
             foreach ($dates as $date) {
-                $data = $date->toDateString();
-                $this->xAxisData[] = ['value'=>$data,'label'=>$data];
+                $date = $date->toDateString();
+                $this->xAxisData[] = ['value'=>[
+                    $date,
+                    Carbon::parse($date)->addDays()->subSeconds()->toDateTimeString()
+                ],'label'=>$date];
             }
         }
         $this->echart->xAxis = [
