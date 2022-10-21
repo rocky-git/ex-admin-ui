@@ -46,11 +46,7 @@ class AutoComplete extends Field
      */
     protected $name = 'ExAutoComplete';
 
-    /**
-     * 禁用的选项
-     * @var array
-     */
-    protected $disabledValue = [];
+
 
 
 
@@ -58,19 +54,9 @@ class AutoComplete extends Field
     {
         parent::__construct($field, $value);
         $this->allowClear();
-        $this->filterOption();
     }
 
-    /**
-     * 禁用选项
-     * @param array $data
-     * @return $this
-     */
-    public function disabledValue(array $data)
-    {
-        $this->disabledValue = $data;
-        return $this;
-    }
+
 
     /**
      * 选项
@@ -85,63 +71,9 @@ class AutoComplete extends Field
                 $options[] = [
                     'value' => $key,
                     'label' => $value,
-                    'disabled' => in_array($key, $this->disabledValue) ? true : false,
                 ];
             }
-            $this->attr('options', $options);
-        };
-        return $this;
-    }
-
-    /**
-     * 分组下拉框
-     * @param array $data 数组源
-     * @param string $name 关联的字段
-     * @param string $label 名称的字段
-     * @param string $id 主键的字段
-     * @return $this
-     */
-    public function groupOptions(array $data, $name = 'options', $label = 'label', $id = 'id')
-    {
-        /* 格式
-         $data = [
-            [
-                'label' => '第一个分组',
-                'id' => 2,
-                'options' => [
-                    [
-                        'label' => '第一个标签',
-                        'id' => 1
-                    ]
-                ]
-            ],
-            [
-                'label' => '第二个分组',
-                'id' => 2,
-                'options' => [
-                    [
-                        'label' => '第二个标签',
-                        'id' => 2
-                    ]
-                ]
-            ]
-         ];
-        */
-        $this->optionsClosure = function () use ($data, $name, $label, $id) {
-            foreach ($data as $key => &$option) {
-                $option['label'] = $option[$label];
-                $option['value'] = $option[$id];
-                $option['key'] = $this->random();
-                $option['disabled'] = in_array($option[$id], $this->disabledValue) ? true : false;
-                $option['options'] = $option[$name] ?? [];
-                foreach ($option['options'] as &$item) {
-                    $item['label'] = $item[$label];
-                    $item['value'] = $item[$id];
-                    $item['key'] = $this->random();
-                    $item['disabled'] = in_array($item[$id], $this->disabledValue) ? true : false;
-                }
-            }
-            $this->attr('options', $data);
+            $this->vModel('options',null,$options,true);
         };
         return $this;
     }
