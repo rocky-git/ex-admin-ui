@@ -559,7 +559,7 @@ class Grid extends Table
     protected function dispatch($method,$object = null)
     {
         if (Request::has('ex_admin_sidebar')) {
-            $object = $this->sidebar->driver();
+            return $this->sidebar;
         }
         if(is_null($object)){
             $object = $this->driver;

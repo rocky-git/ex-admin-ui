@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.1.4';
+const EX_ADMIN_VERSION = '1.1.5';
 
 use ExAdmin\ui\component\Ajax;
 use ExAdmin\ui\component\common\Html;
@@ -329,5 +329,6 @@ if (!function_exists('response_ajax')) {
         return \ExAdmin\ui\response\Response::success($data,'',70000);
     }
 }
+
 
 
