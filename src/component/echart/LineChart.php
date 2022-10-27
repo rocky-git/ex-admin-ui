@@ -122,6 +122,7 @@ class LineChart extends Echart
                     break;
             }
         }else{
+            $this->hideDateFilter();
             if(Request::has('ex_admin_filter')){
                 list($start_date,$end_date) = $this->xAxisData;
                 $dates = Carbon::parse($start_date)->daysUntil($end_date)->toArray();
