@@ -10,6 +10,8 @@ namespace ExAdmin\ui\component\echart;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use ExAdmin\ui\support\Request;
+
 /**
  * 折线图
  * Class LineChart
@@ -51,7 +53,11 @@ class LineChart extends Echart
      * @return $this
      */
     public function xAxis($xAxis = 'today'){
+        if(Request::has('ex_admin_filter') && !empty($this->xAxisData)){
+            return $this;
+        }
         $this->xAxisData = $xAxis;
+
         if(is_string($xAxis)){
             $this->xAxisData = [];
             switch ($xAxis) {
@@ -65,11 +71,11 @@ class LineChart extends Echart
                     for ($i = 0; $i < 24; $i++) {
                         $hour = $i < 10 ? '0' . $i : $i;
                         $this->xAxisData[] = [
-                          'value'=>[
-                              Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:00:00"),
-                              Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:59:59"),
-                          ],
-                          'label'=>"{$i}".admin_trans('echart.dian').admin_trans('echart.to').($i+1).admin_trans('echart.dian')
+                            'value'=>[
+                                Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:00:00"),
+                                Carbon::parse($date)->addHours($i)->format("Y-m-d $hour:59:59"),
+                            ],
+                            'label'=>"{$i}".admin_trans('echart.dian').admin_trans('echart.to').($i+1).admin_trans('echart.dian')
                         ];
                     }
                     break;
@@ -116,15 +122,21 @@ class LineChart extends Echart
                     break;
             }
         }else{
-            $this->hideDateFilter();
-            list($start_date,$end_date) = $this->xAxisData;
-            $dates = Carbon::parse($start_date)->daysUntil($end_date)->toArray();
-            foreach ($dates as $date) {
-                $date = $date->toDateString();
-                $this->xAxisData[] = ['value'=>[
-                    $date,
-                    Carbon::parse($date)->addDays()->subSeconds()->toDateTimeString()
-                ],'label'=>$date];
+            if(Request::has('ex_admin_filter')){
+                list($start_date,$end_date) = $this->xAxisData;
+                $dates = Carbon::parse($start_date)->daysUntil($end_date)->toArray();
+                $this->xAxisData = [];
+                foreach ($dates as $date) {
+                    $date = $date->toDateString();
+                    $this->xAxisData[] = ['value'=>[
+                        $date,
+                        Carbon::parse($date)->addDays()->subSeconds()->toDateTimeString()
+                    ],'label'=>$date];
+                }
+            }else{
+                $this->xAxisData = array_map(function ($value){
+                    return ['value'=>$value,'label'=>$value];
+                },$this->xAxisData);
             }
         }
         $this->echart->xAxis = [
@@ -132,6 +144,7 @@ class LineChart extends Echart
             'boundaryGap' => false,
             'data' => array_column($this->xAxisData,'label')
         ];
+
         return $this;
     }
 
