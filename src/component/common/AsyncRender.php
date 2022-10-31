@@ -8,7 +8,7 @@ use ExAdmin\ui\component\Component;
  * @method $this url(string $url) 请求地址
  * @method $this params(array $data) ajax请求附加参数
  */
-class AsnycRender extends Component
+class AsyncRender extends Component
 {
     protected $name ='ExAsyncRender';
 }

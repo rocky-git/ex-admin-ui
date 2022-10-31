@@ -249,6 +249,22 @@ abstract class Component implements \JsonSerializable
         }
     }
 
+    /**
+     * @param array $bind
+     * @return $this
+     */
+    public function setBind(array $bind){
+        $this->bind = $bind;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBind(){
+        return $this->bind;
+    }
+
     protected function random()
     {
         $str = '';

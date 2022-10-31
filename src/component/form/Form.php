@@ -86,8 +86,7 @@ class Form extends Component
     public $manyField = [];
 
     public $tabs = [];
-    //验证绑定提示字段
-    protected $validateBindField = '';
+
     /**
      * @var FormAbstract
      */
@@ -122,8 +121,8 @@ class Form extends Component
 
         $this->attr('formField', $this->getModel());
         //验证绑定提示
-        $this->validateBindField = $this->getModel() . 'Validate';
-        $this->vModel('validateField', $this->validateBindField, '', true);
+        $this->vModel('validateField', str_replace('.','_',$this->getModel() . 'Validate'), '', true);
+
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
         //保存成功关闭弹窗
@@ -426,7 +425,7 @@ class Form extends Component
             ->attr('field', $field)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
-        $item = $this->item()->content($formMany);
+        $item = $this->item([$field])->content($formMany);
         $formMany->setFormItem($item);
         $formMany->modelValue();
 
@@ -525,10 +524,15 @@ class Form extends Component
      */
     public function item(array $name = [], $label = '')
     {
+        if(count($name) > 0){
+            $formModel = explode('.',$this->getModel());
+            array_shift($formModel);
+            $name = array_merge($formModel,$name);
+        }
         $item = FormItem::create($this)
             ->label($label)
             ->name($name)
-            ->attr('validateFormField', $this->validateBindField);
+            ->attr('validateFormField', $this->bindAttr('validateField'));
         if ($this->attr('labelCol')) {
             $item->labelCol($this->attr('labelCol'));
         }

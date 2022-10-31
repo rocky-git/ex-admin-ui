@@ -5,33 +5,33 @@ namespace ExAdmin\ui\component\form\field\checkbox;
 use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\Field;
 use ExAdmin\ui\component\form\field\OptionsClosure;
+use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Row;
 
 /**
  * 多选框
  * Class CheckboxGroup
  * @link   https://next.antdv.com/components/checkbox-cn 多选框组件
- * @method $this disabled(bool $disabled = true) 	整组失效																boolean
- * @method $this name(string $name) CheckboxGroup 下所有 input[type="checkbox"] 的 name 属性								string
- * @method $this value(mixed $value = []) 指定选中的选项																	string[]
+ * @method $this disabled(bool $disabled = true)    整组失效                                                                boolean
+ * @method $this name(string $name) CheckboxGroup 下所有 input[type = "checkbox"] 的 name 属性                                string
+ * @method $this value(mixed $value = []) 指定选中的选项                                                                    string[]
  * @package ExAdmin\ui\component\form\field
  */
 class CheckboxGroup extends Field
 {
     use OptionsClosure;
+
     /**
      * 组件名称
      * @var string
      */
-	protected $name = 'ACheckboxGroup';
+    protected $name = 'ACheckboxGroup';
 
-  
 
     protected $column;
 
     protected $disabledValue = [];
 
-   
 
     public function __construct($field = null, $value = [])
     {
@@ -43,7 +43,8 @@ class CheckboxGroup extends Field
      * @param int $number 数量
      * @return $this
      */
-    public function column(int $number){
+    public function column(int $number)
+    {
         $this->column = $number;
         return $this;
     }
@@ -58,7 +59,7 @@ class CheckboxGroup extends Field
         $this->disabledValue = $data;
         return $this;
     }
-    
+
     /**
      * 设置选项
      * @param array $data 数据源
@@ -66,20 +67,21 @@ class CheckboxGroup extends Field
      */
     public function options(array $data)
     {
-        $this->optionsClosure = function () use($data){
-            $row = Row::create();
+        $this->optionsClosure = function () use ($data) {
+            $checkbox = [];
             foreach ($data as $key => $value) {
                 $disabled = false;
                 if (in_array($key, $this->disabledValue)) {
                     $disabled = true;
                 }
-                if($this->column){
-                    $row->column(
-                        Checkbox::create()
-                            ->attr('value',$key)
+                if ($this->column) {
+                    $checkbox[] = [
+                        'slotDefault' => Checkbox::create()
+                            ->attr('value', $key)
                             ->content($value)
-                        ,24/$this->column);
-                }else{
+                    ];
+
+                } else {
                     $this->options[] = [
                         'label' => $value,
                         'value' => $key,
@@ -87,10 +89,14 @@ class CheckboxGroup extends Field
                     ];
                 }
             }
-            if($this->column){
-                $this->content($row);
-            }else{
-                $this->attr('options',$this->options);
+            if ($this->column) {
+                $this->content(
+                    Row::create()->content(
+                        Col::create()->map($checkbox)->span(24 / $this->column)->mapAttr('slotDefault')
+                    )
+                );
+            } else {
+                $this->attr('options', $this->options);
             }
         };
         return $this;
