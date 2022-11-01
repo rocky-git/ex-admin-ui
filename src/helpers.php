@@ -1,5 +1,5 @@
 <?php
-const EX_ADMIN_VERSION = '1.1.6';
+const EX_ADMIN_VERSION = '1.1.7';
 
 use ExAdmin\ui\component\Ajax;
 use ExAdmin\ui\component\common\Html;
@@ -284,6 +284,8 @@ if (!function_exists('php_frame')) {
             return 'thinkphp';
         } elseif (array_key_exists('Hyperf\\Framework\\', $psr4)) {
             return 'hyperf';
+        }elseif (array_key_exists('Webman\\', $psr4)) {
+            return 'webman';
         }
     }
 }

@@ -23,6 +23,10 @@ class Response implements \JsonSerializable
         $this->message = $message;
         return $this;
     }
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
+    }
 
     public function jsonSerialize()
     {

@@ -265,6 +265,7 @@ class Controller
                     'thinkphp' => 'thinkphp',
                     'laravel' => 'laravel',
                     'hyperf' => 'hyperf',
+                    'webman' => 'webman',
                 ])
                 ->default([php_frame()])
                 ->multiple()
@@ -391,6 +392,8 @@ class Controller
             $cmd = 'php think plugin:composer';
         } elseif (php_frame() == 'hyperf') {
             $cmd = 'php bin/hyperf.php plugin:composer';
+        } elseif (php_frame() == 'webman') {
+            $cmd = 'php webman plugin:composer';
         }
         return notification_success('安装完成', Html::div()->content([
             Html::div()->content('安装插件依赖请手动执行命令'),

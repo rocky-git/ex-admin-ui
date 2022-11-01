@@ -70,6 +70,11 @@ class Message implements \JsonSerializable
         $this->data = array_merge($this->data, ['data' => $data]);
         return $this;
     }
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
+    }
+
     public function jsonSerialize()
     {
         $this->response['data'] = $this->data;

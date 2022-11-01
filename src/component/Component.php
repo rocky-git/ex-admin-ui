@@ -562,5 +562,9 @@ abstract class Component implements \JsonSerializable
         return null;
     }
 
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
+    }
 
 }
