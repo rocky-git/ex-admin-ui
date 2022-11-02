@@ -411,7 +411,7 @@ class Manager
         if (!isset($this->plug[$name])) {
             $name = Str::snake($name, '-');
         }
-        return $this->plug[$name];
+        return $this->plug[$name] ?? null;
     }
 
 
