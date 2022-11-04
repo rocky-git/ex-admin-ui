@@ -337,7 +337,7 @@ abstract class Component implements \JsonSerializable
                 }
             } else {
                 //兼容0无法渲染问题
-                if ($content === 0) {
+                if (is_numeric($content) && empty($content)) {
                     $content = strval($content);
                 }
                 $this->content[$name][] = $content;
