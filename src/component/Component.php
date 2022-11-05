@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component;
 
 
+use ExAdmin\ui\component\common\AsyncRender;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
@@ -346,6 +347,18 @@ abstract class Component implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * 插槽内容(异步加载)
+     * @param string|array $url
+     * @param array $params
+     * @param string $name
+     * @return $this
+     */
+    public function asyncContent($url, $params = [],$name = 'default'){
+        list($url, $params) = $this->parseComponentCall($url, $params);
+        $this->content(AsyncRender::create()->url($url)->params($params),$name);
+        return $this;
+    }
 
     /**
      * 条件执行

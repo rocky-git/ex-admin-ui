@@ -253,7 +253,9 @@ if (!function_exists('admin_component')) {
 if (!function_exists('admin_url')) {
     /**
      * url生成
-     * @return string
+     * @param $url
+     * @param array $params
+     * @return mixed|string
      */
     function admin_url($url, $params = [])
     {
