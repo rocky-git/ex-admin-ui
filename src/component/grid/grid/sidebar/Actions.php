@@ -51,7 +51,7 @@ class Actions
                     ->shape('circle')
                     ->size('small')
                     ->icon('<delete-outlined />')
-                    ->confirm(admin_trans('grid.confim_delete'),$grid->attr('url'),['ex_admin_action' => 'delete','ex_admin_sidebar'=>true, 'ids' => $data[$pk]])->method('delete');
+                    ->confirm(admin_trans('grid.confim_delete'),$grid->attr('url'),['ex_admin_action' => 'delete','ex_admin_sidebar'=>true, 'ids' => [$data[$pk]]])->method('delete');
 
         }
         return $data;
