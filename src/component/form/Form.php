@@ -421,8 +421,9 @@ class Form extends Component
         unset($this->manyField[$field]);
         $this->data = $data;
         $this->input($field, $manyData);
+        $validName  = implode('.',$this->validName($field));
         $formMany->content($formItems)
-            ->attr('field', $field)
+            ->attr('field', $validName)
             ->attr('title', $title)
             ->attr('itemData', $itemData);
         $item = $this->item([$field])->content($formMany);
@@ -516,6 +517,19 @@ class Form extends Component
     public function col($content){
         return $this->column($content);
     }
+
+    protected function validName($name){
+        if(is_string($name)){
+            $name = [$name];
+        }
+        if(count($this->manyField) == 0){
+            $formModel = explode('.',$this->getModel());
+            array_shift($formModel);
+            $name = array_merge($formModel,$name);
+        }
+        return $name;
+    }
+
     /**
      * 添加item
      * @param array $name
@@ -525,9 +539,7 @@ class Form extends Component
     public function item(array $name = [], $label = '')
     {
         if(count($name) > 0){
-            $formModel = explode('.',$this->getModel());
-            array_shift($formModel);
-            $name = array_merge($formModel,$name);
+            $name = $this->validName($name);
         }
         $item = FormItem::create($this)
             ->label($label)
