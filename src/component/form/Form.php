@@ -134,6 +134,7 @@ class Form extends Component
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
         $this->size('default');
+        $this->content['default'] = [];
     }
 
     /**
