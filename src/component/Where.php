@@ -67,7 +67,7 @@ trait Where
      */
     public function where($field, $op = null, $condition = null, $logic = 'AND', $type = 'v-if')
     {
-        if($condition == '<>'){
+        if($condition === '<>'){
             $condition = '!=';
         }
         $logic = strtoupper($logic);
