@@ -56,12 +56,12 @@ if (!function_exists('message_success')) {
      * 响应成功提示
      * @param string $message 提示文本
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Msg
      */
     function message_success($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, [$config])
+            ->make(\ExAdmin\ui\response\Msg::class, [$config])
             ->success($message);
     }
 }
@@ -70,12 +70,12 @@ if (!function_exists('message_error')) {
      * 响应失败提示
      * @param string $message 提示文本
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Msg
      */
     function message_error($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, [$config])
+            ->make(\ExAdmin\ui\response\Msg::class, [$config])
             ->error($message);
     }
 }
@@ -84,12 +84,12 @@ if (!function_exists('message_info')) {
      * 响应信息提示
      * @param string $message 提示文本
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Msg
      */
     function message_info($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, [$config])
+            ->make(\ExAdmin\ui\response\Msg::class, [$config])
             ->info($message);
     }
 }
@@ -98,12 +98,12 @@ if (!function_exists('message_warning')) {
      * 响应警告提示
      * @param string $message 提示文本
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Msg
      */
     function message_warning($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, [$config])
+            ->make(\ExAdmin\ui\response\Msg::class, [$config])
             ->warning($message);
     }
 }
@@ -112,12 +112,12 @@ if (!function_exists('message_loading')) {
      * 响应加载提示
      * @param string $message 提示文本
      * @param array $config 配置
-     * @return \ExAdmin\ui\response\Message
+     * @return \ExAdmin\ui\response\Msg
      */
     function message_loading($message, $config = [])
     {
         return \ExAdmin\ui\support\Container::getInstance()
-            ->make(\ExAdmin\ui\response\Message::class, [$config])
+            ->make(\ExAdmin\ui\response\Msg::class, [$config])
             ->warning($message);
     }
 }

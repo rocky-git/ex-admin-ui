@@ -4,11 +4,8 @@ namespace ExAdmin\ui\response;
 /**
  * @method static success($data =[], $message = '', $code = 200)
  */
-class Response implements \JsonSerializable
+class Response extends Message
 {
-    protected $message = '';
-    protected $code = 200;
-    protected $data = [];
 
     public static function __callStatic($name, $arguments)
     {
@@ -18,18 +15,10 @@ class Response implements \JsonSerializable
 
     public function send($data = [], $message = '', $code = 200)
     {
-        $this->code = $code;
+        $this->response['code'] = $code;
+        $this->response['message'] = $message;
         $this->data = $data;
-        $this->message = $message;
         return $this;
     }
-    public function __toString()
-    {
-        return json_encode($this->jsonSerialize());
-    }
 
-    public function jsonSerialize()
-    {
-        return ['code' => $this->code, 'data' => $this->data, 'message' => $this->message];
-    }
 }
