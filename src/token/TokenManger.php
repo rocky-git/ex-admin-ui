@@ -73,7 +73,10 @@ class TokenManger
             $data['token_expire'] = time() + $this->expire;
         }
         $data['token_time'] = time();
-        $token = openssl_encrypt(json_encode($data), 'DES-ECB', $this->key);
+        $token = openssl_encrypt(json_encode($data), 'AES-128-ECB', $this->key);
+        if($token === false){
+            throw new \Exception('openssl_encrypt加密失败');
+        }
         if ($this->unique && isset($data[$this->pk])) {
 
             $this->driver->setLastToken($data[$this->pk], $token, $this->expire);
@@ -89,7 +92,7 @@ class TokenManger
      */
     public function decode($token)
     {
-        $data = openssl_decrypt($token, 'DES-ECB', $this->key);
+        $data = openssl_decrypt($token, 'AES-128-ECB', $this->key);
         if ($data) {
             $data = json_decode($data, true);
         }

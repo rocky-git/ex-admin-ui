@@ -167,8 +167,8 @@ class Route
     {
         try {
             $reflect = new \ReflectionClass($class);
-        } catch (ReflectionException $e) {
-            throw new ClassNotFoundException('class not exists: ' . $class, $class, $e);
+        } catch (\ReflectionException $e) {
+            throw new \Exception('class not exists: ' . $class, $class, $e);
         }
 
         $constructor = $reflect->getConstructor();
