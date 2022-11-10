@@ -134,7 +134,6 @@ class Form extends Component
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
         $this->size('default');
-        $this->content['default'] = [];
     }
 
     /**
@@ -455,11 +454,12 @@ class Form extends Component
 
     /**
      * 选项卡布局
+     * @param int $activeKey 当前激活 tab 面板的 key
      * @return Tabs
      */
-    public function tabs()
+    public function tabs($activeKey = 1)
     {
-        $tab = Tabs::create();
+        $tab = Tabs::create($activeKey);
         $tab->setForm($this);
         $this->push($tab);
         return $tab;
