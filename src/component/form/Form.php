@@ -493,6 +493,15 @@ class Form extends Component
     }
 
     /**
+     * 分割线
+     * @return Divider
+     */
+    public function divider(){
+        $divider = Divider::create();
+        $this->push($divider);
+        return $divider;
+    }
+    /**
      * 添加一列（必须配合row使用）
      * @param \Closure|Component $content
      * @return Col
