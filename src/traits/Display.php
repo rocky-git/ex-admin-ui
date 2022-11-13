@@ -331,6 +331,16 @@ trait Display
     }
 
     /**
+     * 显示html
+     * @return \ExAdmin\ui\component\detail\Item|Column
+     */
+    public function html(){
+        return $this->display(function ($value){
+            return Html::raw($value);
+        });
+    }
+
+    /**
      * 内容映射
      * @param array $usings 映射内容
      * @param array $color 标签颜色
