@@ -192,7 +192,7 @@ if (!function_exists('admin_view')) {
     function admin_view(string $path)
     {
         $content = file_get_contents($path);
-        return Html::create($content)->tag('component');
+        return Html::raw($content)->tag('component');
     }
 }
 if (!function_exists('admin_menu')) {
