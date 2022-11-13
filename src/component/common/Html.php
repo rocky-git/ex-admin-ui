@@ -64,6 +64,15 @@ class Html extends Component
     }
 
     /**
+     * html标签原样输出
+     * @param string $content
+     * @return static
+     */
+    public static function raw(string $content){
+        return self::create()->attr('html-raw',$content);
+    }
+
+    /**
      * 显示markdown
      * @param string $content 内容
      * @return Html
