@@ -25,7 +25,7 @@
     "symfony/http-foundation": "^4.0 || ^5.0 || ^6.0",
     "symfony/cache":"^4.0 || ^5.0 || ^6.0",
     "guzzlehttp/guzzle":  "^5.0 || ^6.0 || ^7.0",
-    "hisune/echarts-php": "^1.1",
+    "rockys/echarts-php": "^1",
     "phpoffice/phpspreadsheet": "^1.23"
   },
   "autoload": {
