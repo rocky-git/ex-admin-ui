@@ -54,13 +54,36 @@ trait Validator
     /**
      * 扩展前端验证
      * @param string $type 扩展名称
-     * @param $pattern 正则
-     * @param $trans 验证提示文本
+     * @param string $pattern 正则
+     * @param string $trans 验证提示文本
      */
     public static function extend(string $type, $pattern, $trans)
     {
         static::$regex[$type] = $pattern;
         static::$regexMsg[$type] = $trans;
+    }
+
+
+    /**
+     * @param null $rule
+     * @return string|string[]|null
+     */
+    public function getRegex($rule=null){
+        if(!is_null($rule)){
+            return static::$regex[$rule] ?? null;
+        }
+        return static::$regex;
+    }
+
+    /**
+     * @param null $rule
+     * @return array|mixed|null
+     */
+    public function getRegexMsg($rule=null){
+        if(!is_null($rule)){
+            return static::$regexMsg[$rule] ?? null;
+        }
+        return static::$regexMsg;
     }
 
     /**

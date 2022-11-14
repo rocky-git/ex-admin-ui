@@ -103,7 +103,7 @@ class Upload extends Field
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $type = $this->attr('type') ?? 'file';
         $directory[] = trim(admin_config('admin.upload.directory.' . $type), '/');

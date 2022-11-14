@@ -64,7 +64,7 @@ class Column extends Component
     protected $field;
 
 
-    public function __construct($field, $label = '', Grid $grid)
+    public function __construct(Grid $grid,$field, $label = '')
     {
         $this->grid = $grid;
         $this->field = $field;

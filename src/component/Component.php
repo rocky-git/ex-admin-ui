@@ -543,7 +543,7 @@ abstract class Component implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         if (!$this->disableBeforeEnd) {
             foreach (self::$beforeEnd as $class => $ends) {

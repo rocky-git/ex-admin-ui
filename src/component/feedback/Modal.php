@@ -73,7 +73,7 @@ class Modal extends Component
         return $this->wrapClassName("full-modal");
     }
     
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         if(!isset($this->content['title'])){
             $this->title($this->attr('reference')->content['default'][0] ?? '');

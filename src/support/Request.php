@@ -39,7 +39,8 @@ class Request
     }
     protected function getInputData(): array
     {
-        if (false !== strpos($this->request->getContentType(), 'json')) {
+        $contentType = $this->request->getContentType() ?? '';
+        if (false !== strpos($contentType, 'json')) {
             $content = file_get_contents('php://input');
             $data = (array)json_decode($content, true);
             $this->request->request->add($data);

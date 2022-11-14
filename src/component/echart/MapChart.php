@@ -63,7 +63,7 @@ class MapChart extends Echart
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
 
         $this->echart->series[] = [

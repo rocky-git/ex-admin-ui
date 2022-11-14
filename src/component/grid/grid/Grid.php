@@ -140,7 +140,7 @@ class Grid extends Table
         $this->params([]);
         $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
         $callParams = array_merge($callParams, $this->call['params']);
-        if(Request::getPathInfo() == $this->attr('url')){
+        if (Request::getPathInfo() == $this->attr('url')) {
             $callParams = array_merge($callParams, Request::input());
         }
         $this->attr('callParams', $callParams);
@@ -158,7 +158,7 @@ class Grid extends Table
     {
         $manager = admin_config('admin.grid.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
-        if(!$this->attr('hideTrashed')){
+        if (!$this->attr('hideTrashed')) {
             $this->hideTrashed(!$this->driver->trashed());
         }
     }
@@ -270,9 +270,12 @@ class Grid extends Table
             $image = Image::create()
                 ->width(50)
                 ->height(50)
-                ->style(['border-radius'=>'50%','objectFit'=>'cover'])
+                ->style(['border-radius' => '50%', 'objectFit' => 'cover'])
                 ->src($avatarValue);
-            return Html::create()->content($image)->content("<br>{$val}");
+            return Html::create()->content([
+                $image,
+                Html::div()->content($val)
+            ]);
         })->align('center');
     }
 
@@ -309,20 +312,24 @@ class Grid extends Table
      * @param bool $defaultExpandAllRows
      * @return Grid|void
      */
-    public function defaultExpandAllRows($defaultExpandAllRows){
-        $this->attr('defaultExpandAllRows',$defaultExpandAllRows);
-        if(!$this->attr('expandedRowKeys')){
+    public function defaultExpandAllRows($defaultExpandAllRows)
+    {
+        $this->attr('defaultExpandAllRows', $defaultExpandAllRows);
+        if (!$this->attr('expandedRowKeys')) {
             $this->expandedRowKeys([]);
         }
     }
+
     /**
      * 默认展开的行，控制属性
      * @param array $keys 展开id集合
      * @return Grid|void
      */
-    public function expandedRowKeys(array $keys){
-        $this->vModel('expandedRowKeys',null,$keys);
+    public function expandedRowKeys(array $keys)
+    {
+        $this->vModel('expandedRowKeys', null, $keys);
     }
+
     /**
      * 拖拽排序
      * @param string $field 排序字段
@@ -373,14 +380,14 @@ class Grid extends Table
     {
         if ($field instanceof \Closure) {
             $childrenColumns = $this->collectColumns($field);
-            $column = new Column(null, $label, $this);
+            $column = new Column($this, null, $label);
             $field = $this->random();
             $column->attr('children', array_column($childrenColumns, 'attribute'));
             foreach ($childrenColumns as $childrenColumn) {
                 $this->childrenColumn[] = $childrenColumn;
             }
         } else {
-            $column = new Column($field, $label, $this);
+            $column = new Column($this, $field, $label);
         }
         $this->column[$field] = $column;
         return $column;
@@ -440,7 +447,7 @@ class Grid extends Table
             $selectionField = $this->attr('selectionField') ?? $pk;
             $rowData['ex_admin_selected'] = $row[$selectionField];
             $rowArr = $row;
-            if(is_object($row) && method_exists($row,'toArray')){
+            if (is_object($row) && method_exists($row, 'toArray')) {
                 $rowArr = $row->toArray();
             }
             if (is_null($this->customClosure)) {
@@ -451,19 +458,19 @@ class Grid extends Table
                 }
                 foreach ($columns as $column) {
                     $field = $column->attr('dataIndex');
-                    $rowData[$field] = $column->row($rowArr,$row, $export);
+                    $rowData[$field] = $column->row($rowArr, $row, $export);
                 }
                 if (!is_null($this->expandRow)) {
                     $expandRow = call_user_func($this->expandRow, $row);
                     $rowData['ExAdminExpandRow'] = Html::create($expandRow);
                 }
             } else {
-                $rowData['custom'] = call_user_func($this->customClosure, $row,$this);
+                $rowData['custom'] = call_user_func($this->customClosure, $row, $this);
             }
             if (!$export) {
                 $actionColumn = clone $this->actionColumn;
                 $rowData[$actionColumn->column()->attr('dataIndex')] = $actionColumn->row($row);
-                $rowData['dblclickAction']  = $actionColumn->getDblclickAction();
+                $rowData['dblclickAction'] = $actionColumn->getDblclickAction();
             }
             $tableData[] = $rowData;
         }
@@ -556,7 +563,7 @@ class Grid extends Table
         $this->search = $search;
     }
 
-    protected function dispatch($method,$object = null)
+    protected function dispatch($method, $object = null)
     {
         if (Request::has('ex_admin_sidebar')) {
             if (Request::input('ex_admin_action') == 'data') {
@@ -565,7 +572,7 @@ class Grid extends Table
                 $this->driver = $this->sidebar->driver();
             }
         }
-        if(is_null($object)){
+        if (is_null($object)) {
             $object = $this->driver;
         }
         return Container::getInstance()
@@ -583,7 +590,7 @@ class Grid extends Table
      */
     public function sidebar(string $field, $data, string $label = 'name', string $id = 'id')
     {
-        $this->sidebar = Sidebar::create($this,$data, $label, $id);
+        $this->sidebar = Sidebar::create($this, $data, $label, $id);
         $this->sidebar->field($field);
         $this->attr('sidebar', $this->sidebar);
         return $this->sidebar;
@@ -623,7 +630,8 @@ class Grid extends Table
      * @param string $name 参数名称
      * @param \Closure $closure
      */
-    public function ajaxAction($name,\Closure $closure){
+    public function ajaxAction($name, \Closure $closure)
+    {
         $this->ajaxActions[$name] = $closure;
     }
 
@@ -643,7 +651,7 @@ class Grid extends Table
                 return $response;
             }
             return $this->dispatch($action);
-        }else{
+        } else {
             return $this->driver->getForm()->exec();
         }
     }
@@ -656,7 +664,7 @@ class Grid extends Table
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $this->exec();
 

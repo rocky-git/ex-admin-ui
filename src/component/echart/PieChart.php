@@ -56,7 +56,7 @@ class PieChart extends Echart
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         if (count($this->data) > 0) {
             $series = [

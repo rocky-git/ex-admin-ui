@@ -64,7 +64,7 @@ class Actions
     public function __construct(Grid $grid)
     {
         $this->grid = $grid;
-        $this->column = new Column('ExAdminAction', '', $grid);
+        $this->column = new Column($grid,'ExAdminAction', '');
     }
 
     //隐藏详情按钮
@@ -259,7 +259,7 @@ class Actions
             }, function ($button) {
                 $button->content(admin_trans('grid.delete'));
             })
-            ->icon('<DeleteFilled />')
+            ->icon(Icon::create('DeleteFilled'))
             ->confirm(admin_trans('grid.confim_delete'), $this->grid->attr('url'), $this->grid->getCall()['params'] + ['ex_admin_trashed' => $this->grid->isTrashed(), 'ex_admin_action' => 'delete', 'ids' => [$this->id]])
             ->method('delete')
             ->gridRefresh();
