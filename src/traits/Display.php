@@ -35,7 +35,7 @@ trait Display
     public function rate(int $count = 5, bool $allowHalf = false, array $toolTips = [], $character = '<StarOutlined />')
     {
         return $this->display(function ($value) use ($count, $allowHalf, $character, $toolTips) {
-            return Rate::create(null, $value)
+            return Rate::create(null, $this->displayValue)
                 ->disabled()
                 ->tooltips($toolTips)
                 ->count($count)
@@ -56,7 +56,7 @@ trait Display
     {
         return $this->display(function ($value) use ($width, $placement, $color, $trigger) {
             return ToolTip::create(
-                Html::create($value)
+                Html::create($this->displayComponent)
                     ->tag('div')
                     ->style([
                         'width' => "{$width}px",
@@ -64,7 +64,7 @@ trait Display
                         'overflow' => 'hidden',
                         'whiteSpace' => 'nowrap',
                     ]))
-                ->title($value)
+                ->title($this->displayValue)
                 ->placement($placement)
                 ->trigger($trigger)
                 ->color($color);
@@ -78,8 +78,8 @@ trait Display
      */
     public function tag($color = 'blue', $icon = '')
     {
-        return $this->display(function ($value) use ($color, $icon) {
-            return $this->getTag($this->getArrayValue($value), $color, $icon);
+        return $this->display(function () use ($color, $icon) {
+            return $this->getTag($this->getArrayValue($this->displayValue), $color, $icon);
         });
     }
 
@@ -97,7 +97,7 @@ trait Display
             foreach ($value as $item) {
                 $tags[] = $this->getTag($item, $color, $icon);
             }
-            return $tags;
+            return Html::create($tags);
         } else {
             return Tag::create($value)
                 ->color($color)
@@ -139,8 +139,8 @@ trait Display
      */
     public function image(int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
-        return $this->display(function ($value) use ($width, $height, $alt, $preview) {
-            return $this->commonImage($value, $width, $height, $alt, $preview);
+        return $this->display(function () use ($width, $height, $alt, $preview) {
+            return $this->commonImage($this->displayValue, $width, $height, $alt, $preview);
         });
     }
 
@@ -154,7 +154,8 @@ trait Display
      */
     public function images(int $width = 80, int $height = 80, string $alt = '', $style = ['marginRight' => '5px', 'marginBottom' => '5px'])
     {
-        return $this->display(function ($value) use ($width, $height, $alt, $style) {
+        return $this->display(function () use ($width, $height, $alt, $style) {
+            $value = $this->displayValue;
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             $html = [];
@@ -178,9 +179,9 @@ trait Display
      */
     public function audio($width = 300, $height = 54)
     {
-        return $this->display(function ($value) use ($width, $height) {
+        return $this->display(function () use ($width, $height) {
             return Html::create('您的浏览器不支持 audio 标签。')
-                ->attr('src', $value)
+                ->attr('src', $this->displayValue)
                 ->attr('controls', true)
                 ->tag('audio')
                 ->style(["width" => "{$width}px", 'height' => "{$height}px"]);
@@ -195,8 +196,8 @@ trait Display
      */
     public function video($width = 200, $height = 100)
     {
-        return $this->display(function ($value) use ($width, $height) {
-            return Video::create()->url($value)->size($width, $height);
+        return $this->display(function () use ($width, $height) {
+            return Video::create()->url($this->displayValue)->size($width, $height);
         })->width($width);
     }
 
@@ -211,9 +212,9 @@ trait Display
      */
     public function progress(string $type = 'line', int $width = 150, string $status = 'normal', $strokeColor = '', string $trailColor = '')
     {
-        return $this->display(function ($value) use ($type, $width, $status, $strokeColor, $trailColor) {
+        return $this->display(function () use ($type, $width, $status, $strokeColor, $trailColor) {
             $process = Progress::create()
-                ->percent($value)
+                ->percent($this->displayValue)
                 ->type($type)
                 ->width($width)
                 ->status($status);
@@ -233,9 +234,9 @@ trait Display
      */
     public function statistic(int $precision = 0, $prefix = '', $suffix = '', string $groupSeparator = ',')
     {
-        return $this->display(function ($value) use ($precision, $prefix, $suffix, $groupSeparator) {
+        return $this->display(function () use ($precision, $prefix, $suffix, $groupSeparator) {
             $statistic = Statistic::create()
-                ->value($value)
+                ->value($this->displayValue)
                 ->precision($precision)
                 ->groupSeparator($groupSeparator);
             if (!empty($prefix)) $statistic->prefix($prefix);
@@ -253,9 +254,10 @@ trait Display
     public function link($field = '', $target = '_blank')
     {
         return $this->display(function ($value, $data) use ($field, $target) {
-            $href = $this->getAssignValue($value, $data, $field);
+
+            $href = $this->getAssignValue($this->displayComponent, $data, $field);
             return Html::create($href)
-                ->attr('href', $href)
+                ->attr('href', $this->displayValue)
                 ->attr('target', $target)
                 ->tag('a');
         });
@@ -273,7 +275,7 @@ trait Display
     public function popover($field = '', $label = '查看', $width = '500px', $tigger = 'hover', $placement = 'top')
     {
         return $this->display(function ($value, $data) use ($field, $label, $width, $tigger, $placement) {
-            $value = $this->getAssignValue($value, $data, $field);
+            $value = $this->getAssignValue($this->displayValue, $data, $field);
             if (empty($value)) return '';
             $value = $this->getArrayValue($value);
             return Popover::create(Button::create($label))
@@ -290,7 +292,8 @@ trait Display
      */
     public function file()
     {
-        return $this->display(function ($value) {
+        return $this->display(function () {
+            $value = $this->displayValue;
             if (empty($value)) {
                 return $value;
             }
@@ -312,8 +315,8 @@ trait Display
      */
     public function prepend($prepend)
     {
-        return $this->display(function ($val) use ($prepend) {
-            return $prepend . $val;
+        return $this->display(function () use ($prepend) {
+            return $prepend . $this->displayValue;
         });
     }
 
@@ -324,8 +327,8 @@ trait Display
      */
     public function append($append)
     {
-        return $this->display(function ($val) use ($append) {
-            return $val . $append;
+        return $this->display(function () use ($append) {
+            return $this->displayValue . $append;
         });
 
     }
@@ -335,8 +338,8 @@ trait Display
      * @return \ExAdmin\ui\component\detail\Item|Column
      */
     public function html(){
-        return $this->display(function ($value){
-            return Html::raw($value);
+        return $this->display(function (){
+            return Html::raw($this->displayValue);
         });
     }
 
@@ -349,6 +352,7 @@ trait Display
     {
         $this->using = $usings;
         return $this->display(function ($value) use ($usings, $color) {
+            $value = $this->displayValue;
             if(!is_array($value)){
                 $value = [$value];
             }
@@ -378,9 +382,9 @@ trait Display
     public function copy($content = null)
     {
         return $this->display(function ($value) use ($content) {
-            $content = is_null($content) ? $value : $content;
+            $content = is_null($content) ? $this->displayValue : $content;
             return Html::div()->content([
-                $value,
+                $this->displayComponent,
                 Copy::create($content)
             ])->attr('class', 'ex-admin-editable-cell');
         });

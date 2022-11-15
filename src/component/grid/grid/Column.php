@@ -47,7 +47,9 @@ class Column extends Component
 
     protected $grid;
 
-    protected $closure = null;
+    protected $closure = [];
+    protected $displayValue = null;
+    protected $displayComponent = null;
 
     protected $exportClosure = null;
 
@@ -112,9 +114,19 @@ class Column extends Component
         //条件显示
         $this->when->exec($originValue, $originData);
         //自定义内容显示处理
-        if (!is_null($this->closure)) {
-            $value = call_user_func_array($this->closure, [$originValue, $originData]);
+        foreach ($this->closure as $key=>$display){
+            if($key === 0){
+                $this->displayValue = $originValue;
+                $this->displayComponent = $originValue;
+            }
+            $display->bindTo($this);
+            $value = call_user_func_array($display,[$originValue, $originData]);
+            $this->displayComponent = $value;
+            if(!is_object($value)){
+                $this->displayValue = $value;
+            }
         }
+
         if (!is_null($this->editable)) {
             $value = call_user_func_array($this->editable, [$originValue, $originData, $value]);
         }
@@ -261,7 +273,7 @@ class Column extends Component
      */
     public function display(\Closure $closure)
     {
-        $this->closure = $closure;
+        $this->closure[] = $closure;
         return $this;
     }
 
