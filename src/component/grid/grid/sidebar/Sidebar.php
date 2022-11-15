@@ -143,7 +143,7 @@ class Sidebar extends Component
         $this->actions = $closure;
         return $this;
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         $fieldNames = $this->attr('fieldNames');
         $data = $this->driver->data(1,20,true);

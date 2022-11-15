@@ -46,7 +46,7 @@ class Item extends DescriptionsItem
         return $this;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if(is_null($this->field)){
             $originValue =null;

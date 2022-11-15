@@ -45,7 +45,7 @@ class Confirm extends Component
     {
        return $this->attr('content',$content);
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return $this->component
             ->ajax($this->attr('url'),$this->attr('params'),$this->attr('method'))

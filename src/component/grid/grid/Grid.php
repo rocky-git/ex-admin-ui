@@ -664,7 +664,7 @@ class Grid extends Table
         }
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         $this->exec();
 

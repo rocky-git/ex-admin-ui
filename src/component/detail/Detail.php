@@ -78,7 +78,7 @@ class Detail extends Descriptions
         $this->item = array_slice($this->item, 0, $offset);
         return $items;
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if($this->exec){
             call_user_func($this->exec,$this);

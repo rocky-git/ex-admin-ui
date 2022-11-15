@@ -48,7 +48,7 @@ class FormMany extends Field
         $this->attr('columns',$columns);
         return $this;
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if(!$this->attr('disabled') && !$this->attr('action')){
             $columns = $this->attr('columns');

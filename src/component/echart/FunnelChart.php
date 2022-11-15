@@ -48,7 +48,7 @@ class FunnelChart extends Echart
         return $this;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if (count($this->data) > 0) {
             $this->echart->series[] = [

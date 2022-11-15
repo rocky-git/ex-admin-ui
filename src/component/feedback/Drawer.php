@@ -62,7 +62,7 @@ class Drawer extends Component
         $this->footerStyle(['textAlign'=>'right']);
         parent::__construct();
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if(!isset($this->content['title'])){
             $this->title($this->attr('reference')->content['default'][0] ?? '');

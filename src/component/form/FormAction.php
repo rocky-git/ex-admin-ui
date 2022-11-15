@@ -103,7 +103,7 @@ class FormAction extends FormItem
     {
         $this->rightAction[] = $content;
     }
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if ($this->hideResetButton) {
             $this->resetButton = null;

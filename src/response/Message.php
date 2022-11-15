@@ -25,7 +25,7 @@ abstract class Message implements \JsonSerializable
         return json_encode($this->jsonSerialize());
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         $this->response['data'] = $this->data;
         return $this->response;

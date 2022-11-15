@@ -225,24 +225,24 @@ PHP;
         return file_put_contents($file, $content);
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists($offset)
     {
         return Arr::exists($this->info, $offset);
     }
 
 
-    public function offsetGet($offset): mixed
+    public function offsetGet($offset)
     {
         return Arr::get($this->info, $offset);
     }
 
-    public function offsetSet($offset, $value): void
+    public function offsetSet($offset, $value)
     {
         Arr::set($this->info, $offset, $value);
     }
 
 
-    public function offsetUnset($offset): void
+    public function offsetUnset($offset)
     {
         unset($this->info, $offset);
     }

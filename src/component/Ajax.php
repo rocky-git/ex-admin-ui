@@ -43,7 +43,7 @@ class Ajax extends Component
         return $this;
     }
     
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         if(!$this->componentVisible){
             $this->component->whenShow($this->componentVisible);

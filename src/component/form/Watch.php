@@ -103,22 +103,22 @@ class Watch implements ArrayAccess
 
 
     // ArrayAccess
-    public function offsetSet($name, $value): void
+    public function offsetSet($name, $value)
     {
         $this->set($name, $value);
     }
 
-    public function offsetExists($name): bool
+    public function offsetExists($name)
     {
         return $this->__isset($name);
     }
 
-    public function offsetUnset($name): void
+    public function offsetUnset($name)
     {
         $this->__unset($name);
     }
 
-    public function offsetGet($name): mixed
+    public function offsetGet($name)
     {
         return $this->get($name);
     }
@@ -129,7 +129,7 @@ class Watch implements ArrayAccess
      * @param string $name 名称
      * @return void
      */
-    public function __unset(string $name): void
+    public function __unset(string $name)
     {
         unset($this->data[$name]);
     }
