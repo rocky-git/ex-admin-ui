@@ -210,6 +210,14 @@ abstract class Component implements \JsonSerializable
     }
 
     /**
+     * 移除绑定属性函数
+     * @param string $attr 属性
+     */
+    public function removeBindFunction($attr){
+        unset($this->bindFunction[$attr]);
+    }
+
+    /**
      * 绑定ref
      * @return string
      */

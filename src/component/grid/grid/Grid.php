@@ -169,6 +169,18 @@ class Grid extends Table
     }
 
     /**
+     * 斑马纹
+     * @param bool $value
+     */
+    public function striped(bool $value = true){
+        if($value){
+            $this->bindFunction('rowClassName',"return index % 2 === 1 ? 'table-striped' : null;",['_record','index']);
+        }else{
+            $this->removeAttrBind('rowClassName');
+        }
+    }
+
+    /**
      * @return mixed
      */
     public function model()

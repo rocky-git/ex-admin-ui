@@ -10,6 +10,7 @@ abstract class Message implements \JsonSerializable
 {
     protected $response = [
         'code' => 200,
+        'bind' => [],
     ];
 
     protected $data = [];
@@ -23,6 +24,28 @@ abstract class Message implements \JsonSerializable
     public function __toString()
     {
         return json_encode($this->jsonSerialize());
+    }
+
+    /**
+     * @param array $bind
+     * @return $this
+     */
+    public function binds(array $bind)
+    {
+        $this->response['bind'] = $bind;
+        return $this;
+    }
+
+    /**
+     * 绑定
+     * @param string $field
+     * @param mixed $value
+     * @return $this
+     */
+    public function bind($field, $value)
+    {
+        $this->response['bind'][$field] = $value;
+        return $this;
     }
 
     public function jsonSerialize()

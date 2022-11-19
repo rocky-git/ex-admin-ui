@@ -68,6 +68,7 @@ class Column extends Component
 
     public function __construct(Grid $grid,$field, $label = '')
     {
+        parent::__construct();
         $this->grid = $grid;
         $this->field = $field;
         $this->dataIndex($field);

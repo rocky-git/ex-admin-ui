@@ -71,7 +71,10 @@ trait CascadeTrait
     {
         $this->optionsClosure = function () use ($data,$label,$id,$pid,$children) {
             foreach ($data as &$row){
-                $row['disabled'] = false;
+                if(!isset($row['disabled'])){
+                    $row['disabled'] = false;
+                }
+
                 if (in_array($row[$id], $this->disabledValue)) {
                     $row['disabled'] = true;
                 }
@@ -107,9 +110,10 @@ trait CascadeTrait
         ]);
         if($callback instanceof \Closure){
             $callbackField = $this->setCallback($callback,function ($data) use ($id,$pid,$children) {
-                $options = [];
                 foreach ($data as &$row){
-                    $row['disabled'] = false;
+                    if(!isset($row['disabled'])){
+                        $row['disabled'] = false;
+                    }
                     if (in_array($row[$id], $this->disabledValue)) {
                         $row['disabled'] = true;
                     }
