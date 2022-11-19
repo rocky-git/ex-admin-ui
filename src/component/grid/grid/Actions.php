@@ -64,7 +64,8 @@ class Actions
     public function __construct(Grid $grid)
     {
         $this->grid = $grid;
-        $this->column = new Column($grid,'ExAdminAction', '');
+        $this->column = new Column($grid,'ExAdminAction');
+        $this->column->resizable(false);
     }
 
     //隐藏详情按钮

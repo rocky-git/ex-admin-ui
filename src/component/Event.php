@@ -66,6 +66,29 @@ trait Event
     }
 
     /**
+     * 触发ajax
+     * @param string $name 事件名称 例如点击直接click
+     * @param $url
+     * @param array $params
+     * @param string $method
+     * @param bool $gridRefresh
+     * @param bool $gridBatch
+     * @return Component
+     */
+    public function eventAjax(string $name, $url, array $params = [], string $method = 'POST', bool $gridRefresh = false, bool $gridBatch = false){
+        $url = admin_url($url);
+        $this->whenShow(admin_check_permissions($url,$method));
+        return $this->eventCustom($name, 'Ajax',[
+            'ajax'=>[
+                'url' => $url,
+                'data' => $params,
+                'method' => $method,
+            ],
+            'gridRefresh'=>$gridRefresh,
+            'gridBatch'=>$gridBatch,
+        ]);
+    }
+    /**
      * 触发事件
      * @param string $name 事件名称 例如点击直接click
      * @param array $value

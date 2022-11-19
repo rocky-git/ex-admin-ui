@@ -209,8 +209,8 @@ if (!function_exists('admin_menu')) {
 if (!function_exists('admin_check_permissions')) {
     /**
      * 验证权限
-     * @param $url
-     * @param $method 请求method
+     * @param string $url
+     * @param string $method 请求method
      * @return bool
      */
     function admin_check_permissions($url, $method)
