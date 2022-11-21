@@ -23,9 +23,19 @@ trait WatchForm
      */
     public function watch(array $data)
     {
+        $watchs = [];
+        foreach ($data as $field=>&$closure){
+            $debounce = 300;
+            if(is_array($closure)){
+                list($debounce,$closure) = $closure;
+            }
+            $watchs[] = [
+                'field'=>$field,
+                'debounce'=>$debounce,
+            ];
+        }
         $this->watch = $data;
-        $fields = array_keys($this->watch);
-        $this->attr('watch',$fields);
+        $this->attr('watch',$watchs);
     }
     /**
      * 初始化触发一次watch

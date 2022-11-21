@@ -571,11 +571,6 @@ class Form extends Component
         if ($this->attr('labelCol')) {
             $item->labelCol($this->attr('labelCol'));
         }
-        if (count($this->manyField) == 0) {
-            $ifField = str_replace('.', '_', $this->getBindField(implode('_', $name) . 'Show'));
-            $this->except($ifField);
-            $item->bind($ifField, 1)->where($ifField, 1);
-        }
         $this->push($item);
         return $item;
     }

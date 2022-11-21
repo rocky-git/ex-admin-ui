@@ -14,8 +14,7 @@ use ExAdmin\ui\support\Request;
 class Watch implements ArrayAccess
 {
     protected $data = [];
-    protected $hideField = [];
-    protected $showField = [];
+
     protected $init = false;
     public function __construct($data,$init = false)
     {
@@ -23,42 +22,7 @@ class Watch implements ArrayAccess
         $this->data = $data;
     }
 
-    /**
-     * 显示
-     * @param string|array $field 字段
-     */
-    public function hide($field)
-    {
-        if (is_array($field)) {
-            foreach ($field as $value) {
-                $this->hideField[] = $this->getIfField($value);
-            }
-        } else {
-            $this->hideField[] = $this->getIfField($field);
-        }
-    }
 
-    /**
-     * 隐藏
-     * @param string|array $field 字段
-     */
-    public function show($field)
-    {
-        if (is_array($field)) {
-            foreach ($field as $value) {
-                $this->showField[] = $this->getIfField($value);
-            }
-        } else {
-            $this->showField[] = $this->getIfField($field);
-        }
-    }
-
-    protected function getIfField($field)
-    {
-        $field = str_replace('.', '_', $field);
-        $field = Request::input('formField') .'_'. $field . 'Show';
-        return $field;
-    }
     public function setData($data){
         return $this->data = $data;
     }
@@ -78,15 +42,7 @@ class Watch implements ArrayAccess
         }
     }
 
-    public function getShowField()
-    {
-        return $this->showField;
-    }
 
-    public function getHideField()
-    {
-        return $this->hideField;
-    }
 
     /**
      * 设置值
