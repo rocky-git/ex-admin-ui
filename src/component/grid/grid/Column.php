@@ -325,7 +325,7 @@ class Column extends Component
                     'ids' => [$data[$this->grid->driver()->getPk()]],
                 ]);
             $form->actions()->submitButton()->htmlType('submit');
-            if (Request::input('ex_form_id') == $data[$this->grid->driver()->getPk()]) {
+            if (Request::has('ex_form_id')) {
                 $this->grid->driver()->setForm($form);
             }
             if (is_null($editable)) {
@@ -431,6 +431,8 @@ class Column extends Component
                 ->style(['borderTop' => '1px solid #DCDFE6', 'paddingTop' => '10px'])
                 ->tag('div')
             , 'footer');
+        $form->exec();
+        $form->setBind([]);
         $this->attr('customFilterDropdown', true);
         $this->attr('customFilterForm', $form->style(['padding' => '8px']));
     }

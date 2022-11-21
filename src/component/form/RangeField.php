@@ -27,7 +27,7 @@ class RangeField extends Field
     {
         parent::modelValue();
         $form = $this->form;
-        $form->except($this->field);
+        $this->exceptField($this->field);
         $bindFields = [
             'startField',
             'endField',

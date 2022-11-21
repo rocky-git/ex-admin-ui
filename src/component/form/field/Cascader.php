@@ -74,7 +74,7 @@ class Cascader extends Field
         if ($this->formItem) {
 
             $form = $this->formItem->form();
-            $form->except($this->field);
+            $this->exceptField($this->field);
             $fields = [];
             $values = [];
             foreach ($this->attr('fields') as $bindField) {

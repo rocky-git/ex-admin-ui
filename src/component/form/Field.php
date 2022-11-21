@@ -194,9 +194,6 @@ class Field extends Component
      * @return void
      */
     protected function exceptField($field){
-        $exceptFields = $this->form->manyField;
-        array_push($exceptFields,$field);
-        $except = implode('.',$exceptFields);
-        $this->form->except($except);
+        $this->form->except($field);
     }
 }

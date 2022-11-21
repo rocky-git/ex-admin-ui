@@ -105,7 +105,6 @@ class Filter
             }
             $formComponent = call_user_func_array([$form, $name], $arguments);
             list($fields) = Arr::formItem($formComponent, $arguments);
-            $params = [];
             $input = Request::input('ex_admin_filter',[]);
             if($this->mergeParams){
                 $input = array_merge(Request::input(),$input);

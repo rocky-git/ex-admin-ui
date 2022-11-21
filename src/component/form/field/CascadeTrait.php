@@ -125,7 +125,7 @@ trait CascadeTrait
             $url = $callback;
         }
         $field = $this->vModel('options',null,[],true);
-        $this->form->except($field);
+        $this->exceptField($field);
         $params  = [
             'url' => $url,
             'data' => [

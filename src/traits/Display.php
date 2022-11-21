@@ -29,18 +29,16 @@ trait Display
      * @param int $count star总数
      * @param bool $allowHalf 是否允许半选
      * @param string[] $toolTips 自定义每项的提示信息
-     * @param mixed $character 自定义字符
      * @return $this
      */
-    public function rate(int $count = 5, bool $allowHalf = false, array $toolTips = [], $character = '<StarOutlined />')
+    public function rate(int $count = 5, bool $allowHalf = false, array $toolTips = [])
     {
-        return $this->display(function ($value) use ($count, $allowHalf, $character, $toolTips) {
+        return $this->display(function ($value) use ($count, $allowHalf,  $toolTips) {
             return Rate::create(null, $this->displayValue)
                 ->disabled()
                 ->tooltips($toolTips)
                 ->count($count)
-                ->allowHalf(true)
-                ->character($character);
+                ->allowHalf(true);
         });
     }
 

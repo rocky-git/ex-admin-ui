@@ -25,7 +25,7 @@ trait OptionsClosure
         if (is_null($this->optionsBindField)) {
             $this->optionsBindField = $this->random();
         }
-        $this->formItem->form()->except($this->optionsBindField);
+        $this->exceptField($this->optionsBindField);
 
     }
 

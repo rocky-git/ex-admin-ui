@@ -22,7 +22,7 @@ class CascaderMultiple extends Cascader
     public function modelValue()
     {
         $form = $this->formItem->form();
-        $form->except($this->field);
+        $this->exceptField($this->field);
         $relation = $this->attr('relation');
         $data = $form->input($relation) ?? [];
         $form->input($relation, $data);

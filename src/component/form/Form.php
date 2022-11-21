@@ -7,7 +7,6 @@ use ExAdmin\ui\component\Component;
 use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\CascaderSingle;
-use ExAdmin\ui\component\form\field\dateTimePicker\RangeField;
 use ExAdmin\ui\component\form\field\dateTimePicker\RangePicker;
 use ExAdmin\ui\component\form\field\input\Hidden;
 use ExAdmin\ui\component\form\field\input\Input;
@@ -26,7 +25,6 @@ use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
 use ExAdmin\ui\contract\FormAbstract;
-use ExAdmin\ui\contract\FormEventInterface;
 use ExAdmin\ui\contract\ValidatorAbstract;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
@@ -408,11 +406,11 @@ class Form extends Component
      */
     public function hasMany(string $field, $title, \Closure $closure)
     {
-        $this->except($field . '.ex_admin_id');
         $manyData = $this->input($field) ?? [];
         $data = $this->data;
         $this->data = [];
         $this->manyField[$field] = $field;
+        $this->except('ex_admin_id');
         $formMany = FormMany::create($field);
         $formItems = $this->collectFields($closure, [$formMany]);
         $itemData = $this->data;
@@ -565,6 +563,7 @@ class Form extends Component
         if(count($name) > 0){
             $name = $this->validName($name);
         }
+        $this->except($this->bindAttr('validateField'));
         $item = FormItem::create($this)
             ->label($label)
             ->name($name)
@@ -574,6 +573,7 @@ class Form extends Component
         }
         if (count($this->manyField) == 0) {
             $ifField = str_replace('.', '_', $this->getBindField(implode('_', $name) . 'Show'));
+            $this->except($ifField);
             $item->bind($ifField, 1)->where($ifField, 1);
         }
         $this->push($item);
@@ -586,15 +586,22 @@ class Form extends Component
      */
     public function except($field)
     {
-        if (is_string($field)) {
+        if (!is_array($field)) {
             $field = [$field];
         }
         $exceptField = $this->attr('exceptField');
 
+        $exceptFields = $this->manyField;
+
+        foreach ($field as &$f){
+            array_push($exceptFields,$f);
+            $f = implode('.',$exceptFields);
+        }
+
         if (is_array($exceptField)) {
             $field = array_merge($exceptField, $field);
         }
-
+        $field = array_unique($field);
         //排除字段
         $this->attr('exceptField', $field);
     }

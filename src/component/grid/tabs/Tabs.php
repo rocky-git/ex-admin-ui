@@ -49,6 +49,7 @@ class Tabs extends Component
 
     public function __construct($value = 1, $field = null)
     {
+        parent::__construct();
         $this->vModel($this->vModel, $field, $value);
     }
 
@@ -106,5 +107,6 @@ JS;
 
     public function setForm(Form $form){
         $this->form = $form;
+        $this->form->except($this->getModel());
     }
 }

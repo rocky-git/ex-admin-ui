@@ -24,6 +24,7 @@ trait When
         $form = $this->formItem->form();
         $formItems = $form->collectFields($closure);
         $field = $form->getBindField($this->field);
+        $form->except($field);
         foreach ($formItems as $formItem) {
             $formItem->where(function($where) use($value,$operator,$field){
                 if (is_array($value)) {

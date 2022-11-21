@@ -86,19 +86,20 @@ abstract class FormAbstract
     /**
      * watch监听
      * @param array $data 表单数据
-     * @param $ex_field 监听字段
-     * @param $newValue 新值
-     * @param $oldValue 旧值
+     * @param string $ex_field 监听字段
+     * @param string $newValue 新值
+     * @param string  $oldValue 旧值
+     * @param int $index 数组中的index
      * @return mixed
      */
-    public function watch(array $data, $ex_field, $newValue = '', $oldValue = '')
+    public function watch(array $data, $ex_field, $newValue = '', $oldValue = '',$index = null)
     {
         $watch = new Watch($data);
         $closure = $this->form->getWatch()[$ex_field];
         $arr = explode('.*.',$ex_field);
         $field = current($arr);
-        $watch->set($field, $newValue);
-        call_user_func_array($closure, [$newValue, $watch, $oldValue]);
+      //  $watch->set($field, $newValue);
+        call_user_func_array($closure, [$newValue, $watch, $oldValue,$index]);
         unset($watch[$ex_field]);
         return Response::success([
             'data' => $watch->get(),

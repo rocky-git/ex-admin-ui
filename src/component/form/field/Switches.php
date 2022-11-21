@@ -38,7 +38,6 @@ class Switches extends Field
 
     public function __construct($field = null, $value = false)
     {
-        $this->vModel($this->vModel, null, $value);
         $this->options();
         parent::__construct($field, $value);
     }

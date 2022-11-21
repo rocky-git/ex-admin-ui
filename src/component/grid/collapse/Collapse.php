@@ -19,6 +19,7 @@ use ExAdmin\ui\component\grid\grid\Grid;
  * @method $this expandIconPosition(string $expandIconPosition = 'left') 设置图标位置： left, right                       left
  * @method $this ghost(bool $ghost = false) 使折叠面板透明且无边框                                                        boolean
  * @method $this destroyInactivePanel(bool $destroyInactivePanel = false) 销毁折叠隐藏的面板                              boolean
+ * @method static $this create(string $value = 1, $bindField = null) 创建
  * @package ExAdmin\ui\component\form\field
  */
 class Collapse extends Component
@@ -44,6 +45,14 @@ class Collapse extends Component
      * @var Form
      */
     protected $form;
+
+    protected $vModel = 'activeKey';
+
+    public function __construct($value = 1, $field = null)
+    {
+        parent::__construct();
+        $this->vModel($this->vModel, $field, $value);
+    }
     /**
      * 添加一个子项
      * @param mixed $header 折叠面板标题
@@ -133,5 +142,6 @@ JS;
 
     public function setForm(Form $form){
         $this->form = $form;
+        $this->form->except($this->getModel());
     }
 }
