@@ -23,6 +23,11 @@ abstract class ValidatorAbstract
      */
     protected $tabFields = [];
     /**
+     * collapse位置字段
+     * @var array
+     */
+    protected $collapseFields = [];
+    /**
      * step位置字段
      * @var array
      */
@@ -36,23 +41,32 @@ abstract class ValidatorAbstract
     {
         $this->form = $form;
     }
-
+    public function setCollapseField($field)
+    {
+        $this->setField($field,'collapse','collapseFields');
+    }
     public function setTabField($field)
     {
-        if (count($this->form->tabs) > 0) {
-            $tabs = [];
-            foreach ($this->form->tabs as $model => $key) {
-                $tabs[$field][] = ['model' => $model, 'key' => $key];
+        $this->setField($field,'tabs','tabFields');
+    }
+    protected function setField($field,$type,$attr){
+        if (count($this->form->$type) > 0) {
+            $arr = [];
+            foreach ($this->form->$type as $model => $key) {
+                $arr[$field][] = ['model' => $model, 'key' => $key];
             }
-            $this->tabFields[] = $tabs;
+            $this->$attr[] = $arr;
         }
-
     }
     public function setStepField($field){
         if($this->form->getSteps()){
             $current = $this->form->getSteps()->getStepCount()-1;
             $this->stepFields[$current][] = $current.'-'.$field;
         }
+    }
+    public function getCollapseFields()
+    {
+        return $this->collapseFields;
     }
     public function getTabField()
     {

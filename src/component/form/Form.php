@@ -20,6 +20,7 @@ use ExAdmin\ui\component\form\field\upload\Upload;
 use ExAdmin\ui\component\form\traits\FormComponent;
 use ExAdmin\ui\component\form\traits\Step;
 use ExAdmin\ui\component\form\traits\WatchForm;
+use ExAdmin\ui\component\grid\collapse\Collapse;
 use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
@@ -86,6 +87,8 @@ class Form extends Component
     public $manyField = [];
 
     public $tabs = [];
+
+    public $collapse = [];
 
     /**
      * @var FormAbstract
@@ -354,7 +357,7 @@ class Form extends Component
     protected function setPlaceholder(Component $component, $label)
     {
         $placeholder = '';
-        if ($component instanceof Input) {
+        if ($component instanceof Input || $component instanceof AutoComplete) {
             $placeholder = 'please_enter';
         } elseif ($component instanceof Select || $component instanceof Cascader || $component instanceof CascaderSingle || $component instanceof TreeSelect) {
             $placeholder = 'please_select';
@@ -465,6 +468,17 @@ class Form extends Component
         return $tab;
     }
 
+    /**
+     * 折叠面板
+     * @param int $activeKey 当前激活面板的 key
+     * @return Collapse
+     */
+    public function collapse($activeKey = 1){
+        $collapse = Collapse::create();
+        $collapse->setForm($this);
+        $this->push($collapse);
+        return $collapse;
+    }
     /**
      * 添加一行布局
      * @param \Closure $closure
@@ -644,6 +658,7 @@ class Form extends Component
             $this->attr('callParams', $callParams);
             $this->attr('form_ref', $this->bindAttr('ref'));
             $this->attr('tabsValidateField', $this->validator->getTabField());
+            $this->attr('collapseValidateField', $this->validator->getCollapseFields());
             $this->initWatch();
             $this->bind($this->getModel(), $this->data);
         }

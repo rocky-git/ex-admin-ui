@@ -2,7 +2,10 @@
 
 namespace ExAdmin\ui\component\grid\collapse;
 
+use ExAdmin\ui\component\common\AsyncRender;
 use ExAdmin\ui\component\Component;
+use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\grid\grid\Grid;
 
 /**
  * 折叠面板
@@ -36,6 +39,11 @@ class Collapse extends Component
 
     protected $key = 0;
 
+    protected $panel = [];
+    /**
+     * @var Form
+     */
+    protected $form;
     /**
      * 添加一个子项
      * @param mixed $header 折叠面板标题
@@ -44,20 +52,53 @@ class Collapse extends Component
      * @param string|int $key 对应 activeKey
      * @return CollapsePanel
      */
-    public function item($header, $content, bool $showArrow = true, $key = '')
+    public function item($header, $content, bool $showArrow = true, $key = null)
     {
-        if (empty($key)) {
-            $key = ++$this->key;
+        if (is_null($key)) {
+            $key = count($this->panel) + 1;
         }
-        $item = new CollapsePanel();
-        $item->header($header)
-             ->content($content)
-             ->showArrow($showArrow)
-             ->key($key);
+        $item = CollapsePanel::create()
+            ->showArrow($showArrow)
+            ->key($key);
+        $this->panel[] = $item;
+        $item->header($this->parseContent($header,$key));
+        $item->content($this->parseContent($content,$key));
         $this->content($item);
         return $item;
     }
+    protected function parseContent($content,$key){
+        if($content instanceof \Closure && $this->form){
+            $this->form->collapse[$this->getModel()] = $key;
+            $content = $this->form->collectFields($content);
+            unset($this->form->collapse[$this->getModel()]);
+        }
 
+        if($content instanceof Grid){
+            list($url,$params) = $this->parseComponentCall($content);
+            $content = AsyncRender::create()->url($url)->params($params);
+            $conditionFunction = <<<JS
+            if(activeKey == $key){
+                return true
+            }
+            return false
+JS;
+            $this->event('change', ['function' => 'refresh', 'params' => [], 'ref' => $content->ref(),'conditionFunction'=>[
+                'activeKey',
+                $conditionFunction
+            ]], 'function');
+        }
+        return $content;
+    }
+    /**
+     * 添加一个子项
+     * @param mixed $header 折叠面板标题
+     * @param mixed $content 折叠面板内容
+     * @param string|int $key 对应 activeKey
+     * @return CollapsePanel
+     */
+    public function panel($header, $content,$key = null){
+        return $this->item($header,$content,true,$key);
+    }
     /**
      * 添加子项(数组)
      * @param array $dataSource 数据源
@@ -88,5 +129,9 @@ class Collapse extends Component
                              ->mapAttr('slotDefault');
         $this->content($item);
         return $this;
+    }
+
+    public function setForm(Form $form){
+        $this->form = $form;
     }
 }

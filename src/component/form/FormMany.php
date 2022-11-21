@@ -15,6 +15,7 @@ use ExAdmin\ui\component\Component;
  * Class FormMany
  * @method static $this create($field = null, $value = []) 创建
  * @method $this table(bool $value = true) 表格模式
+ * @method $this flex(bool $value = true) flex布局
  * @method $this disabled(bool $disabled = true) 是否禁用状态                                    boolean
  * @method $this hideClear(bool $disabled = true) 隐藏清空                                    boolean
  * @method $this hideAdd(bool $disabled = true) 隐藏添加                                    boolean

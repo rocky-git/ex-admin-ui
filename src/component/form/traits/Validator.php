@@ -159,6 +159,7 @@ trait Validator
     protected function setRule($rule)
     {
         $field = $this->getValidateField();
+        $this->formItem->form()->validator()->setCollapseField($field);
         $this->formItem->form()->validator()->setTabField($field);
         $rules = $this->formItem->attr('rules');
         if ($rules) {
