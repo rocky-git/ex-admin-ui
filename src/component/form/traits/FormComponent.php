@@ -6,6 +6,7 @@ use ExAdmin\ui\component\form\field\AutoComplete;
 use ExAdmin\ui\component\form\field\Cascader;
 use ExAdmin\ui\component\form\field\CascaderMultiple;
 use ExAdmin\ui\component\form\field\CascaderSingle;
+use ExAdmin\ui\component\form\field\checkbox\Checkbox;
 use ExAdmin\ui\component\form\field\checkbox\CheckboxGroup;
 use ExAdmin\ui\component\form\field\CheckboxTag;
 use ExAdmin\ui\component\form\field\ColorPicker;
@@ -91,6 +92,7 @@ use ExAdmin\ui\component\form\field\upload\Image;
  * @method CheckboxTag checkboxTag($field, $label = '') 多选标签
  * @method DynamicTag dynamicTag($field, $label = '') 动态标签
  * @method Descriptions desc($field, $label = '') 显示html
+ * @method Checkbox checkboxSingle($field, $label = '') 单复选框
  */
 trait FormComponent
 {
@@ -109,6 +111,7 @@ trait FormComponent
         'select'        => Select::class,
         'switch'        => Switches::class,
         'checkbox'      => CheckboxGroup::class,
+        'checkboxSingle'      => Checkbox::class,
         'cascader'      => Cascader::class,
         'cascaderSingle'      => CascaderSingle::class,
         'cascaderMultiple'      => CascaderMultiple::class,

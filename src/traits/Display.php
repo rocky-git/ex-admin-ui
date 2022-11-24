@@ -73,6 +73,7 @@ trait Display
      * 标签显示
      * @param string $color 标签颜色
      * @param mixed $icon 图标
+     * @return $this
      */
     public function tag($color = 'blue', $icon = '')
     {
@@ -173,7 +174,7 @@ trait Display
      * 音频显示
      * @param int $width 宽度
      * @param int $height 高度
-     * @return mixed
+     * @return $this
      */
     public function audio($width = 300, $height = 54)
     {
@@ -345,6 +346,7 @@ trait Display
      * 内容映射
      * @param array $usings 映射内容
      * @param array $color 标签颜色
+     * @return $this
      */
     public function using(array $usings, array $color = [])
     {
@@ -375,7 +377,7 @@ trait Display
     /**
      * 复制
      * @param string $content 复制内容
-     * @return mixed
+     * @return $this
      */
     public function copy($content = null)
     {

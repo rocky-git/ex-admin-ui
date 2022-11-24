@@ -15,7 +15,7 @@ use ExAdmin\ui\component\form\Field;
  * @method $this indeterminate(bool $disabled = true) 设置 indeterminate 状态，只负责样式控制								boolean
  * @package ExAdmin\ui\component\form\field
  */
-class Checkbox extends Component
+class Checkbox extends Field
 {
     /**
      * 组件名称
@@ -23,4 +23,10 @@ class Checkbox extends Component
      */
 	protected $name = 'ACheckbox';
 
+	protected $vModel = 'checked';
+
+	public function __construct($field = null, $value = false)
+    {
+        parent::__construct($field, $value);
+    }
 }

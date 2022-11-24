@@ -35,7 +35,7 @@ trait WatchForm
             ];
         }
         $this->watch = $data;
-        $this->attr('watch',$watchs);
+        $this->attr('watchField',$watchs);
     }
     /**
      * 初始化触发一次watch

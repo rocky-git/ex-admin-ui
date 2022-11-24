@@ -77,6 +77,7 @@ class CheckboxGroup extends Field
                 if ($this->column) {
                     $checkbox[] = [
                         'slotDefault' => Checkbox::create()
+                            ->removeModel('checked')
                             ->attr('value', $key)
                             ->content($value)
                     ];

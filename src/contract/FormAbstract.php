@@ -96,15 +96,10 @@ abstract class FormAbstract
     {
         $watch = new Watch($data);
         $closure = $this->form->getWatch()[$ex_field];
-        $arr = explode('.*.',$ex_field);
-        $field = current($arr);
-      //  $watch->set($field, $newValue);
         call_user_func_array($closure, [$newValue, $watch, $oldValue,$index]);
         unset($watch[$ex_field]);
         return Response::success([
             'data' => $watch->get(),
-            'showField' => $watch->getShowField(),
-            'hideField' => $watch->getHideField(),
         ]);
     }
 

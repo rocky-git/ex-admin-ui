@@ -2,7 +2,7 @@
 
 namespace ExAdmin\ui\response;
 /**
- * @method static success($data =[], $message = '', $code = 200)
+ * @method static $this success($data =[], $message = '', $code = 200)
  */
 class Response extends Message
 {

@@ -30,6 +30,16 @@ trait ForMap
 
     /**
      * 遍历
+     * @param string $bindName 绑定字段
+     * @return $this
+     */
+    public function mapBindName($bindName){
+        $this->map['bindName'] = $bindName;
+        return $this;
+    }
+
+    /**
+     * 遍历
      * @param array $data 绑定字段
      * @param string $bindName 绑定字段
      * @return $this

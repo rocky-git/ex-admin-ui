@@ -395,6 +395,18 @@ abstract class Component implements \JsonSerializable
     }
 
     /**
+     * 移除双向绑定
+     * @param string $name 双向绑定属性名称
+     * @return string
+     */
+    public function removeModel(string $name){
+        unset($this->bind[$this->bindAttribute[$name]]);
+        unset($this->bindAttribute[$name]);
+        unset($this->modelBind[$name]);
+        return $this;
+    }
+
+    /**
      * 双向绑定
      * @param string $name 双向绑定属性名称
      * @param null $field 双向绑定js字段

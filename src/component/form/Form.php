@@ -24,6 +24,7 @@ use ExAdmin\ui\component\grid\tabs\Tabs;
 use ExAdmin\ui\component\layout\Col;
 use ExAdmin\ui\component\layout\Divider;
 use ExAdmin\ui\component\layout\Row;
+use ExAdmin\ui\component\layout\Space;
 use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\contract\ValidatorAbstract;
 use ExAdmin\ui\Route;
@@ -439,12 +440,13 @@ class Form extends Component
                 if ($component instanceof Hidden) {
                     continue;
                 }
-                $columns[] = [
+                $columnAttr = $component->attr('column') ?? [];
+                $columns[] = array_merge([
                     'header' => Html::create($formItem->content['label'] ?? ''),
                     'dataIndex' => $formItem->attr('name'),
                     'component' => $formItem,
                     'enterAdd' => $index == (count($formItems) - 1)
-                ];
+                ],$columnAttr);
                 unset($formItem->content['label']);
                 $formItem->removeAttr('label');
             }
@@ -472,7 +474,7 @@ class Form extends Component
      * @return Collapse
      */
     public function collapse($activeKey = 1){
-        $collapse = Collapse::create();
+        $collapse = Collapse::create($activeKey);
         $collapse->setForm($this);
         $this->push($collapse);
         return $collapse;
@@ -502,6 +504,18 @@ class Form extends Component
         }
         $this->push($row);
         return $row;
+    }
+
+    /**
+     * 间距
+     * @return Space
+     */
+    public function space(\Closure $closure){
+        $formItems = $this->collectFields($closure);
+        $space = Space::create();
+        $space->content($formItems);
+        $this->push($space);
+        return $space;
     }
 
     /**
