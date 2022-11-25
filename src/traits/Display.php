@@ -111,7 +111,7 @@ trait Display
      * @param int $height 高度
      * @param string $alt 图像描述
      * @param bool $preview 预览参数
-     * @return $this
+     * @return mixed
      */
     protected function commonImage(string $value, int $width = 80, int $height = 80, string $alt = '', bool $preview = true)
     {
@@ -255,7 +255,7 @@ trait Display
         return $this->display(function ($value, $data) use ($field, $target) {
 
             $href = $this->getAssignValue($this->displayComponent, $data, $field);
-            return Html::create($href)
+            return Html::raw($href)
                 ->attr('href', $this->displayValue)
                 ->attr('target', $target)
                 ->tag('a');

@@ -561,6 +561,10 @@ class Form extends Component
         if(count($this->manyField) == 0){
             $formModel = explode('.',$this->getModel());
             array_shift($formModel);
+            $validNamePrefix = $this->attr('validNamePrefix');
+            if($validNamePrefix){
+                array_unshift($formModel,$validNamePrefix);
+            }
             $name = array_merge($formModel,$name);
         }
         return $name;

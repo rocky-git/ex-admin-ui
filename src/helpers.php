@@ -1,7 +1,6 @@
 <?php
 const EX_ADMIN_VERSION = '1.2.4';
 
-use ExAdmin\ui\component\Ajax;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\support\Container;
 
