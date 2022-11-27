@@ -36,6 +36,9 @@ class Filter
     protected $form;
 
     protected $item;
+
+    protected $span;
+
     //合并参数
     protected $mergeParams = false;
 
@@ -117,7 +120,11 @@ class Filter
                 } else {
                     $fields = $fields[0];
                 }
-
+            }
+            if($this->span){
+                $formComponent->getFormItem()->labelCol(['span'=>6]);
+                $formComponent->getFormItem()->wrapperCol(['span'=>18]);
+                $formComponent->span($this->span);
             }
             foreach ($fields as $field) {
                 $value = Arr::get($input, $field);
@@ -182,11 +189,30 @@ class Filter
     }
 
     /**
+     * 按几列显示布局
+     * @param int $column 列
+     * @param \Closure $closure
+     */
+    public function layout(int $column,\Closure $closure){
+        $this->span = 24 / $column;
+        $this->form->removeAttr('layout');
+        $this->form->row(function (Form $form) use($closure){
+            call_user_func($closure,$this);
+            $form->col(function (Form $form){
+                $action = clone $form->actions();
+                $form->item()->wrapperCol(['offset'=>6,'span'=>18])->content($action);
+            })->span($this->span);
+
+        })->gutter(20);
+        $this->span = null;
+        $this->form->actions()->hide();
+    }
+
+    /**
      * @return Form
      */
     public function form()
     {
-        $this->form->removeAttr('url');
         return $this->form;
     }
 

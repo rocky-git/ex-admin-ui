@@ -351,7 +351,7 @@ class Grid extends Table
     {
         return $this->column($field, $label ?? admin_trans('grid.sort'))
             ->attr('type', 'sortDrag')
-            ->width(60)
+            ->width(65)
             ->align('center');
     }
 
@@ -684,7 +684,9 @@ class Grid extends Table
             if ($this->filter->isHide()) {
                 $this->hideFilter();
             }
-            $this->attr('filter', $this->filter->form());
+            $filter = $this->filter->form();
+            $filter->removeAttr('url');
+            $this->attr('filter',$filter);
             $this->driver->filter($this->getFilter()->getRule());
         }
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);

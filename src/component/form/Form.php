@@ -358,7 +358,12 @@ class Form extends Component
         $placeholder = '';
         if ($component instanceof Input || $component instanceof AutoComplete) {
             $placeholder = 'please_enter';
-        } elseif ($component instanceof Select || $component instanceof Cascader || $component instanceof CascaderSingle || $component instanceof TreeSelect) {
+        } elseif ($component instanceof Select ||
+            $component instanceof Cascader ||
+            $component instanceof CascaderSingle ||
+            $component instanceof TreeSelect ||
+            $component instanceof SelectTable
+        ) {
             $placeholder = 'please_select';
         }
         if (!empty($placeholder) && is_string($label)) {

@@ -32,7 +32,7 @@ abstract class Message implements \JsonSerializable
      */
     public function binds(array $bind)
     {
-        $this->response['bind'] = $bind;
+        $this->response['bindData'] = $bind;
         return $this;
     }
 
@@ -44,7 +44,7 @@ abstract class Message implements \JsonSerializable
      */
     public function bind($field, $value)
     {
-        $this->response['bind'][$field] = $value;
+        $this->response['bindData'][$field] = $value;
         return $this;
     }
 

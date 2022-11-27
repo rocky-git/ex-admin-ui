@@ -13,7 +13,12 @@ class SelectTable extends Field
     use CallbackDefinition;
     
     protected $name = 'ExSelectTable';
-    
+
+    public function __construct($field = null, $value = null)
+    {
+        parent::__construct($field, $value);
+
+    }
     /**
      * 渲染实例
      * @param mixed $grid

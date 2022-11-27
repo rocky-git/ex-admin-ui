@@ -413,11 +413,12 @@ class Column extends Component
         $form = Form::create([], null, $filter->form()->getModel());
         $form->actions()->hide();
         $form->removeAttr('labelCol')
-            ->layout('vertical')
-            ->removeAttr('url');
+            ->layout('vertical');
+        $form->url($this->grid->attr('url'));
         foreach ($filterColumn as $item) {
             $this->filterForm($item, $form);
         }
+        $form->removeAttr('url');
         $form->content(
             Html::create([
                 Button::create(admin_trans('antd.Grid.search'))
@@ -431,8 +432,10 @@ class Column extends Component
                 ->style(['borderTop' => '1px solid #DCDFE6', 'paddingTop' => '10px'])
                 ->tag('div')
             , 'footer');
-        $form->exec();
-        $form->setBind([]);
+        if(!Request::has('ex_admin_form_action')){
+            $form->exec();
+            $form->setBind([]);
+        }
         $this->attr('customFilterDropdown', true);
         $this->attr('customFilterForm', $form->style(['padding' => '8px']));
     }

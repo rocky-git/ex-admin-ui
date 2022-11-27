@@ -360,8 +360,8 @@ trait Display
             foreach ($value as $key){
                 if (isset($usings[$key])) {
                     $parseValue = $usings[$key];
-                    if (count($color) > 0) {
-                        $parseValue =  $this->getTag($parseValue, $color[$key] ?? '');
+                    if (!empty($color[$key])) {
+                        $parseValue =  $this->getTag($parseValue, $color[$key]);
                     }
                     $renderValue[] = $parseValue;
                 }

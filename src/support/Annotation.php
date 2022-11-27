@@ -90,7 +90,7 @@ class Annotation
             foreach ($name as $item){
                 self::parseMatch($item,$comment,$data);
             }
-        }elseif (preg_match('/^@'.$name.'/i', $comment)){
+        }elseif (preg_match('/^@'.$name.' /i', $comment)){
             $arr = explode(' ',$comment);
             if(isset($arr[1])){
                 $data[$name] = trim($arr[1]);
