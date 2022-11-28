@@ -76,7 +76,7 @@ class Filter
             ->submitButton()
             ->icon(' <search-outlined />')
             ->content('搜索');
-
+        $this->form->actions()->resetButton()->eventFunction('click', 'submit', [], $this->form);
     }
     public function setGrid(Grid $grid){
         $this->grid = $grid;

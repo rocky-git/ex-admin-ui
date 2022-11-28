@@ -292,7 +292,7 @@ class Actions
                 }, function ($button) {
                     $button->content(admin_trans('grid.restore'));
                 })
-                ->icon('<diff-outlined />')
+                ->icon(Icon::create('diff-outlined'))
                 ->confirm(admin_trans('grid.confim_restore'), $this->grid->attr('url'), ['ex_admin_action' => 'restore', 'ids' => [$this->id]])
                 ->method('put')
                 ->gridRefresh();

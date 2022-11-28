@@ -48,11 +48,12 @@ class TimeRangePicker extends RangeField
      * 组件名称
      * @var string
      */
-	protected $name = 'ATimeRangePicker';
+	protected $name = 'ExRangePicker';
 
     public function __construct($startField, $endField, $value = [])
     {
         $this->valueFormat('HH:mm:ss');
+        $this->attr('type','time');
         parent::__construct($startField, $endField, $value);
     }
 }

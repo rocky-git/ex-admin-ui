@@ -15,6 +15,8 @@ class RangeField extends Field
         $this->endField = $endField;
         $this->attr('startField', $startField);
         $this->attr('endField', $endField);
+        $this->vModel('startValue',$startField,null);
+        $this->vModel('endValue', $endField,null);
         parent::__construct(null, $value);
     }
     public function getStartField(){
@@ -26,27 +28,28 @@ class RangeField extends Field
     public function modelValue()
     {
         parent::modelValue();
-        $form = $this->form;
+        $this->removeBind($this->startField);
+        $this->removeBind($this->endField);
         $this->exceptField($this->field);
-        $bindFields = [
-            'startField',
-            'endField',
-        ];
         $values = [];
-        foreach ($bindFields as $field) {
-            $bindField = $this->attr($field);
-            $form->inputDefault($bindField);
-            $value = $this->form->input($bindField);
-            if(!is_null($value)){
-                $values[] = $this->form->input($bindField);
-            }
-            $bindField = $form->getBindField($bindField);
-            $this->attr($field, $bindField);
+        $value = $this->bindAttrValue('startValue',$this->startField);
+        if(!is_null($value)){
+            $values[] = $value;
+        }
+        $value = $this->bindAttrValue('endValue',$this->endField);
+        if(!is_null($value)){
+            $values[] = $value;
         }
         $this->value = $values;
         $this->form->inputDefault($this->field, $this->value);
     }
-
+    protected function bindAttrValue($attr,$field){
+        $this->form->inputDefault($field);
+        $value = $this->form->input($field);
+        $bindField = $this->form->getBindField($field);
+        $this->bindAttr($attr, $bindField,true);
+        return $value;
+    }
     /**
      * 设置缺省默认值
      * @param array $value

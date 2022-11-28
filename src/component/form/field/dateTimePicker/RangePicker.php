@@ -29,7 +29,7 @@ use ExAdmin\ui\component\form\RangeField;
  * @method $this defaultPickerValue(mixed $value) 默认面板日期
  * @method $this format(mixed $format = 'YYYY-MM-DD HH:mm:ss') 展示的日期格式
  * @method $this separator(mixed $separator) 设置分隔符                                                                    string | v-slot:separator
- * @method $this showTime(mixed $format) 增加时间选择功能                                                                    Object|boolean
+ * @method $this showTime(mixed $format = true) 增加时间选择功能                                                                    Object|boolean
  * @method static $this create($startField, $endField, $value = []) 创建
  * @method $this suffixIcon(mixed $suffixIcon) 自定义的选择框后缀图标                                                                slot
  * @package ExAdmin\ui\component\form\field
@@ -50,7 +50,7 @@ class RangePicker extends RangeField
      * 组件名称
      * @var string
      */
-    protected $name = 'ARangePicker';
+    protected $name = 'ExRangePicker';
 
     public function __construct($startField, $endField, $value = [])
     {
