@@ -170,12 +170,24 @@ class Form extends Component
     /**
      * 设置表单内组件大小
      * @param string $size large default small
+     * @return $this
      */
     public function size(string $size)
     {
         $this->attr('size', $size);
+        return $this;
     }
 
+    /**
+     * 禁用
+     * @param bool $value
+     * @return $this
+     */
+    public function disabled(bool $value = true){
+        $this->attr('disabled',$value);
+        $this->actions->hide();
+        return $this;
+    }
     /**
      * @return FormAbstract
      */
@@ -232,6 +244,10 @@ class Form extends Component
         $class = self::$formComponent[$name];
         list($field, $label) = Arr::formItem($class, $arguments);
         $component = $class::create(...$field);
+        //禁用
+        if($this->attr('disabled')){
+            $component->disabled();
+        }
         $this->setPlaceholder($component, $label);
         $name = explode('.', $component->getModel());
         $item = $this->item($name, $label)->content($component);

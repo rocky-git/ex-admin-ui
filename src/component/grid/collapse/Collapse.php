@@ -59,7 +59,7 @@ class Collapse extends Component
      * @param mixed $content 折叠面板内容
      * @param bool $showArrow 是否显示箭头
      * @param string|int $key 对应 activeKey
-     * @return CollapsePanel
+     * @return $this
      */
     public function item($header, $content, bool $showArrow = true, $key = null)
     {
@@ -73,7 +73,7 @@ class Collapse extends Component
         $item->header($this->parseContent($header,$key));
         $item->content($this->parseContent($content,$key));
         $this->content($item);
-        return $item;
+        return $this;
     }
     protected function parseContent($content,$key){
         if($content instanceof \Closure && $this->form){
@@ -103,7 +103,7 @@ JS;
      * @param mixed $header 折叠面板标题
      * @param mixed $content 折叠面板内容
      * @param string|int $key 对应 activeKey
-     * @return CollapsePanel
+     * @return $this
      */
     public function panel($header, $content,$key = null){
         return $this->item($header,$content,true,$key);

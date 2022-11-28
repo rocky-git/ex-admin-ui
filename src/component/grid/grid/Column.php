@@ -121,7 +121,7 @@ class Column extends Component
                 $this->displayComponent = $originValue;
             }
             $display->bindTo($this);
-            $value = call_user_func_array($display,[$originValue, $originData]);
+            $value = call_user_func_array($display,[$originValue, $originData,$this->displayValue]);
             $this->displayComponent = $value;
             if(!is_object($value)){
                 $this->displayValue = $value;
