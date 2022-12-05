@@ -172,18 +172,20 @@ class Actions
     {
         if ($actionButton->action() instanceof Modal || $actionButton->action() instanceof Drawer) {
             $reference = $actionButton->action()->attr('reference');
+            $ajax = $actionButton->action()->attr('ajax');
             $event = $reference->getEvent('Click.stop', 'custom');
             foreach ($event as &$item) {
                 if ($item['type'] == 'Modal') {
-                    $item['params']['data'] = array_merge($item['params']['data'], [$this->grid->driver()->getPk() => $id]);
-                    $item['params']['method'] = $method;
+                    $ajax['data'] = array_merge($ajax['data'], [$this->grid->driver()->getPk() => $id]);
+                    $ajax['method'] = $method;
                     $actionButton->action()->removeBind($actionButton->action()->getModel());
                     $actionButton->action()->vModel('visible', null, false);
                     $item['params']['modal'] = $actionButton->action()->getModel();
-                    $actionButton->whenShow(admin_check_permissions($item['params']['url'], $method));
+                    $actionButton->whenShow(admin_check_permissions($ajax['url'], $method));
+                    $actionButton->action()->attr('ajax',$ajax);
                 }
             }
-            $reference->setEvent('Click', 'custom', $event);
+            $reference->setEvent('Click.stop', 'custom', $event);
         } else {
             $directive = $actionButton->action()->getDirective();
             foreach ($directive as &$item) {

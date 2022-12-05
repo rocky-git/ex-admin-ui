@@ -38,8 +38,11 @@ class FormAction extends FormItem
             ->type('primary');
         $this->resetButton = Button::create(admin_trans('form.reset'))
             ->eventFunction('click', 'reset', [], $this->form);
-        $this->a =$form;
         $this->colon(false);
+        if ($form->attr('labelCol')) {
+            $this->label(' ');
+            $this->labelCol($form->attr('labelCol'));
+        }
         parent::__construct($form);
     }
 

@@ -68,8 +68,9 @@ class Html extends Component
      * @param string $content
      * @return static
      */
-    public static function raw(string $content){
-        return self::create()->attr('html-raw',true)->content($content);
+    public static function raw($content){
+
+        return self::create()->attr('html-raw',!is_object($content))->content($content);
     }
 
     /**

@@ -18,7 +18,7 @@ class Item extends DescriptionsItem
     protected $displayValue = null;
     protected $displayComponent = null;
 
-    protected $default = '--';
+    protected $default = '';
     public function __construct($field, $label, $data)
     {
         $this->data = $data;

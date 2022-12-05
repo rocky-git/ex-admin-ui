@@ -88,6 +88,43 @@ trait Event
             'gridBatch'=>$gridBatch,
         ]);
     }
+
+    /**
+     * 刷新表格grid
+     * @param string $name 事件名称 例如点击直接click
+     * @param array $params 参数
+     * @return $this
+     */
+    public function eventGridRefresh(string $name,array $params = []){
+        return $this->eventCustom($name, 'GridRefresh',$params);
+    }
+
+    /**
+     * 移除自定义事件类型
+     * @param string $type
+     */
+    public function removeEventCustom(string $type){
+        foreach ($this->event as $name=>$item){
+            foreach ($item as $t=>$events){
+                foreach ($events as $key=>$event){
+                    if($t == 'custom' && $event['type'] == $type){
+                        unset($this->event[$name][$t][$key]);
+                        $this->event[$name][$t] = array_values($this->event[$name][$t]);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * 刷新当前弹窗
+     * @param string $name 事件名称 例如点击直接click
+     * @param array $params 参数
+     * @return $this
+     */
+    public function eventModalRefresh(string $name,array $params = []){
+        $this->removeEventCustom('GridRefresh');
+        return $this->eventCustom($name, 'ModalRefresh',$params);
+    }
     /**
      * 触发事件
      * @param string $name 事件名称 例如点击直接click

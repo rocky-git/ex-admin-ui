@@ -496,10 +496,11 @@ abstract class Component implements \JsonSerializable
     private function modalParse($component, $url = '', $params = [], $method = 'POST')
     {
         list($url, $params) = $this->parseComponentCall($url, $params);
-        $modal = $component::create($this);
+        $modal = $component::create($this)
+            ->attr('ajax',['url' => $url, 'data' => $params, 'method' => $method]);
         $modal->whenShow(admin_check_permissions($url, $method));
         $modal->destroyOnClose();
-        $this->eventCustom('click.stop', 'Modal', ['url' => $url, 'data' => $params, 'method' => $method, 'modal' => $modal->getModel()]);
+        $this->eventCustom('click.stop', 'Modal', ['modal' => $modal->getModel()]);
         return $modal;
     }
 

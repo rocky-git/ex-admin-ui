@@ -52,10 +52,11 @@ class Modal extends Component
      * 组件名称
      * @var string
      */
-    protected $name = 'AModal';
+    protected $name = 'ExModal';
 
     public function __construct(Component $component, $field = null, $value = false)
     {
+        $this->attr('name','AModal');
         $this->vModel($this->vModel, $field, $value);
         $this->attr('reference', $component);
         $this->width(600);

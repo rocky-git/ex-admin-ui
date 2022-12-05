@@ -89,6 +89,6 @@ class Button extends Component
             ->chunk(false)
             ->action($url)
             ->params($params)
-            ->eventCustom('success', 'GridRefresh');
+            ->eventGridRefresh('success');
     }
 }

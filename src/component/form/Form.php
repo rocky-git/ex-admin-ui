@@ -130,7 +130,7 @@ class Form extends Component
         //保存成功关闭弹窗
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
-        $this->eventCustom('success', 'GridRefresh');
+        $this->eventGridRefresh('success');
         $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
         $validator = admin_config('admin.form.validator');
@@ -244,11 +244,14 @@ class Form extends Component
         $class = self::$formComponent[$name];
         list($field, $label) = Arr::formItem($class, $arguments);
         $component = $class::create(...$field);
+
         //禁用
         if($this->attr('disabled')){
             $component->disabled();
+            $component->placeholder('');
+        }else{
+            $this->setPlaceholder($component, $label);
         }
-        $this->setPlaceholder($component, $label);
         $name = explode('.', $component->getModel());
         $item = $this->item($name, $label)->content($component);
         $component->setFormItem($item);
@@ -323,6 +326,19 @@ class Form extends Component
     public function removeInput($keys)
     {
         Arr::forget($this->data, $keys);
+    }
+
+    /**
+     * 获取编辑源数据
+     * @param string|null $field
+     * @return array|\ArrayAccess|mixed
+     */
+    public function origin($field = null){
+        $data = Request::input('originData');
+        if (is_null($field)) {
+            return $data;
+        }
+        return Arr::get($data, $field);
     }
 
     /**
