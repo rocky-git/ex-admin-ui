@@ -15,6 +15,7 @@ use ExAdmin\ui\component\Component;
  * @method $this alt(string $alt) 图像无法显示时的替代文本                                                        			string
  * @method $this gap(int $gap = 4) 字符类型距离左右两侧边界单位像素                                                        	number
  * @method $this draggable(mixed $draggable) 图片是否允许拖动                                                        		boolean | 'true' | 'false'
+ * @method $this icon(mixed $content) 图标
  * @package ExAdmin\ui\component\form\field
  */
 class Avatar extends Component

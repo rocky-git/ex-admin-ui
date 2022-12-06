@@ -10,20 +10,31 @@ return [
             'en'=>'English',
         ]
     ],
-    //布局 headerSider顶部侧边  sider侧边
-    'layout'=>'headerSider',
+    //布局 default classic
+    'layout'=>'default',
+    //布局方向 horizontal vertical
+    'layout_direction'=>'horizontal',
     //主题 light 暗黑dark
     'theme' => 'light',
     //主题色
     'theme_color' => '#1890ff',
-    //菜单主题 dark light
-    'menu_theme' => 'dark',
     //导航模式 sideTopMenuLayout sideMenuLayout topMenuLayout
     'navigationMode' => 'sideTopMenuLayout',
-    //header背景色
-    'header_background'=>'#121929',
+    //布局背景色
+    'layout_background'=>'#f0f2f5',
+    //顶部栏
+    'header'=>[
+        //文字颜色
+        'text_color'=>'#ffffff',
+        //选中色
+        'color'=>'#1890ff',
+        //背景色
+        'background'=>'#121929',
+    ],
     //侧边栏
     'sidebar' => [
+        //文字颜色
+        'text_color'=>'#393939',
         //选中色
         'color'=>'#1890ff',
         //背景色

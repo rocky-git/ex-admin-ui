@@ -39,10 +39,7 @@ class FormAction extends FormItem
         $this->resetButton = Button::create(admin_trans('form.reset'))
             ->eventFunction('click', 'reset', [], $this->form);
         $this->colon(false);
-        if ($form->attr('labelCol')) {
-            $this->label(' ');
-            $this->labelCol($form->attr('labelCol'));
-        }
+
         parent::__construct($form);
     }
 
@@ -73,20 +70,28 @@ class FormAction extends FormItem
         $this->componentVisible = !$bool;
     }
     
+
     /**
      * 隐藏提交按钮
+     * @param bool $bool
+     * @return $this
      */
     public function hideSubmitButton($bool = true)
     {
         $this->hideSubmitButton = $bool;
+        return $this;
     }
+
 
     /**
      * 隐藏重置按钮
+     * @param bool $bool
+     * @return $this
      */
     public function hideResetButton($bool = true)
     {
         $this->hideResetButton = $bool;
+        return $this;
     }
 
     /**
@@ -108,6 +113,10 @@ class FormAction extends FormItem
     }
     public function jsonSerialize()
     {
+        if ($this->form->attr('labelCol')) {
+            $this->label(' ');
+            $this->labelCol($this->form->attr('labelCol'));
+        }
         if ($this->hideResetButton) {
             $this->resetButton = null;
         }

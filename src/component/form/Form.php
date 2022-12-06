@@ -113,6 +113,7 @@ class Form extends Component
     public function __construct($data = [], \Closure $closure = null, $bindField = null)
     {
         parent::__construct();
+        $this->url("/ex-admin/{$this->call['class']}/{$this->call['function']}");
         if ($data instanceof \Closure) {
             $closure = $data;
             $this->source([], $bindField);
@@ -147,7 +148,7 @@ class Form extends Component
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $pk = $this->driver->getPk();
-        if (Request::input($pk)) {
+        if (Request::getPathInfo() == $this->attr('url') && Request::input($pk)) {
             $id = Request::input($pk);
             $this->edit($id);
         }
@@ -177,7 +178,15 @@ class Form extends Component
         $this->attr('size', $size);
         return $this;
     }
-
+    /**
+     * 垂直布局
+     * @return $this
+     */
+    public function vertical(){
+        $this->layout('vertical');
+        $this->removeAttr('labelCol');
+        return $this;
+    }
     /**
      * 禁用
      * @param bool $value
@@ -491,15 +500,15 @@ class Form extends Component
         $formMany->attr('columns', $columns);
         return $formMany;
     }
-
     /**
      * 选项卡布局
      * @param int $activeKey 当前激活 tab 面板的 key
+     * @param string $bindField
      * @return Tabs
      */
-    public function tabs($activeKey = 1)
+    public function tabs($activeKey = 1,$bindField = null)
     {
-        $tab = Tabs::create($activeKey);
+        $tab = Tabs::create($activeKey, $bindField);
         $tab->setForm($this);
         $this->push($tab);
         return $tab;
@@ -508,10 +517,11 @@ class Form extends Component
     /**
      * 折叠面板
      * @param int $activeKey 当前激活面板的 key
+     * @param string $bindField
      * @return Collapse
      */
-    public function collapse($activeKey = 1){
-        $collapse = Collapse::create($activeKey);
+    public function collapse($activeKey = 1,$bindField = null){
+        $collapse = Collapse::create($activeKey,$bindField);
         $collapse->setForm($this);
         $this->push($collapse);
         return $collapse;
