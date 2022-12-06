@@ -38,6 +38,7 @@ use ExAdmin\ui\support\Request;
  * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideExport(bool $bool = true) 隐藏导出
  * @method $this hidePage(bool $bool = true) 关闭分页
+ * @method $this hideRefresh(bool $bool = true) 隐藏刷新按钮
  * @method $this hideExportCurrentPage(bool $bool = true) 隐藏导出当前页
  * @method $this hideExportSelection(bool $bool = true) 隐藏导出选中
  * @method $this hideExportAll(bool $bool = true) 隐藏导出所有
@@ -481,7 +482,10 @@ class Grid extends Table
             }
             if (!$export) {
                 $actionColumn = clone $this->actionColumn;
-                $rowData[$actionColumn->column()->attr('dataIndex')] = $actionColumn->row($row);
+                $actionRow = $actionColumn->row($row);
+                if (!$this->hideAction) {
+                    $rowData[$actionColumn->column()->attr('dataIndex')] = $actionRow;
+                }
                 $rowData['dblclickAction'] = $actionColumn->getDblclickAction();
             }
             $tableData[] = $rowData;
@@ -627,7 +631,7 @@ class Grid extends Table
      * @param string $customStyle card
      * @return Lists
      */
-    public function custom(\Closure $closure, $container = 'div', $customStyle = null)
+    public function custom(\Closure $closure, $container = null, $customStyle = null)
     {
         $this->customClosure = $closure;
         $list = Lists::create();

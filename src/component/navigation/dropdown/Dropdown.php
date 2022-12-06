@@ -58,7 +58,14 @@ class Dropdown extends Component
     {
         return $this->menu->item($content, $icon);
     }
-
+    /**
+     * 下划线
+     * @return $this
+     */
+    public function divider(){
+        $this->menu->content(Html::raw('<a-menu-divider />'));
+        return $this;
+    }
     /**
      * 追加前面
      * @param mixed $content

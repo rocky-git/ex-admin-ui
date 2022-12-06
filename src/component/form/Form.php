@@ -113,7 +113,7 @@ class Form extends Component
     public function __construct($data = [], \Closure $closure = null, $bindField = null)
     {
         parent::__construct();
-        $this->url("/ex-admin/{$this->call['class']}/{$this->call['function']}");
+        $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         if ($data instanceof \Closure) {
             $closure = $data;
             $this->source([], $bindField);
@@ -132,7 +132,6 @@ class Form extends Component
         $this->eventCustom('success', 'CloseModal');
         //保存成功刷新grid列表
         $this->eventGridRefresh('success');
-        $this->url("ex-admin/{$this->call['class']}/{$this->call['function']}");
         $this->description(admin_trans($this->isEdit ? 'form.edit' : 'form.add'));
         $validator = admin_config('admin.form.validator');
         $this->validator = new $validator($this);
@@ -148,7 +147,7 @@ class Form extends Component
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $pk = $this->driver->getPk();
-        if (Request::getPathInfo() == $this->attr('url') && Request::input($pk)) {
+        if (substr(Request::getPathInfo(),1) == $this->attr('url') && Request::input($pk)) {
             $id = Request::input($pk);
             $this->edit($id);
         }

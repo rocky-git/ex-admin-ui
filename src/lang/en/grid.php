@@ -15,6 +15,8 @@ return [
     'delete_error' => 'Delete failed',
     'sort_success' => 'Sorting succeeded',
     'user_info' => 'Member info',
+    'loading' => 'Loading',
+    'no_more' => 'No More',
     'pagination'=>[
         'total' => 'Total {total}',
     ],

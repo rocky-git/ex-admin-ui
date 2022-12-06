@@ -16,6 +16,8 @@ return [
     'delete_error' => '删除失败',
     'sort_success' => '排序成功',
     'user_info' => '用户信息',
+    'loading' => '加载中',
+    'not_more' => '没有更多了',
     'pagination'=>[
         'total' => '共 {total} 条',
     ],

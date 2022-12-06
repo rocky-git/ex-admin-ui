@@ -93,22 +93,21 @@ class Actions
 
     /**
      * 下拉菜单
-     * @param string $text
+     * @param mixed $content
      * @return Dropdown
      */
-    public function dropdown($text = null)
+    public function dropdown($content = null)
     {
-        if (is_null($text)) {
-            $text = admin_trans('grid.action');
+        if (is_null($content)) {
+            $content =
+                Button::create(
+                    [
+                        admin_trans('grid.action'),
+                        Icon::create('DownOutlined')->style(['marginRight' => '5px'])
+                    ]
+                );
         }
-        $this->dropdown = Dropdown::create(
-            Button::create(
-                [
-                    $text,
-                    Icon::create('DownOutlined')->style(['marginRight' => '5px'])
-                ]
-            )
-        )->trigger(['click']);
+        $this->dropdown = Dropdown::create($content)->trigger(['click']);
         return $this->dropdown;
     }
 

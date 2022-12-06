@@ -96,12 +96,16 @@ abstract class UploaderAbstract
     protected function merge()
     {
         $filename = "{$this->tempDirectory}/" . $this->filename;
+        $fp = fopen($filename,'a+');
+        flock($fp,LOCK_EX);
         for ($index = 1; $index <= $this->chunks; $index++) {
             $file = "{$this->tempDirectory}/" . $this->getChunkFileName($index);
-            $content = file_get_contents($file);
-            file_put_contents($filename, $content, FILE_APPEND);
-            unlink($file);
+            $content = @file_get_contents($file);
+            @file_put_contents($filename, $content, FILE_APPEND);
+            @unlink($file);
         }
+        flock($fp,LOCK_UN);
+        fclose($fp);
         return $filename;
     }
     
@@ -153,7 +157,7 @@ abstract class UploaderAbstract
                 $url = $this->url($path);
             }
             return Response::success(['url' => $url,'path'=>$path]);
-        }catch (\Exception $exception){
+        }catch (\Throwable $exception){
             return Response::success([],$exception->getMessage(),500);
         }
     }
