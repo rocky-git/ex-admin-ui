@@ -308,7 +308,10 @@ return [
         'clearData' => 'Clear data',
         'restoreSelected' => 'Restore selected',
         'deleteSelected' => 'Delete selected',
-        'selectedTotal'=>'Total {total}'
+        'selectedTotal'=>'Total {total}',
+        'loading' => 'Loading',
+        'noMore' => 'No More',
+        'loadingMore' => 'Loading More',
     ],
     'SelectTable' => [
         'select' => 'select',

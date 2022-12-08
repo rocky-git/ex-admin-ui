@@ -112,15 +112,19 @@ class Column extends Component
             $value = Arr::get($data, $this->field);
         }
         $resetClosure = [$this->editable, $this->closure, $this->exportClosure];
+
+        $displayClosure = $this->closure;
+
+        $this->closure = [];
         //条件显示
         $this->when->exec($originValue, $originData);
+        $displayClosure = array_merge($this->closure,$displayClosure);
         //自定义内容显示处理
-        foreach ($this->closure as $key=>$display){
+        foreach ($displayClosure as $key=>$display){
             if($key === 0){
                 $this->displayValue = $originValue;
                 $this->displayComponent = $originValue;
             }
-            $display->bindTo($this);
             $value = call_user_func_array($display,[$originValue, $originData,$this->displayValue]);
             $this->displayComponent = $value;
             if(!is_object($value)){

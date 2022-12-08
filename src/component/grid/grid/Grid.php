@@ -38,6 +38,7 @@ use ExAdmin\ui\support\Request;
  * @method $this hideFilter(bool $bool = true) 隐藏筛选
  * @method $this hideExport(bool $bool = true) 隐藏导出
  * @method $this hidePage(bool $bool = true) 关闭分页
+ * @method $this loadMore(bool $bool = true) 加载更多分页(仅自定义有效)
  * @method $this hideRefresh(bool $bool = true) 隐藏刷新按钮
  * @method $this hideExportCurrentPage(bool $bool = true) 隐藏导出当前页
  * @method $this hideExportSelection(bool $bool = true) 隐藏导出选中
@@ -629,14 +630,16 @@ class Grid extends Table
      * @param \Closure $closure
      * @param string $container 容器标签
      * @param string $customStyle card
+     * @param array $itemStyle 样式
      * @return Lists
      */
-    public function custom(\Closure $closure, $container = null, $customStyle = null)
+    public function custom(\Closure $closure, $container = null, $customStyle = null,$itemStyle=[])
     {
         $this->customClosure = $closure;
         $list = Lists::create();
         $this->attr('custom', $list);
         $list->attr('customStyle', $customStyle);
+        $list->attr('itemStyle', $itemStyle);
         $list->attr('container', $container);
         return $list;
     }

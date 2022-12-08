@@ -303,7 +303,10 @@ return [
         'restoreSelected' => '恢复选中',
         'deleteSelected' => '删除选中',
         'selectedAction' => '请勾选操作数据',
-        'selectedTotal'=>'已选择 {total} 项'
+        'selectedTotal'=>'已选择 {total} 项',
+        'loading' => '加载中',
+        'noMore' => '没有更多了',
+        'loadingMore' => '加载更多',
     ],
     'SelectTable' => [
         'select' => '选择',
