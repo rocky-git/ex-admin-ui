@@ -223,4 +223,21 @@ class Str
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
+    /**
+     * 转换文件大小
+     * @param $value
+     * @return mixed|string
+     */
+    public static function getFileSize($value){
+        $arr = ['Bytes', 'KB', 'MB', 'GB'];
+        $size = $value;
+        for ($i = 0; $i < 4; $i++) {
+            $pow = pow(1024, $i+1);
+            if ($value < $pow) {
+                $size = round(($value / pow(1024, $i))) . $arr[$i];
+                break;
+            }
+        }
+        return $size;
+    }
 }

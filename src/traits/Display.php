@@ -19,6 +19,7 @@ use ExAdmin\ui\component\grid\statistic\Statistic;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
+use ExAdmin\ui\support\Str;
 
 trait Display
 {
@@ -282,6 +283,16 @@ trait Display
                 ->width($width)
                 ->trigger($tigger)
                 ->placement($placement);
+        });
+    }
+
+    /**
+     * 文件大小显示
+     * @return $this
+     */
+    public function fileSize(){
+        return $this->display(function () {
+            return  Str::getFileSize($this->displayValue);
         });
     }
 
