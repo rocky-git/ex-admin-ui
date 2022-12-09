@@ -23,6 +23,7 @@ use ExAdmin\ui\component\Component;
  * @method $this method(string $value) ajax请求method get / post /put / delete
  * @method $this params(array $value) 提交ajax参数
  * @method $this gridRefresh() 成功刷新grid表格
+ * @method $this modalRefresh() 成功刷新弹窗
  * @method $this gridBatch() grid批量选中项
  * @package ExAdmin\ui\component\feedback
  */

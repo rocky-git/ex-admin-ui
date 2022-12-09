@@ -42,7 +42,15 @@ class Ajax extends Component
         $this->arg['gridRefresh'] = true;
         return $this;
     }
-    
+    /**
+     * 刷新弹窗
+     * @return $this
+     */
+    public function modalRefresh()
+    {
+        $this->arg['modalRefresh'] = true;
+        return $this;
+    }
     public function jsonSerialize()
     {
         if(!$this->componentVisible){

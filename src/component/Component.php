@@ -8,6 +8,7 @@ use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\feedback\Confirm;
 use ExAdmin\ui\component\feedback\Drawer;
 use ExAdmin\ui\component\feedback\Modal;
+use ExAdmin\ui\component\form\field\select\SelectTable;
 use ExAdmin\ui\component\grid\grid\Grid;
 use ExAdmin\ui\traits\CallProvide;
 
@@ -475,6 +476,15 @@ abstract class Component implements \JsonSerializable
         return $this->modalParse(Drawer::class, $url, $params, $method);
     }
 
+    /**
+     * 表格选择
+     * @param mixed $grid
+     * @param array $params
+     * @return SelectTable
+     */
+    public function selectGrid($grid, $params = []){
+        return SelectTable::create()->content($this)->grid($grid, $params);
+    }
     /**
      * ajax根据对应input参数回调对应操作方法
      * @param Grid $grid

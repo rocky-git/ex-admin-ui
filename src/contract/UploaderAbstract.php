@@ -10,13 +10,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 abstract class UploaderAbstract
 {
     protected $form;
+    protected $successHandle = null;
     public function __construct()
     {
+        $this->totalSize = Request::input('totalSize');
         $this->chunk = Request::input('chunkNumber');
         $this->chunks = Request::input('totalChunks');
         $this->filename = Request::input('filename');
         $this->directory = Request::input('directory');
         $this->type = Request::input('type');
+        $this->file_type = Request::input('file_type');
         $this->disk = Request::input('disk','local');
         $this->file = Request::file('file');
         $this->extension = pathinfo($this->filename, PATHINFO_EXTENSION);
@@ -108,10 +111,10 @@ abstract class UploaderAbstract
         fclose($fp);
         return $filename;
     }
-    
+
     /**
      * 上传
-     * @param \Closure $complete
+     * @param \Closure $complete 完成前回调
      * @param bool $exists 判断秒传
      * @return Response
      */
@@ -124,6 +127,7 @@ abstract class UploaderAbstract
                 if ($this->exists($path) && $exists) {
                     //秒传
                     $url = $this->url($path);
+                    $this->successHandle(new UploadedFile($this->path($path), $this->filename),$url,$path);
                     return Response::success(['url' => $url,'path'=>$path]);
                 } else {
                     //已上传分片，断点续传
@@ -141,27 +145,43 @@ abstract class UploaderAbstract
             }
             if ($this->chunks == 1 || $this->isComplete()) {
                 $file = new UploadedFile($this->merge(), $this->filename);
+                $completeFile = $file;
                 if ($complete) {
                     $completeFile = call_user_func($complete, $file);
-                    if ($completeFile === $file) {
-                        $this->putFile( $path,$file);
-                    } else {
-                        $name = md5($completeFile);
-                        $path = $this->directory . $name . '.' . $this->extension;
-                        $this->putFile($path,$completeFile);
+                    if ($completeFile !== $file) {
+                        $path = $this->directory . md5($completeFile) . '.' . $this->extension;
                     }
-                } else {
-                    $this->putFile($path,$file);
                 }
-                unlink($file->getRealPath());
-                $url = $this->url($path);
+                $url = $this->putFile($path,$completeFile);
+                $this->successHandle($completeFile,$url,$path);
+                @unlink($file->getRealPath());
             }
             return Response::success(['url' => $url,'path'=>$path]);
         }catch (\Throwable $exception){
             return Response::success([],$exception->getMessage(),500);
         }
     }
-
+    protected function successHandle($file,$url,$path){
+        if($this->successHandle instanceof \Closure){
+            call_user_func($this->successHandle, [
+                'file'=>$file,
+                'name'=>$this->filename,
+                'file_type'=>$this->file_type,
+                'size'=>$this->totalSize,
+                'url'=>$url,
+                'path'=>$path,
+            ]);
+        }
+    }
+    /**
+     * 上传成功后处理
+     * @param \Closure $closure
+     * @return Response
+     */
+    public function success(\Closure $closure){
+        $this->successHandle = $closure;
+        return $this->upload();
+    }
     /**
      * 写入文件
      * @param string $filename
@@ -182,9 +202,17 @@ abstract class UploaderAbstract
 
         }
         $result = $this->put($filename,$content);
-        return $result ? $filename : false;
+        return $result ? $this->url($filename) : false;
     }
-
+    /**
+     * 返回绝对路径
+     * @param string $path 路径
+     * @return string
+     */
+    protected function path($path)
+    {
+        return $path;
+    }
     /**
      * 写入文件
      * @param string $filename 文件名

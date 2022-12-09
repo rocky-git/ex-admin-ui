@@ -33,6 +33,7 @@ use ExAdmin\ui\component\grid\grid\Grid;
  * @method $this onlyShow(bool $value = true) 只显示触发按钮                                        boolean
  * @method $this hideFinder(bool $value = true) 隐藏资源管理器                                        boolean
  * @method $this paste(bool $value = true) 粘贴上传                                        boolean
+ * @method $this saveFinder(bool $value = true) 保存信息到附件表                             boolean
  */
 class Upload extends Field
 {

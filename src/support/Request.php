@@ -54,7 +54,7 @@ class Request
 
     public static function __callStatic($name, $arguments)
     {
-        $self = new static();
+        $self = Container::getInstance()->make(self::class);
         if ($name == 'input') {
             return $self->param(...$arguments);
         } elseif ($name == 'has') {
