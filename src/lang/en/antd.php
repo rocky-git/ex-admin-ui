@@ -258,11 +258,12 @@ return [
         "preview" => "Preview"
     ],
     //自定义组件语言
-    'TabsTag' => [
+    'FormMany' => [
         'up' => 'Move up',
         'down' => 'Move down',
         'add' => 'Add',
         'remove' => 'Remove',
+        'copy' => 'Copy',
         'clear' => 'Clear',
     ],
     'TabsTag' => [

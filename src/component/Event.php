@@ -90,6 +90,24 @@ trait Event
     }
 
     /**
+     * 触发消息提示
+     * @param string $name 事件名称 例如点击直接click
+     * @param \ExAdmin\ui\response\Msg $msg
+     * @return Component
+     */
+    public function eventMessage(string $name,$msg){
+        return $this->eventCustom($name, 'Message',$msg->getData());
+    }
+    /**
+     * 触发消息提示
+     * @param string $name 事件名称 例如点击直接click
+     * @param \ExAdmin\ui\response\Notification $notification
+     * @return Component
+     */
+    public function eventNotification(string $name,$notification){
+        return $this->eventCustom($name, 'Notification',$notification->getData());
+    }
+    /**
      * 刷新表格grid
      * @param string $name 事件名称 例如点击直接click
      * @param array $params 参数

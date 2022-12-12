@@ -44,11 +44,12 @@ class Ajax extends Component
     }
     /**
      * 刷新弹窗
+     * @param array $params 携带参数
      * @return $this
      */
-    public function modalRefresh()
+    public function modalRefresh(array $params = [])
     {
-        $this->arg['modalRefresh'] = true;
+        $this->arg['modalRefresh'] = $params;
         return $this;
     }
     public function jsonSerialize()

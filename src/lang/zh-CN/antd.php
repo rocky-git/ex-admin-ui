@@ -257,6 +257,7 @@ return [
         'down' => '下移',
         'add' => '添加',
         'remove' => '移除',
+        'copy' => '复制',
         'clear' => '清空',
     ],
     'TabsTag' => [

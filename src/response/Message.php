@@ -47,7 +47,9 @@ abstract class Message implements \JsonSerializable
         $this->response['bindData'][$field] = $value;
         return $this;
     }
-
+    public function getData(){
+        return $this->data;
+    }
     public function jsonSerialize()
     {
         $this->response['data'] = $this->data;
