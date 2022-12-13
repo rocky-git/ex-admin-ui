@@ -2,6 +2,7 @@
 
 namespace ExAdmin\ui\contract;
 
+use ExAdmin\ui\component\navigation\dropdown\Dropdown;
 use ExAdmin\ui\response\Response;
 use ExAdmin\ui\support\Container;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -84,12 +85,17 @@ abstract class SystemAbstract
     }
     final public function info(): Response
     {
+        $dropdown = Dropdown::create('');
+        $menu = $dropdown->getMenu();
+        $menu->content($this->adminDropdown());
+        $dropdown->jsonSerialize();
         return Response::success([
             'user_info' => $this->userInfo(),
             'name'=>$this->name(),
             'logo'=>$this->logo(),
             'logo_href'=>$this->logoHref(),
-            'adminDropdown' => $this->adminDropdown(),
+            'adminDropdown' => $dropdown,
+            'adminDropdownMenuItem' => $menu->getContent('default'),
             'navbarRight' => $this->navbarRight(),
             'menu' => $this->menu(),
         ]);

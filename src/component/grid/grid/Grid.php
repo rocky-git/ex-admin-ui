@@ -13,6 +13,7 @@ use ExAdmin\ui\component\grid\grid\sidebar\Sidebar;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
+use ExAdmin\ui\component\navigation\dropdown\Dropdown;
 use ExAdmin\ui\component\navigation\menu\Menu;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridAbstract;
@@ -619,9 +620,10 @@ class Grid extends Table
      */
     public function selectionActions(\Closure $closure)
     {
-        $menu = Menu::create();
+        $dropdown = Dropdown::create('')->trigger(['click']);
+        $menu = $dropdown->getMenu();
         call_user_func($closure, $menu);
-        $this->attr('selectionActions', $menu);
+        $this->attr('selectionActions', $dropdown);
     }
 
     /**
