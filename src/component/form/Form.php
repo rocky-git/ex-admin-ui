@@ -121,7 +121,9 @@ class Form extends Component
             $this->source($data, $bindField);
         }
         $this->exec = $closure;
-
+        $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
+        $callParams = array_merge($callParams, $this->call['params']);
+        $this->attr('callParams', $callParams);
         $this->attr('formField', $this->getModel());
         //验证绑定提示
         $this->vModel('validateField', str_replace('.','_',$this->getModel() . 'Validate'), '', true);
@@ -719,9 +721,6 @@ class Form extends Component
             }
             $this->content($this->formItem);
             $this->content($this->actions, 'footer');
-            $callParams = ['ex_admin_class' => $this->call['class'], 'ex_admin_function' => $this->call['function']];
-            $callParams = array_merge($callParams, $this->call['params']);
-            $this->attr('callParams', $callParams);
             $this->attr('form_ref', $this->bindAttr('ref'));
             $this->attr('tabsValidateField', $this->validator->getTabField());
             $this->attr('collapseValidateField', $this->validator->getCollapseFields());

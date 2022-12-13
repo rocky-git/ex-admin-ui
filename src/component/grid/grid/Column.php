@@ -249,7 +249,18 @@ class Column extends Component
         return $this;
     }
 
-
+    public function form($id=0){
+        $form = Form::create($this->grid->driver()->getRepository());
+        $form->style(['padding' => '0px', 'background' => 'none']);
+        $form->layout('inline');
+        $form->removeAttr('labelCol');
+        $form->method('PUT');
+        $form->actions()->submitButton()->htmlType('submit');
+        if (Request::has('ex_form_id')) {
+            $this->grid->driver()->setForm($form);
+        }
+        return $form;
+    }
     /**
      * 获取开关
      * @param string $value 当前值
@@ -260,13 +271,18 @@ class Column extends Component
      */
     protected function getSwitch($value, $data, $field, $switchArr = [[1 => '开启'], [0 => '关闭']])
     {
+        $form = Form::create($this->grid->driver()->getRepository());
+        if (Request::has('ex_form_switch_id')) {
+            $this->grid->driver()->setForm($form);
+        }
         return Switches::create(null, $value)
             ->options($switchArr)
             ->url($this->grid->attr('url'))
             ->field($field)
             ->params([
-                'ex_admin_action' => 'update',
-                'ids' => [$data[$this->grid->driver()->getPk()]],
+                'ex_form_switch_id' => $data[$this->grid->driver()->getPk()],
+                'ex_admin_form_action' => 'save',
+                'id' => $data[$this->grid->driver()->getPk()],
             ]);
     }
 
@@ -314,7 +330,7 @@ class Column extends Component
     public function editable($editable = null, $alwaysShow = false, $gridRefresh = true)
     {
         $this->editable = function ($value, $data, $html) use ($editable, $alwaysShow, $gridRefresh) {
-            $form = Form::create();
+            $form = Form::create($this->grid->driver()->getRepository());
             if (!$gridRefresh) {
                 $form->removeEvent('success', 'custom');
             }
@@ -324,12 +340,12 @@ class Column extends Component
             $form->url($this->grid->attr('url'));
             $form->method('PUT');
             $form->params($this->grid->getCall()['params'] + [
-                    'ex_form_id' => $data[$this->grid->driver()->getPk()],
-                    'ex_admin_form_action' => 'update',
-                    'ids' => [$data[$this->grid->driver()->getPk()]],
+                    'ex_form_editable_id' => $data[$this->grid->driver()->getPk()],
+                    'ex_admin_form_action' => 'save',
+                    'id' => $data[$this->grid->driver()->getPk()],
                 ]);
             $form->actions()->submitButton()->htmlType('submit');
-            if (Request::has('ex_form_id')) {
+            if (Request::has('ex_form_editable_id')) {
                 $this->grid->driver()->setForm($form);
             }
             if (is_null($editable)) {
@@ -376,8 +392,8 @@ class Column extends Component
                         'ajax' => [
                             'url' => $this->grid->attr('url'),
                             'data' => $this->grid->getCall()['params'] + [
-                                    'ex_admin_action' => 'update',
-                                    'ids' => [$data[$this->grid->driver()->getPk()]],
+                                    'ex_admin_action' => 'save',
+                                    'id' => [$data[$this->grid->driver()->getPk()]],
                                 ],
                             'method' => 'PUT',
                         ]

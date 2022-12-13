@@ -68,14 +68,6 @@ abstract class GridAbstract
     }
 
     /**
-     * 更新
-     * @param array $ids 更新条件id集合
-     * @param array $data 更新数据
-     * @return Message
-     */
-    abstract public function update(array $ids, array $data): Message;
-
-    /**
      * 删除
      * @param array $ids 删除id
      * @param bool $all 是否删除全部

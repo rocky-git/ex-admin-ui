@@ -292,10 +292,19 @@ trait Display
      */
     public function fileSize(){
         return $this->display(function () {
-            return  Str::getFileSize($this->displayValue);
+            return Str::getFileSize($this->displayValue);
         });
     }
-
+    /**
+     * 金额千分位
+     * @param int $decimals 保留几位小数
+     * @return $this
+     */
+    public function numberFormat(int $decimals=2){
+        return $this->display(function () use($decimals){
+            return number_format($this->displayValue,$decimals);
+        });
+    }
     /**
      * 文件显示
      * @return $this

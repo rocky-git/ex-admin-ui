@@ -17,6 +17,7 @@ use ExAdmin\ui\component\navigation\dropdown\Dropdown;
 use ExAdmin\ui\component\navigation\menu\Menu;
 use ExAdmin\ui\component\navigation\Pagination;
 use ExAdmin\ui\contract\GridAbstract;
+use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
 use ExAdmin\ui\Route;
 use ExAdmin\ui\support\Arr;
@@ -579,7 +580,20 @@ class Grid extends Table
         $this->attr('quickSearch', true);
         $this->search = $search;
     }
-
+    protected function dispatchForm(){
+        $result = $this->driver->dispatchEvent('updateing',[Request::input('id'), Request::input('data')]);
+        if($result instanceof Message){
+            return $result;
+        }
+        $formResult = $this->driver->getForm()->exec();
+        $result = $this->driver->dispatchEvent('updated',[Request::input('id'), Request::input('data')]);
+        if($result instanceof Message){
+            return $result;
+        }else{
+            $result = $formResult;
+        }
+        return $result;
+    }
     protected function dispatch($method, $object = null)
     {
         if (Request::has('ex_admin_sidebar')) {
@@ -663,19 +677,6 @@ class Grid extends Table
         return $this->ajaxActions;
     }
 
-    protected function formDispatch($action)
-    {
-        if ($action == 'update' && $this->driver->getForm()) {
-            $response = $this->driver->getForm()->validator()->check(Request::input('data'), true);
-            if ($response instanceof Response) {
-                return $response;
-            }
-            return $this->dispatch($action);
-        } else {
-            return $this->driver->getForm()->exec();
-        }
-    }
-
     public function exec()
     {
         if ($this->exec) {
@@ -699,9 +700,6 @@ class Grid extends Table
         }
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
 
-        if (Request::has('ex_admin_action') && Request::getPathInfo() == $this->attr('url')) {
-            return $this->dispatch(Request::input('ex_admin_action'));
-        }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();
@@ -731,7 +729,7 @@ class Grid extends Table
         $data = $this->parseColumn($data);
 
         if (Request::has('ex_admin_form_action') && Request::getPathInfo() == $this->attr('url')) {
-            return $this->formDispatch(Request::input('ex_admin_form_action'));
+            return $this->dispatchForm();
         }
         if ($this->isTree) {
             $data = Arr::tree($data, 'ex_admin_tree_id', 'ex_admin_tree_parent', $this->attr('childrenColumnName') ?? 'children');
