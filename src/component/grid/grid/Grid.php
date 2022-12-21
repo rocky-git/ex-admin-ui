@@ -407,7 +407,17 @@ class Grid extends Table
         $this->column[$field] = $column;
         return $column;
     }
-
+    /**
+     * 前面追加表格列
+     * @param string|\Closure $field 字段
+     * @param string $label 显示的标题
+     * @return Column
+     */
+    public function preColumn($field, $label = ''){
+        $column = new Column($this, $field, $label);
+        array_unshift($this->column,$column);
+        return $column;
+    }
     /**
      * 获取对应列
      * @param $field
@@ -415,11 +425,12 @@ class Grid extends Table
      */
     public function getColumn($field)
     {
-        return $this->column[$field];
+        return $this->column[$field] ?? null;
     }
 
     /**
      * 纯表格
+     * @return $this
      */
     public function table()
     {
@@ -427,6 +438,7 @@ class Grid extends Table
         $this->hideSelection();
         $this->hidePage();
         $this->hideAction();
+        return $this;
     }
 
     public function getColumns()

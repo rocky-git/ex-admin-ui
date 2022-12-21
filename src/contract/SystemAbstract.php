@@ -85,12 +85,13 @@ abstract class SystemAbstract
     }
     final public function info(): Response
     {
+        $userInfo = $this->userInfo();
         $dropdown = Dropdown::create('');
         $menu = $dropdown->getMenu();
         $menu->content($this->adminDropdown());
         $dropdown->jsonSerialize();
         return Response::success([
-            'user_info' => $this->userInfo(),
+            'user_info' => $userInfo,
             'name'=>$this->name(),
             'logo'=>$this->logo(),
             'logo_href'=>$this->logoHref(),

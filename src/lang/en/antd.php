@@ -264,6 +264,7 @@ return [
         'add' => 'Add',
         'remove' => 'Remove',
         'copy' => 'Copy',
+        'insert' => 'Insert',
         'clear' => 'Clear',
     ],
     'TabsTag' => [

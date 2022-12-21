@@ -21,7 +21,7 @@ trait CallbackDefinition
     protected $callbacks = [];
     protected $callback = [];
 
-    public function setCallback($callback, $custom)
+    public function setCallback(\Closure $callback, \Closure $custom = null)
     {
         $num = count($this->callbacks);
         $mark = $this->getValidateField() . $num;
@@ -45,6 +45,9 @@ trait CallbackDefinition
     public function handle($value,$formData)
     {
         $data = call_user_func($this->callback['callback'], $value,$formData);
-        return call_user_func($this->callback['custom'], $data);
+        if($this->callback['custom'] instanceof \Closure){
+            $data = call_user_func($this->callback['custom'], $data);
+        }
+        return $data;
     }
 }

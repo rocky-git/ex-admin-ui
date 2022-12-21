@@ -126,7 +126,7 @@ class Form extends Component
         $this->attr('callParams', $callParams);
         $this->attr('formField', $this->getModel());
         //验证绑定提示
-        $this->vModel('validateField', str_replace('.','_',$this->getModel() . 'Validate'), '', true);
+        $this->vModel('validateField', str_replace('.', '_', $this->getModel() . 'Validate'), '', true);
 
         $this->labelWidth(100);
         $this->actions = new FormAction($this);
@@ -144,12 +144,13 @@ class Form extends Component
      * 设置源
      * @param mixed $data
      */
-    public function source($data,$bindField=null){
+    public function source($data, $bindField = null)
+    {
         $manager = admin_config('admin.form.manager');
         $this->driver = (new $manager($data, $this))->getDriver();
         $this->vModel($this->vModel, $bindField, $data);
         $pk = $this->driver->getPk();
-        if (substr(Request::getPathInfo(),1) == $this->attr('url') && Request::input($pk)) {
+        if (substr(Request::getPathInfo(), 1) == $this->attr('url') && Request::input($pk)) {
             $id = Request::input($pk);
             $this->edit($id);
         }
@@ -159,7 +160,8 @@ class Form extends Component
      * 编辑
      * @param int|string $id
      */
-    public function edit($id){
+    public function edit($id)
+    {
         $pk = $this->driver->getPk();
         $this->driver->edit($id);
         $this->attr('editId', $id);
@@ -179,25 +181,30 @@ class Form extends Component
         $this->attr('size', $size);
         return $this;
     }
+
     /**
      * 垂直布局
      * @return $this
      */
-    public function vertical(){
+    public function vertical()
+    {
         $this->layout('vertical');
         $this->removeAttr('labelCol');
         return $this;
     }
+
     /**
      * 禁用
      * @param bool $value
      * @return $this
      */
-    public function disabled(bool $value = true){
-        $this->attr('disabled',$value);
+    public function disabled(bool $value = true)
+    {
+        $this->attr('disabled', $value);
         $this->actions->hide();
         return $this;
     }
+
     /**
      * @return FormAbstract
      */
@@ -213,13 +220,16 @@ class Form extends Component
     {
         return $this->validator;
     }
+
     /**
      * 设置是否编辑
      * @param bool $value
      */
-    public function setEdit(bool $value = true){
+    public function setEdit(bool $value = true)
+    {
         $this->isEdit = $value;
     }
+
     /**
      * 是否编辑
      * @return bool
@@ -256,10 +266,10 @@ class Form extends Component
         $component = $class::create(...$field);
 
         //禁用
-        if($this->attr('disabled')){
+        if ($this->attr('disabled')) {
             $component->disabled();
             $component->placeholder('');
-        }else{
+        } else {
             $this->setPlaceholder($component, $label);
         }
         $name = explode('.', $component->getModel());
@@ -343,7 +353,8 @@ class Form extends Component
      * @param string|null $field
      * @return array|\ArrayAccess|mixed
      */
-    public function origin($field = null){
+    public function origin($field = null)
+    {
         $data = Request::input('originData');
         if (is_null($field)) {
             return $data;
@@ -446,9 +457,41 @@ class Form extends Component
     }
 
     /**
+     * 表格选择
+     * @param string $field 字段或关联方法
+     * @param string $relation_field 表格选中存入的关联字段
+     * @param string|Component $title 标题
+     * @param \Closure $closure
+     * @param mixed $grid
+     * @param array $params
+     * @param Component $reference 定义选择的按钮
+     * @return FormMany
+     */
+    public function selectToTable(string $field, string $relation_field, $title, \Closure $closure, $grid, $params = [], $reference = null)
+    {
+        $selectTable = SelectTable::create()
+            ->attr('quick', true)
+            ->multiple()
+            ->grid($grid, $params);
+        if ($reference) {
+            $selectTable->content($reference);
+        }
+        $toTable = function ($form, $formMany) use ($closure) {
+            $formMany->tableCallback(function ($ids, $formData) use ($closure, $formMany) {
+                call_user_func($closure, $formMany->getToTabe(), $ids, $formData);
+                return $formMany->getToTabe()->getGrid();
+            });
+            call_user_func($closure, $formMany->getToTabe(), []);
+        };
+        return $this->hasMany($field, $title, $toTable)->table()
+            ->attr('gridRelationField', $relation_field)
+            ->attr('selectTable', $selectTable);
+    }
+
+    /**
      * 一对多添加
-     * @param string $field
-     * @param string|Component $title
+     * @param string $field 字段或关联方法
+     * @param string|Component $title 标题
      * @param \Closure $closure
      * @return FormMany
      */
@@ -459,7 +502,9 @@ class Form extends Component
         $this->data = [];
         $this->manyField[$field] = $field;
         $this->except('ex_admin_id');
+        $this->except('ex_admin_table');
         $formMany = FormMany::create($field);
+        $formMany->setToTabe(new ToTable($this,$formMany));
         $formItems = $this->collectFields($closure, [$formMany]);
         $itemData = $this->data;
         foreach ($manyData as &$row) {
@@ -470,7 +515,7 @@ class Form extends Component
         unset($this->manyField[$field]);
         $this->data = $data;
         $this->input($field, $manyData);
-        $validName  = implode('.',$this->validName($field));
+        $validName = implode('.', $this->validName($field));
         $formMany->content($formItems)
             ->attr('field', $validName)
             ->attr('title', $title)
@@ -479,7 +524,6 @@ class Form extends Component
         $formMany->setFormItem($item);
         $formMany->modelValue();
 
-        $columns = [];
         foreach ($formItems as $index => $item) {
             if ($item instanceof FormItem) {
                 $formItem = clone $item;
@@ -488,26 +532,30 @@ class Form extends Component
                     continue;
                 }
                 $columnAttr = $component->attr('column') ?? [];
-                $columns[] = array_merge([
-                    'header' => Html::create($formItem->content['label'] ?? ''),
-                    'dataIndex' => $formItem->attr('name'),
-                    'component' => $formItem,
-                    'enterAdd' => $index == (count($formItems) - 1)
-                ],$columnAttr);
+                $name = $field . '.' . implode('.', $formItem->attr('name'));
+                $column = $formMany->getToTabe()->getColumn($name);
+                if (is_null($column)) {
+                    $column = $formMany->getToTabe()->column($name, $formItem->getContent('label'));
+                }
+                $column->attr('component', $formItem)
+                    ->attr('enterAdd', $index == (count($formItems) - 1))
+                    ->attrs($columnAttr)
+                    ->default('');
                 unset($formItem->content['label']);
                 $formItem->removeAttr('label');
             }
         }
-        $formMany->attr('columns', $columns);
+        $this->callbackComponents[] = $formMany;
         return $formMany;
     }
+
     /**
      * 选项卡布局
      * @param int $activeKey 当前激活 tab 面板的 key
      * @param string $bindField
      * @return Tabs
      */
-    public function tabs($activeKey = 1,$bindField = null)
+    public function tabs($activeKey = 1, $bindField = null)
     {
         $tab = Tabs::create($activeKey, $bindField);
         $tab->setForm($this);
@@ -521,12 +569,14 @@ class Form extends Component
      * @param string $bindField
      * @return Collapse
      */
-    public function collapse($activeKey = 1,$bindField = null){
-        $collapse = Collapse::create($activeKey,$bindField);
+    public function collapse($activeKey = 1, $bindField = null)
+    {
+        $collapse = Collapse::create($activeKey, $bindField);
         $collapse->setForm($this);
         $this->push($collapse);
         return $collapse;
     }
+
     /**
      * 添加一行布局
      * @param \Closure $closure
@@ -558,7 +608,8 @@ class Form extends Component
      * 间距
      * @return Space
      */
-    public function space(\Closure $closure){
+    public function space(\Closure $closure)
+    {
         $formItems = $this->collectFields($closure);
         $space = Space::create();
         $space->content($formItems);
@@ -570,11 +621,13 @@ class Form extends Component
      * 分割线
      * @return Divider
      */
-    public function divider(){
+    public function divider()
+    {
         $divider = Divider::create();
         $this->push($divider);
         return $divider;
     }
+
     /**
      * 添加一列（必须配合row使用）
      * @param \Closure|Component $content
@@ -598,22 +651,24 @@ class Form extends Component
      * @param \Closure|Component $content
      * @return Col
      */
-    public function col($content){
+    public function col($content)
+    {
         return $this->column($content);
     }
 
-    protected function validName($name){
-        if(is_string($name)){
+    protected function validName($name)
+    {
+        if (is_string($name)) {
             $name = [$name];
         }
-        if(count($this->manyField) == 0){
-            $formModel = explode('.',$this->getModel());
+        if (count($this->manyField) == 0) {
+            $formModel = explode('.', $this->getModel());
             array_shift($formModel);
             $validNamePrefix = $this->attr('validNamePrefix');
-            if($validNamePrefix){
-                array_unshift($formModel,$validNamePrefix);
+            if ($validNamePrefix) {
+                array_unshift($formModel, $validNamePrefix);
             }
-            $name = array_merge($formModel,$name);
+            $name = array_merge($formModel, $name);
         }
         return $name;
     }
@@ -626,7 +681,7 @@ class Form extends Component
      */
     public function item(array $name = [], $label = '')
     {
-        if(count($name) > 0){
+        if (count($name) > 0) {
             $name = $this->validName($name);
         }
         $this->except($this->bindAttr('validateField'));
@@ -654,9 +709,9 @@ class Form extends Component
 
         $exceptFields = $this->manyField;
 
-        foreach ($field as &$f){
-            array_push($exceptFields,$f);
-            $f = implode('.',$exceptFields);
+        foreach ($field as &$f) {
+            array_push($exceptFields, $f);
+            $f = implode('.', $exceptFields);
         }
 
         if (is_array($exceptField)) {
@@ -706,7 +761,7 @@ class Form extends Component
 
     public function exec()
     {
-        if(!$this->rendered) {
+        if (!$this->rendered) {
             $this->rendered = true;
             if ($this->exec) {
                 call_user_func($this->exec, $this);

@@ -258,6 +258,7 @@ return [
         'add' => '添加',
         'remove' => '移除',
         'copy' => '复制',
+        'insert' => '插入',
         'clear' => '清空',
     ],
     'TabsTag' => [

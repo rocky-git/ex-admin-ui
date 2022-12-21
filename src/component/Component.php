@@ -483,7 +483,7 @@ abstract class Component implements \JsonSerializable
      * @return SelectTable
      */
     public function selectGrid($grid, $params = []){
-        return SelectTable::create()->content($this)->grid($grid, $params);
+        return SelectTable::create()->attr('quick',true)->content($this)->grid($grid, $params);
     }
     /**
      * ajax根据对应input参数回调对应操作方法
