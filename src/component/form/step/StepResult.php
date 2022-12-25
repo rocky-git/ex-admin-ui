@@ -25,9 +25,9 @@ class StepResult
      * 返回成功
      * @param string $title 标题
      * @param string  $content 内容
-     * @return \Eadmin\component\basic\Result
+     * @return \ExAdmin\ui\component\feedback\Result
      */
-    public function sucess($title=null, $content='')
+    public function success($title=null, $content='')
     {
         return $this->result($title ?? admin_trans('form.operation_complete'), $content, 'success');
     }
@@ -45,7 +45,7 @@ class StepResult
      * 返回错误
      * @param string $title
      * @param string $content
-     * @return \Eadmin\component\basic\Result
+     * @return \ExAdmin\ui\component\feedback\Result
      */
     public function error($title, $content){
         return $this->result($title, $content, 'error');
@@ -55,7 +55,7 @@ class StepResult
      * 返回警告
      * @param string $title
      * @param string $content
-     * @return \Eadmin\component\basic\Result
+     * @return \ExAdmin\ui\component\feedback\Result
      */
     public function warning($title, $content){
         return $this->result($title, $content, 'warning');
@@ -65,7 +65,7 @@ class StepResult
      * 返回信息
      * @param string $title
      * @param string $content
-     * @return \Eadmin\component\basic\Result
+     * @return \ExAdmin\ui\component\feedback\Result
      */
     public function info($title, $content){
         return $this->result($title, $content, 'info');
@@ -85,15 +85,12 @@ class StepResult
     }
     /**
      * 获取提交数据
-     * @param $field 字段
+     * @param string $field 字段
      * @return mixed
      */
     public function input($field=null)
     {
-        if(is_null($field)){
-            return $this->data;
-        }
-        return Arr::get($this->data, $field);
+        return $this->form->input($field);
     }
     /**
      * 获取保存成功id

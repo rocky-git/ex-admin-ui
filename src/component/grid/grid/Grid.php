@@ -13,6 +13,8 @@ use ExAdmin\ui\component\grid\grid\sidebar\Sidebar;
 use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\lists\Lists;
 use ExAdmin\ui\component\grid\Table;
+use ExAdmin\ui\component\grid\TableSummaryCell;
+use ExAdmin\ui\component\grid\TableSummaryRow;
 use ExAdmin\ui\component\navigation\dropdown\Dropdown;
 use ExAdmin\ui\component\navigation\menu\Menu;
 use ExAdmin\ui\component\navigation\Pagination;
@@ -175,10 +177,11 @@ class Grid extends Table
      * 斑马纹
      * @param bool $value
      */
-    public function striped(bool $value = true){
-        if($value){
-            $this->bindFunction('rowClassName',"return index % 2 === 1 ? 'table-striped' : null;",['_record','index']);
-        }else{
+    public function striped(bool $value = true)
+    {
+        if ($value) {
+            $this->bindFunction('rowClassName', "return index % 2 === 1 ? 'table-striped' : null;", ['_record', 'index']);
+        } else {
             $this->removeAttrBind('rowClassName');
         }
     }
@@ -407,17 +410,20 @@ class Grid extends Table
         $this->column[$field] = $column;
         return $column;
     }
+
     /**
      * 前面追加表格列
      * @param string|\Closure $field 字段
      * @param string $label 显示的标题
      * @return Column
      */
-    public function preColumn($field, $label = ''){
+    public function preColumn($field, $label = '')
+    {
         $column = new Column($this, $field, $label);
-        array_unshift($this->column,$column);
+        array_unshift($this->column, $column);
         return $column;
     }
+
     /**
      * 获取对应列
      * @param $field
@@ -507,6 +513,32 @@ class Grid extends Table
         return $tableData;
     }
 
+    protected function totalRow()
+    {
+        $summaryRow = false;
+        $cell = [];
+        $index = 0;
+        if ($this->attr('hideSelection')) {
+            $index = 1;
+        } else {
+            $cell[] = TableSummaryCell::create()->attr('index', $index);
+        }
+        foreach ($this->column as $column) {
+            if (($column instanceof Column) && $column->attr('totalRow')) {
+                $summaryCell = $column->getSummaryCell();
+                $summaryCell->displayContent();
+                $summaryRow = true;
+            } else {
+                $summaryCell = TableSummaryCell::create();
+            }
+            $cell[] = $summaryCell->attr('index', $index);
+            $index++;
+        }
+        if ($summaryRow) {
+            $this->attr('summaryRow', TableSummaryRow::create()->content($cell));
+        }
+    }
+
     /**
      * 隐藏操作列
      * @param bool $bool
@@ -592,20 +624,23 @@ class Grid extends Table
         $this->attr('quickSearch', true);
         $this->search = $search;
     }
-    protected function dispatchForm(){
-        $result = $this->driver->dispatchEvent('updateing',[Request::input('id'), Request::input('data')]);
-        if($result instanceof Message){
+
+    protected function dispatchForm()
+    {
+        $result = $this->driver->dispatchEvent('updateing', [Request::input('id'), Request::input('data')]);
+        if ($result instanceof Message) {
             return $result;
         }
         $formResult = $this->driver->getForm()->exec();
-        $result = $this->driver->dispatchEvent('updated',[Request::input('id'), Request::input('data')]);
-        if($result instanceof Message){
+        $result = $this->driver->dispatchEvent('updated', [Request::input('id'), Request::input('data')]);
+        if ($result instanceof Message) {
             return $result;
-        }else{
+        } else {
             $result = $formResult;
         }
         return $result;
     }
+
     protected function dispatch($method, $object = null)
     {
         if (Request::has('ex_admin_sidebar')) {
@@ -660,7 +695,7 @@ class Grid extends Table
      * @param array $itemStyle 样式
      * @return Lists
      */
-    public function custom(\Closure $closure, $container = null, $customStyle = null,$itemStyle=[])
+    public function custom(\Closure $closure, $container = null, $customStyle = null, $itemStyle = [])
     {
         $this->customClosure = $closure;
         $list = Lists::create();
@@ -707,7 +742,7 @@ class Grid extends Table
             }
             $filter = $this->filter->form();
             $filter->removeAttr('url');
-            $this->attr('filter',$filter);
+            $this->attr('filter', $filter);
             $this->driver->filter($this->getFilter()->getRule());
         }
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
@@ -739,6 +774,8 @@ class Grid extends Table
         $this->pagination->total($total);
 
         $data = $this->parseColumn($data);
+        //统计行
+        $this->totalRow();
 
         if (Request::has('ex_admin_form_action') && Request::getPathInfo() == $this->attr('url')) {
             return $this->dispatchForm();
@@ -757,6 +794,7 @@ class Grid extends Table
                 'footer' => $this->attr('footer'),
                 'tools' => $this->attr('tools'),
                 'addButton' => $this->attr('addButton'),
+                'summaryRow' => $this->attr('summaryRow'),
                 'total' => $total,
                 'code' => 200,
             ];

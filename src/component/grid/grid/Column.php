@@ -19,6 +19,7 @@ use ExAdmin\ui\component\grid\image\Image;
 use ExAdmin\ui\component\grid\image\ImagePreviewGroup;
 use ExAdmin\ui\component\grid\Popover;
 use ExAdmin\ui\component\grid\statistic\Statistic;
+use ExAdmin\ui\component\grid\TableSummaryCell;
 use ExAdmin\ui\component\grid\tag\Tag;
 use ExAdmin\ui\component\grid\ToolTip;
 use ExAdmin\ui\support\Arr;
@@ -48,7 +49,11 @@ class Column extends Component
     protected $grid;
 
     protected $closure = [];
+
     protected $displayValue = null;
+
+    protected $summaryCell = null;
+
     protected $displayComponent = null;
 
     protected $exportClosure = null;
@@ -79,6 +84,8 @@ class Column extends Component
             );
         }
         $this->when = new ColumnWhen($this);
+        //统计列
+        $this->summaryCell = TableSummaryCell::create();
     }
 
     public function getField()
@@ -120,18 +127,18 @@ class Column extends Component
         $this->when->exec($originValue, $originData);
         $displayClosure = array_merge($this->closure,$displayClosure);
         //自定义内容显示处理
+        $this->displayValue = $originValue;
+        $this->displayComponent = $originValue;
         foreach ($displayClosure as $key=>$display){
-            if($key === 0){
-                $this->displayValue = $originValue;
-                $this->displayComponent = $originValue;
-            }
             $value = call_user_func_array($display,[$originValue, $originData,$this->displayValue]);
             $this->displayComponent = $value;
             if(!is_object($value)){
                 $this->displayValue = $value;
             }
         }
-
+        if($this->attr('totalRow')){
+            $this->summaryCell->increment($this->displayValue);
+        }
         if (!is_null($this->editable)) {
             $value = call_user_func_array($this->editable, [$originValue, $originData, $value]);
         }
@@ -168,8 +175,28 @@ class Column extends Component
     }
 
     /**
+     * @return TableSummaryCell
+     */
+    public function getSummaryCell(){
+        return $this->summaryCell;
+    }
+
+    /**
+     * 统计行
+     * @param \Closure|null $closure 自定义显示
+     * @return $this
+     */
+    public function totalRow(\Closure $closure = null){
+        $this->attr('totalRow',true);
+        if($closure){
+            $this->summaryCell->display($closure);
+        }
+        return $this;
+    }
+    /**
      * 自定义导出
      * @param \Closure $closure
+     * @return $this
      */
     public function export(\Closure $closure)
     {
@@ -392,8 +419,9 @@ class Column extends Component
                         'ajax' => [
                             'url' => $this->grid->attr('url'),
                             'data' => $this->grid->getCall()['params'] + [
-                                    'ex_admin_action' => 'save',
-                                    'id' => [$data[$this->grid->driver()->getPk()]],
+                                    'ex_form_editable_id' => $data[$this->grid->driver()->getPk()],
+                                    'ex_admin_form_action' => 'save',
+                                    'id' => $data[$this->grid->driver()->getPk()],
                                 ],
                             'method' => 'PUT',
                         ]
