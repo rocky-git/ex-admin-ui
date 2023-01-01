@@ -216,7 +216,14 @@ abstract class UploaderAbstract
     /**
      * 写入文件
      * @param string $filename 文件名
-     * @param $content 文件内容
+     * @param resource $resource
+     * @return bool
+     */
+    abstract protected function putStream(string $filename,$resource):bool;
+    /**
+     * 写入文件
+     * @param string $filename 文件名
+     * @param mixed $content 文件内容
      * @return bool
      */
     abstract protected function put(string $filename,$content):bool;

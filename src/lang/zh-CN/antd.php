@@ -309,6 +309,8 @@ return [
         'loading' => '加载中',
         'noMore' => '没有更多了',
         'loadingMore' => '加载更多',
+        'defaultCheckboxColumn' => '默认配置',
+        'defaultCheckboxColumnConfirm' => '确认还原到默认配置？',
     ],
     'SelectTable' => [
         'select' => '选择',
@@ -360,8 +362,7 @@ return [
         'sider' => '侧边',
         'header_sider' => '顶部-侧边',
         'header' => '顶部',
-        'defualt' => '恢复默认配置',
-
+        'default' => '恢复默认配置',
     ],
     'Sidebar' => [
         'all'=>'全部'

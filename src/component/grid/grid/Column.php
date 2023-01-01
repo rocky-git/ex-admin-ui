@@ -64,8 +64,6 @@ class Column extends Component
      */
     protected $when;
 
-    protected $hide = false;
-
     protected $default = '--';
 
     protected $field;
@@ -220,18 +218,26 @@ class Column extends Component
      */
     public function hide()
     {
-        $this->hide = true;
         $this->attr('hide', true);
         return $this;
     }
 
+    /**
+     * 隐藏列仅导出
+     * @return $this
+     */
+    public function onlyExport(){
+        $this->attr('checkboxColumnShow', false);
+        $this->attr('onlyExport', true);
+        return $this;
+    }
     /**
      * 获取当前列是否隐藏
      * @return bool
      */
     public function isHide()
     {
-        return $this->hide;
+        return $this->attr('hide');
     }
 
     /**
@@ -274,19 +280,6 @@ class Column extends Component
             return $content;
         });
         return $this;
-    }
-
-    public function form($id=0){
-        $form = Form::create($this->grid->driver()->getRepository());
-        $form->style(['padding' => '0px', 'background' => 'none']);
-        $form->layout('inline');
-        $form->removeAttr('labelCol');
-        $form->method('PUT');
-        $form->actions()->submitButton()->htmlType('submit');
-        if (Request::has('ex_form_id')) {
-            $this->grid->driver()->setForm($form);
-        }
-        return $form;
     }
     /**
      * 获取开关

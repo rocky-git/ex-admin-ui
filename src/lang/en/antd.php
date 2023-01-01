@@ -314,6 +314,8 @@ return [
         'loading' => 'Loading',
         'noMore' => 'No More',
         'loadingMore' => 'Loading More',
+        'defaultCheckboxColumn' => 'Default configuration',
+        'defaultCheckboxColumnConfirm' => 'Confirm Restore to Default Configuration？',
     ],
     'SelectTable' => [
         'select' => 'select',
@@ -366,7 +368,7 @@ return [
         'sider' => 'Sider',
         'header_sider' => 'Header-Sider',
         'header' => 'Header',
-        'defualt' => 'Restore default configuration',
+        'default' => 'Restore default configuration',
     ],
     'Sidebar' => [
         'all'=>'All'

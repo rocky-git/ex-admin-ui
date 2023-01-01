@@ -39,7 +39,7 @@ abstract class FormAbstract
      * @param string $search 搜索值
      * @param array $data 表单数据
      */
-    public function remoteOptions($search,$data)
+    public function remoteOptions($search,$data = [])
     {
         $result = $this->form->getCallbackComponent()->handle($search,$data);
         return Response::success($result);

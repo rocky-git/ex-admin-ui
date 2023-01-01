@@ -86,8 +86,34 @@ trait CascadeTrait
                 'value' => $id,
                 'pid' => $pid,
             ]);
-            $this->attr('options', $treeData);
+            $field = $this->vModel('options',null, $treeData);
+            $this->exceptField($field);
         };
+        return $this;
+    }
+
+    /**
+     * 动态加载选项
+     * @param string|\Closure $callback 闭包回调或者url
+     * @return $this
+     */
+    public function load($callback){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback);
+        }else{
+            $url = $callback;
+        }
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+            ],
+            'method' => 'POST',
+        ];
+        $this->attr('loadRemote',$params);
         return $this;
     }
     /**
@@ -118,8 +144,7 @@ trait CascadeTrait
                         $row['disabled'] = true;
                     }
                 }
-                $treeData = Arr::tree($data, $id, $pid, $children);
-                return $treeData;
+                return Arr::tree($data, $id, $pid, $children);
             });
         }else{
             $url = $callback;

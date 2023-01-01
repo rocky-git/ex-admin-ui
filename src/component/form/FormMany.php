@@ -37,6 +37,11 @@ class FormMany extends Field
 
     protected $tableCallback = null;
 
+    public function __construct($field = null, $value = [])
+    {
+        parent::__construct($field, $value);
+    }
+
     /**
      * @param ToTable $object
      */

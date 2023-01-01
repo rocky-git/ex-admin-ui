@@ -182,15 +182,9 @@ class Select extends Field
          ];
         */
         $this->optionsClosure = function () use ($data, $name, $label, $id) {
-            foreach ($data as $key => $option) {
-                $disabled = false;
-                if (in_array($option[$id], $this->disabledValue)) {
-                    $disabled = true;
-                }
+            foreach ($data as $option) {
                 $selectGroup = SelectGroup::create()
-                    ->attr('label', $option[$label])
-                    ->attr('slotDefault', $option[$label])
-                    ->attr('disabled', $disabled);
+                    ->attr('label', $option[$label]);
                 foreach ($option[$name] as $item) {
                     $disabled = false;
                     if (in_array($item[$id], $this->disabledValue)) {
@@ -198,8 +192,7 @@ class Select extends Field
                     }
                     $selectGroup->content(
                         SelectOption::create()
-                            ->attr('title', $item[$label])
-                            ->attr('slotDefault', $item[$label])
+                            ->content($item[$label])
                             ->attr('disabled', $disabled)
                             ->attr('value', $item[$id])
                     );
