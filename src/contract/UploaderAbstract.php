@@ -192,16 +192,7 @@ abstract class UploaderAbstract
         if($content instanceof UploadedFile){
             $content = fopen($content->getRealPath(), 'r');
         }
-        if (is_resource($content)){
-            $resource = $content;
-            $content = '';
-            while (!feof($resource)) {
-                $content .= fread($resource, 1024);
-            }
-            fclose($resource);
-
-        }
-        $result = $this->put($filename,$content);
+        $result = $this->putStream($filename,$content);
         return $result ? $this->url($filename) : false;
     }
     /**
@@ -209,12 +200,9 @@ abstract class UploaderAbstract
      * @param string $path 路径
      * @return string
      */
-    protected function path($path)
-    {
-        return $path;
-    }
+    abstract protected function path(string $path):string;
     /**
-     * 写入文件
+     * 写入文件stream
      * @param string $filename 文件名
      * @param resource $resource
      * @return bool
@@ -223,7 +211,7 @@ abstract class UploaderAbstract
     /**
      * 写入文件
      * @param string $filename 文件名
-     * @param mixed $content 文件内容
+     * @param string $content 文件内容
      * @return bool
      */
     abstract protected function put(string $filename,$content):bool;
