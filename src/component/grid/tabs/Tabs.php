@@ -79,6 +79,7 @@ class Tabs extends Component
             ->key($key);
         $this->pane[] = $pane;
         if($content instanceof \Closure && $this->form){
+            $pane->forceRender();
             $this->form->tabs[$this->getModel()] = $key;
             $content = $this->form->collectFields($content);
             unset($this->form->tabs[$this->getModel()]);

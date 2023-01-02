@@ -25,11 +25,11 @@ return [
     //顶部栏
     'header'=>[
         //文字颜色
-        'text_color'=>'#ffffff',
+        'text_color'=>'#393939',
         //选中色
         'color'=>'#1890ff',
         //背景色
-        'background'=>'#121929',
+        'background'=>'#ffffff',
     ],
     //侧边栏
     'sidebar' => [
@@ -38,7 +38,7 @@ return [
         //选中色
         'color'=>'#1890ff',
         //背景色
-        'background'=>'#121929',
+        'background'=>'#ffffff',
         //宽度
         'width'=>200,
         //是否收起状态

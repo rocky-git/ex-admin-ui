@@ -52,7 +52,7 @@ class Arrays extends FormAbstract
             return $savedResult;
         }
         if($this->form->isStepfinish()){
-            $result = call_user_func($this->form->getSteps()->getFinish(),new StepResult($this->form,$data, $result, $id));
+            $result = call_user_func($this->form->getSteps()->getFinish(),new StepResult($this->form,$id));
             return Response::success($result,'',202);
         }
         return message_success(admin_trans('form.save_success'));

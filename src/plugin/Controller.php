@@ -7,6 +7,7 @@ use ExAdmin\ui\component\common\Copy;
 use ExAdmin\ui\component\common\Html;
 use ExAdmin\ui\component\common\Icon;
 use ExAdmin\ui\component\common\typography\TypographyText;
+use ExAdmin\ui\component\form\field\Switches;
 use ExAdmin\ui\component\form\Form;
 use ExAdmin\ui\component\form\FormAction;
 use ExAdmin\ui\component\grid\badge\Badge;
@@ -117,10 +118,18 @@ class Controller
             $grid->column('status', '状态')->when(function ($val, $data) {
                 return $data->installed();
             }, function (Column $column) {
-                $column->switch([
-                    'on' => ['value' => true, 'text' => '启用'],
-                    'off' => ['value' => false, 'text' => '禁用'],
-                ]);
+                $column->display(function ($value,$data){
+                    return Switches::create(null, $value)
+                        ->options([
+                            'on' => ['value' => true, 'text' => '启用'],
+                            'off' => ['value' => false, 'text' => '禁用'],
+                        ])
+                        ->url(admin_url([$this,'switch']))
+                        ->field('status')
+                        ->params([
+                            'name' => $data['name'],
+                        ]);
+                });
             });
             $grid->actions(function (Actions $actions, $data) {
                 $actions->hideDel();
@@ -201,6 +210,22 @@ class Controller
             $grid->hideSelection();
         });
 
+    }
+
+    /**
+     * 启用禁用
+     * @param $name
+     * @param $data
+     * @return \ExAdmin\ui\response\Msg
+     */
+    public function switch($name,$data){
+        $plug = plugin()->getPlug($name);
+        if ($data['status']) {
+            $plug->enable();
+        } else {
+            $plug->disable();
+        }
+        return message_success(admin_trans('grid.update_success'))->refreshMenu();
     }
 
     public function intallView($name, $version)

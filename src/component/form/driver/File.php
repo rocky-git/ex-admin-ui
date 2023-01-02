@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\form\driver;
 
 use ExAdmin\ui\component\form\Form;
+use ExAdmin\ui\component\form\step\StepResult;
 use ExAdmin\ui\contract\FormAbstract;
 use ExAdmin\ui\response\Message;
 use ExAdmin\ui\response\Response;
@@ -51,6 +52,10 @@ PHP;
         $savedResult = $this->dispatchEvent('saved',[$this->form]);
         if ($savedResult instanceof Message) {
             return $savedResult;
+        }
+        if($this->form->isStepfinish()){
+            $result = call_user_func($this->form->getSteps()->getFinish(),new StepResult($this->form,$id));
+            return Response::success($result,'',202);
         }
         if($result){
             $result = message_success(admin_trans('form.save_success'));

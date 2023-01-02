@@ -10,16 +10,13 @@ use ExAdmin\ui\support\Request;
 class StepResult
 {
     protected $form;
-    protected $data;
-    protected $result;
+
     protected $id = null;
-    protected $isSuccess = false;
-    public function __construct(Form $form,$data,$isSuccess,$id)
+
+    public function __construct(Form $form,$id)
     {
         $this->form = $form;
-        $this->data = $data;
         $this->id = $id;
-        $this->isSuccess = $isSuccess;
     }
     /**
      * 返回成功

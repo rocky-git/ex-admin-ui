@@ -10,28 +10,6 @@ use ExAdmin\ui\support\Request;
 class Plugin extends GridAbstract
 {
     /**
-     * 更新
-     * @param array $ids 更新条件id集合
-     * @param array $data 更新数据
-     * @return Message
-     */
-    public function update(array $ids, array $data): Message
-    {
-        if(isset($data['status'])){
-            $status = $data['status'];
-            foreach ($ids as $name){
-                $plug = plugin()->getPlug($name);
-                if ($status) {
-                    $plug->enable();
-                } else {
-                    $plug->disable();
-                }
-            }
-        }
-        return message_success(admin_trans('grid.update_success'))->refreshMenu();
-    }
-
-    /**
      * 删除
      * @param array $ids 删除id
      * @return Message
