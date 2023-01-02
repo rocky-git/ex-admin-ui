@@ -88,7 +88,7 @@ class Filter
         return $this->setRule($name, $arguments);
     }
 
-    public function setRule($name, $arguments, $form = null)
+    public function setRule($name, $arguments)
     {
         if (in_array($name, $this->filterType)) {
             $this->rule = $name;
@@ -99,14 +99,7 @@ class Filter
             if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange','numberRange'])) {
                 array_unshift($arguments, $arguments[0]);
             }
-            if (!is_null($form)) {
-                $formComponent = call_user_func_array([$this->form, $name], $arguments);
-                $formComponent->getFormItem()->style(['display' => 'none']);
-            }
-            if (is_null($form)) {
-                $form = $this->form;
-            }
-            $formComponent = call_user_func_array([$form, $name], $arguments);
+            $formComponent = call_user_func_array([$this->form, $name], $arguments);
             list($fields) = Arr::formItem($formComponent, $arguments);
             $input = Request::input('ex_admin_filter',[]);
             if($this->mergeParams){

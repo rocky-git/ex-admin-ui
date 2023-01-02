@@ -493,8 +493,12 @@ class Column extends Component
                 $arguments = [$this->attr('dataIndex')];
             }
             if ($key < 2) {
-
-                $filter = $filter->setRule($item['name'], $arguments, $form);
+                $filter = $filter->setRule($item['name'], $arguments);
+                if($filter instanceof Field){
+                    $formItem = clone $filter->getFormItem();
+                    $filter->getFormItem()->style(['display' => 'none']);
+                    $form->push($formItem);
+                }
             } else {
                 $filter = call_user_func_array([$filter, $item['name']], $arguments);
             }
