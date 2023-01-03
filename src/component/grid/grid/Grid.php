@@ -746,7 +746,9 @@ class Grid extends Table
             $this->driver->filter($this->getFilter()->getRule());
         }
         $this->driver->quickSearch(Request::input('quickSearch', ''), $this->search);
-
+        if (Request::has('ex_admin_action') && Request::getPathInfo() == $this->attr('url')) {
+            return $this->dispatch(Request::input('ex_admin_action'));
+        }
         //添加操作列
         if (!$this->hideAction) {
             $this->column[] = $this->actionColumn->column();

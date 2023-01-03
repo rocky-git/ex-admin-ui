@@ -1,1 +1,0 @@
-import{X as r,a as c}from"./dynamicTag.98ddbc91.js";const l=function(){const t=c(!1);return{loading:t,http:function(a){return new Promise((o,e)=>{t.value=!0,r(a).then(n=>{o(n)}).catch(n=>{e(n)}).finally(()=>{t.value=!1})})}}};export{l};
