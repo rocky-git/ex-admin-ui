@@ -39,7 +39,7 @@ use ExAdmin\ui\support\Arr;
  */
 class Cascader extends Field
 {
-    use CascadeTrait;
+    use CascadeTrait,CallbackDefinition;
     /**
      * 插槽
      * @var string[]
