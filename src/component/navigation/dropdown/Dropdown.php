@@ -99,6 +99,7 @@ class Dropdown extends Component
         if(is_array($default)){
             foreach ($default as $index => $item) {
                 if ($item instanceof Modal || $item instanceof Drawer) {
+                    $item->titleRender();
                     $default[$index] = $item->attr('reference');
                     $item->removeAttr('reference');
                     $item->attr('field',$item->getModel());
