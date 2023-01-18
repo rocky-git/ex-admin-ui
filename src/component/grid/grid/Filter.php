@@ -66,8 +66,8 @@ class Filter
     public function __construct()
     {
         $this->form = Form::create([]);
-        $this->form->removeEvent('success','custom')
-            ->eventCustom('success', 'GridRefresh',[true]);
+        $this->form->removeEvent('success', 'custom')
+            ->eventCustom('success', 'GridRefresh', [true]);
         $this->form
             ->removeAttr('labelCol')
             ->layout('inline')
@@ -76,13 +76,16 @@ class Filter
             ->submitButton()
             ->icon(' <search-outlined />')
             ->content('搜索');
-        $this->form->actions()->resetButton()->eventFunction('click', 'submit', [], $this->form);
+        $this->form->actions()->resetButton()->eventFunction('click', 'submit');
     }
-    public function setGrid(Grid $grid){
+
+    public function setGrid(Grid $grid)
+    {
         $this->grid = $grid;
         $this->form->url($this->grid->attr('url'));
         $this->grid->driver()->setForm($this->form);
     }
+
     public function __call($name, $arguments)
     {
         return $this->setRule($name, $arguments);
@@ -96,14 +99,14 @@ class Filter
                 call_user_func($arguments[0], $this);
             }
         } elseif (isset(self::$formComponent[$name])) {
-            if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange','numberRange'])) {
+            if (in_array($name, ['dateRange', 'dateTimeRange', 'timeRange', 'yearRange', 'monthRange', 'weekRange', 'quarterRange', 'numberRange'])) {
                 array_unshift($arguments, $arguments[0]);
             }
             $formComponent = call_user_func_array([$this->form, $name], $arguments);
             list($fields) = Arr::formItem($formComponent, $arguments);
-            $input = Request::input('ex_admin_filter',[]);
-            if($this->mergeParams){
-                $input = array_merge(Request::input(),$input);
+            $input = Request::input('ex_admin_filter', []);
+            if ($this->mergeParams) {
+                $input = array_merge(Request::input(), $input);
             }
             $type = 'normal';
             if ($formComponent instanceof Cascader) {
@@ -114,14 +117,14 @@ class Filter
                     $fields = $fields[0];
                 }
             }
-            if($this->span){
-                $formComponent->getFormItem()->labelCol(['span'=>6]);
-                $formComponent->getFormItem()->wrapperCol(['span'=>18]);
+            if ($this->span) {
+                $formComponent->getFormItem()->labelCol(['span' => 6]);
+                $formComponent->getFormItem()->wrapperCol(['span' => 18]);
                 $formComponent->span($this->span);
             }
             foreach ($fields as $field) {
                 $value = Arr::get($input, $field);
-                if(!is_null($value)){
+                if (!is_null($value)) {
                     $formComponent->default($value);
                 }
                 if ($type == 'cascader') {
@@ -157,13 +160,16 @@ class Filter
         $relation = implode('.', $relation);
         return [$relation, $field];
     }
-    public function mergeParams(){
-        $this->mergeParams =  true;
+
+    public function mergeParams()
+    {
+        $this->mergeParams = true;
     }
+
     public function getRule()
     {
-        foreach ($this->rules as &$item){
-            if(is_null($item['value']) && !Request::has('ex_admin_filter')){
+        foreach ($this->rules as &$item) {
+            if (is_null($item['value']) && !Request::has('ex_admin_filter')) {
                 $item['value'] = $this->form->input($item['field']);
             }
         }
@@ -186,19 +192,44 @@ class Filter
      * @param int $column 列
      * @param \Closure $closure
      */
-    public function layout(int $column,\Closure $closure){
+    public function layout(int $column, \Closure $closure)
+    {
         $this->span = 24 / $column;
         $this->form->removeAttr('layout');
-        $this->form->row(function (Form $form) use($closure){
-            call_user_func($closure,$this);
-            $form->col(function (Form $form){
+        $this->form->row(function (Form $form) use ($closure) {
+            call_user_func($closure, $this);
+            $form->col(function (Form $form) {
                 $action = clone $form->actions();
-                $form->item()->wrapperCol(['offset'=>6,'span'=>18])->content($action);
+                $form->item()->wrapperCol(['offset' => 6, 'span' => 18])->content($action);
             })->span($this->span);
 
         })->gutter(20);
         $this->span = null;
         $this->form->actions()->hide();
+    }
+
+    /**
+     * 数据改变立刻筛选
+     * @param bool $hideSubmitButton 隐藏搜索按钮
+     * @param bool $hideResetButton 隐藏重置按钮
+     */
+    public function changeOnFilter(bool $hideSubmitButton = false, bool $hideResetButton = false)
+    {
+        $this->form->eventFunction('watchModel', 'submit');
+        if ($hideSubmitButton) {
+            $this->form->actions()->hideSubmitButton();
+        }
+        if ($hideResetButton) {
+            $this->form->actions()->hideResetButton();
+        }
+    }
+
+    /**
+     * 回车筛选
+     */
+    public function enterOnFilter()
+    {
+        $this->form->eventFunction('keyup.native.enter', 'submit');
     }
 
     /**
