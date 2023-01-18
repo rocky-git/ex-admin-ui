@@ -282,6 +282,7 @@ class Form extends Component
             $component instanceof SelectTable
             || $component instanceof Select
             || $component instanceof AutoComplete
+            || $component instanceof Cascader
             || $component instanceof CascaderSingle
         )
         ) {

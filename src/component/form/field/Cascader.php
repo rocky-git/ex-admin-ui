@@ -62,7 +62,7 @@ class Cascader extends Field
 
     public function __construct($field = null, $value = [])
     {
-        parent::__construct(null, $value);
+        parent::__construct('c'.md5(json_encode($field)), $value);
         $this->allowClear();
         $this->attr('fields', $field);
         $this->expandTrigger('hover');
