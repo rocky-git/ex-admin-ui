@@ -107,7 +107,7 @@ class Actions
                     ]
                 );
         }
-        $this->dropdown = Dropdown::create($content)->trigger(['click']);
+        $this->dropdown = Dropdown::create($content)->trigger(['click'])->event('click.stop');
         return $this->dropdown;
     }
 

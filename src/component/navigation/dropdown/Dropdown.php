@@ -96,15 +96,17 @@ class Dropdown extends Component
     public function jsonSerialize()
     {
         $default = $this->menu->getContent('default');
-        foreach ($default as $index => $item) {
-            if ($item instanceof Modal || $item instanceof Drawer) {
-                $default[$index] = $item->attr('reference');
-                $item->removeAttr('reference');
-                $item->attr('field',$item->getModel());
-                $this->content($item,'reference');
+        if(is_array($default)){
+            foreach ($default as $index => $item) {
+                if ($item instanceof Modal || $item instanceof Drawer) {
+                    $default[$index] = $item->attr('reference');
+                    $item->removeAttr('reference');
+                    $item->attr('field',$item->getModel());
+                    $this->content($item,'reference');
+                }
             }
+            $this->menu->setContent(['default' => $default]);
         }
-        $this->menu->setContent(['default' => $default]);
         $default = $this->getContent('default');
         if (count($default) > 1) {
             $this->setContent(['default' => $default]);
