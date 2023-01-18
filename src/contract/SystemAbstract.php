@@ -57,8 +57,7 @@ abstract class SystemAbstract
      */
     public function exportProgress($key): Response
     {
-        $cache = new FilesystemAdapter();
-        $data = $cache->getItem($key)->get();
+        $data = Container::getInstance()->cache->get($key);
         return Response::success($data??[]);
     }
     /**
@@ -82,6 +81,15 @@ abstract class SystemAbstract
         $key = md5($key.'queue_progress');
         $progress = Container::getInstance()->cache->get($key);
         return Response::success($progress ?? 0);
+    }
+    /**
+     * 操作缓存
+     * @param string $type
+     * @param array $params
+     * @return false|mixed
+     */
+    final public function operationCache(string $type,array $params = []){
+        return Response::success(call_user_func_array([Container::getInstance()->cache,$type],$params));
     }
     final public function info(): Response
     {

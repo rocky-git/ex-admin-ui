@@ -157,7 +157,7 @@ class Echart extends Component
                     'month'=>admin_trans('echart.this_month'),
                     'year'=>admin_trans('echart.this_year'),
                 ])->button()->buttonStyle('solid');
-                $dateRange = $filter->between()->dateRange('ex_admin_date');
+                $dateRange = $filter->between()->dateRange('ex_admin_date')->attr('changeWatch',false);
                 if(is_string($this->dateFilterValue)){
                     $radio->default($this->dateFilterValue);
                 }elseif(is_array($this->dateFilterValue)){

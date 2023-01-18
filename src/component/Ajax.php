@@ -4,7 +4,7 @@ namespace ExAdmin\ui\component;
 /**
  * ajax请求
  */
-class Ajax extends Component
+class Ajax implements \JsonSerializable
 {
     protected $component;
     protected $options = [];
@@ -52,11 +52,14 @@ class Ajax extends Component
         $this->arg['modalRefresh'] = $params;
         return $this;
     }
+    public function __call(string $name, array $arguments)
+    {
+        call_user_func_array([$this->component,$name],$arguments);
+        return $this;
+    }
+
     public function jsonSerialize()
     {
-        if(!$this->componentVisible){
-            $this->component->whenShow($this->componentVisible);
-        }
         $this->component->directive('ajax', $this->options, $this->arg);
         return $this->component;
     }
