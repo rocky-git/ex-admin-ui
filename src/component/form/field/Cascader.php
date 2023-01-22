@@ -31,6 +31,7 @@ use ExAdmin\ui\support\Arr;
  * @method $this maxTagPlaceholder(mixed $maxTagPlaceholder) 隐藏 tag 时显示的内容
  * @method $this dropdownClassName(string $name) 自定义浮层类名                                                            string
  * @method $this open(bool $show) 控制浮层显隐                                                                            boolean
+ * @method $this alwayLoad(bool $value)  总是load请求，配合load                                                                           boolean
  * @method $this placement(string $placement = 'bottomLeft') 浮层预设位置：bottomLeft bottomRight topLeft topRight        string
  * @method $this removeIcon(mixed $removeIcon) 自定义的多选框清除图标                                                      slot
  * @method $this searchValue(mixed $value) 设置搜索的值，需要与 showSearch 配合使用                                        string
@@ -98,10 +99,8 @@ class Cascader extends Field
      */
     public function multiple($relation = null)
     {
-        $cascader = $this;
-        $cascader->attr('relation', $relation);
-        $cascader->attr('multiple', true);
-        $attribute = $cascader->attribute;
+        $this->attr('relation', $relation);
+        $this->attr('multiple', true);
         $form = $this->formItem->form();
         $form->popItem();
         $fields = $this->attr('fields');
@@ -109,11 +108,37 @@ class Cascader extends Field
         array_unshift($fields, $relation);
         array_push($fields, $this->formItem->attr('label'));
         $cascader = $form->cascaderMultiple(...$fields);
-        $cascader->attribute = array_merge($attribute, $cascader->attribute);
+        $cascader->attribute = array_merge($this->attribute, $cascader->attribute);
+        if($this->optionsClosure){
+            $cascader->optionsClosure = $this->optionsClosure->bindTo($cascader);
+        }
         $cascader->setField($this->getField());
         return $cascader;
     }
-
+    /**
+     * 动态加载选项
+     * @param string|\Closure $callback 闭包回调或者url
+     * @return $this
+     */
+    public function load($callback){
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback);
+        }else{
+            $url = $callback;
+        }
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+            ],
+            'method' => 'POST',
+        ];
+        $this->attr('loadRemote',$params);
+        return $this;
+    }
     public function getRelation($relation = null)
     {
         if (!$relation) {

@@ -69,6 +69,7 @@ trait CascadeTrait
      */
     public function options($data, string $label = 'name', string $id = 'id', string $pid = 'pid', string $children = 'children')
     {
+        $this->bindOptionsField();
         $this->optionsClosure = function () use ($data,$label,$id,$pid,$children) {
             foreach ($data as &$row){
                 if(!isset($row['disabled'])){
@@ -86,36 +87,12 @@ trait CascadeTrait
                 'value' => $id,
                 'pid' => $pid,
             ]);
-            $field = $this->vModel('options',null, $treeData);
-            $this->exceptField($field);
+            $this->vModel('options',$this->optionsBindField, $treeData);
         };
         return $this;
     }
 
-    /**
-     * 动态加载选项
-     * @param string|\Closure $callback 闭包回调或者url
-     * @return $this
-     */
-    public function load($callback){
-        $callbackField = '';
-        $url = $this->formItem->form()->attr('url');
-        if($callback instanceof \Closure){
-            $callbackField = $this->setCallback($callback);
-        }else{
-            $url = $callback;
-        }
-        $params  = [
-            'url' => $url,
-            'data' => [
-                'ex_admin_form_action'=>'remoteOptions',
-                'ex_admin_callback_field'=> $callbackField,
-            ],
-            'method' => 'POST',
-        ];
-        $this->attr('loadRemote',$params);
-        return $this;
-    }
+
     /**
      * 远程加载options
      * @param string|\Closure $callback 闭包回调或者url
@@ -162,6 +139,7 @@ trait CascadeTrait
         ];
 
         $this->attr('remote',$params);
+        $this->showSearch();
         return $this;
     }
 }

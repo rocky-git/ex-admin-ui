@@ -75,6 +75,38 @@ class CascaderSingle extends Field
             $this->style(['minWidth'=>'200px']);
         }
     }
+
+    /**
+     * 动态加载选项
+     * @param string|\Closure $callback 闭包回调或者url
+     * @param string $displayField 回显数据字段
+     * @return $this
+     */
+    public function load($callback,string $displayField){
+        $this->formItem->form()->inputDefault($displayField,[]);
+        $field = $this->formItem->form()->getBindField($displayField);
+        $this->removeBind($this->bindAttr('cascaderValue'));
+        $this->bindAttr('cascaderValue', $field, true);
+
+        $callbackField = '';
+        $url = $this->formItem->form()->attr('url');
+        if($callback instanceof \Closure){
+            $callbackField = $this->setCallback($callback);
+        }else{
+            $url = $callback;
+        }
+        $params  = [
+            'url' => $url,
+            'data' => [
+                'ex_admin_form_action'=>'remoteOptions',
+                'ex_admin_callback_field'=> $callbackField,
+            ],
+            'method' => 'POST',
+        ];
+        $this->attr('loadRemote',$params);
+        return $this;
+    }
+
     /**
      * 多选
      * @return $this
