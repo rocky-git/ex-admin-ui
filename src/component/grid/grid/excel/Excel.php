@@ -85,22 +85,18 @@ class Excel extends AbstractExporter
                         ],
                     ]);
                 }
-                $this->cache->set([
+                $this->cache->set($this->progressKey,[
                     'status' => 0,
                     'progress' => $this->progress()
-                ]);
-                $this->cache->expiresAfter(60);
-                $this->filesystemAdapter->save($this->cache);
+                ],60);
             }
             if ($this->currentRow > $this->count) {
                 if ($finish) {
                     $result = call_user_func($finish, $this);
-                    $this->cache->set([
+                    $this->cache->set($this->progressKey,[
                         'status' => 1,
                         'url' => $result
-                    ]);
-                    $this->cache->expiresAfter(60);
-                    $this->filesystemAdapter->save($this->cache);
+                    ],60);
                 }
             }
         }

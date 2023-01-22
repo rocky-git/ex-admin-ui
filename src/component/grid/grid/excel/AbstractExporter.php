@@ -3,6 +3,7 @@
 namespace ExAdmin\ui\component\grid\grid\excel;
 
 use ExAdmin\ui\response\Response;
+use ExAdmin\ui\support\Container;
 use ExAdmin\ui\support\Request;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
@@ -26,18 +27,15 @@ abstract class AbstractExporter
 
     protected $count = 1;
 
-    protected $cache;
-
     protected $progressKey;
     /**
-     * @var FilesystemAdapter
+     * @var \ExAdmin\ui\support\Cache
      */
-    protected $filesystemAdapter;
-
+    protected $cache;
 
     public function __construct()
     {
-        $this->filesystemAdapter= new FilesystemAdapter();
+        $this->cache = Container::getInstance()->cache;
         $this->init();
     }
 
@@ -48,7 +46,6 @@ abstract class AbstractExporter
      */
     public function setProgressKey($value){
         $this->progressKey = $value;
-        $this->cache = $this->filesystemAdapter->getItem($value);
         return $this;
     }
     /**
@@ -218,11 +215,9 @@ abstract class AbstractExporter
     abstract public function save(string $path);
 
     public function exportError(){
-        $this->cache->set([
+        $this->cache->set($this->progressKey,[
             'status' => 2,
-        ]);
-        $this->cache->expiresAfter(60);
-        $this->filesystemAdapter->save($this->cache);
+        ],60);
     }
     /**
      * @return Response
