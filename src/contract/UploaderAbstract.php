@@ -103,8 +103,8 @@ abstract class UploaderAbstract
         flock($fp,LOCK_EX);
         for ($index = 1; $index <= $this->chunks; $index++) {
             $file = "{$this->tempDirectory}/" . $this->getChunkFileName($index);
-            $content = @file_get_contents($file);
-            @file_put_contents($filename, $content, FILE_APPEND);
+            $content = file_get_contents($file);
+            file_put_contents($filename, $content, FILE_APPEND);
             @unlink($file);
         }
         flock($fp,LOCK_UN);
