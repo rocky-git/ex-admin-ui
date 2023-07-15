@@ -60,6 +60,7 @@ use ExAdmin\ui\support\Request;
  * @method $this headerRefresh(bool $bool = true) 触发ajax同时更新header
  * @method $this footerRefresh(bool $bool = true) 触发ajax同时更新footer
  * @method $this toolsRefresh(bool $bool = true) 触发ajax同时更新tools
+ * @method $this loadColumnConfig(bool $bool = true) 加载列配置
  * @method $this fontSize(int $size)    表格字体大小
  */
 class Grid extends Table

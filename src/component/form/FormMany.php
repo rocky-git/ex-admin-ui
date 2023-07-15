@@ -19,6 +19,7 @@ use ExAdmin\ui\component\form\field\CallbackDefinition;
  * @method $this disabled(bool $disabled = true) 是否禁用状态                                    boolean
  * @method $this hideClear(bool $disabled = true) 隐藏清空                                    boolean
  * @method $this hideAdd(bool $disabled = true) 隐藏添加                                    boolean
+ * @method $this hideCopy(bool $disabled = true) 隐藏复制                                    boolean
  * @method $this limit(int $value) 限制数量
  * @method $this sortField(string $value) 排序字段
  * @method $this defaultRow(int $value) 默认添加几行
