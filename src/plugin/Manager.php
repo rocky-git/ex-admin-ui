@@ -47,6 +47,7 @@ class Manager
         $this->client = new Client([
             'base_uri' => 'https://www.ex-admin.com/api/plugin/',
             'verify' => false,
+            'timeout'=> 5,
         ]);
         $this->initialize();
 
